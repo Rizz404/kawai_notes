@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:flutter_setup_riverpod/core/extensions/navigator_extension.dart';
 import 'package:flutter_setup_riverpod/core/router/app_route.dart';
 import 'package:flutter_setup_riverpod/core/router/app_route_parser.dart';
 import 'package:flutter_setup_riverpod/core/router/app_router_delegate.dart';
+import 'package:flutter_setup_riverpod/core/router/app_transitions.dart';
 import 'package:flutter_setup_riverpod/core/router/router_observer.dart';
 import 'package:flutter_setup_riverpod/core/router/router_refresh_listenable.dart';
-import 'package:flutter_setup_riverpod/core/router/app_transitions.dart';
 import 'package:flutter_setup_riverpod/feature/notes/screens/home_screen.dart';
 import 'package:flutter_setup_riverpod/feature/notes/screens/note_editor_screen.dart';
 

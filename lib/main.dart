@@ -4,21 +4,20 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_setup_riverpod/core/constants/storage_key_constant.dart';
-
 import 'package:flutter_setup_riverpod/core/router/app_router_provider.dart';
+import 'package:flutter_setup_riverpod/core/services/objectbox_service.dart';
 import 'package:flutter_setup_riverpod/core/themes/app_theme.dart';
 import 'package:flutter_setup_riverpod/core/utils/logger.dart';
 import 'package:flutter_setup_riverpod/core/utils/talker_config.dart';
-import 'package:flutter_setup_riverpod/core/services/objectbox_service.dart';
-import 'package:flutter_setup_riverpod/di/service_providers.dart';
 import 'package:flutter_setup_riverpod/di/common_providers.dart';
+import 'package:flutter_setup_riverpod/di/service_providers.dart';
 import 'package:flutter_setup_riverpod/l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
 Future<void> main() async {
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   // * Uncomment setelah ada splash screen
   // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 

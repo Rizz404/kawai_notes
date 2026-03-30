@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_setup_riverpod/core/extensions/navigator_extension.dart';
-import 'package:flutter_setup_riverpod/di/repository_providers.dart';
-import 'package:flutter_setup_riverpod/feature/notes/models/note.dart';
 import 'package:flutter_setup_riverpod/feature/notes/providers/note_providers.dart';
 import 'package:flutter_setup_riverpod/shared/widgets/app_rich_text_editor.dart';
 import 'package:flutter_setup_riverpod/shared/widgets/app_text_field.dart';
@@ -21,87 +19,92 @@ class NoteEditorScreen extends ConsumerStatefulWidget {
 
 class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen> {
   final _formKey = GlobalKey<FormBuilderState>();
-  Note? _existingNote;
-  bool _isLoading = false;
-  String _initialContent = '';
-
-  @override
-  void initState() {
-    super.initState();
-    _loadNote();
-  }
-
-  Future<void> _loadNote() async {
-    if (widget.noteId != null) {
-      setState(() => _isLoading = true);
-      final repository = ref.read(noteRepositoryProvider);
-
-      _existingNote = repository.getNote(widget.noteId!);
-      if (_existingNote != null) {
-        _initialContent = await repository.readNoteContent(
-          _existingNote!.contentPath,
-        );
-      }
-      setState(() => _isLoading = false);
-    }
-  }
-
-  Future<void> _saveNote() async {
-    if (_formKey.currentState?.saveAndValidate() ?? false) {
-      final values = _formKey.currentState!.value;
-      final title = values['title'] as String;
-      final content = values['content'] as String? ?? '';
-
-      final repository = ref.read(noteRepositoryProvider);
-      await repository.saveNote(
-        id: _existingNote?.id ?? 0,
-        ulid: _existingNote?.ulid,
-        title: title,
-        content: content,
-      );
-
-      // refresh notes on list
-      ref.invalidate(allNotesProvider);
-      if (mounted) context.pop();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
+    // Watch the form state from detail provider
+    final stateAsync = ref.watch(noteDetailNotifierProvider(widget.noteId));
+
+    // Listen to mutation changes for navigation and error tracking
+    ref.listen<AsyncValue<NoteDetailState>>(
+      noteDetailNotifierProvider(widget.noteId),
+      (previous, next) {
+        if (next.hasValue && next.value != null) {
+          final isMutating = next.value!.isMutating;
+          final wasMutating = previous?.value?.isMutating ?? false;
+
+          // If finished mutating successfully
+          if (wasMutating && !isMutating && next.value!.mutationError == null) {
+            context.pop(); // Pop back on success
+          }
+
+          // If error occurred during mutation
+          if (next.value!.mutationError != null &&
+              (previous?.value?.mutationError != next.value!.mutationError)) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(next.value!.mutationError.toString())),
+            );
+          }
+        }
+      },
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.noteId == null ? 'New Note' : 'Edit Note'),
         actions: [
           IconButton(
             icon: const Icon(Icons.check),
-            onPressed: () => _saveNote(),
+            onPressed: () {
+              if (_formKey.currentState?.saveAndValidate() ?? false) {
+                final values = _formKey.currentState!.value;
+                final title = values['title']?.toString() ?? '';
+                final content = values['content']?.toString() ?? '';
+
+                ref
+                    .read(noteDetailNotifierProvider(widget.noteId).notifier)
+                    .saveNote(title: title, content: content);
+              }
+            },
           ),
         ],
       ),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : ScreenWrapper(
-              child: FormBuilder(
-                key: _formKey,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      AppTextField(
-                        name: 'title',
-                        label: 'Title',
-                        initialValue:
-                            _existingNote?.title ?? widget.initialTitle ?? '',
-                      ),
-                      const SizedBox(height: 16),
-                      AppRichTextEditor(
-                        name: 'content',
-                        initialValue: _initialContent,
-                      ),
-                    ],
+      body: stateAsync.when(
+        data: (state) {
+          return ScreenWrapper(
+            child: Stack(
+              children: [
+                FormBuilder(
+                  key: _formKey,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        AppTextField(
+                          name: 'title',
+                          label: 'Title',
+                          initialValue:
+                              state.note?.title ?? widget.initialTitle ?? '',
+                        ),
+                        const SizedBox(height: 16),
+                        AppRichTextEditor(
+                          name: 'content',
+                          initialValue: state.content,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
+                if (state.isMutating)
+                  const Positioned.fill(
+                    child: Center(child: CircularProgressIndicator()),
+                  ),
+              ],
             ),
+          );
+        },
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, stackTrace) => Center(child: Text('Error: $error')),
+      ),
     );
   }
 }

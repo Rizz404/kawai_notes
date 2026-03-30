@@ -12,7 +12,7 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final notes = ref.watch(filteredNotesProvider);
+    final listStateAsync = ref.watch(noteListNotifierProvider);
     final isGridView = ref.watch(isGridViewProvider);
 
     return Scaffold(
@@ -38,14 +38,22 @@ class HomeScreen extends ConsumerWidget {
               name: 'search',
               hintText: 'Search notes...',
               onChanged: (value) {
-                ref.read(notesQueryProvider.notifier).setQuery(value);
+                ref.read(noteListNotifierProvider.notifier).search(value);
               },
             ),
             const SizedBox(height: 16),
             Expanded(
-              child: notes.isEmpty
-                  ? const Center(child: Text('No notes found.'))
-                  : (isGridView ? _buildGrid(notes) : _buildList(notes)),
+              child: listStateAsync.when(
+                data: (state) {
+                  final notes = state.items;
+                  if (notes.isEmpty) {
+                    return const Center(child: Text('No notes found.'));
+                  }
+                  return isGridView ? _buildGrid(notes) : _buildList(notes);
+                },
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (error, stack) => Center(child: Text('Error: $error')),
+              ),
             ),
           ],
         ),

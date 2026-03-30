@@ -1,6 +1,7 @@
 import 'dart:io';
-import 'package:path_provider/path_provider.dart';
+
 import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 
 class NoteFileService {
   Future<Directory> _getNotesDir() async {
