@@ -8,7 +8,8 @@ import 'package:flutter_setup_riverpod/core/router/app_router_delegate.dart';
 import 'package:flutter_setup_riverpod/core/router/router_observer.dart';
 import 'package:flutter_setup_riverpod/core/router/router_refresh_listenable.dart';
 import 'package:flutter_setup_riverpod/core/router/app_transitions.dart';
-import 'package:flutter_setup_riverpod/feature/home/screens/home_screen.dart';
+import 'package:flutter_setup_riverpod/feature/notes/screens/home_screen.dart';
+import 'package:flutter_setup_riverpod/feature/notes/screens/note_editor_screen.dart';
 
 // Example route dummy. User should replace this.
 final routerRoutesProvider = Provider<List<AppRoute>>((ref) {
@@ -22,24 +23,15 @@ final routerRoutesProvider = Provider<List<AppRoute>>((ref) {
       transitionDuration: const Duration(milliseconds: 300),
     ),
     AppRoute(
-      path: '/second-page',
-      name: 'second_page',
-      builder: (context, state) => Scaffold(
-        appBar: AppBar(title: const Text('Second Page')),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('This is the second screen'),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () => context.pop(), // Menggunakan extension pop
-                child: const Text('Pop Back'),
-              ),
-            ],
-          ),
-        ),
-      ),
+      path: '/note-editor',
+      name: 'note_editor',
+      builder: (context, state) {
+        final extra = state.extra as Map<String, dynamic>?;
+        return NoteEditorScreen(
+          noteId: extra?['id'] as int?,
+          initialTitle: extra?['title'] as String?,
+        );
+      },
       // Menerapkan custom transition slideFromRight
       transitionsBuilder: AppTransitions.slideFromRight,
       transitionDuration: const Duration(milliseconds: 300),
