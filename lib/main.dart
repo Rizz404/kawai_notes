@@ -9,6 +9,8 @@ import 'package:flutter_setup_riverpod/core/router/app_router_provider.dart';
 import 'package:flutter_setup_riverpod/core/themes/app_theme.dart';
 import 'package:flutter_setup_riverpod/core/utils/logger.dart';
 import 'package:flutter_setup_riverpod/core/utils/talker_config.dart';
+import 'package:flutter_setup_riverpod/core/services/objectbox_service.dart';
+import 'package:flutter_setup_riverpod/di/service_providers.dart';
 import 'package:flutter_setup_riverpod/di/common_providers.dart';
 import 'package:flutter_setup_riverpod/l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -37,6 +39,9 @@ Future<void> main() async {
     );
     final preferences = await SharedPreferences.getInstance();
 
+    // * Local DB
+    final objectBoxService = await ObjectBoxService.create();
+
     runApp(
       ProviderScope(
         overrides: [
@@ -45,6 +50,7 @@ Future<void> main() async {
             preferencesWithCache,
           ),
           sharedPreferencesProvider.overrideWithValue(preferences),
+          objectBoxServiceProvider.overrideWithValue(objectBoxService),
         ],
         observers: [TalkerConfig.riverpodObserver],
         child: const MyApp(),

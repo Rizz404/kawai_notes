@@ -77,6 +77,10 @@ dependencies:
   flutter_cache_manager: ^3.4.1
   flutter_localizations:
     sdk: flutter
+  objectbox: ^5.3.1
+  objectbox_flutter_libs: ^5.3.1
+  ulid: ^2.0.1
+  slugify: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -89,8 +93,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
   build_runner: ^2.4.13
-  custom_lint: ^0.5.11
-  riverpod_lint: ^3.0.0-dev.4
+  objectbox_generator: ^5.3.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

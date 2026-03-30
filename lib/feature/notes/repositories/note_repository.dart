@@ -1,0 +1,65 @@
+import 'package:flutter_setup_riverpod/core/extensions/markdown_parser_extension.dart';
+import 'package:flutter_setup_riverpod/core/services/note_file_service.dart';
+import 'package:flutter_setup_riverpod/core/services/objectbox_service.dart';
+import 'package:flutter_setup_riverpod/feature/notes/models/note.dart';
+import 'package:slugify/slugify.dart';
+import 'package:ulid/ulid.dart';
+
+class NoteRepository {
+  final ObjectBoxService _objectBoxService;
+  final NoteFileService _noteFileService;
+
+  NoteRepository(this._objectBoxService, this._noteFileService);
+
+  Future<Note> saveNote({
+    int id = 0,
+    String? ulid,
+    required String title,
+    required String content,
+  }) async {
+    final noteUlid = ulid ?? Ulid().toString();
+    final slug = slugify(title);
+    final fileName = '$slug-$noteUlid.md';
+
+    // Parse markdown for tags & links
+    final tags = content.extractTags();
+    final links = content.extractLinks();
+
+    // Save actual file
+    await _noteFileService.saveNoteFile(fileName, content);
+
+    // Save to ObjectBox
+    final note = Note(
+      id: id,
+      ulid: noteUlid,
+      title: title,
+      contentPath: fileName,
+      tags: tags,
+      links: links,
+      updatedAt: DateTime.now(),
+    );
+
+    _objectBoxService.store.box<Note>().put(note);
+    return note;
+  }
+
+  Future<String> readNoteContent(String contentPath) async {
+    return _noteFileService.readNoteFile(contentPath);
+  }
+
+  List<Note> getAllNotes() {
+    return _objectBoxService.store.box<Note>().getAll();
+  }
+
+  Note? getNote(int id) {
+    return _objectBoxService.store.box<Note>().get(id);
+  }
+
+  Future<void> deleteNote(int id) async {
+    final note = getNote(id);
+    if (note != null) {
+      await _noteFileService.deleteNoteFile(note.contentPath);
+      _objectBoxService.store.box<Note>().remove(id);
+    }
+  }
+}
