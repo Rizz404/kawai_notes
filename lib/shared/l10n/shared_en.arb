@@ -1,0 +1,275 @@
+{
+  "@@locale": "en",
+  "adminShellBottomNavDashboard": "Dashboard",
+  "@adminShellBottomNavDashboard": {
+    "description": "Admin shell bottom navigation label for dashboard"
+  },
+  "adminShellBottomNavScanAsset": "Scan Asset",
+  "@adminShellBottomNavScanAsset": {
+    "description": "Admin shell bottom navigation label for scan asset"
+  },
+  "adminShellBottomNavProfile": "Profile",
+  "@adminShellBottomNavProfile": {
+    "description": "Admin shell bottom navigation label for profile"
+  },
+  "userShellBottomNavHome": "Home",
+  "@userShellBottomNavHome": {
+    "description": "User shell bottom navigation label for home"
+  },
+  "userShellBottomNavScanAsset": "Scan Asset",
+  "@userShellBottomNavScanAsset": {
+    "description": "User shell bottom navigation label for scan asset"
+  },
+  "userShellBottomNavProfile": "Profile",
+  "@userShellBottomNavProfile": {
+    "description": "User shell bottom navigation label for profile"
+  },
+  "appEndDrawerTitle": "My App",
+  "@appEndDrawerTitle": {
+    "description": "App end drawer title"
+  },
+  "appEndDrawerPleaseLoginFirst": "Please login first",
+  "@appEndDrawerPleaseLoginFirst": {
+    "description": "Message shown when user needs to login"
+  },
+  "appEndDrawerTheme": "Theme",
+  "@appEndDrawerTheme": {
+    "description": "Theme settings label"
+  },
+  "appEndDrawerLanguage": "Language",
+  "@appEndDrawerLanguage": {
+    "description": "Language settings label"
+  },
+  "appEndDrawerLogout": "Logout",
+  "@appEndDrawerLogout": {
+    "description": "Logout button label"
+  },
+  "appEndDrawerManagementSection": "Management",
+  "@appEndDrawerManagementSection": {
+    "description": "Management section header"
+  },
+  "appEndDrawerMaintenanceSection": "Maintenance",
+  "@appEndDrawerMaintenanceSection": {
+    "description": "Maintenance section header"
+  },
+  "appEndDrawerEnglish": "English",
+  "@appEndDrawerEnglish": {
+    "description": "English language option"
+  },
+  "appEndDrawerIndonesian": "Indonesia",
+  "@appEndDrawerIndonesian": {
+    "description": "Indonesian language option"
+  },
+  "appEndDrawerJapanese": "日本語",
+  "@appEndDrawerJapanese": {
+    "description": "Japanese language option"
+  },
+  "appEndDrawerMyAssets": "My Assets",
+  "@appEndDrawerMyAssets": {
+    "description": "My assets menu item"
+  },
+  "appEndDrawerNotifications": "Notifications",
+  "@appEndDrawerNotifications": {
+    "description": "Notifications menu item"
+  },
+  "appEndDrawerMyIssueReports": "My Issue Reports",
+  "@appEndDrawerMyIssueReports": {
+    "description": "My issue reports menu item"
+  },
+  "appEndDrawerAssets": "Assets",
+  "@appEndDrawerAssets": {
+    "description": "Assets menu item"
+  },
+  "appEndDrawerAssetMovements": "Asset Movements",
+  "@appEndDrawerAssetMovements": {
+    "description": "Asset movements menu item"
+  },
+  "appEndDrawerCategories": "Categories",
+  "@appEndDrawerCategories": {
+    "description": "Categories menu item"
+  },
+  "appEndDrawerLocations": "Locations",
+  "@appEndDrawerLocations": {
+    "description": "Locations menu item"
+  },
+  "appEndDrawerUsers": "Users",
+  "@appEndDrawerUsers": {
+    "description": "Users menu item"
+  },
+  "appEndDrawerMaintenanceSchedules": "Maintenance Schedules",
+  "@appEndDrawerMaintenanceSchedules": {
+    "description": "Maintenance schedules menu item"
+  },
+  "appEndDrawerMaintenanceRecords": "Maintenance Records",
+  "@appEndDrawerMaintenanceRecords": {
+    "description": "Maintenance records menu item"
+  },
+  "appEndDrawerReports": "Reports",
+  "@appEndDrawerReports": {
+    "description": "Reports menu item"
+  },
+  "appEndDrawerIssueReports": "Issue Reports",
+  "@appEndDrawerIssueReports": {
+    "description": "Issue reports menu item"
+  },
+  "appEndDrawerScanLogs": "Scan Logs",
+  "@appEndDrawerScanLogs": {
+    "description": "Scan logs menu item"
+  },
+  "appEndDrawerScanAsset": "Scan Asset",
+  "@appEndDrawerScanAsset": {
+    "description": "Scan asset menu item"
+  },
+  "appEndDrawerDashboard": "Dashboard",
+  "@appEndDrawerDashboard": {
+    "description": "Dashboard menu item"
+  },
+  "appEndDrawerHome": "Home",
+  "@appEndDrawerHome": {
+    "description": "Home menu item"
+  },
+  "appEndDrawerProfile": "Profile",
+  "@appEndDrawerProfile": {
+    "description": "Profile menu item"
+  },
+  "customAppBarTitle": "My App",
+  "@customAppBarTitle": {
+    "description": "App bar title"
+  },
+  "customAppBarOpenMenu": "Open Menu",
+  "@customAppBarOpenMenu": {
+    "description": "Open menu button label"
+  },
+  "appDropdownSelectOption": "Select option",
+  "@appDropdownSelectOption": {
+    "description": "Dropdown select option placeholder"
+  },
+  "appSearchFieldHint": "Search...",
+  "@appSearchFieldHint": {
+    "description": "Search field hint text"
+  },
+  "appSearchFieldClear": "Clear",
+  "@appSearchFieldClear": {
+    "description": "Clear search button label"
+  },
+  "appSearchFieldNoResultsFound": "No results found",
+  "@appSearchFieldNoResultsFound": {
+    "description": "No results found message"
+  },
+  "staffShellBottomNavDashboard": "Dashboard",
+  "@staffShellBottomNavDashboard": {
+    "description": "Staff shell bottom navigation label for dashboard"
+  },
+  "staffShellBottomNavScanAsset": "Scan Asset",
+  "@staffShellBottomNavScanAsset": {
+    "description": "Staff shell bottom navigation label for scan asset"
+  },
+  "staffShellBottomNavProfile": "Profile",
+  "@staffShellBottomNavProfile": {
+    "description": "Staff shell bottom navigation label for profile"
+  },
+  "shellDoubleBackToExitApp": "Press back again to exit",
+  "@shellDoubleBackToExitApp": {
+    "description": "Message shown when user needs to press back again to exit app"
+  },
+  "sharedValidationErrors": "Validation Errors",
+  "@sharedValidationErrors": {
+    "description": "Title for validation errors widget"
+  },
+  "sharedMaxFilesAllowed": "Maximum {count} files allowed",
+  "@sharedMaxFilesAllowed": {
+    "description": "Error message for max files allowed",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "sharedFileTooLarge": "File {name} exceeds {size}MB limit",
+  "@sharedFileTooLarge": {
+    "description": "Error message for file size limit",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "image.jpg"
+      },
+      "size": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "sharedFailedToPickFiles": "Failed to pick files",
+  "@sharedFailedToPickFiles": {
+    "description": "Error message for file picking failure"
+  },
+  "sharedChooseFiles": "Choose file(s)",
+  "@sharedChooseFiles": {
+    "description": "Hint text for file picker"
+  },
+  "sharedUnableToPreviewImage": "Unable to preview image",
+  "@sharedUnableToPreviewImage": {
+    "description": "Error text for image preview failure"
+  },
+  "sharedVideoPreviewNotImplemented": "Video preview not implemented yet",
+  "@sharedVideoPreviewNotImplemented": {
+    "description": "Placeholder text for video preview"
+  },
+  "sharedPreviewNotAvailable": "Preview not available for this file type",
+  "@sharedPreviewNotAvailable": {
+    "description": "Error text for unsupported file preview"
+  },
+  "sharedDelete": "Delete",
+  "@sharedDelete": {
+    "description": "Delete button label"
+  },
+  "sharedEdit": "Edit",
+  "@sharedEdit": {
+    "description": "Edit button label"
+  },
+  "sharedOptions": "Options",
+  "@sharedOptions": {
+    "description": "Options title"
+  },
+  "sharedCreate": "Create",
+  "@sharedCreate": {
+    "description": "Create button label"
+  },
+  "sharedAddNewItem": "Add a new item",
+  "@sharedAddNewItem": {
+    "description": "Add new item subtitle"
+  },
+  "sharedSelectMany": "Select Many",
+  "@sharedSelectMany": {
+    "description": "Select many option title"
+  },
+  "sharedSelectItemsToDelete": "Select multiple items to delete",
+  "@sharedSelectItemsToDelete": {
+    "description": "Select items to delete subtitle"
+  },
+  "sharedFilterAndSort": "Filter & Sort",
+  "@sharedFilterAndSort": {
+    "description": "Filter and sort option title"
+  },
+  "sharedCustomizeDisplay": "Customize display",
+  "@sharedCustomizeDisplay": {
+    "description": "Customize display subtitle"
+  },
+  "sharedExport": "Export",
+  "@sharedExport": {
+    "description": "Export option title"
+  },
+  "sharedExportDataToFile": "Export data to file",
+  "@sharedExportDataToFile": {
+    "description": "Export data subtitle"
+  },
+  "sharedTimePlaceholder": "HH:MM",
+  "@sharedTimePlaceholder": {
+    "description": "Time placeholder"
+  },
+  "sharedRetry": "Retry",
+  "@sharedRetry": {
+    "description": "Retry button label"
+  }
+}

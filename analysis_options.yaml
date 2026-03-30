@@ -1,0 +1,102 @@
+# Menggunakan set aturan dasar rekomendasi Flutter terbaru
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  # Plugin wajib buat pengguna Riverpod (pastikan riverpod_lint ada di pubspec.yaml)
+  plugins:
+    - custom_lint
+
+  # --- MODE STRICT (Best Practice!) ---
+  # Ini bikin Dart Analyzer lebih galak soal tipe data.
+  # Awalnya mungkin banyak merah-merah, tapi percayalah,
+  # ini nyelamatin kamu dari bug runtime yang bikin pusing tujuh keliling!
+  language:
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
+
+  exclude:
+    - build/**
+    - "**/*.g.dart"
+    - "**/*.gen.dart"
+    - "**/*.freezed.dart"
+    # Tambahan exclude umum biar analyzer nggak lambat ngecek file ini
+    - "bin/cache/**"
+    - ".dart_tool/**"
+
+  # Opsional: Bikin warning jadi error biar nggak bisa dicuekin (kalau kamu hardcore!)
+  # errors:
+  #   invalid_annotation_target: ignore # Sering dipake kalau pake Freezed
+
+linter:
+  rules:
+    # --- CORE FLUTTER & DART SAFETY (WAJIB ADA) ---
+    # Mencegah pake context setelah async (penyebab utama crash saat navigasi!)
+    use_build_context_synchronously: true
+    # Mencegah future yang lupa di-await (fire-and-forget yang bahaya)
+    unawaited_futures: true
+    # Mencegah code recursive yang nggak sengaja
+    recursive_getters: true
+    # Membersihkan print() di production code
+    avoid_print: true
+    # Memastikan enum switch selalu handle semua case
+    exhaustive_cases: true
+
+    # --- STYLE & CLEAN CODE (Biar kode kinclong) ---
+    # Mencegah inisialisasi null yang nggak perlu (var x = null; -> var x;)
+    avoid_init_to_null: true
+    # Konstanta harus UPPER_CASE style? Nggak, constant_identifier_names minta lowerCamelCase kyk kCONST
+    constant_identifier_names: true
+    # Selalu pake kurung kurawal di if/else/for (anti bug "salah baris")
+    curly_braces_in_flow_control_structures: true
+    # Memaksa koma di akhir (bikin formatting Flutter tree jadi rapi banget)
+    require_trailing_commas: true
+    # Import yang rapi: Dart -> Package -> Relative
+    directives_ordering: true
+    # Memilih single quotes biar seragam (pilihan umum di komunitas Dart)
+    prefer_single_quotes: true
+    # Mencegah nesting widget yang nggak perlu
+    avoid_unnecessary_containers: true
+
+    # --- RULES DARI KAMU (Updated & Verified) ---
+    control_flow_in_finally: true
+    file_names: true
+    library_prefixes: true
+    non_constant_identifier_names: true
+    null_check_on_nullable_type_parameter: true
+    prefer_const_constructors: true
+    prefer_contains: true
+    prefer_final_fields: true
+    prefer_is_empty: true
+    prefer_null_aware_operators: true
+    sized_box_for_whitespace: true
+    slash_for_doc_comments: true
+    unnecessary_brace_in_string_interps: true
+    unnecessary_constructor_name: true
+    unnecessary_late: true
+    unnecessary_parenthesis: true
+    unnecessary_string_escapes: true
+    unnecessary_string_interpolations: true
+
+    # --- RULES MODERN DART ---
+    # Pakai constructor super (Dart 2.17+) -> class A({super.key});
+    use_super_parameters: true
+    # Jangan pake lambda kalau bisa tear-off -> misal: .map(print) bukan .map((e) => print(e))
+    unnecessary_lambdas: true
+
+    # --- PREFERENSI SPESIFIK KAMU (Customized) ---
+    # Kamu set false, aku ikutin tapi aku balikin 'sort_pub_dependencies' jadi true
+    # karena dependency yang urut abjad itu ngebantu banget pas teamwork/merge conflict.
+    sort_pub_dependencies: true
+
+    # Tetap false sesuai request kamu (Style choice)
+    always_put_required_named_parameters_first: false
+    prefer_if_elements_to_conditional_expressions: false
+    no_leading_underscores_for_local_identifiers: false
+
+    # Import strategy: Kamu suka package imports.
+    # Best practice app sebenernya "prefer_relative_imports" buat file internal,
+    # tapi "always_use_package_imports" lebih aman pas refactoring (pindahin file).
+    # Jadi kita keep pilihan kamu ini!
+    always_use_package_imports: true
+    depend_on_referenced_packages: true

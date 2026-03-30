@@ -1,0 +1,36 @@
+{
+  "@@locale": "ja",
+  "homeGreeting": "こんにちは、{name}さん！",
+  "@homeGreeting": {
+    "description": "Greeting banner with user name",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "homeReadyForAppraisal": "査定の準備はできていますか？",
+  "@homeReadyForAppraisal": {
+    "description": "Subtitle under greeting"
+  },
+  "homeLatestAppraisal": "最新の査定",
+  "@homeLatestAppraisal": {
+    "description": "Section header for latest appraisal"
+  },
+  "homeRefresh": "更新",
+  "@homeRefresh": {
+    "description": "Refresh button label"
+  },
+  "homeSeeAll": "すべて見る",
+  "@homeSeeAll": {
+    "description": "See all appraisals link"
+  },
+  "homeStartNewAppraisal": "新しい査定を開始",
+  "@homeStartNewAppraisal": {
+    "description": "Start new appraisal button"
+  },
+  "homeViewDetails": "詳細を見る",
+  "@homeViewDetails": {
+    "description": "View details button on appraisal card"
+  }
+}

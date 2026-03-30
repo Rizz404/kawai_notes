@@ -1,0 +1,36 @@
+{
+  "@@locale": "en",
+  "homeGreeting": "Hello, {name}!",
+  "@homeGreeting": {
+    "description": "Greeting banner with user name",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "homeReadyForAppraisal": "Ready for your appraisal?",
+  "@homeReadyForAppraisal": {
+    "description": "Subtitle under greeting"
+  },
+  "homeLatestAppraisal": "Latest Appraisal",
+  "@homeLatestAppraisal": {
+    "description": "Section header for latest appraisal"
+  },
+  "homeRefresh": "Refresh",
+  "@homeRefresh": {
+    "description": "Refresh button label"
+  },
+  "homeSeeAll": "See All",
+  "@homeSeeAll": {
+    "description": "See all appraisals link"
+  },
+  "homeStartNewAppraisal": "Start New Appraisal",
+  "@homeStartNewAppraisal": {
+    "description": "Start new appraisal button"
+  },
+  "homeViewDetails": "View Details",
+  "@homeViewDetails": {
+    "description": "View details button on appraisal card"
+  }
+}

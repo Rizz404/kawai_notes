@@ -1,0 +1,585 @@
+{
+  "@@locale": "ja",
+  "networkErrorDnsFailureUser": "サーバーに接続できません。\n• インターネット接続を確認してください\n• VPN/DNSが有効な場合は無効にしてください\n• しばらくしてから再試行してください",
+  "networkErrorConnectionUser": "接続が切れました。\n• インターネット接続を確認してください\n• WiFi/データが有効であることを確認してください\n• しばらくしてから再試行してください",
+  "networkErrorTimeoutUser": "接続タイムアウト。\n• インターネット速度を確認してください\n• しばらくしてから再試行してください\n• 問題が解決しない場合は管理者に連絡してください",
+  "networkErrorReceiveTimeoutUser": "サーバーの応答時間が長すぎます。\n• インターネット接続が遅い可能性があります\n• しばらくしてから再試行してください\n• 問題が解決しない場合は管理者に連絡してください",
+  "networkErrorServerUser": "サーバーエラーが発生しました。\n• しばらくしてから再試行してください\n• 問題が解決しない場合は管理者に連絡してください",
+  "networkErrorServer502User": "サーバーに到達できません。\n• サーバーがメンテナンス中の可能性があります\n• しばらくしてから再試行してください\n• 問題が解決しない場合は管理者に連絡してください",
+  "networkErrorServer503User": "サービスはメンテナンス中です。\n• しばらくお待ちください\n• 後で再試行してください\n• 詳細については管理者に連絡してください",
+  "networkErrorServer504User": "サーバータイムアウト。\n• サーバーが混雑しています\n• しばらくしてから再試行してください\n• 問題が解決しない場合は管理者に連絡してください",
+  "networkErrorHtmlResponse": "サーバーがJSONではなくHTMLを返しました。APIエンドポイント設定を確認してください。",
+  "networkErrorFileDownloaded": "ファイルが正常にダウンロードされました",
+  "networkErrorUnknown": "不明なエラーが発生しました",
+  "timeAgoJustNow": "たった今",
+  "timeAgoMinute": "{count, plural, =1{1分前} other{{count}分前}}",
+  "@timeAgoMinute": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeAgoHour": "{count, plural, =1{1時間前} other{{count}時間前}}",
+  "@timeAgoHour": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeAgoDay": "{count, plural, =1{1日前} other{{count}日前}}",
+  "@timeAgoDay": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeAgoMonth": "{count, plural, =1{1ヶ月前} other{{count}ヶ月前}}",
+  "@timeAgoMonth": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeAgoYear": "{count, plural, =1{1年前} other{{count}年前}}",
+  "@timeAgoYear": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "monthJan": "1月",
+  "monthFeb": "2月",
+  "monthMar": "3月",
+  "monthApr": "4月",
+  "monthMay": "5月",
+  "monthJun": "6月",
+  "monthJul": "7月",
+  "monthAug": "8月",
+  "monthSep": "9月",
+  "monthOct": "10月",
+  "monthNov": "11月",
+  "monthDec": "12月",
+  "dayMon": "月曜日",
+  "dayTue": "火曜日",
+  "dayWed": "水曜日",
+  "dayThu": "木曜日",
+  "dayFri": "金曜日",
+  "daySat": "土曜日",
+  "daySun": "日曜日",
+  "currencyBillionSuffix": "十億",
+  "currencyMillionSuffix": "百万",
+  "currencyThousandSuffix": "千",
+  "enumSortOrderAsc": "昇順",
+  "@enumSortOrderAsc": {
+    "description": "Sort order ascending"
+  },
+  "enumSortOrderDesc": "降順",
+  "@enumSortOrderDesc": {
+    "description": "Sort order descending"
+  },
+  "enumCategorySortByCategoryCode": "カテゴリコード",
+  "@enumCategorySortByCategoryCode": {
+    "description": "Sort by category code"
+  },
+  "enumCategorySortByName": "名前",
+  "@enumCategorySortByName": {
+    "description": "Sort by name"
+  },
+  "enumCategorySortByCategoryName": "カテゴリ名",
+  "@enumCategorySortByCategoryName": {
+    "description": "Sort by category name"
+  },
+  "enumCategorySortByCreatedAt": "作成日時",
+  "@enumCategorySortByCreatedAt": {
+    "description": "Sort by creation date"
+  },
+  "enumCategorySortByUpdatedAt": "更新日時",
+  "@enumCategorySortByUpdatedAt": {
+    "description": "Sort by update date"
+  },
+  "enumLocationSortByLocationCode": "ロケーションコード",
+  "@enumLocationSortByLocationCode": {
+    "description": "Sort by location code"
+  },
+  "enumLocationSortByName": "名前",
+  "@enumLocationSortByName": {
+    "description": "Sort by name"
+  },
+  "enumLocationSortByLocationName": "ロケーション名",
+  "@enumLocationSortByLocationName": {
+    "description": "Sort by location name"
+  },
+  "enumLocationSortByBuilding": "建物",
+  "@enumLocationSortByBuilding": {
+    "description": "Sort by building"
+  },
+  "enumLocationSortByFloor": "階",
+  "@enumLocationSortByFloor": {
+    "description": "Sort by floor"
+  },
+  "enumLocationSortByCreatedAt": "作成日時",
+  "@enumLocationSortByCreatedAt": {
+    "description": "Sort by creation date"
+  },
+  "enumLocationSortByUpdatedAt": "更新日時",
+  "@enumLocationSortByUpdatedAt": {
+    "description": "Sort by update date"
+  },
+  "enumNotificationSortByType": "タイプ",
+  "@enumNotificationSortByType": {
+    "description": "Sort by type"
+  },
+  "enumNotificationSortByIsRead": "既読状態",
+  "@enumNotificationSortByIsRead": {
+    "description": "Sort by read status"
+  },
+  "enumNotificationSortByCreatedAt": "受信日時",
+  "@enumNotificationSortByCreatedAt": {
+    "description": "Sort by received date"
+  },
+  "enumNotificationSortByTitle": "タイトル",
+  "@enumNotificationSortByTitle": {
+    "description": "Sort by title"
+  },
+  "enumNotificationSortByMessage": "メッセージ",
+  "@enumNotificationSortByMessage": {
+    "description": "Sort by message"
+  },
+  "enumScanLogSortByScanTimestamp": "スキャン日時",
+  "@enumScanLogSortByScanTimestamp": {
+    "description": "Sort by scan timestamp"
+  },
+  "enumScanLogSortByScannedValue": "スキャン値",
+  "@enumScanLogSortByScannedValue": {
+    "description": "Sort by scanned value"
+  },
+  "enumScanLogSortByScanMethod": "スキャン方法",
+  "@enumScanLogSortByScanMethod": {
+    "description": "Sort by scan method"
+  },
+  "enumScanLogSortByScanResult": "スキャン結果",
+  "@enumScanLogSortByScanResult": {
+    "description": "Sort by scan result"
+  },
+  "enumAssetSortByAssetTag": "資産タグ",
+  "@enumAssetSortByAssetTag": {
+    "description": "Sort by asset tag"
+  },
+  "enumAssetSortByAssetName": "資産名",
+  "@enumAssetSortByAssetName": {
+    "description": "Sort by asset name"
+  },
+  "enumAssetSortByBrand": "ブランド",
+  "@enumAssetSortByBrand": {
+    "description": "Sort by brand"
+  },
+  "enumAssetSortByModel": "モデル",
+  "@enumAssetSortByModel": {
+    "description": "Sort by model"
+  },
+  "enumAssetSortBySerialNumber": "シリアル番号",
+  "@enumAssetSortBySerialNumber": {
+    "description": "Sort by serial number"
+  },
+  "enumAssetSortByPurchaseDate": "購入日",
+  "@enumAssetSortByPurchaseDate": {
+    "description": "Sort by purchase date"
+  },
+  "enumAssetSortByPurchasePrice": "購入価格",
+  "@enumAssetSortByPurchasePrice": {
+    "description": "Sort by purchase price"
+  },
+  "enumAssetSortByVendorName": "ベンダー名",
+  "@enumAssetSortByVendorName": {
+    "description": "Sort by vendor name"
+  },
+  "enumAssetSortByWarrantyEnd": "保証終了日",
+  "@enumAssetSortByWarrantyEnd": {
+    "description": "Sort by warranty end date"
+  },
+  "enumAssetSortByStatus": "ステータス",
+  "@enumAssetSortByStatus": {
+    "description": "Sort by status"
+  },
+  "enumAssetSortByConditionStatus": "コンディション",
+  "@enumAssetSortByConditionStatus": {
+    "description": "Sort by condition"
+  },
+  "enumAssetSortByCreatedAt": "作成日時",
+  "@enumAssetSortByCreatedAt": {
+    "description": "Sort by creation date"
+  },
+  "enumAssetSortByUpdatedAt": "更新日時",
+  "@enumAssetSortByUpdatedAt": {
+    "description": "Sort by update date"
+  },
+  "enumAssetMovementSortByMovementDate": "移動日",
+  "@enumAssetMovementSortByMovementDate": {
+    "description": "Sort by movement date"
+  },
+  "enumAssetMovementSortByMovementdate": "移動日",
+  "@enumAssetMovementSortByMovementdate": {
+    "description": "Sort by movement date (lowercase alias)"
+  },
+  "enumAssetMovementSortByCreatedAt": "作成日時",
+  "@enumAssetMovementSortByCreatedAt": {
+    "description": "Sort by creation date"
+  },
+  "enumAssetMovementSortByCreatedat": "作成日時",
+  "@enumAssetMovementSortByCreatedat": {
+    "description": "Sort by creation date (lowercase alias)"
+  },
+  "enumAssetMovementSortByUpdatedAt": "更新日時",
+  "@enumAssetMovementSortByUpdatedAt": {
+    "description": "Sort by update date"
+  },
+  "enumAssetMovementSortByUpdatedat": "更新日時",
+  "@enumAssetMovementSortByUpdatedat": {
+    "description": "Sort by update date (lowercase alias)"
+  },
+  "enumIssueReportSortByReportedDate": "報告日",
+  "@enumIssueReportSortByReportedDate": {
+    "description": "Sort by reported date"
+  },
+  "enumIssueReportSortByResolvedDate": "解決日",
+  "@enumIssueReportSortByResolvedDate": {
+    "description": "Sort by resolved date"
+  },
+  "enumIssueReportSortByIssueType": "問題タイプ",
+  "@enumIssueReportSortByIssueType": {
+    "description": "Sort by issue type"
+  },
+  "enumIssueReportSortByPriority": "優先度",
+  "@enumIssueReportSortByPriority": {
+    "description": "Sort by priority"
+  },
+  "enumIssueReportSortByStatus": "ステータス",
+  "@enumIssueReportSortByStatus": {
+    "description": "Sort by status"
+  },
+  "enumIssueReportSortByTitle": "タイトル",
+  "@enumIssueReportSortByTitle": {
+    "description": "Sort by title"
+  },
+  "enumIssueReportSortByDescription": "説明",
+  "@enumIssueReportSortByDescription": {
+    "description": "Sort by description"
+  },
+  "enumIssueReportSortByCreatedAt": "作成日時",
+  "@enumIssueReportSortByCreatedAt": {
+    "description": "Sort by creation date"
+  },
+  "enumIssueReportSortByUpdatedAt": "更新日時",
+  "@enumIssueReportSortByUpdatedAt": {
+    "description": "Sort by update date"
+  },
+  "enumMaintenanceScheduleSortByNextScheduledDate": "次回予定日",
+  "@enumMaintenanceScheduleSortByNextScheduledDate": {
+    "description": "Sort by next scheduled date"
+  },
+  "enumMaintenanceScheduleSortByMaintenanceType": "メンテナンスタイプ",
+  "@enumMaintenanceScheduleSortByMaintenanceType": {
+    "description": "Sort by maintenance type"
+  },
+  "enumMaintenanceScheduleSortByState": "状態",
+  "@enumMaintenanceScheduleSortByState": {
+    "description": "Sort by state"
+  },
+  "enumMaintenanceScheduleSortByCreatedAt": "作成日時",
+  "@enumMaintenanceScheduleSortByCreatedAt": {
+    "description": "Sort by creation date"
+  },
+  "enumMaintenanceScheduleSortByUpdatedAt": "更新日時",
+  "@enumMaintenanceScheduleSortByUpdatedAt": {
+    "description": "Sort by update date"
+  },
+  "enumMaintenanceRecordSortByMaintenanceDate": "メンテナンス日",
+  "@enumMaintenanceRecordSortByMaintenanceDate": {
+    "description": "Sort by maintenance date"
+  },
+  "enumMaintenanceRecordSortByActualCost": "実費用",
+  "@enumMaintenanceRecordSortByActualCost": {
+    "description": "Sort by cost"
+  },
+  "enumMaintenanceRecordSortByTitle": "タイトル",
+  "@enumMaintenanceRecordSortByTitle": {
+    "description": "Sort by title"
+  },
+  "enumMaintenanceRecordSortByCreatedAt": "作成日時",
+  "@enumMaintenanceRecordSortByCreatedAt": {
+    "description": "Sort by creation date"
+  },
+  "enumMaintenanceRecordSortByUpdatedAt": "更新日時",
+  "@enumMaintenanceRecordSortByUpdatedAt": {
+    "description": "Sort by update date"
+  },
+  "enumUserSortByName": "名前",
+  "@enumUserSortByName": {
+    "description": "Sort by name"
+  },
+  "enumUserSortByFullName": "氏名",
+  "@enumUserSortByFullName": {
+    "description": "Sort by full name"
+  },
+  "enumUserSortByEmail": "メールアドレス",
+  "@enumUserSortByEmail": {
+    "description": "Sort by email"
+  },
+  "enumUserSortByRole": "役割",
+  "@enumUserSortByRole": {
+    "description": "Sort by role"
+  },
+  "enumUserSortByEmployeeId": "社員ID",
+  "@enumUserSortByEmployeeId": {
+    "description": "Sort by employee ID"
+  },
+  "enumUserSortByIsActive": "有効状態",
+  "@enumUserSortByIsActive": {
+    "description": "Sort by active status"
+  },
+  "enumUserSortByCreatedAt": "登録日時",
+  "@enumUserSortByCreatedAt": {
+    "description": "Sort by join date"
+  },
+  "enumUserSortByUpdatedAt": "更新日時",
+  "@enumUserSortByUpdatedAt": {
+    "description": "Sort by update date"
+  },
+  "enumExportFormatPdf": "PDF",
+  "@enumExportFormatPdf": {
+    "description": "Export format PDF"
+  },
+  "enumExportFormatExcel": "Excel",
+  "@enumExportFormatExcel": {
+    "description": "Export format Excel"
+  },
+  "enumMutationTypeCreate": "作成",
+  "@enumMutationTypeCreate": {
+    "description": "Mutation type create"
+  },
+  "enumMutationTypeUpdate": "更新",
+  "@enumMutationTypeUpdate": {
+    "description": "Mutation type update"
+  },
+  "enumMutationTypeDelete": "削除",
+  "@enumMutationTypeDelete": {
+    "description": "Mutation type delete"
+  },
+  "enumLanguageEnglish": "英語",
+  "@enumLanguageEnglish": {
+    "description": "Language English"
+  },
+  "enumLanguageJapanese": "日本語",
+  "@enumLanguageJapanese": {
+    "description": "Language Japanese"
+  },
+  "enumLanguageIndonesian": "インドネシア語",
+  "@enumLanguageIndonesian": {
+    "description": "Language Indonesian"
+  },
+  "enumUserRoleAdmin": "管理者",
+  "@enumUserRoleAdmin": {
+    "description": "User role Admin"
+  },
+  "enumUserRoleUser": "ユーザー",
+  "@enumUserRoleUser": {
+    "description": "User role User"
+  },
+  "enumAssetStatusActive": "アクティブ",
+  "@enumAssetStatusActive": {
+    "description": "Asset status Active"
+  },
+  "enumAssetStatusMaintenance": "メンテナンス中",
+  "@enumAssetStatusMaintenance": {
+    "description": "Asset status Maintenance"
+  },
+  "enumAssetStatusDisposed": "廃棄済み",
+  "@enumAssetStatusDisposed": {
+    "description": "Asset status Disposed"
+  },
+  "enumAssetStatusLost": "紛失",
+  "@enumAssetStatusLost": {
+    "description": "Asset status Lost"
+  },
+  "enumAssetConditionGood": "良好",
+  "@enumAssetConditionGood": {
+    "description": "Asset condition Good"
+  },
+  "enumAssetConditionFair": "普通",
+  "@enumAssetConditionFair": {
+    "description": "Asset condition Fair"
+  },
+  "enumAssetConditionPoor": "悪い",
+  "@enumAssetConditionPoor": {
+    "description": "Asset condition Poor"
+  },
+  "enumAssetConditionDamaged": "破損",
+  "@enumAssetConditionDamaged": {
+    "description": "Asset condition Damaged"
+  },
+  "enumNotificationTypeMaintenance": "メンテナンス",
+  "@enumNotificationTypeMaintenance": {
+    "description": "Notification type Maintenance"
+  },
+  "enumNotificationTypeWarranty": "保証",
+  "@enumNotificationTypeWarranty": {
+    "description": "Notification type Warranty"
+  },
+  "enumNotificationTypeIssue": "問題",
+  "@enumNotificationTypeIssue": {
+    "description": "Notification type Issue"
+  },
+  "enumNotificationTypeMovement": "移動",
+  "@enumNotificationTypeMovement": {
+    "description": "Notification type Movement"
+  },
+  "enumNotificationTypeStatusChange": "ステータス変更",
+  "@enumNotificationTypeStatusChange": {
+    "description": "Notification type Status Change"
+  },
+  "enumNotificationTypeLocationChange": "場所変更",
+  "@enumNotificationTypeLocationChange": {
+    "description": "Notification type Location Change"
+  },
+  "enumNotificationTypeCategoryChange": "カテゴリ変更",
+  "@enumNotificationTypeCategoryChange": {
+    "description": "Notification type Category Change"
+  },
+  "enumNotificationPriorityLow": "低",
+  "@enumNotificationPriorityLow": {
+    "description": "Priority Low"
+  },
+  "enumNotificationPriorityNormal": "中",
+  "@enumNotificationPriorityNormal": {
+    "description": "Priority Normal"
+  },
+  "enumNotificationPriorityHigh": "高",
+  "@enumNotificationPriorityHigh": {
+    "description": "Priority High"
+  },
+  "enumNotificationPriorityUrgent": "緊急",
+  "@enumNotificationPriorityUrgent": {
+    "description": "Priority Urgent"
+  },
+  "enumScanMethodTypeDataMatrix": "データマトリックス",
+  "@enumScanMethodTypeDataMatrix": {
+    "description": "Scan method Data Matrix"
+  },
+  "enumScanMethodTypeManualInput": "手動入力",
+  "@enumScanMethodTypeManualInput": {
+    "description": "Scan method Manual Input"
+  },
+  "enumScanResultTypeSuccess": "成功",
+  "@enumScanResultTypeSuccess": {
+    "description": "Scan result Success"
+  },
+  "enumScanResultTypeInvalidID": "無効なID",
+  "@enumScanResultTypeInvalidID": {
+    "description": "Scan result Invalid ID"
+  },
+  "enumScanResultTypeAssetNotFound": "資産が見つかりません",
+  "@enumScanResultTypeAssetNotFound": {
+    "description": "Scan result Asset Not Found"
+  },
+  "enumMaintenanceScheduleTypePreventive": "予防",
+  "@enumMaintenanceScheduleTypePreventive": {
+    "description": "Schedule type Preventive"
+  },
+  "enumMaintenanceScheduleTypeCorrective": "事後",
+  "@enumMaintenanceScheduleTypeCorrective": {
+    "description": "Schedule type Corrective"
+  },
+  "enumMaintenanceScheduleTypeInspection": "点検",
+  "@enumMaintenanceScheduleTypeInspection": {
+    "description": "Schedule type Inspection"
+  },
+  "enumMaintenanceScheduleTypeCalibration": "校正",
+  "@enumMaintenanceScheduleTypeCalibration": {
+    "description": "Schedule type Calibration"
+  },
+  "enumScheduleStateActive": "有効",
+  "@enumScheduleStateActive": {
+    "description": "Schedule state Active"
+  },
+  "enumScheduleStatePaused": "一時停止",
+  "@enumScheduleStatePaused": {
+    "description": "Schedule state Paused"
+  },
+  "enumScheduleStateStopped": "停止",
+  "@enumScheduleStateStopped": {
+    "description": "Schedule state Stopped"
+  },
+  "enumScheduleStateCompleted": "完了",
+  "@enumScheduleStateCompleted": {
+    "description": "Schedule state Completed"
+  },
+  "enumIntervalUnitDays": "日",
+  "@enumIntervalUnitDays": {
+    "description": "Interval unit Days"
+  },
+  "enumIntervalUnitWeeks": "週",
+  "@enumIntervalUnitWeeks": {
+    "description": "Interval unit Weeks"
+  },
+  "enumIntervalUnitMonths": "月",
+  "@enumIntervalUnitMonths": {
+    "description": "Interval unit Months"
+  },
+  "enumIntervalUnitYears": "年",
+  "@enumIntervalUnitYears": {
+    "description": "Interval unit Years"
+  },
+  "enumIssuePriorityLow": "低",
+  "@enumIssuePriorityLow": {
+    "description": "Issue priority Low"
+  },
+  "enumIssuePriorityMedium": "中",
+  "@enumIssuePriorityMedium": {
+    "description": "Issue priority Medium"
+  },
+  "enumIssuePriorityHigh": "高",
+  "@enumIssuePriorityHigh": {
+    "description": "Issue priority High"
+  },
+  "enumIssuePriorityCritical": "クリティカル",
+  "@enumIssuePriorityCritical": {
+    "description": "Issue priority Critical"
+  },
+  "enumIssueStatusOpen": "未対応",
+  "@enumIssueStatusOpen": {
+    "description": "Issue status Open"
+  },
+  "enumIssueStatusInProgress": "対応中",
+  "@enumIssueStatusInProgress": {
+    "description": "Issue status In Progress"
+  },
+  "enumIssueStatusResolved": "解決済み",
+  "@enumIssueStatusResolved": {
+    "description": "Issue status Resolved"
+  },
+  "enumIssueStatusClosed": "完了",
+  "@enumIssueStatusClosed": {
+    "description": "Issue status Closed"
+  },
+  "enumMaintenanceResultSuccess": "成功",
+  "@enumMaintenanceResultSuccess": {
+    "description": "Maintenance result Success"
+  },
+  "enumMaintenanceResultPartial": "部分的",
+  "@enumMaintenanceResultPartial": {
+    "description": "Maintenance result Partial"
+  },
+  "enumMaintenanceResultFailed": "失敗",
+  "@enumMaintenanceResultFailed": {
+    "description": "Maintenance result Failed"
+  },
+  "enumMaintenanceResultRescheduled": "再スケジュール",
+  "@enumMaintenanceResultRescheduled": {
+    "description": "Maintenance result Rescheduled"
+  }
+}

@@ -1,0 +1,890 @@
+{
+  "@@locale": "en",
+  "networkErrorDnsFailureUser": "Cannot connect to server.\n• Check your internet connection\n• Disable VPN/DNS if active\n• Try again in a moment",
+  "networkErrorConnectionUser": "Connection lost.\n• Check your internet connection\n• Ensure WiFi/data is active\n• Try again in a moment",
+  "networkErrorTimeoutUser": "Connection timeout.\n• Check your internet speed\n• Try again in a moment\n• Contact admin if problem persists",
+  "networkErrorReceiveTimeoutUser": "Server took too long to respond.\n• Your internet connection might be slow\n• Try again in a moment\n• Contact admin if problem persists",
+  "networkErrorServerUser": "Server error occurred.\n• Try again in a moment\n• Contact admin if problem persists",
+  "networkErrorServer502User": "Server unreachable.\n• Server might be under maintenance\n• Try again in a moment\n• Contact admin if problem persists",
+  "networkErrorServer503User": "Service under maintenance.\n• Wait a moment\n• Try again later\n• Contact admin for more info",
+  "networkErrorServer504User": "Server timeout.\n• Server is busy\n• Try again in a moment\n• Contact admin if problem persists",
+  "networkErrorHtmlResponse": "Server returned HTML instead of JSON. Check API endpoint configuration.",
+  "networkErrorFileDownloaded": "File downloaded successfully",
+  "networkErrorUnknown": "Unknown error occurred",
+  "timeAgoJustNow": "just now",
+  "timeAgoMinute": "{count, plural, =1{1 minute ago} other{{count} minutes ago}}",
+  "@timeAgoMinute": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeAgoHour": "{count, plural, =1{1 hour ago} other{{count} hours ago}}",
+  "@timeAgoHour": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeAgoDay": "{count, plural, =1{1 day ago} other{{count} days ago}}",
+  "@timeAgoDay": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeAgoMonth": "{count, plural, =1{1 month ago} other{{count} months ago}}",
+  "@timeAgoMonth": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeAgoYear": "{count, plural, =1{1 year ago} other{{count} years ago}}",
+  "@timeAgoYear": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "monthJan": "Jan",
+  "monthFeb": "Feb",
+  "monthMar": "Mar",
+  "monthApr": "Apr",
+  "monthMay": "May",
+  "monthJun": "Jun",
+  "monthJul": "Jul",
+  "monthAug": "Aug",
+  "monthSep": "Sep",
+  "monthOct": "Oct",
+  "monthNov": "Nov",
+  "monthDec": "Dec",
+  "dayMon": "Monday",
+  "dayTue": "Tuesday",
+  "dayWed": "Wednesday",
+  "dayThu": "Thursday",
+  "dayFri": "Friday",
+  "daySat": "Saturday",
+  "daySun": "Sunday",
+  "currencyBillionSuffix": "B",
+  "currencyMillionSuffix": "M",
+  "currencyThousandSuffix": "K",
+  "enumSortOrderAsc": "Ascending",
+  "@enumSortOrderAsc": {
+    "description": "Sort order ascending"
+  },
+  "enumSortOrderDesc": "Descending",
+  "@enumSortOrderDesc": {
+    "description": "Sort order descending"
+  },
+  "enumCategorySortByCategoryCode": "Category Code",
+  "@enumCategorySortByCategoryCode": {
+    "description": "Sort by category code"
+  },
+  "enumCategorySortByName": "Name",
+  "@enumCategorySortByName": {
+    "description": "Sort by name"
+  },
+  "enumCategorySortByCategoryName": "Category Name",
+  "@enumCategorySortByCategoryName": {
+    "description": "Sort by category name"
+  },
+  "enumCategorySortByCreatedAt": "Created Date",
+  "@enumCategorySortByCreatedAt": {
+    "description": "Sort by creation date"
+  },
+  "enumCategorySortByUpdatedAt": "Updated Date",
+  "@enumCategorySortByUpdatedAt": {
+    "description": "Sort by update date"
+  },
+  "enumLocationSortByLocationCode": "Location Code",
+  "@enumLocationSortByLocationCode": {
+    "description": "Sort by location code"
+  },
+  "enumLocationSortByName": "Name",
+  "@enumLocationSortByName": {
+    "description": "Sort by name"
+  },
+  "enumLocationSortByLocationName": "Location Name",
+  "@enumLocationSortByLocationName": {
+    "description": "Sort by location name"
+  },
+  "enumLocationSortByBuilding": "Building",
+  "@enumLocationSortByBuilding": {
+    "description": "Sort by building"
+  },
+  "enumLocationSortByFloor": "Floor",
+  "@enumLocationSortByFloor": {
+    "description": "Sort by floor"
+  },
+  "enumLocationSortByCreatedAt": "Created Date",
+  "@enumLocationSortByCreatedAt": {
+    "description": "Sort by creation date"
+  },
+  "enumLocationSortByUpdatedAt": "Updated Date",
+  "@enumLocationSortByUpdatedAt": {
+    "description": "Sort by update date"
+  },
+  "enumNotificationSortByType": "Type",
+  "@enumNotificationSortByType": {
+    "description": "Sort by type"
+  },
+  "enumNotificationSortByIsRead": "Read Status",
+  "@enumNotificationSortByIsRead": {
+    "description": "Sort by read status"
+  },
+  "enumNotificationSortByCreatedAt": "Received Date",
+  "@enumNotificationSortByCreatedAt": {
+    "description": "Sort by received date"
+  },
+  "enumNotificationSortByTitle": "Title",
+  "@enumNotificationSortByTitle": {
+    "description": "Sort by title"
+  },
+  "enumNotificationSortByMessage": "Message",
+  "@enumNotificationSortByMessage": {
+    "description": "Sort by message"
+  },
+  "enumScanLogSortByScanTimestamp": "Scan Time",
+  "@enumScanLogSortByScanTimestamp": {
+    "description": "Sort by scan timestamp"
+  },
+  "enumScanLogSortByScannedValue": "Scanned Value",
+  "@enumScanLogSortByScannedValue": {
+    "description": "Sort by scanned value"
+  },
+  "enumScanLogSortByScanMethod": "Scan Method",
+  "@enumScanLogSortByScanMethod": {
+    "description": "Sort by scan method"
+  },
+  "enumScanLogSortByScanResult": "Scan Result",
+  "@enumScanLogSortByScanResult": {
+    "description": "Sort by scan result"
+  },
+  "enumAssetSortByAssetTag": "Asset Tag",
+  "@enumAssetSortByAssetTag": {
+    "description": "Sort by asset tag"
+  },
+  "enumAssetSortByAssetName": "Asset Name",
+  "@enumAssetSortByAssetName": {
+    "description": "Sort by asset name"
+  },
+  "enumAssetSortByBrand": "Brand",
+  "@enumAssetSortByBrand": {
+    "description": "Sort by brand"
+  },
+  "enumAssetSortByModel": "Model",
+  "@enumAssetSortByModel": {
+    "description": "Sort by model"
+  },
+  "enumAssetSortBySerialNumber": "Serial Number",
+  "@enumAssetSortBySerialNumber": {
+    "description": "Sort by serial number"
+  },
+  "enumAssetSortByPurchaseDate": "Purchase Date",
+  "@enumAssetSortByPurchaseDate": {
+    "description": "Sort by purchase date"
+  },
+  "enumAssetSortByPurchasePrice": "Purchase Price",
+  "@enumAssetSortByPurchasePrice": {
+    "description": "Sort by purchase price"
+  },
+  "enumAssetSortByVendorName": "Vendor Name",
+  "@enumAssetSortByVendorName": {
+    "description": "Sort by vendor name"
+  },
+  "enumAssetSortByWarrantyEnd": "Warranty End Date",
+  "@enumAssetSortByWarrantyEnd": {
+    "description": "Sort by warranty end date"
+  },
+  "enumAssetSortByStatus": "Status",
+  "@enumAssetSortByStatus": {
+    "description": "Sort by status"
+  },
+  "enumAssetSortByConditionStatus": "Condition",
+  "@enumAssetSortByConditionStatus": {
+    "description": "Sort by condition"
+  },
+  "enumAssetSortByCreatedAt": "Created Date",
+  "@enumAssetSortByCreatedAt": {
+    "description": "Sort by creation date"
+  },
+  "enumAssetSortByUpdatedAt": "Updated Date",
+  "@enumAssetSortByUpdatedAt": {
+    "description": "Sort by update date"
+  },
+  "enumAssetMovementSortByMovementDate": "Movement Date",
+  "@enumAssetMovementSortByMovementDate": {
+    "description": "Sort by movement date"
+  },
+  "enumAssetMovementSortByMovementdate": "Movement Date",
+  "@enumAssetMovementSortByMovementdate": {
+    "description": "Sort by movement date (lowercase alias)"
+  },
+  "enumAssetMovementSortByCreatedAt": "Created Date",
+  "@enumAssetMovementSortByCreatedAt": {
+    "description": "Sort by creation date"
+  },
+  "enumAssetMovementSortByCreatedat": "Created Date",
+  "@enumAssetMovementSortByCreatedat": {
+    "description": "Sort by creation date (lowercase alias)"
+  },
+  "enumAssetMovementSortByUpdatedAt": "Updated Date",
+  "@enumAssetMovementSortByUpdatedAt": {
+    "description": "Sort by update date"
+  },
+  "enumAssetMovementSortByUpdatedat": "Updated Date",
+  "@enumAssetMovementSortByUpdatedat": {
+    "description": "Sort by update date (lowercase alias)"
+  },
+  "enumIssueReportSortByReportedDate": "Reported Date",
+  "@enumIssueReportSortByReportedDate": {
+    "description": "Sort by reported date"
+  },
+  "enumIssueReportSortByResolvedDate": "Resolved Date",
+  "@enumIssueReportSortByResolvedDate": {
+    "description": "Sort by resolved date"
+  },
+  "enumIssueReportSortByIssueType": "Issue Type",
+  "@enumIssueReportSortByIssueType": {
+    "description": "Sort by issue type"
+  },
+  "enumIssueReportSortByPriority": "Priority",
+  "@enumIssueReportSortByPriority": {
+    "description": "Sort by priority"
+  },
+  "enumIssueReportSortByStatus": "Status",
+  "@enumIssueReportSortByStatus": {
+    "description": "Sort by status"
+  },
+  "enumIssueReportSortByTitle": "Title",
+  "@enumIssueReportSortByTitle": {
+    "description": "Sort by title"
+  },
+  "enumIssueReportSortByDescription": "Description",
+  "@enumIssueReportSortByDescription": {
+    "description": "Sort by description"
+  },
+  "enumIssueReportSortByCreatedAt": "Created Date",
+  "@enumIssueReportSortByCreatedAt": {
+    "description": "Sort by creation date"
+  },
+  "enumIssueReportSortByUpdatedAt": "Updated Date",
+  "@enumIssueReportSortByUpdatedAt": {
+    "description": "Sort by update date"
+  },
+  "enumMaintenanceScheduleSortByNextScheduledDate": "Next Scheduled Date",
+  "@enumMaintenanceScheduleSortByNextScheduledDate": {
+    "description": "Sort by next scheduled date"
+  },
+  "enumMaintenanceScheduleSortByMaintenanceType": "Maintenance Type",
+  "@enumMaintenanceScheduleSortByMaintenanceType": {
+    "description": "Sort by maintenance type"
+  },
+  "enumMaintenanceScheduleSortByState": "State",
+  "@enumMaintenanceScheduleSortByState": {
+    "description": "Sort by state"
+  },
+  "enumMaintenanceScheduleSortByCreatedAt": "Created Date",
+  "@enumMaintenanceScheduleSortByCreatedAt": {
+    "description": "Sort by creation date"
+  },
+  "enumMaintenanceScheduleSortByUpdatedAt": "Updated Date",
+  "@enumMaintenanceScheduleSortByUpdatedAt": {
+    "description": "Sort by update date"
+  },
+  "enumMaintenanceRecordSortByMaintenanceDate": "Maintenance Date",
+  "@enumMaintenanceRecordSortByMaintenanceDate": {
+    "description": "Sort by maintenance date"
+  },
+  "enumMaintenanceRecordSortByActualCost": "Actual Cost",
+  "@enumMaintenanceRecordSortByActualCost": {
+    "description": "Sort by cost"
+  },
+  "enumMaintenanceRecordSortByTitle": "Title",
+  "@enumMaintenanceRecordSortByTitle": {
+    "description": "Sort by title"
+  },
+  "enumMaintenanceRecordSortByCreatedAt": "Created Date",
+  "@enumMaintenanceRecordSortByCreatedAt": {
+    "description": "Sort by creation date"
+  },
+  "enumMaintenanceRecordSortByUpdatedAt": "Updated Date",
+  "@enumMaintenanceRecordSortByUpdatedAt": {
+    "description": "Sort by update date"
+  },
+  "enumUserSortByName": "Name",
+  "@enumUserSortByName": {
+    "description": "Sort by name"
+  },
+  "enumUserSortByFullName": "Full Name",
+  "@enumUserSortByFullName": {
+    "description": "Sort by full name"
+  },
+  "enumUserSortByEmail": "Email",
+  "@enumUserSortByEmail": {
+    "description": "Sort by email"
+  },
+  "enumUserSortByRole": "Role",
+  "@enumUserSortByRole": {
+    "description": "Sort by role"
+  },
+  "enumUserSortByEmployeeId": "Employee ID",
+  "@enumUserSortByEmployeeId": {
+    "description": "Sort by employee ID"
+  },
+  "enumUserSortByIsActive": "Active Status",
+  "@enumUserSortByIsActive": {
+    "description": "Sort by active status"
+  },
+  "enumUserSortByCreatedAt": "Joined Date",
+  "@enumUserSortByCreatedAt": {
+    "description": "Sort by join date"
+  },
+  "enumUserSortByUpdatedAt": "Updated Date",
+  "@enumUserSortByUpdatedAt": {
+    "description": "Sort by update date"
+  },
+  "enumExportFormatPdf": "PDF",
+  "@enumExportFormatPdf": {
+    "description": "Export format PDF"
+  },
+  "enumExportFormatExcel": "Excel",
+  "@enumExportFormatExcel": {
+    "description": "Export format Excel"
+  },
+  "enumMutationTypeCreate": "Create",
+  "@enumMutationTypeCreate": {
+    "description": "Mutation type create"
+  },
+  "enumMutationTypeUpdate": "Update",
+  "@enumMutationTypeUpdate": {
+    "description": "Mutation type update"
+  },
+  "enumMutationTypeDelete": "Delete",
+  "@enumMutationTypeDelete": {
+    "description": "Mutation type delete"
+  },
+  "enumLanguageEnglish": "English",
+  "@enumLanguageEnglish": {
+    "description": "Language English"
+  },
+  "enumLanguageJapanese": "Japanese",
+  "@enumLanguageJapanese": {
+    "description": "Language Japanese"
+  },
+  "enumLanguageIndonesian": "Indonesian",
+  "@enumLanguageIndonesian": {
+    "description": "Language Indonesian"
+  },
+  "enumUserRoleAdmin": "Admin",
+  "@enumUserRoleAdmin": {
+    "description": "User role Admin"
+  },
+  "enumUserRoleUser": "User",
+  "@enumUserRoleUser": {
+    "description": "User role User"
+  },
+  "enumAssetStatusActive": "Active",
+  "@enumAssetStatusActive": {
+    "description": "Asset status Active"
+  },
+  "enumAssetStatusMaintenance": "Maintenance",
+  "@enumAssetStatusMaintenance": {
+    "description": "Asset status Maintenance"
+  },
+  "enumAssetStatusDisposed": "Disposed",
+  "@enumAssetStatusDisposed": {
+    "description": "Asset status Disposed"
+  },
+  "enumAssetStatusLost": "Lost",
+  "@enumAssetStatusLost": {
+    "description": "Asset status Lost"
+  },
+  "enumAssetConditionGood": "Good",
+  "@enumAssetConditionGood": {
+    "description": "Asset condition Good"
+  },
+  "enumAssetConditionFair": "Fair",
+  "@enumAssetConditionFair": {
+    "description": "Asset condition Fair"
+  },
+  "enumAssetConditionPoor": "Poor",
+  "@enumAssetConditionPoor": {
+    "description": "Asset condition Poor"
+  },
+  "enumAssetConditionDamaged": "Damaged",
+  "@enumAssetConditionDamaged": {
+    "description": "Asset condition Damaged"
+  },
+  "enumNotificationTypeMaintenance": "Maintenance",
+  "@enumNotificationTypeMaintenance": {
+    "description": "Notification type Maintenance"
+  },
+  "enumNotificationTypeWarranty": "Warranty",
+  "@enumNotificationTypeWarranty": {
+    "description": "Notification type Warranty"
+  },
+  "enumNotificationTypeIssue": "Issue",
+  "@enumNotificationTypeIssue": {
+    "description": "Notification type Issue"
+  },
+  "enumNotificationTypeMovement": "Movement",
+  "@enumNotificationTypeMovement": {
+    "description": "Notification type Movement"
+  },
+  "enumNotificationTypeStatusChange": "Status Change",
+  "@enumNotificationTypeStatusChange": {
+    "description": "Notification type Status Change"
+  },
+  "enumNotificationTypeLocationChange": "Location Change",
+  "@enumNotificationTypeLocationChange": {
+    "description": "Notification type Location Change"
+  },
+  "enumNotificationTypeCategoryChange": "Category Change",
+  "@enumNotificationTypeCategoryChange": {
+    "description": "Notification type Category Change"
+  },
+  "enumNotificationPriorityLow": "Low",
+  "@enumNotificationPriorityLow": {
+    "description": "Priority Low"
+  },
+  "enumNotificationPriorityNormal": "Normal",
+  "@enumNotificationPriorityNormal": {
+    "description": "Priority Normal"
+  },
+  "enumNotificationPriorityHigh": "High",
+  "@enumNotificationPriorityHigh": {
+    "description": "Priority High"
+  },
+  "enumNotificationPriorityUrgent": "Urgent",
+  "@enumNotificationPriorityUrgent": {
+    "description": "Priority Urgent"
+  },
+  "enumScanMethodTypeDataMatrix": "Data Matrix",
+  "@enumScanMethodTypeDataMatrix": {
+    "description": "Scan method Data Matrix"
+  },
+  "enumScanMethodTypeManualInput": "Manual Input",
+  "@enumScanMethodTypeManualInput": {
+    "description": "Scan method Manual Input"
+  },
+  "enumScanResultTypeSuccess": "Success",
+  "@enumScanResultTypeSuccess": {
+    "description": "Scan result Success"
+  },
+  "enumScanResultTypeInvalidID": "Invalid ID",
+  "@enumScanResultTypeInvalidID": {
+    "description": "Scan result Invalid ID"
+  },
+  "enumScanResultTypeAssetNotFound": "Asset Not Found",
+  "@enumScanResultTypeAssetNotFound": {
+    "description": "Scan result Asset Not Found"
+  },
+  "enumMaintenanceScheduleTypePreventive": "Preventive",
+  "@enumMaintenanceScheduleTypePreventive": {
+    "description": "Schedule type Preventive"
+  },
+  "enumMaintenanceScheduleTypeCorrective": "Corrective",
+  "@enumMaintenanceScheduleTypeCorrective": {
+    "description": "Schedule type Corrective"
+  },
+  "enumMaintenanceScheduleTypeInspection": "Inspection",
+  "@enumMaintenanceScheduleTypeInspection": {
+    "description": "Schedule type Inspection"
+  },
+  "enumMaintenanceScheduleTypeCalibration": "Calibration",
+  "@enumMaintenanceScheduleTypeCalibration": {
+    "description": "Schedule type Calibration"
+  },
+  "enumScheduleStateActive": "Active",
+  "@enumScheduleStateActive": {
+    "description": "Schedule state Active"
+  },
+  "enumScheduleStatePaused": "Paused",
+  "@enumScheduleStatePaused": {
+    "description": "Schedule state Paused"
+  },
+  "enumScheduleStateStopped": "Stopped",
+  "@enumScheduleStateStopped": {
+    "description": "Schedule state Stopped"
+  },
+  "enumScheduleStateCompleted": "Completed",
+  "@enumScheduleStateCompleted": {
+    "description": "Schedule state Completed"
+  },
+  "enumIntervalUnitDays": "Days",
+  "@enumIntervalUnitDays": {
+    "description": "Interval unit Days"
+  },
+  "enumIntervalUnitWeeks": "Weeks",
+  "@enumIntervalUnitWeeks": {
+    "description": "Interval unit Weeks"
+  },
+  "enumIntervalUnitMonths": "Months",
+  "@enumIntervalUnitMonths": {
+    "description": "Interval unit Months"
+  },
+  "enumIntervalUnitYears": "Years",
+  "@enumIntervalUnitYears": {
+    "description": "Interval unit Years"
+  },
+  "enumIssuePriorityLow": "Low",
+  "@enumIssuePriorityLow": {
+    "description": "Issue priority Low"
+  },
+  "enumIssuePriorityMedium": "Medium",
+  "@enumIssuePriorityMedium": {
+    "description": "Issue priority Medium"
+  },
+  "enumIssuePriorityHigh": "High",
+  "@enumIssuePriorityHigh": {
+    "description": "Issue priority High"
+  },
+  "enumIssuePriorityCritical": "Critical",
+  "@enumIssuePriorityCritical": {
+    "description": "Issue priority Critical"
+  },
+  "enumIssueStatusOpen": "Open",
+  "@enumIssueStatusOpen": {
+    "description": "Issue status Open"
+  },
+  "enumIssueStatusInProgress": "In Progress",
+  "@enumIssueStatusInProgress": {
+    "description": "Issue status In Progress"
+  },
+  "enumIssueStatusResolved": "Resolved",
+  "@enumIssueStatusResolved": {
+    "description": "Issue status Resolved"
+  },
+  "enumIssueStatusClosed": "Closed",
+  "@enumIssueStatusClosed": {
+    "description": "Issue status Closed"
+  },
+  "enumMaintenanceResultSuccess": "Success",
+  "@enumMaintenanceResultSuccess": {
+    "description": "Maintenance result Success"
+  },
+  "enumMaintenanceResultPartial": "Partial",
+  "@enumMaintenanceResultPartial": {
+    "description": "Maintenance result Partial"
+  },
+  "enumMaintenanceResultFailed": "Failed",
+  "@enumMaintenanceResultFailed": {
+    "description": "Maintenance result Failed"
+  },
+  "enumMaintenanceResultRescheduled": "Rescheduled",
+  "@enumMaintenanceResultRescheduled": {
+    "description": "Maintenance result Rescheduled"
+  },
+  "homeGreeting": "Hello, {name}!",
+  "@homeGreeting": {
+    "description": "Greeting banner with user name",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "homeReadyForAppraisal": "Ready for your appraisal?",
+  "@homeReadyForAppraisal": {
+    "description": "Subtitle under greeting"
+  },
+  "homeLatestAppraisal": "Latest Appraisal",
+  "@homeLatestAppraisal": {
+    "description": "Section header for latest appraisal"
+  },
+  "homeRefresh": "Refresh",
+  "@homeRefresh": {
+    "description": "Refresh button label"
+  },
+  "homeSeeAll": "See All",
+  "@homeSeeAll": {
+    "description": "See all appraisals link"
+  },
+  "homeStartNewAppraisal": "Start New Appraisal",
+  "@homeStartNewAppraisal": {
+    "description": "Start new appraisal button"
+  },
+  "homeViewDetails": "View Details",
+  "@homeViewDetails": {
+    "description": "View details button on appraisal card"
+  },
+  "adminShellBottomNavDashboard": "Dashboard",
+  "@adminShellBottomNavDashboard": {
+    "description": "Admin shell bottom navigation label for dashboard"
+  },
+  "adminShellBottomNavScanAsset": "Scan Asset",
+  "@adminShellBottomNavScanAsset": {
+    "description": "Admin shell bottom navigation label for scan asset"
+  },
+  "adminShellBottomNavProfile": "Profile",
+  "@adminShellBottomNavProfile": {
+    "description": "Admin shell bottom navigation label for profile"
+  },
+  "userShellBottomNavHome": "Home",
+  "@userShellBottomNavHome": {
+    "description": "User shell bottom navigation label for home"
+  },
+  "userShellBottomNavScanAsset": "Scan Asset",
+  "@userShellBottomNavScanAsset": {
+    "description": "User shell bottom navigation label for scan asset"
+  },
+  "userShellBottomNavProfile": "Profile",
+  "@userShellBottomNavProfile": {
+    "description": "User shell bottom navigation label for profile"
+  },
+  "appEndDrawerTitle": "My App",
+  "@appEndDrawerTitle": {
+    "description": "App end drawer title"
+  },
+  "appEndDrawerPleaseLoginFirst": "Please login first",
+  "@appEndDrawerPleaseLoginFirst": {
+    "description": "Message shown when user needs to login"
+  },
+  "appEndDrawerTheme": "Theme",
+  "@appEndDrawerTheme": {
+    "description": "Theme settings label"
+  },
+  "appEndDrawerLanguage": "Language",
+  "@appEndDrawerLanguage": {
+    "description": "Language settings label"
+  },
+  "appEndDrawerLogout": "Logout",
+  "@appEndDrawerLogout": {
+    "description": "Logout button label"
+  },
+  "appEndDrawerManagementSection": "Management",
+  "@appEndDrawerManagementSection": {
+    "description": "Management section header"
+  },
+  "appEndDrawerMaintenanceSection": "Maintenance",
+  "@appEndDrawerMaintenanceSection": {
+    "description": "Maintenance section header"
+  },
+  "appEndDrawerEnglish": "English",
+  "@appEndDrawerEnglish": {
+    "description": "English language option"
+  },
+  "appEndDrawerIndonesian": "Indonesia",
+  "@appEndDrawerIndonesian": {
+    "description": "Indonesian language option"
+  },
+  "appEndDrawerJapanese": "日本語",
+  "@appEndDrawerJapanese": {
+    "description": "Japanese language option"
+  },
+  "appEndDrawerMyAssets": "My Assets",
+  "@appEndDrawerMyAssets": {
+    "description": "My assets menu item"
+  },
+  "appEndDrawerNotifications": "Notifications",
+  "@appEndDrawerNotifications": {
+    "description": "Notifications menu item"
+  },
+  "appEndDrawerMyIssueReports": "My Issue Reports",
+  "@appEndDrawerMyIssueReports": {
+    "description": "My issue reports menu item"
+  },
+  "appEndDrawerAssets": "Assets",
+  "@appEndDrawerAssets": {
+    "description": "Assets menu item"
+  },
+  "appEndDrawerAssetMovements": "Asset Movements",
+  "@appEndDrawerAssetMovements": {
+    "description": "Asset movements menu item"
+  },
+  "appEndDrawerCategories": "Categories",
+  "@appEndDrawerCategories": {
+    "description": "Categories menu item"
+  },
+  "appEndDrawerLocations": "Locations",
+  "@appEndDrawerLocations": {
+    "description": "Locations menu item"
+  },
+  "appEndDrawerUsers": "Users",
+  "@appEndDrawerUsers": {
+    "description": "Users menu item"
+  },
+  "appEndDrawerMaintenanceSchedules": "Maintenance Schedules",
+  "@appEndDrawerMaintenanceSchedules": {
+    "description": "Maintenance schedules menu item"
+  },
+  "appEndDrawerMaintenanceRecords": "Maintenance Records",
+  "@appEndDrawerMaintenanceRecords": {
+    "description": "Maintenance records menu item"
+  },
+  "appEndDrawerReports": "Reports",
+  "@appEndDrawerReports": {
+    "description": "Reports menu item"
+  },
+  "appEndDrawerIssueReports": "Issue Reports",
+  "@appEndDrawerIssueReports": {
+    "description": "Issue reports menu item"
+  },
+  "appEndDrawerScanLogs": "Scan Logs",
+  "@appEndDrawerScanLogs": {
+    "description": "Scan logs menu item"
+  },
+  "appEndDrawerScanAsset": "Scan Asset",
+  "@appEndDrawerScanAsset": {
+    "description": "Scan asset menu item"
+  },
+  "appEndDrawerDashboard": "Dashboard",
+  "@appEndDrawerDashboard": {
+    "description": "Dashboard menu item"
+  },
+  "appEndDrawerHome": "Home",
+  "@appEndDrawerHome": {
+    "description": "Home menu item"
+  },
+  "appEndDrawerProfile": "Profile",
+  "@appEndDrawerProfile": {
+    "description": "Profile menu item"
+  },
+  "customAppBarTitle": "My App",
+  "@customAppBarTitle": {
+    "description": "App bar title"
+  },
+  "customAppBarOpenMenu": "Open Menu",
+  "@customAppBarOpenMenu": {
+    "description": "Open menu button label"
+  },
+  "appDropdownSelectOption": "Select option",
+  "@appDropdownSelectOption": {
+    "description": "Dropdown select option placeholder"
+  },
+  "appSearchFieldHint": "Search...",
+  "@appSearchFieldHint": {
+    "description": "Search field hint text"
+  },
+  "appSearchFieldClear": "Clear",
+  "@appSearchFieldClear": {
+    "description": "Clear search button label"
+  },
+  "appSearchFieldNoResultsFound": "No results found",
+  "@appSearchFieldNoResultsFound": {
+    "description": "No results found message"
+  },
+  "staffShellBottomNavDashboard": "Dashboard",
+  "@staffShellBottomNavDashboard": {
+    "description": "Staff shell bottom navigation label for dashboard"
+  },
+  "staffShellBottomNavScanAsset": "Scan Asset",
+  "@staffShellBottomNavScanAsset": {
+    "description": "Staff shell bottom navigation label for scan asset"
+  },
+  "staffShellBottomNavProfile": "Profile",
+  "@staffShellBottomNavProfile": {
+    "description": "Staff shell bottom navigation label for profile"
+  },
+  "shellDoubleBackToExitApp": "Press back again to exit",
+  "@shellDoubleBackToExitApp": {
+    "description": "Message shown when user needs to press back again to exit app"
+  },
+  "sharedValidationErrors": "Validation Errors",
+  "@sharedValidationErrors": {
+    "description": "Title for validation errors widget"
+  },
+  "sharedMaxFilesAllowed": "Maximum {count} files allowed",
+  "@sharedMaxFilesAllowed": {
+    "description": "Error message for max files allowed",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "sharedFileTooLarge": "File {name} exceeds {size}MB limit",
+  "@sharedFileTooLarge": {
+    "description": "Error message for file size limit",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "image.jpg"
+      },
+      "size": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "sharedFailedToPickFiles": "Failed to pick files",
+  "@sharedFailedToPickFiles": {
+    "description": "Error message for file picking failure"
+  },
+  "sharedChooseFiles": "Choose file(s)",
+  "@sharedChooseFiles": {
+    "description": "Hint text for file picker"
+  },
+  "sharedUnableToPreviewImage": "Unable to preview image",
+  "@sharedUnableToPreviewImage": {
+    "description": "Error text for image preview failure"
+  },
+  "sharedVideoPreviewNotImplemented": "Video preview not implemented yet",
+  "@sharedVideoPreviewNotImplemented": {
+    "description": "Placeholder text for video preview"
+  },
+  "sharedPreviewNotAvailable": "Preview not available for this file type",
+  "@sharedPreviewNotAvailable": {
+    "description": "Error text for unsupported file preview"
+  },
+  "sharedDelete": "Delete",
+  "@sharedDelete": {
+    "description": "Delete button label"
+  },
+  "sharedEdit": "Edit",
+  "@sharedEdit": {
+    "description": "Edit button label"
+  },
+  "sharedOptions": "Options",
+  "@sharedOptions": {
+    "description": "Options title"
+  },
+  "sharedCreate": "Create",
+  "@sharedCreate": {
+    "description": "Create button label"
+  },
+  "sharedAddNewItem": "Add a new item",
+  "@sharedAddNewItem": {
+    "description": "Add new item subtitle"
+  },
+  "sharedSelectMany": "Select Many",
+  "@sharedSelectMany": {
+    "description": "Select many option title"
+  },
+  "sharedSelectItemsToDelete": "Select multiple items to delete",
+  "@sharedSelectItemsToDelete": {
+    "description": "Select items to delete subtitle"
+  },
+  "sharedFilterAndSort": "Filter & Sort",
+  "@sharedFilterAndSort": {
+    "description": "Filter and sort option title"
+  },
+  "sharedCustomizeDisplay": "Customize display",
+  "@sharedCustomizeDisplay": {
+    "description": "Customize display subtitle"
+  },
+  "sharedExport": "Export",
+  "@sharedExport": {
+    "description": "Export option title"
+  },
+  "sharedExportDataToFile": "Export data to file",
+  "@sharedExportDataToFile": {
+    "description": "Export data subtitle"
+  },
+  "sharedTimePlaceholder": "HH:MM",
+  "@sharedTimePlaceholder": {
+    "description": "Time placeholder"
+  },
+  "sharedRetry": "Retry",
+  "@sharedRetry": {
+    "description": "Retry button label"
+  }
+}

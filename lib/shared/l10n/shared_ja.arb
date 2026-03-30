@@ -1,0 +1,275 @@
+{
+  "@@locale": "ja",
+  "adminShellBottomNavDashboard": "ダッシュボード",
+  "@adminShellBottomNavDashboard": {
+    "description": "Admin shell bottom navigation label for dashboard"
+  },
+  "adminShellBottomNavScanAsset": "資産をスキャン",
+  "@adminShellBottomNavScanAsset": {
+    "description": "Admin shell bottom navigation label for scan asset"
+  },
+  "adminShellBottomNavProfile": "プロフィール",
+  "@adminShellBottomNavProfile": {
+    "description": "Admin shell bottom navigation label for profile"
+  },
+  "userShellBottomNavHome": "ホーム",
+  "@userShellBottomNavHome": {
+    "description": "User shell bottom navigation label for home"
+  },
+  "userShellBottomNavScanAsset": "資産をスキャン",
+  "@userShellBottomNavScanAsset": {
+    "description": "User shell bottom navigation label for scan asset"
+  },
+  "userShellBottomNavProfile": "プロフィール",
+  "@userShellBottomNavProfile": {
+    "description": "User shell bottom navigation label for profile"
+  },
+  "appEndDrawerTitle": "My App",
+  "@appEndDrawerTitle": {
+    "description": "App end drawer title"
+  },
+  "appEndDrawerPleaseLoginFirst": "まずログインしてください",
+  "@appEndDrawerPleaseLoginFirst": {
+    "description": "Message shown when user needs to login"
+  },
+  "appEndDrawerTheme": "テーマ",
+  "@appEndDrawerTheme": {
+    "description": "Theme settings label"
+  },
+  "appEndDrawerLanguage": "言語",
+  "@appEndDrawerLanguage": {
+    "description": "Language settings label"
+  },
+  "appEndDrawerLogout": "ログアウト",
+  "@appEndDrawerLogout": {
+    "description": "Logout button label"
+  },
+  "appEndDrawerManagementSection": "管理",
+  "@appEndDrawerManagementSection": {
+    "description": "Management section header"
+  },
+  "appEndDrawerMaintenanceSection": "メンテナンス",
+  "@appEndDrawerMaintenanceSection": {
+    "description": "Maintenance section header"
+  },
+  "appEndDrawerEnglish": "English",
+  "@appEndDrawerEnglish": {
+    "description": "English language option"
+  },
+  "appEndDrawerIndonesian": "Indonesia",
+  "@appEndDrawerIndonesian": {
+    "description": "Indonesian language option"
+  },
+  "appEndDrawerJapanese": "日本語",
+  "@appEndDrawerJapanese": {
+    "description": "Japanese language option"
+  },
+  "appEndDrawerMyAssets": "私の資産",
+  "@appEndDrawerMyAssets": {
+    "description": "My assets menu item"
+  },
+  "appEndDrawerNotifications": "通知",
+  "@appEndDrawerNotifications": {
+    "description": "Notifications menu item"
+  },
+  "appEndDrawerMyIssueReports": "私の問題報告",
+  "@appEndDrawerMyIssueReports": {
+    "description": "My issue reports menu item"
+  },
+  "appEndDrawerAssets": "資産",
+  "@appEndDrawerAssets": {
+    "description": "Assets menu item"
+  },
+  "appEndDrawerAssetMovements": "資産移動",
+  "@appEndDrawerAssetMovements": {
+    "description": "Asset movements menu item"
+  },
+  "appEndDrawerCategories": "カテゴリ",
+  "@appEndDrawerCategories": {
+    "description": "Categories menu item"
+  },
+  "appEndDrawerLocations": "場所",
+  "@appEndDrawerLocations": {
+    "description": "Locations menu item"
+  },
+  "appEndDrawerUsers": "ユーザー",
+  "@appEndDrawerUsers": {
+    "description": "Users menu item"
+  },
+  "appEndDrawerMaintenanceSchedules": "メンテナンススケジュール",
+  "@appEndDrawerMaintenanceSchedules": {
+    "description": "Maintenance schedules menu item"
+  },
+  "appEndDrawerMaintenanceRecords": "メンテナンス記録",
+  "@appEndDrawerMaintenanceRecords": {
+    "description": "Maintenance records menu item"
+  },
+  "appEndDrawerReports": "レポート",
+  "@appEndDrawerReports": {
+    "description": "Reports menu item"
+  },
+  "appEndDrawerIssueReports": "問題報告",
+  "@appEndDrawerIssueReports": {
+    "description": "Issue reports menu item"
+  },
+  "appEndDrawerScanLogs": "スキャンログ",
+  "@appEndDrawerScanLogs": {
+    "description": "Scan logs menu item"
+  },
+  "appEndDrawerScanAsset": "資産をスキャン",
+  "@appEndDrawerScanAsset": {
+    "description": "Scan asset menu item"
+  },
+  "appEndDrawerDashboard": "ダッシュボード",
+  "@appEndDrawerDashboard": {
+    "description": "Dashboard menu item"
+  },
+  "appEndDrawerHome": "ホーム",
+  "@appEndDrawerHome": {
+    "description": "Home menu item"
+  },
+  "appEndDrawerProfile": "プロフィール",
+  "@appEndDrawerProfile": {
+    "description": "Profile menu item"
+  },
+  "customAppBarTitle": "My App",
+  "@customAppBarTitle": {
+    "description": "App bar title"
+  },
+  "customAppBarOpenMenu": "メニューを開く",
+  "@customAppBarOpenMenu": {
+    "description": "Open menu button label"
+  },
+  "appDropdownSelectOption": "オプションを選択",
+  "@appDropdownSelectOption": {
+    "description": "Dropdown select option placeholder"
+  },
+  "appSearchFieldHint": "検索...",
+  "@appSearchFieldHint": {
+    "description": "Search field hint text"
+  },
+  "appSearchFieldClear": "クリア",
+  "@appSearchFieldClear": {
+    "description": "Clear search button label"
+  },
+  "appSearchFieldNoResultsFound": "結果が見つかりません",
+  "@appSearchFieldNoResultsFound": {
+    "description": "No results found message"
+  },
+  "staffShellBottomNavDashboard": "ダッシュボード",
+  "@staffShellBottomNavDashboard": {
+    "description": "Staff shell bottom navigation label for dashboard"
+  },
+  "staffShellBottomNavScanAsset": "資産をスキャン",
+  "@staffShellBottomNavScanAsset": {
+    "description": "Staff shell bottom navigation label for scan asset"
+  },
+  "staffShellBottomNavProfile": "プロフィール",
+  "@staffShellBottomNavProfile": {
+    "description": "Staff shell bottom navigation label for profile"
+  },
+  "shellDoubleBackToExitApp": "もう一度戻るボタンを押して終了",
+  "@shellDoubleBackToExitApp": {
+    "description": "Message shown when user needs to press back again to exit app"
+  },
+  "sharedValidationErrors": "検証エラー",
+  "@sharedValidationErrors": {
+    "description": "Title for validation errors widget"
+  },
+  "sharedMaxFilesAllowed": "最大{count}ファイルまで許可されています",
+  "@sharedMaxFilesAllowed": {
+    "description": "Error message for max files allowed",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "sharedFileTooLarge": "ファイル{name}は{size}MBの制限を超えています",
+  "@sharedFileTooLarge": {
+    "description": "Error message for file size limit",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "image.jpg"
+      },
+      "size": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "sharedFailedToPickFiles": "ファイルの選択に失敗しました",
+  "@sharedFailedToPickFiles": {
+    "description": "Error message for file picking failure"
+  },
+  "sharedChooseFiles": "ファイルを選択",
+  "@sharedChooseFiles": {
+    "description": "Hint text for file picker"
+  },
+  "sharedUnableToPreviewImage": "画像のプレビューを表示できません",
+  "@sharedUnableToPreviewImage": {
+    "description": "Error text for image preview failure"
+  },
+  "sharedVideoPreviewNotImplemented": "動画のプレビューはまだ実装されていません",
+  "@sharedVideoPreviewNotImplemented": {
+    "description": "Placeholder text for video preview"
+  },
+  "sharedPreviewNotAvailable": "このファイルタイプのプレビューは利用できません",
+  "@sharedPreviewNotAvailable": {
+    "description": "Error text for unsupported file preview"
+  },
+  "sharedDelete": "削除",
+  "@sharedDelete": {
+    "description": "Delete button label"
+  },
+  "sharedEdit": "編集",
+  "@sharedEdit": {
+    "description": "Edit button label"
+  },
+  "sharedOptions": "オプション",
+  "@sharedOptions": {
+    "description": "Options title"
+  },
+  "sharedCreate": "作成",
+  "@sharedCreate": {
+    "description": "Create button label"
+  },
+  "sharedAddNewItem": "新しいアイテムを追加",
+  "@sharedAddNewItem": {
+    "description": "Add new item subtitle"
+  },
+  "sharedSelectMany": "複数選択",
+  "@sharedSelectMany": {
+    "description": "Select many option title"
+  },
+  "sharedSelectItemsToDelete": "削除するアイテムを複数選択",
+  "@sharedSelectItemsToDelete": {
+    "description": "Select items to delete subtitle"
+  },
+  "sharedFilterAndSort": "フィルタと並べ替え",
+  "@sharedFilterAndSort": {
+    "description": "Filter and sort option title"
+  },
+  "sharedCustomizeDisplay": "表示をカスタマイズ",
+  "@sharedCustomizeDisplay": {
+    "description": "Customize display subtitle"
+  },
+  "sharedExport": "エクスポート",
+  "@sharedExport": {
+    "description": "Export option title"
+  },
+  "sharedExportDataToFile": "データをファイルにエクスポート",
+  "@sharedExportDataToFile": {
+    "description": "Export data subtitle"
+  },
+  "sharedTimePlaceholder": "HH:MM",
+  "@sharedTimePlaceholder": {
+    "description": "Time placeholder"
+  },
+  "sharedRetry": "再試行",
+  "@sharedRetry": {
+    "description": "Retry button label"
+  }
+}
