@@ -6,9 +6,13 @@ import 'package:markdown/markdown.dart' as md;
 import 'package:markdown_quill/markdown_quill.dart';
 
 class AppRichTextEditor extends FormBuilderField<String> {
+  final bool showToolbar;
+
   AppRichTextEditor({
     super.key,
     required super.name,
+    this.showToolbar = false,
+    super.focusNode,
     super.validator,
     super.onChanged,
     super.valueTransformer,
@@ -20,25 +24,27 @@ class AppRichTextEditor extends FormBuilderField<String> {
   }) : super(
          builder: (FormFieldState<String?> field) {
            final state = field as _AppRichTextEditorState;
+           final widget = state.widget;
 
            return Column(
              crossAxisAlignment: CrossAxisAlignment.stretch,
              children: [
-               QuillSimpleToolbar(
-                 controller: state._quillController,
-                 config: const QuillSimpleToolbarConfig(
-                   showFontFamily: false,
-                   showFontSize: false,
-                   showSubscript: false,
-                   showSuperscript: false,
-                   showInlineCode: false,
-                   showColorButton: false,
-                   showBackgroundColorButton: false,
-                   showClearFormat: false,
-                   showAlignmentButtons: false,
-                   showDirection: false,
+               if (widget.showToolbar)
+                 QuillSimpleToolbar(
+                   controller: state._quillController,
+                   config: const QuillSimpleToolbarConfig(
+                     showFontFamily: false,
+                     showFontSize: false,
+                     showSubscript: false,
+                     showSuperscript: false,
+                     showInlineCode: false,
+                     showColorButton: false,
+                     showBackgroundColorButton: false,
+                     showClearFormat: false,
+                     showAlignmentButtons: false,
+                     showDirection: false,
+                   ),
                  ),
-               ),
                Container(
                  height: 300, // or flexible
                  padding: const EdgeInsets.all(16),
@@ -52,6 +58,7 @@ class AppRichTextEditor extends FormBuilderField<String> {
                    borderRadius: BorderRadius.circular(8),
                  ),
                  child: QuillEditor.basic(
+                   focusNode: widget.focusNode,
                    controller: state._quillController,
                    config: QuillEditorConfig(
                      customStyles: DefaultStyles(
@@ -103,12 +110,24 @@ class _AppRichTextEditorState
     );
 
     final String initialMarkdown = widget.initialValue ?? '';
-    final delta = MarkdownToDelta(
-      markdownDocument: mdDocument,
-    ).convert(initialMarkdown);
+
+    Document document;
+    if (initialMarkdown.isEmpty) {
+      document = Document();
+    } else {
+      final delta = MarkdownToDelta(
+        markdownDocument: mdDocument,
+      ).convert(initialMarkdown);
+
+      if (delta.isEmpty) {
+        document = Document();
+      } else {
+        document = Document.fromDelta(delta);
+      }
+    }
 
     _quillController = QuillController(
-      document: Document.fromDelta(delta),
+      document: document,
       selection: const TextSelection.collapsed(offset: 0),
     );
 
