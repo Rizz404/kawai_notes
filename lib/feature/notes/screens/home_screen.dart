@@ -66,9 +66,58 @@ class HomeScreen extends ConsumerWidget {
       itemCount: notes.length,
       itemBuilder: (context, index) {
         final note = notes[index];
+        final isUntitled = note.title == 'Untitled';
         return ListTile(
-          title: Text(note.title),
-          subtitle: Text('Tags: ${note.tags.join(', ')}'),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (!isUntitled)
+                Text(
+                  note.title,
+                  style: context.textTheme.titleMedium,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              Consumer(
+                builder: (context, ref, _) {
+                  final previewAsync = ref.watch(
+                    notePreviewProvider(note.contentPath),
+                  );
+                  return previewAsync.when(
+                    data: (content) {
+                      if (content.trim().isEmpty && isUntitled) {
+                        return Text(
+                          'No content',
+                          style: context.textTheme.bodyMedium?.copyWith(
+                            fontStyle: FontStyle.italic,
+                          ),
+                        );
+                      }
+                      return Text(
+                        content.trim(),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: isUntitled
+                            ? context.textTheme.bodyMedium
+                            : context.textTheme.bodySmall,
+                      );
+                    },
+                    loading: () => const SizedBox.shrink(),
+                    error: (err, stack) => const SizedBox.shrink(),
+                  );
+                },
+              ),
+            ],
+          ),
+          subtitle: note.tags.isNotEmpty
+              ? Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Text(
+                    'Tags: ${note.tags.join(', ')}',
+                    style: context.textTheme.labelSmall,
+                  ),
+                )
+              : null,
           onTap: () {
             // we will pass the id to edit it
             context.push('/note-editor', extra: {'id': note.id});
@@ -89,6 +138,7 @@ class HomeScreen extends ConsumerWidget {
       itemCount: notes.length,
       itemBuilder: (context, index) {
         final note = notes[index];
+        final isUntitled = note.title == 'Untitled';
         return InkWell(
           onTap: () {
             context.push('/note-editor', extra: {'id': note.id});
@@ -102,19 +152,53 @@ class HomeScreen extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  note.title,
-                  style: context.textTheme.titleMedium,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+                if (!isUntitled) ...[
+                  Text(
+                    note.title,
+                    style: context.textTheme.titleMedium,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 8),
+                ],
+                Expanded(
+                  child: Consumer(
+                    builder: (context, ref, _) {
+                      final previewAsync = ref.watch(
+                        notePreviewProvider(note.contentPath),
+                      );
+                      return previewAsync.when(
+                        data: (content) {
+                          if (content.trim().isEmpty && isUntitled) {
+                            return Text(
+                              'No content',
+                              style: context.textTheme.bodyMedium?.copyWith(
+                                fontStyle: FontStyle.italic,
+                              ),
+                            );
+                          }
+                          return Text(
+                            content.trim(),
+                            style: context.textTheme.bodyMedium,
+                            maxLines: isUntitled ? 8 : 4,
+                            overflow: TextOverflow.ellipsis,
+                          );
+                        },
+                        loading: () => const SizedBox.shrink(),
+                        error: (err, stack) => const SizedBox.shrink(),
+                      );
+                    },
+                  ),
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  'Tags: ${note.tags.join(', ')}',
-                  style: context.textTheme.bodySmall,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                if (note.tags.isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  Text(
+                    'Tags: ${note.tags.join(', ')}',
+                    style: context.textTheme.labelSmall,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
               ],
             ),
           ),
