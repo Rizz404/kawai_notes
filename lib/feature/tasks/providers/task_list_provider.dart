@@ -29,7 +29,9 @@ class TaskListState extends Equatable {
     return TaskListState(
       items: items ?? this.items,
       isMutating: isMutating ?? this.isMutating,
-      mutationError: mutationError != null ? mutationError() : this.mutationError,
+      mutationError: mutationError != null
+          ? mutationError()
+          : this.mutationError,
     );
   }
 
@@ -37,9 +39,10 @@ class TaskListState extends Equatable {
   List<Object?> get props => [items, isMutating, mutationError];
 }
 
-final taskListNotifierProvider = AsyncNotifierProvider<TaskListNotifier, TaskListState>(
-  TaskListNotifier.new,
-);
+final taskListNotifierProvider =
+    AsyncNotifierProvider<TaskListNotifier, TaskListState>(
+      TaskListNotifier.new,
+    );
 
 class TaskListNotifier extends AsyncNotifier<TaskListState> {
   late TaskRepository _taskRepository;
@@ -80,7 +83,7 @@ class TaskListNotifier extends AsyncNotifier<TaskListState> {
         );
         state = AsyncData(await _fetch());
       }
-    } catch (e, st) {
+    } catch (e) {
       state = AsyncData(current.copyWith(mutationError: () => e));
     }
   }
@@ -93,12 +96,9 @@ class TaskListNotifier extends AsyncNotifier<TaskListState> {
     try {
       _taskRepository.deleteTask(id);
       state = AsyncData(await _fetch());
-    } catch (e, st) {
+    } catch (e) {
       state = AsyncData(
-        current.copyWith(
-          isMutating: false,
-          mutationError: () => e,
-        ),
+        current.copyWith(isMutating: false, mutationError: () => e),
       );
     }
   }

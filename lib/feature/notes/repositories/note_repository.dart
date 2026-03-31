@@ -1,4 +1,5 @@
 import 'package:flutter_setup_riverpod/core/extensions/markdown_parser_extension.dart';
+import 'package:flutter_setup_riverpod/core/services/encryption_service.dart';
 import 'package:flutter_setup_riverpod/core/services/note_file_service.dart';
 import 'package:flutter_setup_riverpod/core/services/objectbox_service.dart';
 import 'package:flutter_setup_riverpod/feature/notes/models/note.dart';
@@ -8,8 +9,13 @@ import 'package:ulid/ulid.dart';
 class NoteRepository {
   final ObjectBoxService _objectBoxService;
   final NoteFileService _noteFileService;
+  final EncryptionService _encryptionService;
 
-  NoteRepository(this._objectBoxService, this._noteFileService);
+  NoteRepository(
+    this._objectBoxService,
+    this._noteFileService,
+    this._encryptionService,
+  );
 
   Future<Note> saveNote({
     int id = 0,
@@ -17,17 +23,24 @@ class NoteRepository {
     required String title,
     required String content,
     int? folderId,
+    bool isHidden = false,
   }) async {
     final noteUlid = ulid ?? Ulid().toString();
     final slug = slugify(title);
     final fileName = '$slug-$noteUlid.md';
 
-    // Parse markdown for tags & links
+    // Parse markdown for tags & links from raw content BEFORE encryption
     final tags = content.extractTags();
     final links = content.extractLinks();
 
+    // Encrypt if hidden
+    String fileContent = content;
+    if (isHidden) {
+      fileContent = await _encryptionService.encrypt(content);
+    }
+
     // Save actual file
-    await _noteFileService.saveNoteFile(fileName, content);
+    await _noteFileService.saveNoteFile(fileName, fileContent);
 
     // Save to ObjectBox
     final note = Note(
@@ -37,7 +50,7 @@ class NoteRepository {
       contentPath: fileName,
       tags: tags,
       links: links,
-      updatedAt: DateTime.now(),
+      isHidden: isHidden,
     );
 
     if (folderId != null) {
@@ -50,8 +63,19 @@ class NoteRepository {
     return note;
   }
 
-  Future<String> readNoteContent(String contentPath) async {
-    return _noteFileService.readNoteFile(contentPath);
+  Future<String> readNoteContent(
+    String contentPath, {
+    bool isHidden = false,
+  }) async {
+    final content = await _noteFileService.readNoteFile(contentPath);
+    if (isHidden && content.isNotEmpty) {
+      try {
+        return await _encryptionService.decrypt(content);
+      } catch (e) {
+        return 'Error decrypting content: $e';
+      }
+    }
+    return content;
   }
 
   List<Note> getAllNotes() {

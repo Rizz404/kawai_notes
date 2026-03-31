@@ -6,16 +6,8 @@ class FolderRepository {
 
   FolderRepository(this._objectBoxService);
 
-  Folder saveFolder({
-    int id = 0,
-    required String name,
-    int? parentId,
-  }) {
-    final folder = Folder(
-      id: id,
-      name: name,
-      parentId: parentId,
-    );
+  Folder saveFolder({int id = 0, required String name, int? parentId}) {
+    final folder = Folder(id: id, name: name, parentId: parentId);
 
     _objectBoxService.store.box<Folder>().put(folder);
     return folder;

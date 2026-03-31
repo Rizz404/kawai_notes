@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:6860182552042913652",
-      "lastPropertyId": "9:3377055333441613179",
+      "lastPropertyId": "10:3549072516732690778",
       "name": "Note",
       "properties": [
         {
@@ -58,6 +58,11 @@
           "type": 11,
           "flags": 520,
           "relationTarget": "Folder"
+        },
+        {
+          "id": "10:3549072516732690778",
+          "name": "isHidden",
+          "type": 1
         }
       ],
       "relations": []

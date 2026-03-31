@@ -63,7 +63,10 @@ class NoteDetailNotifier extends AsyncNotifier<NoteDetailState> {
     final note = _noteRepository.getNote(_id);
     if (note == null) throw Exception('Note not found');
 
-    final content = await _noteRepository.readNoteContent(note.contentPath);
+    final content = await _noteRepository.readNoteContent(
+      note.contentPath,
+      isHidden: note.isHidden,
+    );
 
     return NoteDetailState(note: note, content: content);
   }
@@ -72,9 +75,12 @@ class NoteDetailNotifier extends AsyncNotifier<NoteDetailState> {
     required String title,
     required String content,
     int? folderId,
+    bool? isHidden,
   }) async {
     final current = state.value;
     if (current == null) return;
+
+    final hiddenStatus = isHidden ?? current.note?.isHidden ?? false;
 
     state = AsyncData(
       current.copyWith(isMutating: true, mutationError: () => null),
@@ -87,6 +93,7 @@ class NoteDetailNotifier extends AsyncNotifier<NoteDetailState> {
         title: title,
         content: content,
         folderId: folderId,
+        isHidden: hiddenStatus,
       );
 
       ref.invalidate(noteListNotifierProvider);

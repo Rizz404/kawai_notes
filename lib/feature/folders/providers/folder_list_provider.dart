@@ -27,7 +27,9 @@ class FolderListState extends Equatable {
     return FolderListState(
       items: items ?? this.items,
       isMutating: isMutating ?? this.isMutating,
-      mutationError: mutationError != null ? mutationError() : this.mutationError,
+      mutationError: mutationError != null
+          ? mutationError()
+          : this.mutationError,
     );
   }
 
@@ -35,9 +37,10 @@ class FolderListState extends Equatable {
   List<Object?> get props => [items, isMutating, mutationError];
 }
 
-final folderListNotifierProvider = AsyncNotifierProvider<FolderListNotifier, FolderListState>(
-  FolderListNotifier.new,
-);
+final folderListNotifierProvider =
+    AsyncNotifierProvider<FolderListNotifier, FolderListState>(
+      FolderListNotifier.new,
+    );
 
 class FolderListNotifier extends AsyncNotifier<FolderListState> {
   late FolderRepository _folderRepository;
@@ -65,18 +68,12 @@ class FolderListNotifier extends AsyncNotifier<FolderListState> {
 
     state = AsyncData(current.copyWith(isMutating: true));
     try {
-      _folderRepository.saveFolder(
-        name: name,
-        parentId: parentId,
-      );
+      _folderRepository.saveFolder(name: name, parentId: parentId);
       state = AsyncData(await _fetch());
       return true;
-    } catch (e, st) {
+    } catch (e) {
       state = AsyncData(
-        current.copyWith(
-          isMutating: false,
-          mutationError: () => e,
-        ),
+        current.copyWith(isMutating: false, mutationError: () => e),
       );
       return false;
     }
@@ -90,12 +87,9 @@ class FolderListNotifier extends AsyncNotifier<FolderListState> {
     try {
       _folderRepository.deleteFolder(id);
       state = AsyncData(await _fetch());
-    } catch (e, st) {
+    } catch (e) {
       state = AsyncData(
-        current.copyWith(
-          isMutating: false,
-          mutationError: () => e,
-        ),
+        current.copyWith(isMutating: false, mutationError: () => e),
       );
     }
   }

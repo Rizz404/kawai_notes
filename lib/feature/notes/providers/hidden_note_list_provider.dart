@@ -1,52 +1,17 @@
 import 'dart:async';
 
-import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_setup_riverpod/di/repository_providers.dart';
 import 'package:flutter_setup_riverpod/feature/notes/models/note.dart';
+import 'package:flutter_setup_riverpod/feature/notes/providers/note_list_provider.dart';
 import 'package:flutter_setup_riverpod/feature/notes/repositories/note_repository.dart';
 
-class NoteListState extends Equatable {
-  final List<Note> items;
-  final String query;
-  final bool isMutating;
-  final Object? mutationError;
-
-  const NoteListState({
-    this.items = const [],
-    this.query = '',
-    this.isMutating = false,
-    this.mutationError,
-  });
-
-  bool get isEmpty => items.isEmpty;
-
-  NoteListState copyWith({
-    List<Note>? items,
-    String? query,
-    bool? isMutating,
-    Object? Function()? mutationError,
-  }) {
-    return NoteListState(
-      items: items ?? this.items,
-      query: query ?? this.query,
-      isMutating: isMutating ?? this.isMutating,
-      mutationError: mutationError != null
-          ? mutationError()
-          : this.mutationError,
-    );
-  }
-
-  @override
-  List<Object?> get props => [items, query, isMutating, mutationError];
-}
-
-final noteListNotifierProvider =
-    AsyncNotifierProvider<NoteListNotifier, NoteListState>(
-      NoteListNotifier.new,
+final hiddenNoteListNotifierProvider =
+    AsyncNotifierProvider<HiddenNoteListNotifier, NoteListState>(
+      HiddenNoteListNotifier.new,
     );
 
-class NoteListNotifier extends AsyncNotifier<NoteListState> {
+class HiddenNoteListNotifier extends AsyncNotifier<NoteListState> {
   late NoteRepository _noteRepository;
 
   @override
@@ -58,7 +23,7 @@ class NoteListNotifier extends AsyncNotifier<NoteListState> {
   Future<NoteListState> _fetch({required String query}) async {
     final allNotes = _noteRepository
         .getAllNotes()
-        .where((n) => !n.isHidden)
+        .where((n) => n.isHidden)
         .toList();
 
     List<Note> filtered = allNotes;
@@ -78,25 +43,7 @@ class NoteListNotifier extends AsyncNotifier<NoteListState> {
     state = AsyncData(await _fetch(query: query));
   }
 
-  Future<void> deleteNote(int id) async {
-    final current = state.value;
-    if (current == null) return;
-
-    state = AsyncData(
-      current.copyWith(isMutating: true, mutationError: () => null),
-    );
-
-    try {
-      await _noteRepository.deleteNote(id);
-      ref.invalidateSelf();
-    } catch (e) {
-      state = AsyncData(
-        current.copyWith(isMutating: false, mutationError: () => e),
-      );
-    }
-  }
-
-  Future<void> hideNotes(List<int> ids) async {
+  Future<void> unhideNotes(List<int> ids) async {
     for (final id in ids) {
       final note = _noteRepository.getNote(id);
       if (note != null) {
@@ -110,10 +57,11 @@ class NoteListNotifier extends AsyncNotifier<NoteListState> {
           title: note.title,
           content: content,
           folderId: note.folder.targetId,
-          isHidden: true,
+          isHidden: false,
         );
       }
     }
+    ref.invalidate(noteListNotifierProvider);
     ref.invalidateSelf();
   }
 

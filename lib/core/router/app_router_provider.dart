@@ -6,10 +6,13 @@ import 'package:flutter_setup_riverpod/core/router/app_router_delegate.dart';
 import 'package:flutter_setup_riverpod/core/router/app_transitions.dart';
 import 'package:flutter_setup_riverpod/core/router/router_observer.dart';
 import 'package:flutter_setup_riverpod/core/router/router_refresh_listenable.dart';
+import 'package:flutter_setup_riverpod/feature/notes/screens/graph_view_screen.dart';
+import 'package:flutter_setup_riverpod/feature/notes/screens/hidden_notes_screen.dart';
 import 'package:flutter_setup_riverpod/feature/notes/screens/home_screen.dart';
 import 'package:flutter_setup_riverpod/feature/notes/screens/note_editor_screen.dart';
-import 'package:flutter_setup_riverpod/feature/tasks/screens/tasks_screen.dart';
+import 'package:flutter_setup_riverpod/feature/settings/screens/other_screen.dart';
 import 'package:flutter_setup_riverpod/feature/tasks/screens/task_editor_screen.dart';
+import 'package:flutter_setup_riverpod/feature/tasks/screens/tasks_screen.dart';
 
 // Example route dummy. User should replace this.
 final routerRoutesProvider = Provider<List<AppRoute>>((ref) {
@@ -40,6 +43,20 @@ final routerRoutesProvider = Provider<List<AppRoute>>((ref) {
       transitionDuration: const Duration(milliseconds: 300),
     ),
     AppRoute(
+      path: '/graph-view',
+      name: 'graph_view',
+      builder: (context, state) => const GraphViewScreen(),
+      transitionsBuilder: AppTransitions.fadeScale,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+    AppRoute(
+      path: '/hidden-notes',
+      name: 'hidden_notes',
+      builder: (context, state) => const HiddenNotesScreen(),
+      transitionsBuilder: AppTransitions.slideFromRight,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+    AppRoute(
       path: '/note-editor',
       name: 'note_editor',
       builder: (context, state) {
@@ -51,6 +68,13 @@ final routerRoutesProvider = Provider<List<AppRoute>>((ref) {
       },
       // Menerapkan custom transition slideFromRight
       transitionsBuilder: AppTransitions.slideFromRight,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+    AppRoute(
+      path: '/other',
+      name: 'other',
+      builder: (context, state) => const OtherScreen(),
+      transitionsBuilder: AppTransitions.fadeScale,
       transitionDuration: const Duration(milliseconds: 300),
     ),
   ];

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_setup_riverpod/core/extensions/navigator_extension.dart';
-import 'package:flutter_setup_riverpod/feature/notes/providers/note_providers.dart';
 import 'package:flutter_setup_riverpod/feature/folders/providers/folder_list_provider.dart';
+import 'package:flutter_setup_riverpod/feature/notes/providers/note_providers.dart';
+import 'package:flutter_setup_riverpod/shared/widgets/app_checkbox.dart';
 import 'package:flutter_setup_riverpod/shared/widgets/app_dropdown.dart';
 import 'package:flutter_setup_riverpod/shared/widgets/app_rich_text_editor.dart';
 import 'package:flutter_setup_riverpod/shared/widgets/app_text_field.dart';
@@ -58,6 +59,7 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
     final title = rawTitle.isEmpty ? 'Untitled' : rawTitle;
     final content = values['content']?.toString() ?? '';
     final folderId = values['folderId'] as int?;
+    final isHidden = values['isHidden'] as bool? ?? false;
 
     // if new note and completely empty, skip saving
     if (widget.noteId == null && rawTitle.isEmpty && content.isEmpty) return;
@@ -66,7 +68,12 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
       if (mounted) {
         ref
             .read(noteDetailNotifierProvider(widget.noteId).notifier)
-            .saveNote(title: title, content: content, folderId: folderId);
+            .saveNote(
+              title: title,
+              content: content,
+              folderId: folderId,
+              isHidden: isHidden,
+            );
       }
     });
   }
@@ -155,10 +162,27 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
                                 ),
                               );
 
-                              return AppDropdown<int>(
-                                name: 'folderId',
-                                initialValue: state.note?.folder.targetId ?? 0,
-                                items: items,
+                              return Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: AppDropdown<int>(
+                                      name: 'folderId',
+                                      initialValue:
+                                          state.note?.folder.targetId ?? 0,
+                                      items: items,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 16),
+                                  Expanded(
+                                    child: AppCheckbox(
+                                      name: 'isHidden',
+                                      title: const Text('Hidden'),
+                                      initialValue:
+                                          state.note?.isHidden ?? false,
+                                    ),
+                                  ),
+                                ],
                               );
                             },
                             orElse: () => const SizedBox.shrink(),

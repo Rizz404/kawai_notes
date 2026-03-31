@@ -24,7 +24,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(1, 6860182552042913652),
     name: 'Note',
-    lastPropertyId: const obx_int.IdUid(9, 3377055333441613179),
+    lastPropertyId: const obx_int.IdUid(10, 3549072516732690778),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -84,6 +84,12 @@ final _entities = <obx_int.ModelEntity>[
         indexId: const obx_int.IdUid(2, 65864467470878022),
         relationField: 'folder',
         relationTarget: 'Folder',
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(10, 3549072516732690778),
+        name: 'isHidden',
+        type: 1,
+        flags: 0,
       ),
     ],
     relations: <obx_int.ModelRelation>[],
@@ -253,7 +259,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final linksOffset = fbb.writeList(
           object.links.map(fbb.writeString).toList(growable: false),
         );
-        fbb.startTable(10);
+        fbb.startTable(11);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, ulidOffset);
         fbb.addOffset(2, titleOffset);
@@ -263,6 +269,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addInt64(6, object.createdAt.millisecondsSinceEpoch);
         fbb.addInt64(7, object.updatedAt.millisecondsSinceEpoch);
         fbb.addInt64(8, object.folder.targetId);
+        fbb.addBool(9, object.isHidden);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -292,6 +299,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fb.StringReader(asciiOptimization: true),
           lazy: false,
         ).vTableGet(buffer, rootOffset, 14, []);
+        final isHiddenParam = const fb.BoolReader().vTableGet(
+          buffer,
+          rootOffset,
+          22,
+          false,
+        );
         final createdAtParam = DateTime.fromMillisecondsSinceEpoch(
           const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0),
         );
@@ -305,6 +318,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           contentPath: contentPathParam,
           tags: tagsParam,
           links: linksParam,
+          isHidden: isHiddenParam,
           createdAt: createdAtParam,
           updatedAt: updatedAtParam,
         );
@@ -482,6 +496,11 @@ class Note_ {
   /// See [Note.folder].
   static final folder = obx.QueryRelationToOne<Note, Folder>(
     _entities[0].properties[8],
+  );
+
+  /// See [Note.isHidden].
+  static final isHidden = obx.QueryBooleanProperty<Note>(
+    _entities[0].properties[9],
   );
 }
 

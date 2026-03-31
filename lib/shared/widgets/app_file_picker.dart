@@ -101,7 +101,9 @@ class AppFilePicker extends StatelessWidget {
             final result = await FilePicker.platform.pickFiles(
               type: fileType,
               allowMultiple: allowMultiple,
-              allowedExtensions: fileType == FileType.custom ? allowedExtensions : null,
+              allowedExtensions: fileType == FileType.custom
+                  ? allowedExtensions
+                  : null,
             );
 
             if (result != null) {
@@ -115,7 +117,9 @@ class AppFilePicker extends StatelessWidget {
               if (maxSizeInMB != null) {
                 for (final file in result.files) {
                   if (file.size > (maxSizeInMB! * 1024 * 1024)) {
-                    AppToast.warning(context.l10n.sharedFileTooLarge(file.name, maxSizeInMB!));
+                    AppToast.warning(
+                      context.l10n.sharedFileTooLarge(file.name, maxSizeInMB!),
+                    );
                     return;
                   }
                 }
@@ -177,7 +181,9 @@ class AppFilePicker extends StatelessWidget {
                   color: context.colors.surface,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: field.hasError ? context.semantic.error : context.colors.border,
+                    color: field.hasError
+                        ? context.semantic.error
+                        : context.colors.border,
                   ),
                 ),
                 child: Row(
@@ -210,7 +216,9 @@ class AppFilePicker extends StatelessWidget {
                 return _FileItem(
                   file: file,
                   onRemove: () => removeFile(index),
-                  onPreview: _isPreviewable(file) ? () => _previewFile(context, file) : null,
+                  onPreview: _isPreviewable(file)
+                      ? () => _previewFile(context, file)
+                      : null,
                 );
               }),
             ],

@@ -2,22 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_setup_riverpod/core/extensions/navigator_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/theme_extension.dart';
-import 'package:flutter_setup_riverpod/di/service_providers.dart';
 import 'package:flutter_setup_riverpod/feature/folders/widgets/folder_drawer.dart';
 import 'package:flutter_setup_riverpod/feature/notes/models/note.dart';
+import 'package:flutter_setup_riverpod/feature/notes/providers/hidden_note_list_provider.dart';
 import 'package:flutter_setup_riverpod/feature/notes/providers/note_providers.dart';
 import 'package:flutter_setup_riverpod/shared/widgets/app_search_field.dart';
-import 'package:flutter_setup_riverpod/shared/widgets/app_shell.dart';
 import 'package:flutter_setup_riverpod/shared/widgets/screen_wrapper.dart';
 
-class HomeScreen extends ConsumerStatefulWidget {
-  const HomeScreen({super.key});
+class HiddenNotesScreen extends ConsumerStatefulWidget {
+  const HiddenNotesScreen({super.key});
 
   @override
-  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HiddenNotesScreen> createState() => _HiddenNotesScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen> {
+class _HiddenNotesScreenState extends ConsumerState<HiddenNotesScreen> {
   final Set<int> _selectedIds = {};
 
   bool get _isSelectionMode => _selectedIds.isNotEmpty;
@@ -36,33 +35,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     setState(_selectedIds.clear);
   }
 
-  Future<void> _handleRefresh() async {
-    final auth = ref.read(authServiceProvider);
-    final isAuth = await auth.authenticate(
-      reason: 'Verify identity to view hidden notes',
-    );
-    if (isAuth && mounted) {
-      context.push('/hidden-notes');
-    }
-  }
-
-  void _onBatchHide() {
+  void _onBatchUnhide() {
     ref
-        .read(noteListNotifierProvider.notifier)
-        .hideNotes(_selectedIds.toList());
+        .read(hiddenNoteListNotifierProvider.notifier)
+        .unhideNotes(_selectedIds.toList());
     _clearSelection();
   }
 
   void _onBatchDelete() {
     ref
-        .read(noteListNotifierProvider.notifier)
+        .read(hiddenNoteListNotifierProvider.notifier)
         .deleteNotes(_selectedIds.toList());
     _clearSelection();
   }
 
   @override
   Widget build(BuildContext context) {
-    final listStateAsync = ref.watch(noteListNotifierProvider);
+    final listStateAsync = ref.watch(hiddenNoteListNotifierProvider);
     final isGridView = ref.watch(isGridViewProvider);
 
     return Scaffold(
@@ -75,8 +64,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               title: Text('${_selectedIds.length} selected'),
               actions: [
                 IconButton(
-                  icon: const Icon(Icons.visibility_off),
-                  onPressed: _onBatchHide,
+                  icon: const Icon(Icons.visibility),
+                  onPressed: _onBatchUnhide,
                 ),
                 IconButton(
                   icon: const Icon(Icons.delete),
@@ -85,12 +74,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ],
             )
           : AppBar(
-              title: const Text('My Notes'),
+              title: const Text('Hidden Notes'),
               actions: [
-                IconButton(
-                  icon: const Icon(Icons.hub_outlined),
-                  onPressed: () => context.push('/graph-view'),
-                ),
                 Builder(
                   builder: (context) => IconButton(
                     icon: const Icon(Icons.folder_outlined),
@@ -113,52 +98,36 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               backgroundColor: context.colorScheme.primary,
               child: Icon(Icons.add, color: context.colorScheme.onPrimary),
             ),
-      bottomNavigationBar: _isSelectionMode
-          ? null
-          : AppBottomNav(
-              currentIndex: 0,
-              onTap: (index) {
-                if (index == 1) {
-                  context.replace('/tasks');
-                } else if (index == 2) {
-                  context.replace('/other');
-                }
+      body: ScreenWrapper(
+        child: Column(
+          children: [
+            AppSearchField<dynamic>(
+              name: 'search',
+              hintText: 'Search hidden notes...',
+              onChanged: (value) {
+                ref.read(hiddenNoteListNotifierProvider.notifier).search(value);
               },
             ),
-      body: RefreshIndicator(
-        onRefresh: _handleRefresh,
-        child: ScreenWrapper(
-          child: Column(
-            children: [
-              AppSearchField<dynamic>(
-                name: 'search',
-                hintText: 'Search notes...',
-                onChanged: (value) {
-                  ref.read(noteListNotifierProvider.notifier).search(value);
+            const SizedBox(height: 16),
+            Expanded(
+              child: listStateAsync.when(
+                data: (state) {
+                  final notes = state.items;
+                  if (notes.isEmpty) {
+                    return ListView(
+                      children: const [
+                        SizedBox(height: 100),
+                        Center(child: Text('No notes found.')),
+                      ],
+                    );
+                  }
+                  return isGridView ? _buildGrid(notes) : _buildList(notes);
                 },
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (error, stack) => Center(child: Text('Error: $error')),
               ),
-              const SizedBox(height: 16),
-              Expanded(
-                child: listStateAsync.when(
-                  data: (state) {
-                    final notes = state.items;
-                    if (notes.isEmpty) {
-                      return ListView(
-                        children: const [
-                          SizedBox(height: 100),
-                          Center(child: Text('No notes found.')),
-                        ],
-                      );
-                    }
-                    return isGridView ? _buildGrid(notes) : _buildList(notes);
-                  },
-                  loading: () =>
-                      const Center(child: CircularProgressIndicator()),
-                  error: (error, stack) => Center(child: Text('Error: $error')),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

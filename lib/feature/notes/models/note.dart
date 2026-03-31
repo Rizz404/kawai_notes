@@ -1,5 +1,5 @@
+import 'package:flutter_setup_riverpod/feature/folders/models/folder.dart';
 import 'package:objectbox/objectbox.dart';
-import '../../folders/models/folder.dart';
 
 @Entity()
 class Note {
@@ -13,6 +13,8 @@ class Note {
   String contentPath;
   List<String> tags;
   List<String> links;
+
+  bool isHidden;
 
   final folder = ToOne<Folder>();
 
@@ -29,6 +31,7 @@ class Note {
     required this.contentPath,
     this.tags = const [],
     this.links = const [],
+    this.isHidden = false,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) : createdAt = createdAt ?? DateTime.now(),

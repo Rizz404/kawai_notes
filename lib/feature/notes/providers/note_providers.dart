@@ -17,18 +17,23 @@ final isGridViewProvider = NotifierProvider<IsGridViewNotifier, bool>(
 );
 
 class NotePreviewNotifier extends AsyncNotifier<String> {
-  final String _contentPath;
-  NotePreviewNotifier(this._contentPath);
+  final int _noteId;
+  NotePreviewNotifier(this._noteId);
 
   @override
   FutureOr<String> build() async {
     final repo = ref.read(noteRepositoryProvider);
-    final content = await repo.readNoteContent(_contentPath);
+    final note = repo.getNote(_noteId);
+    if (note == null) return '';
+    final content = await repo.readNoteContent(
+      note.contentPath,
+      isHidden: note.isHidden,
+    );
     return content.toPlainText();
   }
 }
 
 final notePreviewProvider =
-    AsyncNotifierProvider.family<NotePreviewNotifier, String, String>(
+    AsyncNotifierProvider.family<NotePreviewNotifier, String, int>(
       NotePreviewNotifier.new,
     );

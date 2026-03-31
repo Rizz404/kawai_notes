@@ -1,89 +1,26 @@
-// * Uncomment kalo dibutuhin
-// import 'dart:convert';
+import 'package:local_auth/local_auth.dart';
 
-// import 'package:flutter_setup_riverpod/core/constants/storage_key_constant.dart';
-// import 'package:flutter_setup_riverpod/core/extensions/logger_extension.dart';
-// import 'package:flutter_setup_riverpod/feature/user/models/user.dart';
-// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
+class AuthService {
+  final LocalAuthentication _auth = LocalAuthentication();
 
-// abstract class AuthService {
-//   Future<String?> getAccessToken();
-//   Future<void> saveAccessToken(String token);
-//   Future<void> deleteAccessToken();
+  Future<bool> authenticate({
+    String reason = 'Please authenticate to access hidden notes',
+  }) async {
+    try {
+      final isAvailable =
+          await _auth.canCheckBiometrics || await _auth.isDeviceSupported();
+      if (!isAvailable) {
+        // If device has no secure hardware, we can fallback, but for now we just return true.
+        // It's the user's responsibility to set a pass/biometric if they want safety.
+        return true;
+      }
 
-//   Future<User?> getUser();
-//   Future<void> saveUser(User user);
-//   Future<void> deleteUser();
+      final didAuthenticate = await _auth.authenticate(localizedReason: reason);
 
-//   Future<void> clearAuth();
-// }
-
-// class AuthServiceImpl implements AuthService {
-//   final FlutterSecureStorage _flutterSecureStorage;
-//   final SharedPreferencesWithCache _sharedPreferencesWithCache;
-
-//   AuthServiceImpl(this._flutterSecureStorage, this._sharedPreferencesWithCache);
-
-//   @override
-//   Future<String?> getAccessToken() async {
-//     final token = await _flutterSecureStorage.read(
-//       key: StorageKeyConstant.accessTokenKey,
-//     );
-//     logData('GET accessToken: ${token != null ? 'Token exists' : 'No token'}');
-//     return token;
-//   }
-
-//   @override
-//   Future<void> saveAccessToken(String token) async {
-//     await _flutterSecureStorage.write(
-//       key: StorageKeyConstant.accessTokenKey,
-//       value: token,
-//     );
-//     logData('SAVE accessToken: Token saved successfully');
-//   }
-
-//   @override
-//   Future<void> deleteAccessToken() async {
-//     await _flutterSecureStorage.delete(key: StorageKeyConstant.accessTokenKey);
-//     logData('DELETE accessToken');
-//   }
-
-//   @override
-//   Future<User?> getUser() async {
-//     final userJson = _sharedPreferencesWithCache.getString(
-//       StorageKeyConstant.userKey,
-//     );
-
-//     if (userJson != null) {
-//       final userModelJson = User.fromJson(jsonDecode(userJson) as String);
-//       logData('GET user: User found: ${userModelJson.name}');
-//       return userModelJson;
-//     }
-
-//     logData('GET user: No user found');
-//     return null;
-//   }
-
-//   @override
-//   Future<void> saveUser(User userModel) async {
-//     await _sharedPreferencesWithCache.setString(
-//       StorageKeyConstant.userKey,
-//       jsonEncode(userModel.toJson()),
-//     );
-//     logData('SAVE user: User saved: ${userModel.name}');
-//   }
-
-//   @override
-//   Future<void> deleteUser() async {
-//     await _sharedPreferencesWithCache.remove(StorageKeyConstant.userKey);
-//     logData('DELETE user');
-//   }
-
-//   @override
-//   Future<void> clearAuth() async {
-//     await deleteAccessToken();
-//     await deleteUser();
-//     logData('CLEAR auth: All auth data cleared');
-//   }
-// }
+      return didAuthenticate;
+    } catch (e) {
+      // In case of error (like API lacking), return false
+      return false;
+    }
+  }
+}

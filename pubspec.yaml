@@ -85,6 +85,7 @@ dependencies:
   dart_quill_delta: ^10.8.3
   markdown_quill: ^4.3.0
   markdown: ^7.3.1
+  cryptography: ^2.9.0
 
 dev_dependencies:
   flutter_test:

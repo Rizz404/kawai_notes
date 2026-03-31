@@ -59,8 +59,10 @@ class FolderDrawer extends ConsumerWidget {
                       leading: const Icon(Icons.folder_outlined),
                       title: AppText(folder.name),
                       trailing: IconButton(
-                        icon: Icon(Icons.delete_outline,
-                            color: context.colorScheme.error),
+                        icon: Icon(
+                          Icons.delete_outline,
+                          color: context.colorScheme.error,
+                        ),
                         onPressed: () {
                           ref
                               .read(folderListNotifierProvider.notifier)
@@ -113,7 +115,9 @@ class FolderDrawer extends ConsumerWidget {
               onPressed: () {
                 final name = controller.text.trim();
                 if (name.isNotEmpty) {
-                  ref.read(folderListNotifierProvider.notifier).createFolder(name);
+                  ref
+                      .read(folderListNotifierProvider.notifier)
+                      .createFolder(name);
                 }
                 Navigator.pop(context);
               },

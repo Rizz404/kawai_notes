@@ -26,7 +26,9 @@ class TaskDetailState extends Equatable {
     return TaskDetailState(
       data: data ?? this.data,
       isMutating: isMutating ?? this.isMutating,
-      mutationError: mutationError != null ? mutationError() : this.mutationError,
+      mutationError: mutationError != null
+          ? mutationError()
+          : this.mutationError,
     );
   }
 
@@ -36,8 +38,8 @@ class TaskDetailState extends Equatable {
 
 final taskDetailNotifierProvider =
     AsyncNotifierProvider.family<TaskDetailNotifier, TaskDetailState, int?>(
-  TaskDetailNotifier.new,
-);
+      TaskDetailNotifier.new,
+    );
 
 class TaskDetailNotifier extends AsyncNotifier<TaskDetailState> {
   final int? _id;
@@ -56,10 +58,7 @@ class TaskDetailNotifier extends AsyncNotifier<TaskDetailState> {
     return TaskDetailState(data: task);
   }
 
-  Future<bool> saveTask({
-    required String title,
-    DateTime? dueDate,
-  }) async {
+  Future<bool> saveTask({required String title, DateTime? dueDate}) async {
     final current = state.value;
     if (current == null) return false;
 
@@ -83,15 +82,12 @@ class TaskDetailNotifier extends AsyncNotifier<TaskDetailState> {
         );
       }
 
-      state = AsyncData(
-        current.copyWith(
-          data: task,
-          isMutating: false,
-        ),
-      );
+      state = AsyncData(current.copyWith(data: task, isMutating: false));
       return true;
-    } catch (e, st) {
-      state = AsyncData(current.copyWith(isMutating: false, mutationError: () => e));
+    } catch (e) {
+      state = AsyncData(
+        current.copyWith(isMutating: false, mutationError: () => e),
+      );
       return false;
     }
   }
