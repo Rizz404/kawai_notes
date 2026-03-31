@@ -164,8 +164,10 @@ class _AppSearchFieldState<T> extends State<AppSearchField<T>> {
   @override
   void dispose() {
     _removeOverlay();
-    _focusNode.dispose();
-    _scrollController.dispose();
+    if (widget.enableAutocomplete) {
+      _focusNode.removeListener(_onFocusChanged);
+      _scrollController.removeListener(_onScroll);
+    }
     _focusNode.dispose();
     _scrollController.dispose();
     _debounceTimer?.cancel();
@@ -212,6 +214,7 @@ class _AppSearchFieldState<T> extends State<AppSearchField<T>> {
 
     try {
       final results = await widget.onSearch!(query);
+      if (!mounted) return;
       _allSuggestions = results;
       _currentDisplayCount = widget.initialItemsToShow;
       _displayedSuggestions = results.take(_currentDisplayCount).toList();
@@ -222,11 +225,14 @@ class _AppSearchFieldState<T> extends State<AppSearchField<T>> {
         _hideSuggestions();
       }
     } catch (e) {
+      if (!mounted) return;
       _hideSuggestions();
     } finally {
-      setState(() {
-        _isLoadingSuggestions = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isLoadingSuggestions = false;
+        });
+      }
     }
   }
 
