@@ -2,6 +2,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_setup_riverpod/core/constants/storage_key_constant.dart'
 import 'package:flutter_setup_riverpod/core/router/app_router_provider.dart';
 import 'package:flutter_setup_riverpod/core/services/notification_service.dart';
 import 'package:flutter_setup_riverpod/core/services/objectbox_service.dart';
+import 'package:flutter_setup_riverpod/core/services/backup_service.dart';
 import 'package:flutter_setup_riverpod/core/themes/app_theme.dart';
 import 'package:flutter_setup_riverpod/core/utils/logger.dart';
 import 'package:flutter_setup_riverpod/core/utils/talker_config.dart';
@@ -44,22 +46,27 @@ Future<void> main() async {
     // * Local DB
     final objectBoxService = await ObjectBoxService.create();
 
+    final backupService = BackupService(objectBoxService, preferences);
+    backupService.runAutoBackup();
+
     final notificationService = NotificationService();
     await notificationService.init();
 
     runApp(
-      ProviderScope(
-        overrides: [
-          secureStorageProvider.overrideWithValue(secureStorage),
-          sharedPreferencesWithCacheProvider.overrideWithValue(
-            preferencesWithCache,
-          ),
-          sharedPreferencesProvider.overrideWithValue(preferences),
-          objectBoxServiceProvider.overrideWithValue(objectBoxService),
-          notificationServiceProvider.overrideWithValue(notificationService),
-        ],
-        observers: [TalkerConfig.riverpodObserver],
-        child: const MyApp(),
+      Phoenix(
+        child: ProviderScope(
+          overrides: [
+            secureStorageProvider.overrideWithValue(secureStorage),
+            sharedPreferencesWithCacheProvider.overrideWithValue(
+              preferencesWithCache,
+            ),
+            sharedPreferencesProvider.overrideWithValue(preferences),
+            objectBoxServiceProvider.overrideWithValue(objectBoxService),
+            notificationServiceProvider.overrideWithValue(notificationService),
+          ],
+          observers: [TalkerConfig.riverpodObserver],
+          child: const MyApp(),
+        ),
       ),
     );
   } catch (e) {

@@ -6,6 +6,7 @@ import 'package:flutter_setup_riverpod/core/services/note_file_service.dart';
 import 'package:flutter_setup_riverpod/core/services/notification_service.dart';
 import 'package:flutter_setup_riverpod/core/services/objectbox_service.dart';
 import 'package:flutter_setup_riverpod/core/services/theme_storage_service.dart';
+import 'package:flutter_setup_riverpod/core/services/backup_service.dart';
 import 'package:flutter_setup_riverpod/di/common_providers.dart';
 
 final languageStorageServiceProvider = Provider<LanguageStorageService>((ref) {
@@ -33,4 +34,10 @@ final encryptionServiceProvider = Provider<EncryptionService>((ref) {
 
 final authServiceProvider = Provider<AuthService>((ref) {
   return AuthService();
+});
+
+final backupServiceProvider = Provider<BackupService>((ref) {
+  final objectBoxService = ref.watch(objectBoxServiceProvider);
+  final prefs = ref.watch(sharedPreferencesProvider);
+  return BackupService(objectBoxService, prefs);
 });

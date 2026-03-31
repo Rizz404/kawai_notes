@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
+import 'package:flutter_setup_riverpod/core/extensions/navigator_extension.dart';
 import 'package:flutter_setup_riverpod/di/common_providers.dart';
 import 'package:flutter_setup_riverpod/shared/widgets/app_drawer.dart';
 import 'package:flutter_setup_riverpod/shared/widgets/screen_wrapper.dart';
@@ -84,6 +85,15 @@ class OtherScreen extends ConsumerWidget {
                   ),
                 ],
               ),
+            ),
+            const Divider(),
+            ListTile(
+              leading: const Icon(Icons.backup_outlined),
+              title: const Text('Backup & Restore'), // TODO: Localization
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () {
+                context.push('/backup');
+              },
             ),
           ],
         ),
