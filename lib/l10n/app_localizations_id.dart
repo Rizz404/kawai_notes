@@ -10,56 +10,56 @@ class L10nId extends L10n {
 
   @override
   String get networkErrorDnsFailureUser =>
-      'Cannot connect to server.\n• Check your internet connection\n• Disable VPN/DNS if active\n• Try again in a moment';
+      'Gagal terhubung ke server.\n• Periksa koneksi internet Anda\n• Matikan VPN/DNS jika aktif\n• Coba lagi sesaat lagi';
 
   @override
   String get networkErrorConnectionUser =>
-      'Connection lost.\n• Check your internet connection\n• Ensure WiFi/data is active\n• Try again in a moment';
+      'Koneksi terputus.\n• Periksa koneksi internet Anda\n• Pastikan WiFi/data aktif\n• Coba lagi sesaat lagi';
 
   @override
   String get networkErrorTimeoutUser =>
-      'Connection timeout.\n• Check your internet speed\n• Try again in a moment\n• Contact admin if problem persists';
+      'Koneksi habis waktu.\n• Periksa kecepatan internet Anda\n• Coba lagi sesaat lagi\n• Hubungi admin jika masalah berlanjut';
 
   @override
   String get networkErrorReceiveTimeoutUser =>
-      'Server took too long to respond.\n• Your internet connection might be slow\n• Try again in a moment\n• Contact admin if problem persists';
+      'Server terlalu lama merespons.\n• Koneksi internet Anda mungkin lambat\n• Coba lagi sesaat lagi\n• Hubungi admin jika masalah berlanjut';
 
   @override
   String get networkErrorServerUser =>
-      'Server error occurred.\n• Try again in a moment\n• Contact admin if problem persists';
+      'Terjadi kesalahan server.\n• Coba lagi sesaat lagi\n• Hubungi admin jika masalah berlanjut';
 
   @override
   String get networkErrorServer502User =>
-      'Server unreachable.\n• Server might be under maintenance\n• Try again in a moment\n• Contact admin if problem persists';
+      'Server tidak dapat dijangkau.\n• Server mungkin sedang dalam perbaikan\n• Coba lagi sesaat lagi\n• Hubungi admin jika masalah berlanjut';
 
   @override
   String get networkErrorServer503User =>
-      'Service under maintenance.\n• Wait a moment\n• Try again later\n• Contact admin for more info';
+      'Layanan sedang dalam perbaikan.\n• Tunggu sebentar\n• Coba lagi nanti\n• Hubungi admin untuk info lebih lanjut';
 
   @override
   String get networkErrorServer504User =>
-      'Server timeout.\n• Server is busy\n• Try again in a moment\n• Contact admin if problem persists';
+      'Waktu habis pada server.\n• Server sedang sibuk\n• Coba lagi sesaat lagi\n• Hubungi admin jika masalah berlanjut';
 
   @override
   String get networkErrorHtmlResponse =>
-      'Server returned HTML instead of JSON. Check API endpoint configuration.';
+      'Server mengembalikan HTML, bukan JSON. Periksa konfigurasi endpoint API.';
 
   @override
-  String get networkErrorFileDownloaded => 'File downloaded successfully';
+  String get networkErrorFileDownloaded => 'Berkas berhasil diunduh';
 
   @override
-  String get networkErrorUnknown => 'Unknown error occurred';
+  String get networkErrorUnknown => 'Terjadi kesalahan yang tidak diketahui';
 
   @override
-  String get timeAgoJustNow => 'just now';
+  String get timeAgoJustNow => 'baru saja';
 
   @override
   String timeAgoMinute(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count minutes ago',
-      one: '1 minute ago',
+      other: '$count menit yang lalu',
+      one: '1 menit yang lalu',
     );
     return '$_temp0';
   }
@@ -69,8 +69,8 @@ class L10nId extends L10n {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count hours ago',
-      one: '1 hour ago',
+      other: '$count jam yang lalu',
+      one: '1 jam yang lalu',
     );
     return '$_temp0';
   }
@@ -80,8 +80,8 @@ class L10nId extends L10n {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count days ago',
-      one: '1 day ago',
+      other: '$count hari yang lalu',
+      one: '1 hari yang lalu',
     );
     return '$_temp0';
   }
@@ -91,8 +91,8 @@ class L10nId extends L10n {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count months ago',
-      one: '1 month ago',
+      other: '$count bulan yang lalu',
+      one: '1 bulan yang lalu',
     );
     return '$_temp0';
   }
@@ -102,8 +102,8 @@ class L10nId extends L10n {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count years ago',
-      one: '1 year ago',
+      other: '$count tahun yang lalu',
+      one: '1 tahun yang lalu',
     );
     return '$_temp0';
   }
@@ -121,7 +121,7 @@ class L10nId extends L10n {
   String get monthApr => 'Apr';
 
   @override
-  String get monthMay => 'May';
+  String get monthMay => 'Mei';
 
   @override
   String get monthJun => 'Jun';
@@ -130,257 +130,257 @@ class L10nId extends L10n {
   String get monthJul => 'Jul';
 
   @override
-  String get monthAug => 'Aug';
+  String get monthAug => 'Agu';
 
   @override
   String get monthSep => 'Sep';
 
   @override
-  String get monthOct => 'Oct';
+  String get monthOct => 'Okt';
 
   @override
   String get monthNov => 'Nov';
 
   @override
-  String get monthDec => 'Dec';
+  String get monthDec => 'Des';
 
   @override
-  String get dayMon => 'Monday';
+  String get dayMon => 'Senin';
 
   @override
-  String get dayTue => 'Tuesday';
+  String get dayTue => 'Selasa';
 
   @override
-  String get dayWed => 'Wednesday';
+  String get dayWed => 'Rabu';
 
   @override
-  String get dayThu => 'Thursday';
+  String get dayThu => 'Kamis';
 
   @override
-  String get dayFri => 'Friday';
+  String get dayFri => 'Jumat';
 
   @override
-  String get daySat => 'Saturday';
+  String get daySat => 'Sabtu';
 
   @override
-  String get daySun => 'Sunday';
+  String get daySun => 'Minggu';
 
   @override
-  String get currencyBillionSuffix => 'B';
+  String get currencyBillionSuffix => 'M';
 
   @override
-  String get currencyMillionSuffix => 'M';
+  String get currencyMillionSuffix => 'Jt';
 
   @override
-  String get currencyThousandSuffix => 'K';
+  String get currencyThousandSuffix => 'Rb';
 
   @override
-  String get enumSortOrderAsc => 'Ascending';
+  String get enumSortOrderAsc => 'Naik';
 
   @override
-  String get enumSortOrderDesc => 'Descending';
+  String get enumSortOrderDesc => 'Turun';
 
   @override
-  String get enumCategorySortByCategoryCode => 'Category Code';
+  String get enumCategorySortByCategoryCode => 'Kode Kategori';
 
   @override
-  String get enumCategorySortByName => 'Name';
+  String get enumCategorySortByName => 'Nama';
 
   @override
-  String get enumCategorySortByCategoryName => 'Category Name';
+  String get enumCategorySortByCategoryName => 'Nama Kategori';
 
   @override
-  String get enumCategorySortByCreatedAt => 'Created Date';
+  String get enumCategorySortByCreatedAt => 'Tanggal Dibuat';
 
   @override
-  String get enumCategorySortByUpdatedAt => 'Updated Date';
+  String get enumCategorySortByUpdatedAt => 'Tanggal Diubah';
 
   @override
-  String get enumLocationSortByLocationCode => 'Location Code';
+  String get enumLocationSortByLocationCode => 'Kode Lokasi';
 
   @override
-  String get enumLocationSortByName => 'Name';
+  String get enumLocationSortByName => 'Nama';
 
   @override
-  String get enumLocationSortByLocationName => 'Location Name';
+  String get enumLocationSortByLocationName => 'Nama Lokasi';
 
   @override
-  String get enumLocationSortByBuilding => 'Building';
+  String get enumLocationSortByBuilding => 'Gedung';
 
   @override
-  String get enumLocationSortByFloor => 'Floor';
+  String get enumLocationSortByFloor => 'Lantai';
 
   @override
-  String get enumLocationSortByCreatedAt => 'Created Date';
+  String get enumLocationSortByCreatedAt => 'Tanggal Dibuat';
 
   @override
-  String get enumLocationSortByUpdatedAt => 'Updated Date';
+  String get enumLocationSortByUpdatedAt => 'Tanggal Diubah';
 
   @override
-  String get enumNotificationSortByType => 'Type';
+  String get enumNotificationSortByType => 'Jenis';
 
   @override
-  String get enumNotificationSortByIsRead => 'Read Status';
+  String get enumNotificationSortByIsRead => 'Status Baca';
 
   @override
-  String get enumNotificationSortByCreatedAt => 'Received Date';
+  String get enumNotificationSortByCreatedAt => 'Tanggal Diterima';
 
   @override
-  String get enumNotificationSortByTitle => 'Title';
+  String get enumNotificationSortByTitle => 'Judul';
 
   @override
-  String get enumNotificationSortByMessage => 'Message';
+  String get enumNotificationSortByMessage => 'Pesan';
 
   @override
-  String get enumScanLogSortByScanTimestamp => 'Scan Time';
+  String get enumScanLogSortByScanTimestamp => 'Waktu Pindai';
 
   @override
-  String get enumScanLogSortByScannedValue => 'Scanned Value';
+  String get enumScanLogSortByScannedValue => 'Nilai Pindai';
 
   @override
-  String get enumScanLogSortByScanMethod => 'Scan Method';
+  String get enumScanLogSortByScanMethod => 'Metode Pindai';
 
   @override
-  String get enumScanLogSortByScanResult => 'Scan Result';
+  String get enumScanLogSortByScanResult => 'Hasil Pindai';
 
   @override
-  String get enumAssetSortByAssetTag => 'Asset Tag';
+  String get enumAssetSortByAssetTag => 'Tag Aset';
 
   @override
-  String get enumAssetSortByAssetName => 'Asset Name';
+  String get enumAssetSortByAssetName => 'Nama Aset';
 
   @override
-  String get enumAssetSortByBrand => 'Brand';
+  String get enumAssetSortByBrand => 'Merek';
 
   @override
   String get enumAssetSortByModel => 'Model';
 
   @override
-  String get enumAssetSortBySerialNumber => 'Serial Number';
+  String get enumAssetSortBySerialNumber => 'Nomor Seri';
 
   @override
-  String get enumAssetSortByPurchaseDate => 'Purchase Date';
+  String get enumAssetSortByPurchaseDate => 'Tanggal Pembelian';
 
   @override
-  String get enumAssetSortByPurchasePrice => 'Purchase Price';
+  String get enumAssetSortByPurchasePrice => 'Harga Beli';
 
   @override
-  String get enumAssetSortByVendorName => 'Vendor Name';
+  String get enumAssetSortByVendorName => 'Nama Vendor';
 
   @override
-  String get enumAssetSortByWarrantyEnd => 'Warranty End Date';
+  String get enumAssetSortByWarrantyEnd => 'Batas Garansi';
 
   @override
   String get enumAssetSortByStatus => 'Status';
 
   @override
-  String get enumAssetSortByConditionStatus => 'Condition';
+  String get enumAssetSortByConditionStatus => 'Kondisi';
 
   @override
-  String get enumAssetSortByCreatedAt => 'Created Date';
+  String get enumAssetSortByCreatedAt => 'Tanggal Dibuat';
 
   @override
-  String get enumAssetSortByUpdatedAt => 'Updated Date';
+  String get enumAssetSortByUpdatedAt => 'Tanggal Diubah';
 
   @override
-  String get enumAssetMovementSortByMovementDate => 'Movement Date';
+  String get enumAssetMovementSortByMovementDate => 'Tanggal Pindah';
 
   @override
-  String get enumAssetMovementSortByMovementdate => 'Movement Date';
+  String get enumAssetMovementSortByMovementdate => 'Tanggal Pindah';
 
   @override
-  String get enumAssetMovementSortByCreatedAt => 'Created Date';
+  String get enumAssetMovementSortByCreatedAt => 'Tanggal Dibuat';
 
   @override
-  String get enumAssetMovementSortByCreatedat => 'Created Date';
+  String get enumAssetMovementSortByCreatedat => 'Tanggal Dibuat';
 
   @override
-  String get enumAssetMovementSortByUpdatedAt => 'Updated Date';
+  String get enumAssetMovementSortByUpdatedAt => 'Tanggal Diubah';
 
   @override
-  String get enumAssetMovementSortByUpdatedat => 'Updated Date';
+  String get enumAssetMovementSortByUpdatedat => 'Tanggal Diubah';
 
   @override
-  String get enumIssueReportSortByReportedDate => 'Reported Date';
+  String get enumIssueReportSortByReportedDate => 'Tanggal Laporan';
 
   @override
-  String get enumIssueReportSortByResolvedDate => 'Resolved Date';
+  String get enumIssueReportSortByResolvedDate => 'Tanggal Selesai';
 
   @override
-  String get enumIssueReportSortByIssueType => 'Issue Type';
+  String get enumIssueReportSortByIssueType => 'Jenis Masalah';
 
   @override
-  String get enumIssueReportSortByPriority => 'Priority';
+  String get enumIssueReportSortByPriority => 'Prioritas';
 
   @override
-  String get enumIssueReportSortByStatus => 'Status';
+  String get enumIssueReportSortByStatus => 'Status Masalah';
 
   @override
-  String get enumIssueReportSortByTitle => 'Title';
+  String get enumIssueReportSortByTitle => 'Judul';
 
   @override
-  String get enumIssueReportSortByDescription => 'Description';
+  String get enumIssueReportSortByDescription => 'Deskripsi';
 
   @override
-  String get enumIssueReportSortByCreatedAt => 'Created Date';
+  String get enumIssueReportSortByCreatedAt => 'Tanggal Dibuat';
 
   @override
-  String get enumIssueReportSortByUpdatedAt => 'Updated Date';
+  String get enumIssueReportSortByUpdatedAt => 'Tanggal Diubah';
 
   @override
   String get enumMaintenanceScheduleSortByNextScheduledDate =>
-      'Next Scheduled Date';
+      'Jadwal Berikutnya';
 
   @override
-  String get enumMaintenanceScheduleSortByMaintenanceType => 'Maintenance Type';
+  String get enumMaintenanceScheduleSortByMaintenanceType => 'Jenis Perawatan';
 
   @override
-  String get enumMaintenanceScheduleSortByState => 'State';
+  String get enumMaintenanceScheduleSortByState => 'Status Perawatan';
 
   @override
-  String get enumMaintenanceScheduleSortByCreatedAt => 'Created Date';
+  String get enumMaintenanceScheduleSortByCreatedAt => 'Tanggal Dibuat';
 
   @override
-  String get enumMaintenanceScheduleSortByUpdatedAt => 'Updated Date';
+  String get enumMaintenanceScheduleSortByUpdatedAt => 'Tanggal Diubah';
 
   @override
-  String get enumMaintenanceRecordSortByMaintenanceDate => 'Maintenance Date';
+  String get enumMaintenanceRecordSortByMaintenanceDate => 'Tanggal Perawatan';
 
   @override
-  String get enumMaintenanceRecordSortByActualCost => 'Actual Cost';
+  String get enumMaintenanceRecordSortByActualCost => 'Biaya Aktual';
 
   @override
-  String get enumMaintenanceRecordSortByTitle => 'Title';
+  String get enumMaintenanceRecordSortByTitle => 'Judul';
 
   @override
-  String get enumMaintenanceRecordSortByCreatedAt => 'Created Date';
+  String get enumMaintenanceRecordSortByCreatedAt => 'Tanggal Dibuat';
 
   @override
-  String get enumMaintenanceRecordSortByUpdatedAt => 'Updated Date';
+  String get enumMaintenanceRecordSortByUpdatedAt => 'Tanggal Diubah';
 
   @override
-  String get enumUserSortByName => 'Name';
+  String get enumUserSortByName => 'Nama';
 
   @override
-  String get enumUserSortByFullName => 'Full Name';
+  String get enumUserSortByFullName => 'Nama Lengkap';
 
   @override
   String get enumUserSortByEmail => 'Email';
 
   @override
-  String get enumUserSortByRole => 'Role';
+  String get enumUserSortByRole => 'Peran';
 
   @override
-  String get enumUserSortByEmployeeId => 'Employee ID';
+  String get enumUserSortByEmployeeId => 'ID Karyawan';
 
   @override
-  String get enumUserSortByIsActive => 'Active Status';
+  String get enumUserSortByIsActive => 'Status Aktif';
 
   @override
-  String get enumUserSortByCreatedAt => 'Joined Date';
+  String get enumUserSortByCreatedAt => 'Tanggal Bergabung';
 
   @override
-  String get enumUserSortByUpdatedAt => 'Updated Date';
+  String get enumUserSortByUpdatedAt => 'Tanggal Diubah';
 
   @override
   String get enumExportFormatPdf => 'PDF';
@@ -389,172 +389,172 @@ class L10nId extends L10n {
   String get enumExportFormatExcel => 'Excel';
 
   @override
-  String get enumMutationTypeCreate => 'Create';
+  String get enumMutationTypeCreate => 'Buat';
 
   @override
-  String get enumMutationTypeUpdate => 'Update';
+  String get enumMutationTypeUpdate => 'Ubah';
 
   @override
-  String get enumMutationTypeDelete => 'Delete';
+  String get enumMutationTypeDelete => 'Hapus';
 
   @override
-  String get enumLanguageEnglish => 'English';
+  String get enumLanguageEnglish => 'Inggris';
 
   @override
-  String get enumLanguageJapanese => 'Japanese';
+  String get enumLanguageJapanese => 'Jepang';
 
   @override
-  String get enumLanguageIndonesian => 'Indonesian';
+  String get enumLanguageIndonesian => 'Indonesia';
 
   @override
   String get enumUserRoleAdmin => 'Admin';
 
   @override
-  String get enumUserRoleUser => 'User';
+  String get enumUserRoleUser => 'Manusia';
 
   @override
-  String get enumAssetStatusActive => 'Active';
+  String get enumAssetStatusActive => 'Aktif';
 
   @override
-  String get enumAssetStatusMaintenance => 'Maintenance';
+  String get enumAssetStatusMaintenance => 'Perawatan';
 
   @override
-  String get enumAssetStatusDisposed => 'Disposed';
+  String get enumAssetStatusDisposed => 'Dibuang';
 
   @override
-  String get enumAssetStatusLost => 'Lost';
+  String get enumAssetStatusLost => 'Hilang';
 
   @override
-  String get enumAssetConditionGood => 'Good';
+  String get enumAssetConditionGood => 'Bagus';
 
   @override
-  String get enumAssetConditionFair => 'Fair';
+  String get enumAssetConditionFair => 'Cukup';
 
   @override
-  String get enumAssetConditionPoor => 'Poor';
+  String get enumAssetConditionPoor => 'Buruk';
 
   @override
-  String get enumAssetConditionDamaged => 'Damaged';
+  String get enumAssetConditionDamaged => 'Rusak';
 
   @override
-  String get enumNotificationTypeMaintenance => 'Maintenance';
+  String get enumNotificationTypeMaintenance => 'Perawatan';
 
   @override
-  String get enumNotificationTypeWarranty => 'Warranty';
+  String get enumNotificationTypeWarranty => 'Garansi';
 
   @override
-  String get enumNotificationTypeIssue => 'Issue';
+  String get enumNotificationTypeIssue => 'Masalah';
 
   @override
-  String get enumNotificationTypeMovement => 'Movement';
+  String get enumNotificationTypeMovement => 'Pergerakan';
 
   @override
-  String get enumNotificationTypeStatusChange => 'Status Change';
+  String get enumNotificationTypeStatusChange => 'Perubahan Status';
 
   @override
-  String get enumNotificationTypeLocationChange => 'Location Change';
+  String get enumNotificationTypeLocationChange => 'Perubahan Lokasi';
 
   @override
-  String get enumNotificationTypeCategoryChange => 'Category Change';
+  String get enumNotificationTypeCategoryChange => 'Perubahan Kategori';
 
   @override
-  String get enumNotificationPriorityLow => 'Low';
+  String get enumNotificationPriorityLow => 'Rendah';
 
   @override
   String get enumNotificationPriorityNormal => 'Normal';
 
   @override
-  String get enumNotificationPriorityHigh => 'High';
+  String get enumNotificationPriorityHigh => 'Tinggi';
 
   @override
-  String get enumNotificationPriorityUrgent => 'Urgent';
+  String get enumNotificationPriorityUrgent => 'Mendesak';
 
   @override
   String get enumScanMethodTypeDataMatrix => 'Data Matrix';
 
   @override
-  String get enumScanMethodTypeManualInput => 'Manual Input';
+  String get enumScanMethodTypeManualInput => 'Masukan Manual';
 
   @override
-  String get enumScanResultTypeSuccess => 'Success';
+  String get enumScanResultTypeSuccess => 'Sukses';
 
   @override
-  String get enumScanResultTypeInvalidID => 'Invalid ID';
+  String get enumScanResultTypeInvalidID => 'ID Tidak Valid';
 
   @override
-  String get enumScanResultTypeAssetNotFound => 'Asset Not Found';
+  String get enumScanResultTypeAssetNotFound => 'Aset Tidak Ditemukan';
 
   @override
-  String get enumMaintenanceScheduleTypePreventive => 'Preventive';
+  String get enumMaintenanceScheduleTypePreventive => 'Pencegahan';
 
   @override
-  String get enumMaintenanceScheduleTypeCorrective => 'Corrective';
+  String get enumMaintenanceScheduleTypeCorrective => 'Perbaikan';
 
   @override
-  String get enumMaintenanceScheduleTypeInspection => 'Inspection';
+  String get enumMaintenanceScheduleTypeInspection => 'Inspeksi';
 
   @override
-  String get enumMaintenanceScheduleTypeCalibration => 'Calibration';
+  String get enumMaintenanceScheduleTypeCalibration => 'Kalibrasi';
 
   @override
-  String get enumScheduleStateActive => 'Active';
+  String get enumScheduleStateActive => 'Aktif';
 
   @override
-  String get enumScheduleStatePaused => 'Paused';
+  String get enumScheduleStatePaused => 'Ditunda';
 
   @override
-  String get enumScheduleStateStopped => 'Stopped';
+  String get enumScheduleStateStopped => 'Berhenti';
 
   @override
-  String get enumScheduleStateCompleted => 'Completed';
+  String get enumScheduleStateCompleted => 'Selesai';
 
   @override
-  String get enumIntervalUnitDays => 'Days';
+  String get enumIntervalUnitDays => 'Hari';
 
   @override
-  String get enumIntervalUnitWeeks => 'Weeks';
+  String get enumIntervalUnitWeeks => 'Minggu';
 
   @override
-  String get enumIntervalUnitMonths => 'Months';
+  String get enumIntervalUnitMonths => 'Bulan';
 
   @override
-  String get enumIntervalUnitYears => 'Years';
+  String get enumIntervalUnitYears => 'Tahun';
 
   @override
-  String get enumIssuePriorityLow => 'Low';
+  String get enumIssuePriorityLow => 'Rendah';
 
   @override
-  String get enumIssuePriorityMedium => 'Medium';
+  String get enumIssuePriorityMedium => 'Sedang';
 
   @override
-  String get enumIssuePriorityHigh => 'High';
+  String get enumIssuePriorityHigh => 'Tinggi';
 
   @override
-  String get enumIssuePriorityCritical => 'Critical';
+  String get enumIssuePriorityCritical => 'Kritis';
 
   @override
-  String get enumIssueStatusOpen => 'Open';
+  String get enumIssueStatusOpen => 'Buka';
 
   @override
-  String get enumIssueStatusInProgress => 'In Progress';
+  String get enumIssueStatusInProgress => 'Dalam Proses';
 
   @override
-  String get enumIssueStatusResolved => 'Resolved';
+  String get enumIssueStatusResolved => 'Terselesaikan';
 
   @override
-  String get enumIssueStatusClosed => 'Closed';
+  String get enumIssueStatusClosed => 'Tutup';
 
   @override
-  String get enumMaintenanceResultSuccess => 'Success';
+  String get enumMaintenanceResultSuccess => 'Sukses';
 
   @override
-  String get enumMaintenanceResultPartial => 'Partial';
+  String get enumMaintenanceResultPartial => 'Sebagian';
 
   @override
-  String get enumMaintenanceResultFailed => 'Failed';
+  String get enumMaintenanceResultFailed => 'Gagal';
 
   @override
-  String get enumMaintenanceResultRescheduled => 'Rescheduled';
+  String get enumMaintenanceResultRescheduled => 'Dijadwalkan Ulang';
 
   @override
   String get foldersTitle => 'Folder';

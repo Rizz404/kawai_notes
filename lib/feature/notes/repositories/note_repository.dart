@@ -24,6 +24,8 @@ class NoteRepository {
     required String content,
     int? folderId,
     bool isHidden = false,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   }) async {
     final noteUlid = ulid ?? Ulid().toString();
     final slug = slugify(title);
@@ -51,6 +53,8 @@ class NoteRepository {
       tags: tags,
       links: links,
       isHidden: isHidden,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
     );
 
     if (folderId != null) {

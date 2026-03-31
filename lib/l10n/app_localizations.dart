@@ -99,73 +99,73 @@ abstract class L10n {
     Locale('ja'),
   ];
 
-  /// No description provided for @networkErrorDnsFailureUser.
+  /// Network error dns failure user
   ///
   /// In en, this message translates to:
   /// **'Cannot connect to server.\n• Check your internet connection\n• Disable VPN/DNS if active\n• Try again in a moment'**
   String get networkErrorDnsFailureUser;
 
-  /// No description provided for @networkErrorConnectionUser.
+  /// Network error connection user
   ///
   /// In en, this message translates to:
   /// **'Connection lost.\n• Check your internet connection\n• Ensure WiFi/data is active\n• Try again in a moment'**
   String get networkErrorConnectionUser;
 
-  /// No description provided for @networkErrorTimeoutUser.
+  /// Network error timeout user
   ///
   /// In en, this message translates to:
   /// **'Connection timeout.\n• Check your internet speed\n• Try again in a moment\n• Contact admin if problem persists'**
   String get networkErrorTimeoutUser;
 
-  /// No description provided for @networkErrorReceiveTimeoutUser.
+  /// Network error receive timeout user
   ///
   /// In en, this message translates to:
   /// **'Server took too long to respond.\n• Your internet connection might be slow\n• Try again in a moment\n• Contact admin if problem persists'**
   String get networkErrorReceiveTimeoutUser;
 
-  /// No description provided for @networkErrorServerUser.
+  /// Network error server user
   ///
   /// In en, this message translates to:
   /// **'Server error occurred.\n• Try again in a moment\n• Contact admin if problem persists'**
   String get networkErrorServerUser;
 
-  /// No description provided for @networkErrorServer502User.
+  /// Network error server502 user
   ///
   /// In en, this message translates to:
   /// **'Server unreachable.\n• Server might be under maintenance\n• Try again in a moment\n• Contact admin if problem persists'**
   String get networkErrorServer502User;
 
-  /// No description provided for @networkErrorServer503User.
+  /// Network error server503 user
   ///
   /// In en, this message translates to:
   /// **'Service under maintenance.\n• Wait a moment\n• Try again later\n• Contact admin for more info'**
   String get networkErrorServer503User;
 
-  /// No description provided for @networkErrorServer504User.
+  /// Network error server504 user
   ///
   /// In en, this message translates to:
   /// **'Server timeout.\n• Server is busy\n• Try again in a moment\n• Contact admin if problem persists'**
   String get networkErrorServer504User;
 
-  /// No description provided for @networkErrorHtmlResponse.
+  /// Network error html response
   ///
   /// In en, this message translates to:
   /// **'Server returned HTML instead of JSON. Check API endpoint configuration.'**
   String get networkErrorHtmlResponse;
 
-  /// No description provided for @networkErrorFileDownloaded.
+  /// Network error file downloaded
   ///
   /// In en, this message translates to:
   /// **'File downloaded successfully'**
   String get networkErrorFileDownloaded;
 
-  /// No description provided for @networkErrorUnknown.
+  /// Network error unknown
   ///
   /// In en, this message translates to:
   /// **'Unknown error occurred'**
   String get networkErrorUnknown;
 
-  /// No description provided for @timeAgoJustNow.
+  /// Time ago just now
   ///
   /// In en, this message translates to:
   /// **'just now'**
@@ -201,133 +201,133 @@ abstract class L10n {
   /// **'{count, plural, =1{1 year ago} other{{count} years ago}}'**
   String timeAgoYear(int count);
 
-  /// No description provided for @monthJan.
+  /// Month jan
   ///
   /// In en, this message translates to:
   /// **'Jan'**
   String get monthJan;
 
-  /// No description provided for @monthFeb.
+  /// Month feb
   ///
   /// In en, this message translates to:
   /// **'Feb'**
   String get monthFeb;
 
-  /// No description provided for @monthMar.
+  /// Month mar
   ///
   /// In en, this message translates to:
   /// **'Mar'**
   String get monthMar;
 
-  /// No description provided for @monthApr.
+  /// Month apr
   ///
   /// In en, this message translates to:
   /// **'Apr'**
   String get monthApr;
 
-  /// No description provided for @monthMay.
+  /// Month may
   ///
   /// In en, this message translates to:
   /// **'May'**
   String get monthMay;
 
-  /// No description provided for @monthJun.
+  /// Month jun
   ///
   /// In en, this message translates to:
   /// **'Jun'**
   String get monthJun;
 
-  /// No description provided for @monthJul.
+  /// Month jul
   ///
   /// In en, this message translates to:
   /// **'Jul'**
   String get monthJul;
 
-  /// No description provided for @monthAug.
+  /// Month aug
   ///
   /// In en, this message translates to:
   /// **'Aug'**
   String get monthAug;
 
-  /// No description provided for @monthSep.
+  /// Month sep
   ///
   /// In en, this message translates to:
   /// **'Sep'**
   String get monthSep;
 
-  /// No description provided for @monthOct.
+  /// Month oct
   ///
   /// In en, this message translates to:
   /// **'Oct'**
   String get monthOct;
 
-  /// No description provided for @monthNov.
+  /// Month nov
   ///
   /// In en, this message translates to:
   /// **'Nov'**
   String get monthNov;
 
-  /// No description provided for @monthDec.
+  /// Month dec
   ///
   /// In en, this message translates to:
   /// **'Dec'**
   String get monthDec;
 
-  /// No description provided for @dayMon.
+  /// Day mon
   ///
   /// In en, this message translates to:
   /// **'Monday'**
   String get dayMon;
 
-  /// No description provided for @dayTue.
+  /// Day tue
   ///
   /// In en, this message translates to:
   /// **'Tuesday'**
   String get dayTue;
 
-  /// No description provided for @dayWed.
+  /// Day wed
   ///
   /// In en, this message translates to:
   /// **'Wednesday'**
   String get dayWed;
 
-  /// No description provided for @dayThu.
+  /// Day thu
   ///
   /// In en, this message translates to:
   /// **'Thursday'**
   String get dayThu;
 
-  /// No description provided for @dayFri.
+  /// Day fri
   ///
   /// In en, this message translates to:
   /// **'Friday'**
   String get dayFri;
 
-  /// No description provided for @daySat.
+  /// Day sat
   ///
   /// In en, this message translates to:
   /// **'Saturday'**
   String get daySat;
 
-  /// No description provided for @daySun.
+  /// Day sun
   ///
   /// In en, this message translates to:
   /// **'Sunday'**
   String get daySun;
 
-  /// No description provided for @currencyBillionSuffix.
+  /// Currency billion suffix
   ///
   /// In en, this message translates to:
   /// **'B'**
   String get currencyBillionSuffix;
 
-  /// No description provided for @currencyMillionSuffix.
+  /// Currency million suffix
   ///
   /// In en, this message translates to:
   /// **'M'**
   String get currencyMillionSuffix;
 
-  /// No description provided for @currencyThousandSuffix.
+  /// Currency thousand suffix
   ///
   /// In en, this message translates to:
   /// **'K'**
@@ -1095,25 +1095,25 @@ abstract class L10n {
   /// **'Rescheduled'**
   String get enumMaintenanceResultRescheduled;
 
-  /// No description provided for @foldersTitle.
+  /// Folders title
   ///
   /// In en, this message translates to:
   /// **'Folders'**
   String get foldersTitle;
 
-  /// No description provided for @foldersAllNotes.
+  /// Folders all notes
   ///
   /// In en, this message translates to:
   /// **'All Notes'**
   String get foldersAllNotes;
 
-  /// No description provided for @foldersUncategorized.
+  /// Folders uncategorized
   ///
   /// In en, this message translates to:
   /// **'Uncategorized'**
   String get foldersUncategorized;
 
-  /// No description provided for @foldersEmpty.
+  /// Folders empty
   ///
   /// In en, this message translates to:
   /// **'No custom folders'**
@@ -1125,31 +1125,31 @@ abstract class L10n {
   /// **'Error: {error}'**
   String foldersError(String error);
 
-  /// No description provided for @foldersCreateNew.
+  /// Folders create new
   ///
   /// In en, this message translates to:
   /// **'Create New Folder'**
   String get foldersCreateNew;
 
-  /// No description provided for @foldersNewTitle.
+  /// Folders new title
   ///
   /// In en, this message translates to:
   /// **'New Folder'**
   String get foldersNewTitle;
 
-  /// No description provided for @foldersCancel.
+  /// Folders cancel
   ///
   /// In en, this message translates to:
   /// **'Cancel'**
   String get foldersCancel;
 
-  /// No description provided for @foldersCreateBtn.
+  /// Folders create btn
   ///
   /// In en, this message translates to:
   /// **'Create'**
   String get foldersCreateBtn;
 
-  /// No description provided for @notesHidden.
+  /// Notes hidden
   ///
   /// In en, this message translates to:
   /// **'Hidden'**
@@ -1167,49 +1167,49 @@ abstract class L10n {
   /// **'{count} selected'**
   String notesSelectedCount(int count);
 
-  /// No description provided for @notesHiddenTitle.
+  /// Notes hidden title
   ///
   /// In en, this message translates to:
   /// **'Hidden Notes'**
   String get notesHiddenTitle;
 
-  /// No description provided for @notesNotFound.
+  /// Notes not found
   ///
   /// In en, this message translates to:
   /// **'No notes found.'**
   String get notesNotFound;
 
-  /// No description provided for @notesGraphTitle.
+  /// Notes graph title
   ///
   /// In en, this message translates to:
   /// **'Graph View'**
   String get notesGraphTitle;
 
-  /// No description provided for @notesGraphEmpty.
+  /// Notes graph empty
   ///
   /// In en, this message translates to:
   /// **'No notes available for graph.'**
   String get notesGraphEmpty;
 
-  /// No description provided for @notesMyTitle.
+  /// Notes my title
   ///
   /// In en, this message translates to:
   /// **'My Notes'**
   String get notesMyTitle;
 
-  /// No description provided for @notesNew.
+  /// Notes new
   ///
   /// In en, this message translates to:
   /// **'New Note'**
   String get notesNew;
 
-  /// No description provided for @notesEdit.
+  /// Notes edit
   ///
   /// In en, this message translates to:
   /// **'Edit Note'**
   String get notesEdit;
 
-  /// No description provided for @notesNoContent.
+  /// Notes no content
   ///
   /// In en, this message translates to:
   /// **'No content'**
@@ -1221,127 +1221,127 @@ abstract class L10n {
   /// **'Tags: {tags}'**
   String notesTags(String tags);
 
-  /// No description provided for @settingsTitle.
+  /// Settings title
   ///
   /// In en, this message translates to:
   /// **'Settings'**
   String get settingsTitle;
 
-  /// No description provided for @settingsMaterialYou.
+  /// Settings material you
   ///
   /// In en, this message translates to:
   /// **'Use Material You'**
   String get settingsMaterialYou;
 
-  /// No description provided for @settingsMaterialYouSubtitle.
+  /// Settings material you subtitle
   ///
   /// In en, this message translates to:
   /// **'Follow system dynamic colors'**
   String get settingsMaterialYouSubtitle;
 
-  /// No description provided for @settingsTheme.
+  /// Settings theme
   ///
   /// In en, this message translates to:
   /// **'Theme'**
   String get settingsTheme;
 
-  /// No description provided for @settingsThemeSystem.
+  /// Settings theme system
   ///
   /// In en, this message translates to:
   /// **'System'**
   String get settingsThemeSystem;
 
-  /// No description provided for @settingsThemeLight.
+  /// Settings theme light
   ///
   /// In en, this message translates to:
   /// **'Light'**
   String get settingsThemeLight;
 
-  /// No description provided for @settingsThemeDark.
+  /// Settings theme dark
   ///
   /// In en, this message translates to:
   /// **'Dark'**
   String get settingsThemeDark;
 
-  /// No description provided for @settingsLanguage.
+  /// Settings language
   ///
   /// In en, this message translates to:
   /// **'Language'**
   String get settingsLanguage;
 
-  /// No description provided for @settingsLanguageEnglish.
+  /// Settings language english
   ///
   /// In en, this message translates to:
   /// **'English'**
   String get settingsLanguageEnglish;
 
-  /// No description provided for @settingsLanguageJapanese.
+  /// Settings language japanese
   ///
   /// In en, this message translates to:
   /// **'Japanese'**
   String get settingsLanguageJapanese;
 
-  /// No description provided for @settingsLanguageIndonesian.
+  /// Settings language indonesian
   ///
   /// In en, this message translates to:
   /// **'Indonesian'**
   String get settingsLanguageIndonesian;
 
-  /// No description provided for @tasksTitle.
+  /// Tasks title
   ///
   /// In en, this message translates to:
   /// **'Tasks'**
   String get tasksTitle;
 
-  /// No description provided for @tasksEmpty.
+  /// Tasks empty
   ///
   /// In en, this message translates to:
   /// **'No Tasks. Create one!'**
   String get tasksEmpty;
 
-  /// No description provided for @tasksActive.
+  /// Tasks active
   ///
   /// In en, this message translates to:
   /// **'Active'**
   String get tasksActive;
 
-  /// No description provided for @tasksCompleted.
+  /// Tasks completed
   ///
   /// In en, this message translates to:
   /// **'Completed'**
   String get tasksCompleted;
 
-  /// No description provided for @tasksNothingHere.
+  /// Tasks nothing here
   ///
   /// In en, this message translates to:
   /// **'Nothing here...'**
   String get tasksNothingHere;
 
-  /// No description provided for @tasksNew.
+  /// Tasks new
   ///
   /// In en, this message translates to:
   /// **'New Task'**
   String get tasksNew;
 
-  /// No description provided for @tasksEdit.
+  /// Tasks edit
   ///
   /// In en, this message translates to:
   /// **'Edit Task'**
   String get tasksEdit;
 
-  /// No description provided for @tasksTitleLabel.
+  /// Tasks title label
   ///
   /// In en, this message translates to:
   /// **'Task Title'**
   String get tasksTitleLabel;
 
-  /// No description provided for @tasksDueDate.
+  /// Tasks due date
   ///
   /// In en, this message translates to:
   /// **'Due Date'**
   String get tasksDueDate;
 
-  /// No description provided for @tasksSave.
+  /// Tasks save
   ///
   /// In en, this message translates to:
   /// **'Save Task'**

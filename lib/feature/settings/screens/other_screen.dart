@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/navigator_extension.dart';
 import 'package:flutter_setup_riverpod/di/common_providers.dart';
+import 'package:flutter_setup_riverpod/feature/notes/providers/xiaomi_import_provider.dart';
 import 'package:flutter_setup_riverpod/shared/widgets/app_drawer.dart';
 import 'package:flutter_setup_riverpod/shared/widgets/screen_wrapper.dart';
 
@@ -93,6 +94,41 @@ class OtherScreen extends ConsumerWidget {
               trailing: const Icon(Icons.chevron_right),
               onTap: () {
                 context.push('/backup');
+              },
+            ),
+            const Divider(),
+            Consumer(
+              builder: (context, ref, child) {
+                final importState = ref.watch(xiaomiImportProvider);
+                return ListTile(
+                  leading: const Icon(Icons.note_add_outlined),
+                  title: const Text('Import Xiaomi Notes (Bulk)'),
+                  trailing: importState.isLoading
+                      ? const SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Icon(Icons.chevron_right),
+                  onTap: () async {
+                    if (importState.isLoading) return;
+                    final didImport = await ref
+                        .read(xiaomiImportProvider.notifier)
+                        .importXiaomiNotesBulk();
+                    if (context.mounted) {
+                      final error = ref.read(xiaomiImportProvider).error;
+                      if (error != null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Import failed: $error')),
+                        );
+                      } else if (didImport) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Import successful!')),
+                        );
+                      }
+                    }
+                  },
+                );
               },
             ),
           ],
