@@ -1,4 +1,5 @@
 import 'package:bot_toast/bot_toast.dart';
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -91,53 +92,72 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentLocale = ref.watch(localeProvider);
     final themeMode = ref.watch(themeProvider);
+    final isMaterialYouEnabled = ref.watch(materialYouProvider);
     final routerDelegate = ref.watch(routerDelegateProvider);
     final routeParser = ref.watch(routeParserProvider);
     final botToastBuilder = BotToastInit();
 
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      title: 'My App',
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      themeMode: themeMode,
-      builder: botToastBuilder,
+    return DynamicColorBuilder(
+      builder: (lightDynamic, darkDynamic) {
+        ThemeData lightTheme = AppTheme.lightTheme;
+        ThemeData darkTheme = AppTheme.darkTheme;
 
-      // * Router Configuration
-      routerDelegate: routerDelegate,
-      routeInformationParser: routeParser,
-      // * Localization Configuration
-      localizationsDelegates: const [
-        L10n.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        FlutterQuillLocalizations.delegate,
-      ],
-      supportedLocales: L10n.supportedLocales,
-      locale: currentLocale,
-
-      // * Locale Resolution Strategy
-      localeResolutionCallback: (locale, supportedLocales) {
-        // * If device locale is supported, use it
-        if (locale != null) {
-          for (var supportedLocale in supportedLocales) {
-            if (supportedLocale.languageCode == locale.languageCode &&
-                supportedLocale.countryCode == locale.countryCode) {
-              return supportedLocale;
-            }
-          }
-
-          // * If exact match not found, try language code only
-          for (var supportedLocale in supportedLocales) {
-            if (supportedLocale.languageCode == locale.languageCode) {
-              return supportedLocale;
-            }
-          }
+        if (isMaterialYouEnabled &&
+            lightDynamic != null &&
+            darkDynamic != null) {
+          lightTheme = AppTheme.lightTheme.copyWith(
+            colorScheme: lightDynamic.harmonized(),
+          );
+          darkTheme = AppTheme.darkTheme.copyWith(
+            colorScheme: darkDynamic.harmonized(),
+          );
         }
 
-        // * Fallback to first supported locale (should be 'en')
-        return supportedLocales.first;
+        return MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          title: 'My App',
+          theme: lightTheme,
+          darkTheme: darkTheme,
+          themeMode: themeMode,
+          builder: botToastBuilder,
+
+          // * Router Configuration
+          routerDelegate: routerDelegate,
+          routeInformationParser: routeParser,
+          // * Localization Configuration
+          localizationsDelegates: const [
+            L10n.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            FlutterQuillLocalizations.delegate,
+          ],
+          supportedLocales: L10n.supportedLocales,
+          locale: currentLocale,
+
+          // * Locale Resolution Strategy
+          localeResolutionCallback: (locale, supportedLocales) {
+            // * If device locale is supported, use it
+            if (locale != null) {
+              for (var supportedLocale in supportedLocales) {
+                if (supportedLocale.languageCode == locale.languageCode &&
+                    supportedLocale.countryCode == locale.countryCode) {
+                  return supportedLocale;
+                }
+              }
+
+              // * If exact match not found, try language code only
+              for (var supportedLocale in supportedLocales) {
+                if (supportedLocale.languageCode == locale.languageCode) {
+                  return supportedLocale;
+                }
+              }
+            }
+
+            // * Fallback to first supported locale (should be 'en')
+            return supportedLocales.first;
+          },
+        );
       },
     );
   }

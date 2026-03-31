@@ -57,6 +57,40 @@ final themeProvider = NotifierProvider<ThemeNotifier, ThemeMode>(
   ThemeNotifier.new,
 );
 
+final materialYouProvider = NotifierProvider<MaterialYouNotifier, bool>(
+  MaterialYouNotifier.new,
+);
+
+class MaterialYouNotifier extends Notifier<bool> {
+  late ThemeStorageService _themeStorageService;
+
+  @override
+  bool build() {
+    _themeStorageService = ref.watch(themeStorageServiceProvider);
+    Future.microtask(_loadMaterialYouMode);
+    return true; // Default to true
+  }
+
+  Future<void> _loadMaterialYouMode() async {
+    try {
+      final value = await _themeStorageService.getMaterialYouMode();
+      state = value;
+    } catch (e) {
+      state = true;
+    }
+  }
+
+  Future<void> toggle() async {
+    try {
+      final newValue = !state;
+      await _themeStorageService.setMaterialYouMode(newValue);
+      state = newValue;
+    } catch (e) {
+      rethrow;
+    }
+  }
+}
+
 class LocaleNotifier extends Notifier<Locale> {
   late LanguageStorageService _languageStorageService;
 

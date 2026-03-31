@@ -7,6 +7,9 @@ abstract class ThemeStorageService {
   Future<ThemeMode> getThemeMode();
   Future<void> setThemeMode(ThemeMode themeMode);
   Future<void> removeThemeMode();
+
+  Future<bool> getMaterialYouMode();
+  Future<void> setMaterialYouMode(bool value);
 }
 
 class ThemeStorageServiceImpl implements ThemeStorageService {
@@ -79,6 +82,37 @@ class ThemeStorageServiceImpl implements ThemeStorageService {
       logData('REMOVE themeMode', 'success');
     } catch (e, s) {
       logError('Failed to remove theme mode', e, s);
+    }
+  }
+
+  @override
+  Future<bool> getMaterialYouMode() async {
+    try {
+      final value = _sharedPreferences.getBool(
+        StorageKeyConstant.materialYouKey,
+      );
+      if (value != null) {
+        logData('GET materialYouMode', value.toString());
+        return value;
+      }
+      logData('GET materialYouMode', 'true (default)');
+      return true; // Default to true
+    } catch (e, s) {
+      logError('Failed to get material you mode', e, s);
+      return true;
+    }
+  }
+
+  @override
+  Future<void> setMaterialYouMode(bool value) async {
+    try {
+      await _sharedPreferences.setBool(
+        StorageKeyConstant.materialYouKey,
+        value,
+      );
+      logData('SAVE materialYouMode', value.toString());
+    } catch (e, s) {
+      logError('Failed to set material you mode', e, s);
     }
   }
 }

@@ -11,14 +11,14 @@ class AppColors {
 class LightColors {
   const LightColors._();
 
-  final Color background = const Color.fromRGBO(248, 250, 250, 1);
+  final Color background = const Color.fromRGBO(255, 251, 235, 1);
   final Color surface = const Color.fromRGBO(255, 255, 255, 1);
-  final Color surfaceVariant = const Color.fromRGBO(240, 249, 248, 1);
+  final Color surfaceVariant = const Color.fromRGBO(254, 243, 199, 1);
 
-  final Color primary = const Color.fromRGBO(13, 148, 136, 1);
-  final Color primaryContainer = const Color.fromRGBO(204, 251, 241, 1);
-  final Color secondary = const Color.fromRGBO(71, 85, 105, 1);
-  final Color secondaryContainer = const Color.fromRGBO(226, 232, 240, 1);
+  final Color primary = const Color.fromRGBO(245, 158, 11, 1);
+  final Color primaryContainer = const Color.fromRGBO(253, 230, 138, 1);
+  final Color secondary = const Color.fromRGBO(217, 119, 6, 1);
+  final Color secondaryContainer = const Color.fromRGBO(254, 243, 199, 1);
 
   final Color accent = const Color.fromRGBO(249, 115, 22, 1);
   final Color accentHover = const Color.fromRGBO(234, 88, 12, 1);
@@ -31,21 +31,21 @@ class LightColors {
   final Color textOnPrimary = const Color.fromRGBO(255, 255, 255, 1);
   final Color textOnAccent = const Color.fromRGBO(255, 255, 255, 1);
 
-  final Color border = const Color.fromRGBO(204, 237, 234, 1);
-  final Color borderHover = const Color.fromRGBO(153, 220, 215, 1);
-  final Color divider = const Color.fromRGBO(240, 253, 250, 1);
+  final Color border = const Color.fromRGBO(253, 230, 138, 1);
+  final Color borderHover = const Color.fromRGBO(252, 211, 77, 1);
+  final Color divider = const Color.fromRGBO(254, 243, 199, 1);
 
-  final Color hover = const Color.fromRGBO(240, 253, 250, 1);
-  final Color pressed = const Color.fromRGBO(204, 251, 241, 1);
-  final Color focus = const Color.fromRGBO(13, 148, 136, 0.12);
+  final Color hover = const Color.fromRGBO(254, 243, 199, 1);
+  final Color pressed = const Color.fromRGBO(253, 230, 138, 1);
+  final Color focus = const Color.fromRGBO(245, 158, 11, 0.12);
   final Color disabled = const Color.fromRGBO(241, 245, 249, 1);
 
   final Color card = const Color.fromRGBO(255, 255, 255, 1);
   final Color modal = const Color.fromRGBO(255, 255, 255, 1);
-  final Color tooltip = const Color.fromRGBO(4, 47, 46, 1);
+  final Color tooltip = const Color.fromRGBO(245, 158, 11, 1);
 
   final Color navBar = const Color.fromRGBO(255, 255, 255, 1);
-  final Color navSelected = const Color.fromRGBO(13, 148, 136, 1);
+  final Color navSelected = const Color.fromRGBO(245, 158, 11, 1);
   final Color navUnselected = const Color.fromRGBO(100, 116, 139, 1);
 
   final Color overlay = const Color.fromRGBO(0, 0, 0, 0.5);
@@ -55,41 +55,41 @@ class LightColors {
 class DarkColors {
   const DarkColors._();
 
-  final Color background = const Color.fromRGBO(4, 47, 46, 1);
-  final Color surface = const Color.fromRGBO(15, 61, 58, 1);
-  final Color surfaceVariant = const Color.fromRGBO(19, 78, 74, 1);
+  final Color background = const Color.fromRGBO(30, 30, 30, 1);
+  final Color surface = const Color.fromRGBO(45, 45, 45, 1);
+  final Color surfaceVariant = const Color.fromRGBO(60, 60, 60, 1);
 
-  final Color primary = const Color.fromRGBO(45, 212, 191, 1);
-  final Color primaryContainer = const Color.fromRGBO(17, 94, 89, 1);
-  final Color secondary = const Color.fromRGBO(148, 163, 184, 1);
-  final Color secondaryContainer = const Color.fromRGBO(19, 78, 74, 1);
+  final Color primary = const Color.fromRGBO(252, 211, 77, 1);
+  final Color primaryContainer = const Color.fromRGBO(217, 119, 6, 1);
+  final Color secondary = const Color.fromRGBO(253, 230, 138, 1);
+  final Color secondaryContainer = const Color.fromRGBO(180, 83, 9, 1);
 
   final Color accent = const Color.fromRGBO(251, 146, 60, 1);
   final Color accentHover = const Color.fromRGBO(253, 186, 116, 1);
   final Color accentPressed = const Color.fromRGBO(249, 115, 22, 1);
 
-  final Color textPrimary = const Color.fromRGBO(240, 253, 250, 1);
+  final Color textPrimary = const Color.fromRGBO(255, 251, 235, 1);
   final Color textSecondary = const Color.fromRGBO(203, 213, 225, 1);
   final Color textTertiary = const Color.fromRGBO(148, 163, 184, 1);
   final Color textDisabled = const Color.fromRGBO(51, 65, 85, 1);
-  final Color textOnPrimary = const Color.fromRGBO(4, 47, 46, 1);
+  final Color textOnPrimary = const Color.fromRGBO(30, 30, 30, 1);
   final Color textOnAccent = const Color.fromRGBO(255, 255, 255, 1);
 
-  final Color border = const Color.fromRGBO(19, 78, 74, 1);
-  final Color borderHover = const Color.fromRGBO(17, 94, 89, 1);
-  final Color divider = const Color.fromRGBO(15, 61, 58, 1);
+  final Color border = const Color.fromRGBO(80, 80, 80, 1);
+  final Color borderHover = const Color.fromRGBO(120, 120, 120, 1);
+  final Color divider = const Color.fromRGBO(60, 60, 60, 1);
 
-  final Color hover = const Color.fromRGBO(45, 212, 191, 0.08);
-  final Color pressed = const Color.fromRGBO(45, 212, 191, 0.15);
-  final Color focus = const Color.fromRGBO(45, 212, 191, 0.12);
-  final Color disabled = const Color.fromRGBO(15, 61, 58, 1);
+  final Color hover = const Color.fromRGBO(252, 211, 77, 0.08);
+  final Color pressed = const Color.fromRGBO(252, 211, 77, 0.15);
+  final Color focus = const Color.fromRGBO(252, 211, 77, 0.12);
+  final Color disabled = const Color.fromRGBO(45, 45, 45, 1);
 
-  final Color card = const Color.fromRGBO(15, 61, 58, 1);
-  final Color modal = const Color.fromRGBO(15, 61, 58, 1);
-  final Color tooltip = const Color.fromRGBO(240, 253, 250, 1);
+  final Color card = const Color.fromRGBO(45, 45, 45, 1);
+  final Color modal = const Color.fromRGBO(45, 45, 45, 1);
+  final Color tooltip = const Color.fromRGBO(255, 251, 235, 1);
 
-  final Color navBar = const Color.fromRGBO(15, 61, 58, 1);
-  final Color navSelected = const Color.fromRGBO(45, 212, 191, 1);
+  final Color navBar = const Color.fromRGBO(45, 45, 45, 1);
+  final Color navSelected = const Color.fromRGBO(252, 211, 77, 1);
   final Color navUnselected = const Color.fromRGBO(148, 163, 184, 1);
 
   final Color overlay = const Color.fromRGBO(0, 0, 0, 0.7);

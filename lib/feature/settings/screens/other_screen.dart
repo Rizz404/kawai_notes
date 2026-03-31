@@ -12,6 +12,7 @@ class OtherScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeProvider);
     final locale = ref.watch(localeProvider);
+    final isMaterialYouEnabled = ref.watch(materialYouProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Settings')),
@@ -19,6 +20,16 @@ class OtherScreen extends ConsumerWidget {
       body: ScreenWrapper(
         child: ListView(
           children: [
+            SwitchListTile(
+              secondary: const Icon(Icons.color_lens_outlined),
+              title: const Text('Use Material You'),
+              subtitle: const Text('Follow system dynamic colors'),
+              value: isMaterialYouEnabled,
+              onChanged: (bool value) {
+                ref.read(materialYouProvider.notifier).toggle();
+              },
+            ),
+            const Divider(),
             ListTile(
               leading: const Icon(Icons.palette_outlined),
               title: const Text('Theme'),

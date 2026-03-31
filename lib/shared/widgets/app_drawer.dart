@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_setup_riverpod/core/extensions/navigator_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/theme_extension.dart';
+import 'package:flutter_setup_riverpod/di/common_providers.dart';
 import 'package:flutter_setup_riverpod/shared/widgets/app_text.dart';
 
 class AppDrawer extends ConsumerWidget {
@@ -57,6 +58,20 @@ class AppDrawer extends ConsumerWidget {
             onTap: () {
               Navigator.pop(context);
               context.replace('/tasks');
+            },
+          ),
+          const Divider(),
+          Consumer(
+            builder: (context, ref, child) {
+              final isMaterialYouEnabled = ref.watch(materialYouProvider);
+              return SwitchListTile(
+                secondary: const Icon(Icons.color_lens_outlined),
+                title: const Text('Material You'),
+                value: isMaterialYouEnabled,
+                onChanged: (bool value) {
+                  ref.read(materialYouProvider.notifier).toggle();
+                },
+              );
             },
           ),
           const Divider(),
