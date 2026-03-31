@@ -1,0 +1,51 @@
+{
+  "@@locale": "id",
+  "notesHidden": "Tersembunyi",
+  "@notesHidden": {
+    "description": "Notes hidden"
+  },
+  "notesError": "Kesalahan: {error}",
+  "@notesError": {
+    "description": "Notes error"
+  },
+  "notesSelectedCount": "{count} dipilih",
+  "@notesSelectedCount": {
+    "description": "Notes selected count"
+  },
+  "notesHiddenTitle": "Catatan Tersembunyi",
+  "@notesHiddenTitle": {
+    "description": "Notes hidden title"
+  },
+  "notesNotFound": "Catatan tidak ditemukan.",
+  "@notesNotFound": {
+    "description": "Notes not found"
+  },
+  "notesGraphTitle": "Tampilan Grafik",
+  "@notesGraphTitle": {
+    "description": "Notes graph title"
+  },
+  "notesGraphEmpty": "Tidak ada catatan untuk grafik.",
+  "@notesGraphEmpty": {
+    "description": "Notes graph empty"
+  },
+  "notesMyTitle": "Catatan Saya",
+  "@notesMyTitle": {
+    "description": "Notes my title"
+  },
+  "notesNew": "Catatan Baru",
+  "@notesNew": {
+    "description": "Notes new"
+  },
+  "notesEdit": "Edit Catatan",
+  "@notesEdit": {
+    "description": "Notes edit"
+  },
+  "notesNoContent": "Tidak ada konten",
+  "@notesNoContent": {
+    "description": "Notes no content"
+  },
+  "notesTags": "Tag: {tags}",
+  "@notesTags": {
+    "description": "Notes tags"
+  }
+}

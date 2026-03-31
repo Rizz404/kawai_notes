@@ -1,54 +1,54 @@
 {
-  "@@locale": "en",
-  "networkErrorDnsFailureUser": "Cannot connect to server.\n• Check your internet connection\n• Disable VPN/DNS if active\n• Try again in a moment",
+  "@@locale": "id",
+  "networkErrorDnsFailureUser": "Gagal terhubung ke server.\n• Periksa koneksi internet Anda\n• Matikan VPN/DNS jika aktif\n• Coba lagi sesaat lagi",
   "@networkErrorDnsFailureUser": {
     "description": "Network error dns failure user"
   },
-  "networkErrorConnectionUser": "Connection lost.\n• Check your internet connection\n• Ensure WiFi/data is active\n• Try again in a moment",
+  "networkErrorConnectionUser": "Koneksi terputus.\n• Periksa koneksi internet Anda\n• Pastikan WiFi/data aktif\n• Coba lagi sesaat lagi",
   "@networkErrorConnectionUser": {
     "description": "Network error connection user"
   },
-  "networkErrorTimeoutUser": "Connection timeout.\n• Check your internet speed\n• Try again in a moment\n• Contact admin if problem persists",
+  "networkErrorTimeoutUser": "Koneksi habis waktu.\n• Periksa kecepatan internet Anda\n• Coba lagi sesaat lagi\n• Hubungi admin jika masalah berlanjut",
   "@networkErrorTimeoutUser": {
     "description": "Network error timeout user"
   },
-  "networkErrorReceiveTimeoutUser": "Server took too long to respond.\n• Your internet connection might be slow\n• Try again in a moment\n• Contact admin if problem persists",
+  "networkErrorReceiveTimeoutUser": "Server terlalu lama merespons.\n• Koneksi internet Anda mungkin lambat\n• Coba lagi sesaat lagi\n• Hubungi admin jika masalah berlanjut",
   "@networkErrorReceiveTimeoutUser": {
     "description": "Network error receive timeout user"
   },
-  "networkErrorServerUser": "Server error occurred.\n• Try again in a moment\n• Contact admin if problem persists",
+  "networkErrorServerUser": "Terjadi kesalahan server.\n• Coba lagi sesaat lagi\n• Hubungi admin jika masalah berlanjut",
   "@networkErrorServerUser": {
     "description": "Network error server user"
   },
-  "networkErrorServer502User": "Server unreachable.\n• Server might be under maintenance\n• Try again in a moment\n• Contact admin if problem persists",
+  "networkErrorServer502User": "Server tidak dapat dijangkau.\n• Server mungkin sedang dalam perbaikan\n• Coba lagi sesaat lagi\n• Hubungi admin jika masalah berlanjut",
   "@networkErrorServer502User": {
     "description": "Network error server502 user"
   },
-  "networkErrorServer503User": "Service under maintenance.\n• Wait a moment\n• Try again later\n• Contact admin for more info",
+  "networkErrorServer503User": "Layanan sedang dalam perbaikan.\n• Tunggu sebentar\n• Coba lagi nanti\n• Hubungi admin untuk info lebih lanjut",
   "@networkErrorServer503User": {
     "description": "Network error server503 user"
   },
-  "networkErrorServer504User": "Server timeout.\n• Server is busy\n• Try again in a moment\n• Contact admin if problem persists",
+  "networkErrorServer504User": "Waktu habis pada server.\n• Server sedang sibuk\n• Coba lagi sesaat lagi\n• Hubungi admin jika masalah berlanjut",
   "@networkErrorServer504User": {
     "description": "Network error server504 user"
   },
-  "networkErrorHtmlResponse": "Server returned HTML instead of JSON. Check API endpoint configuration.",
+  "networkErrorHtmlResponse": "Server mengembalikan HTML, bukan JSON. Periksa konfigurasi endpoint API.",
   "@networkErrorHtmlResponse": {
     "description": "Network error html response"
   },
-  "networkErrorFileDownloaded": "File downloaded successfully",
+  "networkErrorFileDownloaded": "Berkas berhasil diunduh",
   "@networkErrorFileDownloaded": {
     "description": "Network error file downloaded"
   },
-  "networkErrorUnknown": "Unknown error occurred",
+  "networkErrorUnknown": "Terjadi kesalahan yang tidak diketahui",
   "@networkErrorUnknown": {
     "description": "Network error unknown"
   },
-  "timeAgoJustNow": "just now",
+  "timeAgoJustNow": "baru saja",
   "@timeAgoJustNow": {
     "description": "Time ago just now"
   },
-  "timeAgoMinute": "{count, plural, =1{1 minute ago} other{{count} minutes ago}}",
+  "timeAgoMinute": "{count, plural, =1{1 menit yang lalu} other{{count} menit yang lalu}}",
   "@timeAgoMinute": {
     "placeholders": {
       "count": {
@@ -56,7 +56,7 @@
       }
     }
   },
-  "timeAgoHour": "{count, plural, =1{1 hour ago} other{{count} hours ago}}",
+  "timeAgoHour": "{count, plural, =1{1 jam yang lalu} other{{count} jam yang lalu}}",
   "@timeAgoHour": {
     "placeholders": {
       "count": {
@@ -64,7 +64,7 @@
       }
     }
   },
-  "timeAgoDay": "{count, plural, =1{1 day ago} other{{count} days ago}}",
+  "timeAgoDay": "{count, plural, =1{1 hari yang lalu} other{{count} hari yang lalu}}",
   "@timeAgoDay": {
     "placeholders": {
       "count": {
@@ -72,7 +72,7 @@
       }
     }
   },
-  "timeAgoMonth": "{count, plural, =1{1 month ago} other{{count} months ago}}",
+  "timeAgoMonth": "{count, plural, =1{1 bulan yang lalu} other{{count} bulan yang lalu}}",
   "@timeAgoMonth": {
     "placeholders": {
       "count": {
@@ -80,7 +80,7 @@
       }
     }
   },
-  "timeAgoYear": "{count, plural, =1{1 year ago} other{{count} years ago}}",
+  "timeAgoYear": "{count, plural, =1{1 tahun yang lalu} other{{count} tahun yang lalu}}",
   "@timeAgoYear": {
     "placeholders": {
       "count": {
@@ -104,7 +104,7 @@
   "@monthApr": {
     "description": "Month apr"
   },
-  "monthMay": "May",
+  "monthMay": "Mei",
   "@monthMay": {
     "description": "Month may"
   },
@@ -116,7 +116,7 @@
   "@monthJul": {
     "description": "Month jul"
   },
-  "monthAug": "Aug",
+  "monthAug": "Agu",
   "@monthAug": {
     "description": "Month aug"
   },
@@ -124,7 +124,7 @@
   "@monthSep": {
     "description": "Month sep"
   },
-  "monthOct": "Oct",
+  "monthOct": "Okt",
   "@monthOct": {
     "description": "Month oct"
   },
@@ -132,151 +132,151 @@
   "@monthNov": {
     "description": "Month nov"
   },
-  "monthDec": "Dec",
+  "monthDec": "Des",
   "@monthDec": {
     "description": "Month dec"
   },
-  "dayMon": "Monday",
+  "dayMon": "Senin",
   "@dayMon": {
     "description": "Day mon"
   },
-  "dayTue": "Tuesday",
+  "dayTue": "Selasa",
   "@dayTue": {
     "description": "Day tue"
   },
-  "dayWed": "Wednesday",
+  "dayWed": "Rabu",
   "@dayWed": {
     "description": "Day wed"
   },
-  "dayThu": "Thursday",
+  "dayThu": "Kamis",
   "@dayThu": {
     "description": "Day thu"
   },
-  "dayFri": "Friday",
+  "dayFri": "Jumat",
   "@dayFri": {
     "description": "Day fri"
   },
-  "daySat": "Saturday",
+  "daySat": "Sabtu",
   "@daySat": {
     "description": "Day sat"
   },
-  "daySun": "Sunday",
+  "daySun": "Minggu",
   "@daySun": {
     "description": "Day sun"
   },
-  "currencyBillionSuffix": "B",
+  "currencyBillionSuffix": "M",
   "@currencyBillionSuffix": {
     "description": "Currency billion suffix"
   },
-  "currencyMillionSuffix": "M",
+  "currencyMillionSuffix": "Jt",
   "@currencyMillionSuffix": {
     "description": "Currency million suffix"
   },
-  "currencyThousandSuffix": "K",
+  "currencyThousandSuffix": "Rb",
   "@currencyThousandSuffix": {
     "description": "Currency thousand suffix"
   },
-  "enumSortOrderAsc": "Ascending",
+  "enumSortOrderAsc": "Naik",
   "@enumSortOrderAsc": {
     "description": "Sort order ascending"
   },
-  "enumSortOrderDesc": "Descending",
+  "enumSortOrderDesc": "Turun",
   "@enumSortOrderDesc": {
     "description": "Sort order descending"
   },
-  "enumCategorySortByCategoryCode": "Category Code",
+  "enumCategorySortByCategoryCode": "Kode Kategori",
   "@enumCategorySortByCategoryCode": {
     "description": "Sort by category code"
   },
-  "enumCategorySortByName": "Name",
+  "enumCategorySortByName": "Nama",
   "@enumCategorySortByName": {
     "description": "Sort by name"
   },
-  "enumCategorySortByCategoryName": "Category Name",
+  "enumCategorySortByCategoryName": "Nama Kategori",
   "@enumCategorySortByCategoryName": {
     "description": "Sort by category name"
   },
-  "enumCategorySortByCreatedAt": "Created Date",
+  "enumCategorySortByCreatedAt": "Tanggal Dibuat",
   "@enumCategorySortByCreatedAt": {
     "description": "Sort by creation date"
   },
-  "enumCategorySortByUpdatedAt": "Updated Date",
+  "enumCategorySortByUpdatedAt": "Tanggal Diubah",
   "@enumCategorySortByUpdatedAt": {
     "description": "Sort by update date"
   },
-  "enumLocationSortByLocationCode": "Location Code",
+  "enumLocationSortByLocationCode": "Kode Lokasi",
   "@enumLocationSortByLocationCode": {
     "description": "Sort by location code"
   },
-  "enumLocationSortByName": "Name",
+  "enumLocationSortByName": "Nama",
   "@enumLocationSortByName": {
     "description": "Sort by name"
   },
-  "enumLocationSortByLocationName": "Location Name",
+  "enumLocationSortByLocationName": "Nama Lokasi",
   "@enumLocationSortByLocationName": {
     "description": "Sort by location name"
   },
-  "enumLocationSortByBuilding": "Building",
+  "enumLocationSortByBuilding": "Gedung",
   "@enumLocationSortByBuilding": {
     "description": "Sort by building"
   },
-  "enumLocationSortByFloor": "Floor",
+  "enumLocationSortByFloor": "Lantai",
   "@enumLocationSortByFloor": {
     "description": "Sort by floor"
   },
-  "enumLocationSortByCreatedAt": "Created Date",
+  "enumLocationSortByCreatedAt": "Tanggal Dibuat",
   "@enumLocationSortByCreatedAt": {
     "description": "Sort by creation date"
   },
-  "enumLocationSortByUpdatedAt": "Updated Date",
+  "enumLocationSortByUpdatedAt": "Tanggal Diubah",
   "@enumLocationSortByUpdatedAt": {
     "description": "Sort by update date"
   },
-  "enumNotificationSortByType": "Type",
+  "enumNotificationSortByType": "Jenis",
   "@enumNotificationSortByType": {
     "description": "Sort by type"
   },
-  "enumNotificationSortByIsRead": "Read Status",
+  "enumNotificationSortByIsRead": "Status Baca",
   "@enumNotificationSortByIsRead": {
     "description": "Sort by read status"
   },
-  "enumNotificationSortByCreatedAt": "Received Date",
+  "enumNotificationSortByCreatedAt": "Tanggal Diterima",
   "@enumNotificationSortByCreatedAt": {
     "description": "Sort by received date"
   },
-  "enumNotificationSortByTitle": "Title",
+  "enumNotificationSortByTitle": "Judul",
   "@enumNotificationSortByTitle": {
     "description": "Sort by title"
   },
-  "enumNotificationSortByMessage": "Message",
+  "enumNotificationSortByMessage": "Pesan",
   "@enumNotificationSortByMessage": {
     "description": "Sort by message"
   },
-  "enumScanLogSortByScanTimestamp": "Scan Time",
+  "enumScanLogSortByScanTimestamp": "Waktu Pindai",
   "@enumScanLogSortByScanTimestamp": {
     "description": "Sort by scan timestamp"
   },
-  "enumScanLogSortByScannedValue": "Scanned Value",
+  "enumScanLogSortByScannedValue": "Nilai Pindai",
   "@enumScanLogSortByScannedValue": {
     "description": "Sort by scanned value"
   },
-  "enumScanLogSortByScanMethod": "Scan Method",
+  "enumScanLogSortByScanMethod": "Metode Pindai",
   "@enumScanLogSortByScanMethod": {
     "description": "Sort by scan method"
   },
-  "enumScanLogSortByScanResult": "Scan Result",
+  "enumScanLogSortByScanResult": "Hasil Pindai",
   "@enumScanLogSortByScanResult": {
     "description": "Sort by scan result"
   },
-  "enumAssetSortByAssetTag": "Asset Tag",
+  "enumAssetSortByAssetTag": "Tag Aset",
   "@enumAssetSortByAssetTag": {
     "description": "Sort by asset tag"
   },
-  "enumAssetSortByAssetName": "Asset Name",
+  "enumAssetSortByAssetName": "Nama Aset",
   "@enumAssetSortByAssetName": {
     "description": "Sort by asset name"
   },
-  "enumAssetSortByBrand": "Brand",
+  "enumAssetSortByBrand": "Merek",
   "@enumAssetSortByBrand": {
     "description": "Sort by brand"
   },
@@ -284,23 +284,23 @@
   "@enumAssetSortByModel": {
     "description": "Sort by model"
   },
-  "enumAssetSortBySerialNumber": "Serial Number",
+  "enumAssetSortBySerialNumber": "Nomor Seri",
   "@enumAssetSortBySerialNumber": {
     "description": "Sort by serial number"
   },
-  "enumAssetSortByPurchaseDate": "Purchase Date",
+  "enumAssetSortByPurchaseDate": "Tanggal Pembelian",
   "@enumAssetSortByPurchaseDate": {
     "description": "Sort by purchase date"
   },
-  "enumAssetSortByPurchasePrice": "Purchase Price",
+  "enumAssetSortByPurchasePrice": "Harga Beli",
   "@enumAssetSortByPurchasePrice": {
     "description": "Sort by purchase price"
   },
-  "enumAssetSortByVendorName": "Vendor Name",
+  "enumAssetSortByVendorName": "Nama Vendor",
   "@enumAssetSortByVendorName": {
     "description": "Sort by vendor name"
   },
-  "enumAssetSortByWarrantyEnd": "Warranty End Date",
+  "enumAssetSortByWarrantyEnd": "Batas Garansi",
   "@enumAssetSortByWarrantyEnd": {
     "description": "Sort by warranty end date"
   },
@@ -308,123 +308,123 @@
   "@enumAssetSortByStatus": {
     "description": "Sort by status"
   },
-  "enumAssetSortByConditionStatus": "Condition",
+  "enumAssetSortByConditionStatus": "Kondisi",
   "@enumAssetSortByConditionStatus": {
     "description": "Sort by condition"
   },
-  "enumAssetSortByCreatedAt": "Created Date",
+  "enumAssetSortByCreatedAt": "Tanggal Dibuat",
   "@enumAssetSortByCreatedAt": {
     "description": "Sort by creation date"
   },
-  "enumAssetSortByUpdatedAt": "Updated Date",
+  "enumAssetSortByUpdatedAt": "Tanggal Diubah",
   "@enumAssetSortByUpdatedAt": {
     "description": "Sort by update date"
   },
-  "enumAssetMovementSortByMovementDate": "Movement Date",
+  "enumAssetMovementSortByMovementDate": "Tanggal Pindah",
   "@enumAssetMovementSortByMovementDate": {
     "description": "Sort by movement date"
   },
-  "enumAssetMovementSortByMovementdate": "Movement Date",
+  "enumAssetMovementSortByMovementdate": "Tanggal Pindah",
   "@enumAssetMovementSortByMovementdate": {
     "description": "Sort by movement date (lowercase alias)"
   },
-  "enumAssetMovementSortByCreatedAt": "Created Date",
+  "enumAssetMovementSortByCreatedAt": "Tanggal Dibuat",
   "@enumAssetMovementSortByCreatedAt": {
     "description": "Sort by creation date"
   },
-  "enumAssetMovementSortByCreatedat": "Created Date",
+  "enumAssetMovementSortByCreatedat": "Tanggal Dibuat",
   "@enumAssetMovementSortByCreatedat": {
     "description": "Sort by creation date (lowercase alias)"
   },
-  "enumAssetMovementSortByUpdatedAt": "Updated Date",
+  "enumAssetMovementSortByUpdatedAt": "Tanggal Diubah",
   "@enumAssetMovementSortByUpdatedAt": {
     "description": "Sort by update date"
   },
-  "enumAssetMovementSortByUpdatedat": "Updated Date",
+  "enumAssetMovementSortByUpdatedat": "Tanggal Diubah",
   "@enumAssetMovementSortByUpdatedat": {
     "description": "Sort by update date (lowercase alias)"
   },
-  "enumIssueReportSortByReportedDate": "Reported Date",
+  "enumIssueReportSortByReportedDate": "Tanggal Laporan",
   "@enumIssueReportSortByReportedDate": {
     "description": "Sort by reported date"
   },
-  "enumIssueReportSortByResolvedDate": "Resolved Date",
+  "enumIssueReportSortByResolvedDate": "Tanggal Selesai",
   "@enumIssueReportSortByResolvedDate": {
     "description": "Sort by resolved date"
   },
-  "enumIssueReportSortByIssueType": "Issue Type",
+  "enumIssueReportSortByIssueType": "Jenis Masalah",
   "@enumIssueReportSortByIssueType": {
     "description": "Sort by issue type"
   },
-  "enumIssueReportSortByPriority": "Priority",
+  "enumIssueReportSortByPriority": "Prioritas",
   "@enumIssueReportSortByPriority": {
     "description": "Sort by priority"
   },
-  "enumIssueReportSortByStatus": "Status",
+  "enumIssueReportSortByStatus": "Status Masalah",
   "@enumIssueReportSortByStatus": {
     "description": "Sort by status"
   },
-  "enumIssueReportSortByTitle": "Title",
+  "enumIssueReportSortByTitle": "Judul",
   "@enumIssueReportSortByTitle": {
     "description": "Sort by title"
   },
-  "enumIssueReportSortByDescription": "Description",
+  "enumIssueReportSortByDescription": "Deskripsi",
   "@enumIssueReportSortByDescription": {
     "description": "Sort by description"
   },
-  "enumIssueReportSortByCreatedAt": "Created Date",
+  "enumIssueReportSortByCreatedAt": "Tanggal Dibuat",
   "@enumIssueReportSortByCreatedAt": {
     "description": "Sort by creation date"
   },
-  "enumIssueReportSortByUpdatedAt": "Updated Date",
+  "enumIssueReportSortByUpdatedAt": "Tanggal Diubah",
   "@enumIssueReportSortByUpdatedAt": {
     "description": "Sort by update date"
   },
-  "enumMaintenanceScheduleSortByNextScheduledDate": "Next Scheduled Date",
+  "enumMaintenanceScheduleSortByNextScheduledDate": "Jadwal Berikutnya",
   "@enumMaintenanceScheduleSortByNextScheduledDate": {
     "description": "Sort by next scheduled date"
   },
-  "enumMaintenanceScheduleSortByMaintenanceType": "Maintenance Type",
+  "enumMaintenanceScheduleSortByMaintenanceType": "Jenis Perawatan",
   "@enumMaintenanceScheduleSortByMaintenanceType": {
     "description": "Sort by maintenance type"
   },
-  "enumMaintenanceScheduleSortByState": "State",
+  "enumMaintenanceScheduleSortByState": "Status Perawatan",
   "@enumMaintenanceScheduleSortByState": {
     "description": "Sort by state"
   },
-  "enumMaintenanceScheduleSortByCreatedAt": "Created Date",
+  "enumMaintenanceScheduleSortByCreatedAt": "Tanggal Dibuat",
   "@enumMaintenanceScheduleSortByCreatedAt": {
     "description": "Sort by creation date"
   },
-  "enumMaintenanceScheduleSortByUpdatedAt": "Updated Date",
+  "enumMaintenanceScheduleSortByUpdatedAt": "Tanggal Diubah",
   "@enumMaintenanceScheduleSortByUpdatedAt": {
     "description": "Sort by update date"
   },
-  "enumMaintenanceRecordSortByMaintenanceDate": "Maintenance Date",
+  "enumMaintenanceRecordSortByMaintenanceDate": "Tanggal Perawatan",
   "@enumMaintenanceRecordSortByMaintenanceDate": {
     "description": "Sort by maintenance date"
   },
-  "enumMaintenanceRecordSortByActualCost": "Actual Cost",
+  "enumMaintenanceRecordSortByActualCost": "Biaya Aktual",
   "@enumMaintenanceRecordSortByActualCost": {
     "description": "Sort by cost"
   },
-  "enumMaintenanceRecordSortByTitle": "Title",
+  "enumMaintenanceRecordSortByTitle": "Judul",
   "@enumMaintenanceRecordSortByTitle": {
     "description": "Sort by title"
   },
-  "enumMaintenanceRecordSortByCreatedAt": "Created Date",
+  "enumMaintenanceRecordSortByCreatedAt": "Tanggal Dibuat",
   "@enumMaintenanceRecordSortByCreatedAt": {
     "description": "Sort by creation date"
   },
-  "enumMaintenanceRecordSortByUpdatedAt": "Updated Date",
+  "enumMaintenanceRecordSortByUpdatedAt": "Tanggal Diubah",
   "@enumMaintenanceRecordSortByUpdatedAt": {
     "description": "Sort by update date"
   },
-  "enumUserSortByName": "Name",
+  "enumUserSortByName": "Nama",
   "@enumUserSortByName": {
     "description": "Sort by name"
   },
-  "enumUserSortByFullName": "Full Name",
+  "enumUserSortByFullName": "Nama Lengkap",
   "@enumUserSortByFullName": {
     "description": "Sort by full name"
   },
@@ -432,23 +432,23 @@
   "@enumUserSortByEmail": {
     "description": "Sort by email"
   },
-  "enumUserSortByRole": "Role",
+  "enumUserSortByRole": "Peran",
   "@enumUserSortByRole": {
     "description": "Sort by role"
   },
-  "enumUserSortByEmployeeId": "Employee ID",
+  "enumUserSortByEmployeeId": "ID Karyawan",
   "@enumUserSortByEmployeeId": {
     "description": "Sort by employee ID"
   },
-  "enumUserSortByIsActive": "Active Status",
+  "enumUserSortByIsActive": "Status Aktif",
   "@enumUserSortByIsActive": {
     "description": "Sort by active status"
   },
-  "enumUserSortByCreatedAt": "Joined Date",
+  "enumUserSortByCreatedAt": "Tanggal Bergabung",
   "@enumUserSortByCreatedAt": {
     "description": "Sort by join date"
   },
-  "enumUserSortByUpdatedAt": "Updated Date",
+  "enumUserSortByUpdatedAt": "Tanggal Diubah",
   "@enumUserSortByUpdatedAt": {
     "description": "Sort by update date"
   },
@@ -460,27 +460,27 @@
   "@enumExportFormatExcel": {
     "description": "Export format Excel"
   },
-  "enumMutationTypeCreate": "Create",
+  "enumMutationTypeCreate": "Buat",
   "@enumMutationTypeCreate": {
     "description": "Mutation type create"
   },
-  "enumMutationTypeUpdate": "Update",
+  "enumMutationTypeUpdate": "Ubah",
   "@enumMutationTypeUpdate": {
     "description": "Mutation type update"
   },
-  "enumMutationTypeDelete": "Delete",
+  "enumMutationTypeDelete": "Hapus",
   "@enumMutationTypeDelete": {
     "description": "Mutation type delete"
   },
-  "enumLanguageEnglish": "English",
+  "enumLanguageEnglish": "Inggris",
   "@enumLanguageEnglish": {
     "description": "Language English"
   },
-  "enumLanguageJapanese": "Japanese",
+  "enumLanguageJapanese": "Jepang",
   "@enumLanguageJapanese": {
     "description": "Language Japanese"
   },
-  "enumLanguageIndonesian": "Indonesian",
+  "enumLanguageIndonesian": "Indonesia",
   "@enumLanguageIndonesian": {
     "description": "Language Indonesian"
   },
@@ -488,71 +488,71 @@
   "@enumUserRoleAdmin": {
     "description": "User role Admin"
   },
-  "enumUserRoleUser": "User",
+  "enumUserRoleUser": "Manusia",
   "@enumUserRoleUser": {
     "description": "User role User"
   },
-  "enumAssetStatusActive": "Active",
+  "enumAssetStatusActive": "Aktif",
   "@enumAssetStatusActive": {
     "description": "Asset status Active"
   },
-  "enumAssetStatusMaintenance": "Maintenance",
+  "enumAssetStatusMaintenance": "Perawatan",
   "@enumAssetStatusMaintenance": {
     "description": "Asset status Maintenance"
   },
-  "enumAssetStatusDisposed": "Disposed",
+  "enumAssetStatusDisposed": "Dibuang",
   "@enumAssetStatusDisposed": {
     "description": "Asset status Disposed"
   },
-  "enumAssetStatusLost": "Lost",
+  "enumAssetStatusLost": "Hilang",
   "@enumAssetStatusLost": {
     "description": "Asset status Lost"
   },
-  "enumAssetConditionGood": "Good",
+  "enumAssetConditionGood": "Bagus",
   "@enumAssetConditionGood": {
     "description": "Asset condition Good"
   },
-  "enumAssetConditionFair": "Fair",
+  "enumAssetConditionFair": "Cukup",
   "@enumAssetConditionFair": {
     "description": "Asset condition Fair"
   },
-  "enumAssetConditionPoor": "Poor",
+  "enumAssetConditionPoor": "Buruk",
   "@enumAssetConditionPoor": {
     "description": "Asset condition Poor"
   },
-  "enumAssetConditionDamaged": "Damaged",
+  "enumAssetConditionDamaged": "Rusak",
   "@enumAssetConditionDamaged": {
     "description": "Asset condition Damaged"
   },
-  "enumNotificationTypeMaintenance": "Maintenance",
+  "enumNotificationTypeMaintenance": "Perawatan",
   "@enumNotificationTypeMaintenance": {
     "description": "Notification type Maintenance"
   },
-  "enumNotificationTypeWarranty": "Warranty",
+  "enumNotificationTypeWarranty": "Garansi",
   "@enumNotificationTypeWarranty": {
     "description": "Notification type Warranty"
   },
-  "enumNotificationTypeIssue": "Issue",
+  "enumNotificationTypeIssue": "Masalah",
   "@enumNotificationTypeIssue": {
     "description": "Notification type Issue"
   },
-  "enumNotificationTypeMovement": "Movement",
+  "enumNotificationTypeMovement": "Pergerakan",
   "@enumNotificationTypeMovement": {
     "description": "Notification type Movement"
   },
-  "enumNotificationTypeStatusChange": "Status Change",
+  "enumNotificationTypeStatusChange": "Perubahan Status",
   "@enumNotificationTypeStatusChange": {
     "description": "Notification type Status Change"
   },
-  "enumNotificationTypeLocationChange": "Location Change",
+  "enumNotificationTypeLocationChange": "Perubahan Lokasi",
   "@enumNotificationTypeLocationChange": {
     "description": "Notification type Location Change"
   },
-  "enumNotificationTypeCategoryChange": "Category Change",
+  "enumNotificationTypeCategoryChange": "Perubahan Kategori",
   "@enumNotificationTypeCategoryChange": {
     "description": "Notification type Category Change"
   },
-  "enumNotificationPriorityLow": "Low",
+  "enumNotificationPriorityLow": "Rendah",
   "@enumNotificationPriorityLow": {
     "description": "Priority Low"
   },
@@ -560,11 +560,11 @@
   "@enumNotificationPriorityNormal": {
     "description": "Priority Normal"
   },
-  "enumNotificationPriorityHigh": "High",
+  "enumNotificationPriorityHigh": "Tinggi",
   "@enumNotificationPriorityHigh": {
     "description": "Priority High"
   },
-  "enumNotificationPriorityUrgent": "Urgent",
+  "enumNotificationPriorityUrgent": "Mendesak",
   "@enumNotificationPriorityUrgent": {
     "description": "Priority Urgent"
   },
@@ -572,580 +572,544 @@
   "@enumScanMethodTypeDataMatrix": {
     "description": "Scan method Data Matrix"
   },
-  "enumScanMethodTypeManualInput": "Manual Input",
+  "enumScanMethodTypeManualInput": "Masukan Manual",
   "@enumScanMethodTypeManualInput": {
     "description": "Scan method Manual Input"
   },
-  "enumScanResultTypeSuccess": "Success",
+  "enumScanResultTypeSuccess": "Sukses",
   "@enumScanResultTypeSuccess": {
     "description": "Scan result Success"
   },
-  "enumScanResultTypeInvalidID": "Invalid ID",
+  "enumScanResultTypeInvalidID": "ID Tidak Valid",
   "@enumScanResultTypeInvalidID": {
     "description": "Scan result Invalid ID"
   },
-  "enumScanResultTypeAssetNotFound": "Asset Not Found",
+  "enumScanResultTypeAssetNotFound": "Aset Tidak Ditemukan",
   "@enumScanResultTypeAssetNotFound": {
     "description": "Scan result Asset Not Found"
   },
-  "enumMaintenanceScheduleTypePreventive": "Preventive",
+  "enumMaintenanceScheduleTypePreventive": "Pencegahan",
   "@enumMaintenanceScheduleTypePreventive": {
     "description": "Schedule type Preventive"
   },
-  "enumMaintenanceScheduleTypeCorrective": "Corrective",
+  "enumMaintenanceScheduleTypeCorrective": "Perbaikan",
   "@enumMaintenanceScheduleTypeCorrective": {
     "description": "Schedule type Corrective"
   },
-  "enumMaintenanceScheduleTypeInspection": "Inspection",
+  "enumMaintenanceScheduleTypeInspection": "Inspeksi",
   "@enumMaintenanceScheduleTypeInspection": {
     "description": "Schedule type Inspection"
   },
-  "enumMaintenanceScheduleTypeCalibration": "Calibration",
+  "enumMaintenanceScheduleTypeCalibration": "Kalibrasi",
   "@enumMaintenanceScheduleTypeCalibration": {
     "description": "Schedule type Calibration"
   },
-  "enumScheduleStateActive": "Active",
+  "enumScheduleStateActive": "Aktif",
   "@enumScheduleStateActive": {
     "description": "Schedule state Active"
   },
-  "enumScheduleStatePaused": "Paused",
+  "enumScheduleStatePaused": "Ditunda",
   "@enumScheduleStatePaused": {
     "description": "Schedule state Paused"
   },
-  "enumScheduleStateStopped": "Stopped",
+  "enumScheduleStateStopped": "Berhenti",
   "@enumScheduleStateStopped": {
     "description": "Schedule state Stopped"
   },
-  "enumScheduleStateCompleted": "Completed",
+  "enumScheduleStateCompleted": "Selesai",
   "@enumScheduleStateCompleted": {
     "description": "Schedule state Completed"
   },
-  "enumIntervalUnitDays": "Days",
+  "enumIntervalUnitDays": "Hari",
   "@enumIntervalUnitDays": {
     "description": "Interval unit Days"
   },
-  "enumIntervalUnitWeeks": "Weeks",
+  "enumIntervalUnitWeeks": "Minggu",
   "@enumIntervalUnitWeeks": {
     "description": "Interval unit Weeks"
   },
-  "enumIntervalUnitMonths": "Months",
+  "enumIntervalUnitMonths": "Bulan",
   "@enumIntervalUnitMonths": {
     "description": "Interval unit Months"
   },
-  "enumIntervalUnitYears": "Years",
+  "enumIntervalUnitYears": "Tahun",
   "@enumIntervalUnitYears": {
     "description": "Interval unit Years"
   },
-  "enumIssuePriorityLow": "Low",
+  "enumIssuePriorityLow": "Rendah",
   "@enumIssuePriorityLow": {
     "description": "Issue priority Low"
   },
-  "enumIssuePriorityMedium": "Medium",
+  "enumIssuePriorityMedium": "Sedang",
   "@enumIssuePriorityMedium": {
     "description": "Issue priority Medium"
   },
-  "enumIssuePriorityHigh": "High",
+  "enumIssuePriorityHigh": "Tinggi",
   "@enumIssuePriorityHigh": {
     "description": "Issue priority High"
   },
-  "enumIssuePriorityCritical": "Critical",
+  "enumIssuePriorityCritical": "Kritis",
   "@enumIssuePriorityCritical": {
     "description": "Issue priority Critical"
   },
-  "enumIssueStatusOpen": "Open",
+  "enumIssueStatusOpen": "Buka",
   "@enumIssueStatusOpen": {
     "description": "Issue status Open"
   },
-  "enumIssueStatusInProgress": "In Progress",
+  "enumIssueStatusInProgress": "Dalam Proses",
   "@enumIssueStatusInProgress": {
     "description": "Issue status In Progress"
   },
-  "enumIssueStatusResolved": "Resolved",
+  "enumIssueStatusResolved": "Terselesaikan",
   "@enumIssueStatusResolved": {
     "description": "Issue status Resolved"
   },
-  "enumIssueStatusClosed": "Closed",
+  "enumIssueStatusClosed": "Tutup",
   "@enumIssueStatusClosed": {
     "description": "Issue status Closed"
   },
-  "enumMaintenanceResultSuccess": "Success",
+  "enumMaintenanceResultSuccess": "Sukses",
   "@enumMaintenanceResultSuccess": {
     "description": "Maintenance result Success"
   },
-  "enumMaintenanceResultPartial": "Partial",
+  "enumMaintenanceResultPartial": "Sebagian",
   "@enumMaintenanceResultPartial": {
     "description": "Maintenance result Partial"
   },
-  "enumMaintenanceResultFailed": "Failed",
+  "enumMaintenanceResultFailed": "Gagal",
   "@enumMaintenanceResultFailed": {
     "description": "Maintenance result Failed"
   },
-  "enumMaintenanceResultRescheduled": "Rescheduled",
+  "enumMaintenanceResultRescheduled": "Dijadwalkan Ulang",
   "@enumMaintenanceResultRescheduled": {
     "description": "Maintenance result Rescheduled"
   },
-  "foldersTitle": "Folders",
+  "foldersTitle": "Folder",
   "@foldersTitle": {
     "description": "Folders title"
   },
-  "foldersAllNotes": "All Notes",
+  "foldersAllNotes": "Semua Catatan",
   "@foldersAllNotes": {
     "description": "Folders all notes"
   },
-  "foldersUncategorized": "Uncategorized",
+  "foldersUncategorized": "Tidak Berkategori",
   "@foldersUncategorized": {
     "description": "Folders uncategorized"
   },
-  "foldersEmpty": "No custom folders",
+  "foldersEmpty": "Tidak ada folder khusus",
   "@foldersEmpty": {
     "description": "Folders empty"
   },
-  "foldersError": "Error: {error}",
+  "foldersError": "Kesalahan: {error}",
   "@foldersError": {
-    "placeholders": {
-      "error": {
-        "type": "String"
-      }
-    }
+    "description": "Folders error"
   },
-  "foldersCreateNew": "Create New Folder",
+  "foldersCreateNew": "Buat Folder Baru",
   "@foldersCreateNew": {
     "description": "Folders create new"
   },
-  "foldersNewTitle": "New Folder",
+  "foldersNewTitle": "Folder Baru",
   "@foldersNewTitle": {
     "description": "Folders new title"
   },
-  "foldersCancel": "Cancel",
+  "foldersCancel": "Batal",
   "@foldersCancel": {
     "description": "Folders cancel"
   },
-  "foldersCreateBtn": "Create",
+  "foldersCreateBtn": "Buat",
   "@foldersCreateBtn": {
     "description": "Folders create btn"
   },
-  "notesHidden": "Hidden",
+  "notesHidden": "Tersembunyi",
   "@notesHidden": {
     "description": "Notes hidden"
   },
-  "notesError": "Error: {error}",
+  "notesError": "Kesalahan: {error}",
   "@notesError": {
-    "placeholders": {
-      "error": {
-        "type": "String"
-      }
-    }
+    "description": "Notes error"
   },
-  "notesSelectedCount": "{count} selected",
+  "notesSelectedCount": "{count} dipilih",
   "@notesSelectedCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
+    "description": "Notes selected count"
   },
-  "notesHiddenTitle": "Hidden Notes",
+  "notesHiddenTitle": "Catatan Tersembunyi",
   "@notesHiddenTitle": {
     "description": "Notes hidden title"
   },
-  "notesNotFound": "No notes found.",
+  "notesNotFound": "Catatan tidak ditemukan.",
   "@notesNotFound": {
     "description": "Notes not found"
   },
-  "notesGraphTitle": "Graph View",
+  "notesGraphTitle": "Tampilan Grafik",
   "@notesGraphTitle": {
     "description": "Notes graph title"
   },
-  "notesGraphEmpty": "No notes available for graph.",
+  "notesGraphEmpty": "Tidak ada catatan untuk grafik.",
   "@notesGraphEmpty": {
     "description": "Notes graph empty"
   },
-  "notesMyTitle": "My Notes",
+  "notesMyTitle": "Catatan Saya",
   "@notesMyTitle": {
     "description": "Notes my title"
   },
-  "notesNew": "New Note",
+  "notesNew": "Catatan Baru",
   "@notesNew": {
     "description": "Notes new"
   },
-  "notesEdit": "Edit Note",
+  "notesEdit": "Edit Catatan",
   "@notesEdit": {
     "description": "Notes edit"
   },
-  "notesNoContent": "No content",
+  "notesNoContent": "Tidak ada konten",
   "@notesNoContent": {
     "description": "Notes no content"
   },
-  "notesTags": "Tags: {tags}",
+  "notesTags": "Tag: {tags}",
   "@notesTags": {
-    "placeholders": {
-      "tags": {
-        "type": "String"
-      }
-    }
+    "description": "Notes tags"
   },
-  "settingsTitle": "Settings",
+  "settingsTitle": "Pengaturan",
   "@settingsTitle": {
     "description": "Settings title"
   },
-  "settingsMaterialYou": "Use Material You",
+  "settingsMaterialYou": "Gunakan Material You",
   "@settingsMaterialYou": {
     "description": "Settings material you"
   },
-  "settingsMaterialYouSubtitle": "Follow system dynamic colors",
+  "settingsMaterialYouSubtitle": "Ikuti warna dinamis sistem",
   "@settingsMaterialYouSubtitle": {
     "description": "Settings material you subtitle"
   },
-  "settingsTheme": "Theme",
+  "settingsTheme": "Tema",
   "@settingsTheme": {
     "description": "Settings theme"
   },
-  "settingsThemeSystem": "System",
+  "settingsThemeSystem": "Sistem",
   "@settingsThemeSystem": {
     "description": "Settings theme system"
   },
-  "settingsThemeLight": "Light",
+  "settingsThemeLight": "Terang",
   "@settingsThemeLight": {
     "description": "Settings theme light"
   },
-  "settingsThemeDark": "Dark",
+  "settingsThemeDark": "Gelap",
   "@settingsThemeDark": {
     "description": "Settings theme dark"
   },
-  "settingsLanguage": "Language",
+  "settingsLanguage": "Bahasa",
   "@settingsLanguage": {
     "description": "Settings language"
   },
-  "settingsLanguageEnglish": "English",
+  "settingsLanguageEnglish": "Inggris",
   "@settingsLanguageEnglish": {
     "description": "Settings language english"
   },
-  "settingsLanguageJapanese": "Japanese",
+  "settingsLanguageJapanese": "Jepang",
   "@settingsLanguageJapanese": {
     "description": "Settings language japanese"
   },
-  "settingsLanguageIndonesian": "Indonesian",
+  "settingsLanguageIndonesian": "Indonesia",
   "@settingsLanguageIndonesian": {
     "description": "Settings language indonesian"
   },
-  "tasksTitle": "Tasks",
+  "tasksTitle": "Tugas",
   "@tasksTitle": {
     "description": "Tasks title"
   },
-  "tasksEmpty": "No Tasks. Create one!",
+  "tasksEmpty": "Tidak ada Tugas. Buat satu!",
   "@tasksEmpty": {
     "description": "Tasks empty"
   },
-  "tasksActive": "Active",
+  "tasksActive": "Aktif",
   "@tasksActive": {
     "description": "Tasks active"
   },
-  "tasksCompleted": "Completed",
+  "tasksCompleted": "Selesai",
   "@tasksCompleted": {
     "description": "Tasks completed"
   },
-  "tasksNothingHere": "Nothing here...",
+  "tasksNothingHere": "Tidak ada apa-apa di sini...",
   "@tasksNothingHere": {
     "description": "Tasks nothing here"
   },
-  "tasksNew": "New Task",
+  "tasksNew": "Tugas Baru",
   "@tasksNew": {
     "description": "Tasks new"
   },
-  "tasksEdit": "Edit Task",
+  "tasksEdit": "Edit Tugas",
   "@tasksEdit": {
     "description": "Tasks edit"
   },
-  "tasksTitleLabel": "Task Title",
+  "tasksTitleLabel": "Judul Tugas",
   "@tasksTitleLabel": {
     "description": "Tasks title label"
   },
-  "tasksDueDate": "Due Date",
+  "tasksDueDate": "Batas Waktu",
   "@tasksDueDate": {
     "description": "Tasks due date"
   },
-  "tasksSave": "Save Task",
+  "tasksSave": "Simpan Tugas",
   "@tasksSave": {
     "description": "Tasks save"
   },
-  "tasksError": "Error: {error}",
+  "tasksError": "Kesalahan: {error}",
   "@tasksError": {
-    "placeholders": {
-      "error": {
-        "type": "String"
-      }
-    }
+    "description": "Tasks error"
   },
-  "adminShellBottomNavDashboard": "Dashboard",
+  "adminShellBottomNavDashboard": "Dasbor",
   "@adminShellBottomNavDashboard": {
-    "description": "Admin shell bottom navigation label for dashboard"
+    "description": "Admin shell bottom nav dashboard"
   },
-  "adminShellBottomNavScanAsset": "Scan Asset",
+  "adminShellBottomNavScanAsset": "Pindai Aset",
   "@adminShellBottomNavScanAsset": {
-    "description": "Admin shell bottom navigation label for scan asset"
+    "description": "Admin shell bottom nav scan asset"
   },
-  "adminShellBottomNavProfile": "Profile",
+  "adminShellBottomNavProfile": "Profil",
   "@adminShellBottomNavProfile": {
-    "description": "Admin shell bottom navigation label for profile"
+    "description": "Admin shell bottom nav profile"
   },
-  "userShellBottomNavHome": "Home",
+  "userShellBottomNavHome": "Beranda",
   "@userShellBottomNavHome": {
-    "description": "User shell bottom navigation label for home"
+    "description": "User shell bottom nav home"
   },
-  "userShellBottomNavScanAsset": "Scan Asset",
+  "userShellBottomNavScanAsset": "Pindai Aset",
   "@userShellBottomNavScanAsset": {
-    "description": "User shell bottom navigation label for scan asset"
+    "description": "User shell bottom nav scan asset"
   },
-  "userShellBottomNavProfile": "Profile",
+  "userShellBottomNavProfile": "Profil",
   "@userShellBottomNavProfile": {
-    "description": "User shell bottom navigation label for profile"
+    "description": "User shell bottom nav profile"
   },
-  "appEndDrawerTitle": "My App",
+  "appEndDrawerTitle": "Aplikasi Saya",
   "@appEndDrawerTitle": {
     "description": "App end drawer title"
   },
-  "appEndDrawerPleaseLoginFirst": "Please login first",
+  "appEndDrawerPleaseLoginFirst": "Silakan masuk terlebih dahulu",
   "@appEndDrawerPleaseLoginFirst": {
-    "description": "Message shown when user needs to login"
+    "description": "App end drawer please login first"
   },
-  "appEndDrawerTheme": "Theme",
+  "appEndDrawerTheme": "Tema",
   "@appEndDrawerTheme": {
-    "description": "Theme settings label"
+    "description": "App end drawer theme"
   },
-  "appEndDrawerLanguage": "Language",
+  "appEndDrawerLanguage": "Bahasa",
   "@appEndDrawerLanguage": {
-    "description": "Language settings label"
+    "description": "App end drawer language"
   },
-  "appEndDrawerLogout": "Logout",
+  "appEndDrawerLogout": "Keluar",
   "@appEndDrawerLogout": {
-    "description": "Logout button label"
+    "description": "App end drawer logout"
   },
-  "appEndDrawerManagementSection": "Management",
+  "appEndDrawerManagementSection": "Manajemen",
   "@appEndDrawerManagementSection": {
-    "description": "Management section header"
+    "description": "App end drawer management section"
   },
-  "appEndDrawerMaintenanceSection": "Maintenance",
+  "appEndDrawerMaintenanceSection": "Pemeliharaan",
   "@appEndDrawerMaintenanceSection": {
-    "description": "Maintenance section header"
+    "description": "App end drawer maintenance section"
   },
   "appEndDrawerEnglish": "English",
   "@appEndDrawerEnglish": {
-    "description": "English language option"
+    "description": "App end drawer english"
   },
   "appEndDrawerIndonesian": "Indonesia",
   "@appEndDrawerIndonesian": {
-    "description": "Indonesian language option"
+    "description": "App end drawer indonesian"
   },
   "appEndDrawerJapanese": "日本語",
   "@appEndDrawerJapanese": {
-    "description": "Japanese language option"
+    "description": "App end drawer japanese"
   },
-  "appEndDrawerMyAssets": "My Assets",
+  "appEndDrawerMyAssets": "Aset Saya",
   "@appEndDrawerMyAssets": {
-    "description": "My assets menu item"
+    "description": "App end drawer my assets"
   },
-  "appEndDrawerNotifications": "Notifications",
+  "appEndDrawerNotifications": "Notifikasi",
   "@appEndDrawerNotifications": {
-    "description": "Notifications menu item"
+    "description": "App end drawer notifications"
   },
-  "appEndDrawerMyIssueReports": "My Issue Reports",
+  "appEndDrawerMyIssueReports": "Laporan Masalah Saya",
   "@appEndDrawerMyIssueReports": {
-    "description": "My issue reports menu item"
+    "description": "App end drawer my issue reports"
   },
-  "appEndDrawerAssets": "Assets",
+  "appEndDrawerAssets": "Aset",
   "@appEndDrawerAssets": {
-    "description": "Assets menu item"
+    "description": "App end drawer assets"
   },
-  "appEndDrawerAssetMovements": "Asset Movements",
+  "appEndDrawerAssetMovements": "Pergerakan Aset",
   "@appEndDrawerAssetMovements": {
-    "description": "Asset movements menu item"
+    "description": "App end drawer asset movements"
   },
-  "appEndDrawerCategories": "Categories",
+  "appEndDrawerCategories": "Kategori",
   "@appEndDrawerCategories": {
-    "description": "Categories menu item"
+    "description": "App end drawer categories"
   },
-  "appEndDrawerLocations": "Locations",
+  "appEndDrawerLocations": "Lokasi",
   "@appEndDrawerLocations": {
-    "description": "Locations menu item"
+    "description": "App end drawer locations"
   },
-  "appEndDrawerUsers": "Users",
+  "appEndDrawerUsers": "Pengguna",
   "@appEndDrawerUsers": {
-    "description": "Users menu item"
+    "description": "App end drawer users"
   },
-  "appEndDrawerMaintenanceSchedules": "Maintenance Schedules",
+  "appEndDrawerMaintenanceSchedules": "Jadwal Pemeliharaan",
   "@appEndDrawerMaintenanceSchedules": {
-    "description": "Maintenance schedules menu item"
+    "description": "App end drawer maintenance schedules"
   },
-  "appEndDrawerMaintenanceRecords": "Maintenance Records",
+  "appEndDrawerMaintenanceRecords": "Catatan Pemeliharaan",
   "@appEndDrawerMaintenanceRecords": {
-    "description": "Maintenance records menu item"
+    "description": "App end drawer maintenance records"
   },
-  "appEndDrawerReports": "Reports",
+  "appEndDrawerReports": "Laporan",
   "@appEndDrawerReports": {
-    "description": "Reports menu item"
+    "description": "App end drawer reports"
   },
-  "appEndDrawerIssueReports": "Issue Reports",
+  "appEndDrawerIssueReports": "Laporan Masalah",
   "@appEndDrawerIssueReports": {
-    "description": "Issue reports menu item"
+    "description": "App end drawer issue reports"
   },
-  "appEndDrawerScanLogs": "Scan Logs",
+  "appEndDrawerScanLogs": "Log Pemindaian",
   "@appEndDrawerScanLogs": {
-    "description": "Scan logs menu item"
+    "description": "App end drawer scan logs"
   },
-  "appEndDrawerScanAsset": "Scan Asset",
+  "appEndDrawerScanAsset": "Pindai Aset",
   "@appEndDrawerScanAsset": {
-    "description": "Scan asset menu item"
+    "description": "App end drawer scan asset"
   },
-  "appEndDrawerDashboard": "Dashboard",
+  "appEndDrawerDashboard": "Dasbor",
   "@appEndDrawerDashboard": {
-    "description": "Dashboard menu item"
+    "description": "App end drawer dashboard"
   },
-  "appEndDrawerHome": "Home",
+  "appEndDrawerHome": "Beranda",
   "@appEndDrawerHome": {
-    "description": "Home menu item"
+    "description": "App end drawer home"
   },
-  "appEndDrawerProfile": "Profile",
+  "appEndDrawerProfile": "Profil",
   "@appEndDrawerProfile": {
-    "description": "Profile menu item"
+    "description": "App end drawer profile"
   },
-  "customAppBarTitle": "My App",
+  "customAppBarTitle": "Aplikasi Saya",
   "@customAppBarTitle": {
-    "description": "App bar title"
+    "description": "Custom app bar title"
   },
-  "customAppBarOpenMenu": "Open Menu",
+  "customAppBarOpenMenu": "Buka Menu",
   "@customAppBarOpenMenu": {
-    "description": "Open menu button label"
+    "description": "Custom app bar open menu"
   },
-  "appDropdownSelectOption": "Select option",
+  "appDropdownSelectOption": "Pilih opsi",
   "@appDropdownSelectOption": {
-    "description": "Dropdown select option placeholder"
+    "description": "App dropdown select option"
   },
-  "appSearchFieldHint": "Search...",
+  "appSearchFieldHint": "Cari...",
   "@appSearchFieldHint": {
-    "description": "Search field hint text"
+    "description": "App search field hint"
   },
-  "appSearchFieldClear": "Clear",
+  "appSearchFieldClear": "Bersihkan",
   "@appSearchFieldClear": {
-    "description": "Clear search button label"
+    "description": "App search field clear"
   },
-  "appSearchFieldNoResultsFound": "No results found",
+  "appSearchFieldNoResultsFound": "Tidak ada hasil",
   "@appSearchFieldNoResultsFound": {
-    "description": "No results found message"
+    "description": "App search field no results found"
   },
-  "staffShellBottomNavDashboard": "Dashboard",
+  "staffShellBottomNavDashboard": "Dasbor",
   "@staffShellBottomNavDashboard": {
-    "description": "Staff shell bottom navigation label for dashboard"
+    "description": "Staff shell bottom nav dashboard"
   },
-  "staffShellBottomNavScanAsset": "Scan Asset",
+  "staffShellBottomNavScanAsset": "Pindai Aset",
   "@staffShellBottomNavScanAsset": {
-    "description": "Staff shell bottom navigation label for scan asset"
+    "description": "Staff shell bottom nav scan asset"
   },
-  "staffShellBottomNavProfile": "Profile",
+  "staffShellBottomNavProfile": "Profil",
   "@staffShellBottomNavProfile": {
-    "description": "Staff shell bottom navigation label for profile"
+    "description": "Staff shell bottom nav profile"
   },
-  "shellDoubleBackToExitApp": "Press back again to exit",
+  "shellDoubleBackToExitApp": "Tekan kembali sekali lagi untuk keluar",
   "@shellDoubleBackToExitApp": {
-    "description": "Message shown when user needs to press back again to exit app"
+    "description": "Shell double back to exit app"
   },
-  "sharedValidationErrors": "Validation Errors",
+  "sharedValidationErrors": "Kesalahan Validasi",
   "@sharedValidationErrors": {
-    "description": "Title for validation errors widget"
+    "description": "Shared validation errors"
   },
-  "sharedMaxFilesAllowed": "Maximum {count} files allowed",
+  "sharedMaxFilesAllowed": "Maksimal {count} file diizinkan",
   "@sharedMaxFilesAllowed": {
-    "description": "Error message for max files allowed",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "5"
-      }
-    }
+    "description": "Shared max files allowed"
   },
-  "sharedFileTooLarge": "File {name} exceeds {size}MB limit",
+  "sharedFileTooLarge": "File {name} melebihi batas {size}MB",
   "@sharedFileTooLarge": {
-    "description": "Error message for file size limit",
-    "placeholders": {
-      "name": {
-        "type": "String",
-        "example": "image.jpg"
-      },
-      "size": {
-        "type": "int",
-        "example": "5"
-      }
-    }
+    "description": "Shared file too large"
   },
-  "sharedFailedToPickFiles": "Failed to pick files",
+  "sharedFailedToPickFiles": "Gagal memilih file",
   "@sharedFailedToPickFiles": {
-    "description": "Error message for file picking failure"
+    "description": "Shared failed to pick files"
   },
-  "sharedChooseFiles": "Choose file(s)",
+  "sharedChooseFiles": "Pilih file",
   "@sharedChooseFiles": {
-    "description": "Hint text for file picker"
+    "description": "Shared choose files"
   },
-  "sharedUnableToPreviewImage": "Unable to preview image",
+  "sharedUnableToPreviewImage": "Tidak dapat pratinjau gambar",
   "@sharedUnableToPreviewImage": {
-    "description": "Error text for image preview failure"
+    "description": "Shared unable to preview image"
   },
-  "sharedVideoPreviewNotImplemented": "Video preview not implemented yet",
+  "sharedVideoPreviewNotImplemented": "Pratinjau video belum diimplementasikan",
   "@sharedVideoPreviewNotImplemented": {
-    "description": "Placeholder text for video preview"
+    "description": "Shared video preview not implemented"
   },
-  "sharedPreviewNotAvailable": "Preview not available for this file type",
+  "sharedPreviewNotAvailable": "Pratinjau tidak tersedia untuk jenis file ini",
   "@sharedPreviewNotAvailable": {
-    "description": "Error text for unsupported file preview"
+    "description": "Shared preview not available"
   },
-  "sharedDelete": "Delete",
+  "sharedDelete": "Hapus",
   "@sharedDelete": {
-    "description": "Delete button label"
+    "description": "Shared delete"
   },
   "sharedEdit": "Edit",
   "@sharedEdit": {
-    "description": "Edit button label"
+    "description": "Shared edit"
   },
-  "sharedOptions": "Options",
+  "sharedOptions": "Opsi",
   "@sharedOptions": {
-    "description": "Options title"
+    "description": "Shared options"
   },
-  "sharedCreate": "Create",
+  "sharedCreate": "Buat",
   "@sharedCreate": {
-    "description": "Create button label"
+    "description": "Shared create"
   },
-  "sharedAddNewItem": "Add a new item",
+  "sharedAddNewItem": "Tambah item baru",
   "@sharedAddNewItem": {
-    "description": "Add new item subtitle"
+    "description": "Shared add new item"
   },
-  "sharedSelectMany": "Select Many",
+  "sharedSelectMany": "Pilih Banyak",
   "@sharedSelectMany": {
-    "description": "Select many option title"
+    "description": "Shared select many"
   },
-  "sharedSelectItemsToDelete": "Select multiple items to delete",
+  "sharedSelectItemsToDelete": "Pilih beberapa item untuk dihapus",
   "@sharedSelectItemsToDelete": {
-    "description": "Select items to delete subtitle"
+    "description": "Shared select items to delete"
   },
-  "sharedFilterAndSort": "Filter & Sort",
+  "sharedFilterAndSort": "Saring & Urutkan",
   "@sharedFilterAndSort": {
-    "description": "Filter and sort option title"
+    "description": "Shared filter and sort"
   },
-  "sharedCustomizeDisplay": "Customize display",
+  "sharedCustomizeDisplay": "Sesuaikan tampilan",
   "@sharedCustomizeDisplay": {
-    "description": "Customize display subtitle"
+    "description": "Shared customize display"
   },
-  "sharedExport": "Export",
+  "sharedExport": "Ekspor",
   "@sharedExport": {
-    "description": "Export option title"
+    "description": "Shared export"
   },
-  "sharedExportDataToFile": "Export data to file",
+  "sharedExportDataToFile": "Ekspor data ke file",
   "@sharedExportDataToFile": {
-    "description": "Export data subtitle"
+    "description": "Shared export data to file"
   },
-  "sharedTimePlaceholder": "HH:MM",
+  "sharedTimePlaceholder": "JJ:MM",
   "@sharedTimePlaceholder": {
-    "description": "Time placeholder"
+    "description": "Shared time placeholder"
   },
-  "sharedRetry": "Retry",
+  "sharedRetry": "Coba Lagi",
   "@sharedRetry": {
-    "description": "Retry button label"
+    "description": "Shared retry"
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_setup_riverpod/core/extensions/navigator_extension.dart';
+import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
 import 'package:flutter_setup_riverpod/di/common_providers.dart';
 import 'package:flutter_setup_riverpod/shared/widgets/app_drawer.dart';
 import 'package:flutter_setup_riverpod/shared/widgets/screen_wrapper.dart';
@@ -15,15 +15,15 @@ class OtherScreen extends ConsumerWidget {
     final isMaterialYouEnabled = ref.watch(materialYouProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Settings')),
+      appBar: AppBar(title: Text(context.l10n.settingsTitle)),
       drawer: const AppDrawer(),
       body: ScreenWrapper(
         child: ListView(
           children: [
             SwitchListTile(
               secondary: const Icon(Icons.color_lens_outlined),
-              title: const Text('Use Material You'),
-              subtitle: const Text('Follow system dynamic colors'),
+              title: Text(context.l10n.settingsMaterialYou),
+              subtitle: Text(context.l10n.settingsMaterialYouSubtitle),
               value: isMaterialYouEnabled,
               onChanged: (bool value) {
                 ref.read(materialYouProvider.notifier).toggle();
@@ -32,7 +32,7 @@ class OtherScreen extends ConsumerWidget {
             const Divider(),
             ListTile(
               leading: const Icon(Icons.palette_outlined),
-              title: const Text('Theme'),
+              title: Text(context.l10n.settingsTheme),
               trailing: DropdownButton<ThemeMode>(
                 value: themeMode,
                 onChanged: (ThemeMode? newTheme) {
@@ -40,23 +40,26 @@ class OtherScreen extends ConsumerWidget {
                     ref.read(themeProvider.notifier).changeTheme(newTheme);
                   }
                 },
-                items: const [
+                items: [
                   DropdownMenuItem(
                     value: ThemeMode.system,
-                    child: Text('System'),
+                    child: Text(context.l10n.settingsThemeSystem),
                   ),
                   DropdownMenuItem(
                     value: ThemeMode.light,
-                    child: Text('Light'),
+                    child: Text(context.l10n.settingsThemeLight),
                   ),
-                  DropdownMenuItem(value: ThemeMode.dark, child: Text('Dark')),
+                  DropdownMenuItem(
+                    value: ThemeMode.dark,
+                    child: Text(context.l10n.settingsThemeDark),
+                  ),
                 ],
               ),
             ),
             const Divider(),
             ListTile(
               leading: const Icon(Icons.language_outlined),
-              title: const Text('Language'),
+              title: Text(context.l10n.settingsLanguage),
               trailing: DropdownButton<String>(
                 value: locale.languageCode,
                 onChanged: (String? newLang) {
@@ -66,9 +69,19 @@ class OtherScreen extends ConsumerWidget {
                         .changeLocale(Locale(newLang));
                   }
                 },
-                items: const [
-                  DropdownMenuItem(value: 'en', child: Text('English')),
-                  DropdownMenuItem(value: 'ja', child: Text('Japanese')),
+                items: [
+                  DropdownMenuItem(
+                    value: 'en',
+                    child: Text(context.l10n.settingsLanguageEnglish),
+                  ),
+                  DropdownMenuItem(
+                    value: 'ja',
+                    child: Text(context.l10n.settingsLanguageJapanese),
+                  ),
+                  DropdownMenuItem(
+                    value: 'id',
+                    child: Text(context.l10n.settingsLanguageIndonesian),
+                  ),
                 ],
               ),
             ),

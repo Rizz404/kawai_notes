@@ -1,0 +1,39 @@
+{
+  "@@locale": "id",
+  "foldersTitle": "Folder",
+  "@foldersTitle": {
+    "description": "Folders title"
+  },
+  "foldersAllNotes": "Semua Catatan",
+  "@foldersAllNotes": {
+    "description": "Folders all notes"
+  },
+  "foldersUncategorized": "Tidak Berkategori",
+  "@foldersUncategorized": {
+    "description": "Folders uncategorized"
+  },
+  "foldersEmpty": "Tidak ada folder khusus",
+  "@foldersEmpty": {
+    "description": "Folders empty"
+  },
+  "foldersError": "Kesalahan: {error}",
+  "@foldersError": {
+    "description": "Folders error"
+  },
+  "foldersCreateNew": "Buat Folder Baru",
+  "@foldersCreateNew": {
+    "description": "Folders create new"
+  },
+  "foldersNewTitle": "Folder Baru",
+  "@foldersNewTitle": {
+    "description": "Folders new title"
+  },
+  "foldersCancel": "Batal",
+  "@foldersCancel": {
+    "description": "Folders cancel"
+  },
+  "foldersCreateBtn": "Buat",
+  "@foldersCreateBtn": {
+    "description": "Folders create btn"
+  }
+}

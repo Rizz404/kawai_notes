@@ -1,0 +1,259 @@
+{
+  "@@locale": "id",
+  "adminShellBottomNavDashboard": "Dasbor",
+  "@adminShellBottomNavDashboard": {
+    "description": "Admin shell bottom nav dashboard"
+  },
+  "adminShellBottomNavScanAsset": "Pindai Aset",
+  "@adminShellBottomNavScanAsset": {
+    "description": "Admin shell bottom nav scan asset"
+  },
+  "adminShellBottomNavProfile": "Profil",
+  "@adminShellBottomNavProfile": {
+    "description": "Admin shell bottom nav profile"
+  },
+  "userShellBottomNavHome": "Beranda",
+  "@userShellBottomNavHome": {
+    "description": "User shell bottom nav home"
+  },
+  "userShellBottomNavScanAsset": "Pindai Aset",
+  "@userShellBottomNavScanAsset": {
+    "description": "User shell bottom nav scan asset"
+  },
+  "userShellBottomNavProfile": "Profil",
+  "@userShellBottomNavProfile": {
+    "description": "User shell bottom nav profile"
+  },
+  "appEndDrawerTitle": "Aplikasi Saya",
+  "@appEndDrawerTitle": {
+    "description": "App end drawer title"
+  },
+  "appEndDrawerPleaseLoginFirst": "Silakan masuk terlebih dahulu",
+  "@appEndDrawerPleaseLoginFirst": {
+    "description": "App end drawer please login first"
+  },
+  "appEndDrawerTheme": "Tema",
+  "@appEndDrawerTheme": {
+    "description": "App end drawer theme"
+  },
+  "appEndDrawerLanguage": "Bahasa",
+  "@appEndDrawerLanguage": {
+    "description": "App end drawer language"
+  },
+  "appEndDrawerLogout": "Keluar",
+  "@appEndDrawerLogout": {
+    "description": "App end drawer logout"
+  },
+  "appEndDrawerManagementSection": "Manajemen",
+  "@appEndDrawerManagementSection": {
+    "description": "App end drawer management section"
+  },
+  "appEndDrawerMaintenanceSection": "Pemeliharaan",
+  "@appEndDrawerMaintenanceSection": {
+    "description": "App end drawer maintenance section"
+  },
+  "appEndDrawerEnglish": "English",
+  "@appEndDrawerEnglish": {
+    "description": "App end drawer english"
+  },
+  "appEndDrawerIndonesian": "Indonesia",
+  "@appEndDrawerIndonesian": {
+    "description": "App end drawer indonesian"
+  },
+  "appEndDrawerJapanese": "日本語",
+  "@appEndDrawerJapanese": {
+    "description": "App end drawer japanese"
+  },
+  "appEndDrawerMyAssets": "Aset Saya",
+  "@appEndDrawerMyAssets": {
+    "description": "App end drawer my assets"
+  },
+  "appEndDrawerNotifications": "Notifikasi",
+  "@appEndDrawerNotifications": {
+    "description": "App end drawer notifications"
+  },
+  "appEndDrawerMyIssueReports": "Laporan Masalah Saya",
+  "@appEndDrawerMyIssueReports": {
+    "description": "App end drawer my issue reports"
+  },
+  "appEndDrawerAssets": "Aset",
+  "@appEndDrawerAssets": {
+    "description": "App end drawer assets"
+  },
+  "appEndDrawerAssetMovements": "Pergerakan Aset",
+  "@appEndDrawerAssetMovements": {
+    "description": "App end drawer asset movements"
+  },
+  "appEndDrawerCategories": "Kategori",
+  "@appEndDrawerCategories": {
+    "description": "App end drawer categories"
+  },
+  "appEndDrawerLocations": "Lokasi",
+  "@appEndDrawerLocations": {
+    "description": "App end drawer locations"
+  },
+  "appEndDrawerUsers": "Pengguna",
+  "@appEndDrawerUsers": {
+    "description": "App end drawer users"
+  },
+  "appEndDrawerMaintenanceSchedules": "Jadwal Pemeliharaan",
+  "@appEndDrawerMaintenanceSchedules": {
+    "description": "App end drawer maintenance schedules"
+  },
+  "appEndDrawerMaintenanceRecords": "Catatan Pemeliharaan",
+  "@appEndDrawerMaintenanceRecords": {
+    "description": "App end drawer maintenance records"
+  },
+  "appEndDrawerReports": "Laporan",
+  "@appEndDrawerReports": {
+    "description": "App end drawer reports"
+  },
+  "appEndDrawerIssueReports": "Laporan Masalah",
+  "@appEndDrawerIssueReports": {
+    "description": "App end drawer issue reports"
+  },
+  "appEndDrawerScanLogs": "Log Pemindaian",
+  "@appEndDrawerScanLogs": {
+    "description": "App end drawer scan logs"
+  },
+  "appEndDrawerScanAsset": "Pindai Aset",
+  "@appEndDrawerScanAsset": {
+    "description": "App end drawer scan asset"
+  },
+  "appEndDrawerDashboard": "Dasbor",
+  "@appEndDrawerDashboard": {
+    "description": "App end drawer dashboard"
+  },
+  "appEndDrawerHome": "Beranda",
+  "@appEndDrawerHome": {
+    "description": "App end drawer home"
+  },
+  "appEndDrawerProfile": "Profil",
+  "@appEndDrawerProfile": {
+    "description": "App end drawer profile"
+  },
+  "customAppBarTitle": "Aplikasi Saya",
+  "@customAppBarTitle": {
+    "description": "Custom app bar title"
+  },
+  "customAppBarOpenMenu": "Buka Menu",
+  "@customAppBarOpenMenu": {
+    "description": "Custom app bar open menu"
+  },
+  "appDropdownSelectOption": "Pilih opsi",
+  "@appDropdownSelectOption": {
+    "description": "App dropdown select option"
+  },
+  "appSearchFieldHint": "Cari...",
+  "@appSearchFieldHint": {
+    "description": "App search field hint"
+  },
+  "appSearchFieldClear": "Bersihkan",
+  "@appSearchFieldClear": {
+    "description": "App search field clear"
+  },
+  "appSearchFieldNoResultsFound": "Tidak ada hasil",
+  "@appSearchFieldNoResultsFound": {
+    "description": "App search field no results found"
+  },
+  "staffShellBottomNavDashboard": "Dasbor",
+  "@staffShellBottomNavDashboard": {
+    "description": "Staff shell bottom nav dashboard"
+  },
+  "staffShellBottomNavScanAsset": "Pindai Aset",
+  "@staffShellBottomNavScanAsset": {
+    "description": "Staff shell bottom nav scan asset"
+  },
+  "staffShellBottomNavProfile": "Profil",
+  "@staffShellBottomNavProfile": {
+    "description": "Staff shell bottom nav profile"
+  },
+  "shellDoubleBackToExitApp": "Tekan kembali sekali lagi untuk keluar",
+  "@shellDoubleBackToExitApp": {
+    "description": "Shell double back to exit app"
+  },
+  "sharedValidationErrors": "Kesalahan Validasi",
+  "@sharedValidationErrors": {
+    "description": "Shared validation errors"
+  },
+  "sharedMaxFilesAllowed": "Maksimal {count} file diizinkan",
+  "@sharedMaxFilesAllowed": {
+    "description": "Shared max files allowed"
+  },
+  "sharedFileTooLarge": "File {name} melebihi batas {size}MB",
+  "@sharedFileTooLarge": {
+    "description": "Shared file too large"
+  },
+  "sharedFailedToPickFiles": "Gagal memilih file",
+  "@sharedFailedToPickFiles": {
+    "description": "Shared failed to pick files"
+  },
+  "sharedChooseFiles": "Pilih file",
+  "@sharedChooseFiles": {
+    "description": "Shared choose files"
+  },
+  "sharedUnableToPreviewImage": "Tidak dapat pratinjau gambar",
+  "@sharedUnableToPreviewImage": {
+    "description": "Shared unable to preview image"
+  },
+  "sharedVideoPreviewNotImplemented": "Pratinjau video belum diimplementasikan",
+  "@sharedVideoPreviewNotImplemented": {
+    "description": "Shared video preview not implemented"
+  },
+  "sharedPreviewNotAvailable": "Pratinjau tidak tersedia untuk jenis file ini",
+  "@sharedPreviewNotAvailable": {
+    "description": "Shared preview not available"
+  },
+  "sharedDelete": "Hapus",
+  "@sharedDelete": {
+    "description": "Shared delete"
+  },
+  "sharedEdit": "Edit",
+  "@sharedEdit": {
+    "description": "Shared edit"
+  },
+  "sharedOptions": "Opsi",
+  "@sharedOptions": {
+    "description": "Shared options"
+  },
+  "sharedCreate": "Buat",
+  "@sharedCreate": {
+    "description": "Shared create"
+  },
+  "sharedAddNewItem": "Tambah item baru",
+  "@sharedAddNewItem": {
+    "description": "Shared add new item"
+  },
+  "sharedSelectMany": "Pilih Banyak",
+  "@sharedSelectMany": {
+    "description": "Shared select many"
+  },
+  "sharedSelectItemsToDelete": "Pilih beberapa item untuk dihapus",
+  "@sharedSelectItemsToDelete": {
+    "description": "Shared select items to delete"
+  },
+  "sharedFilterAndSort": "Saring & Urutkan",
+  "@sharedFilterAndSort": {
+    "description": "Shared filter and sort"
+  },
+  "sharedCustomizeDisplay": "Sesuaikan tampilan",
+  "@sharedCustomizeDisplay": {
+    "description": "Shared customize display"
+  },
+  "sharedExport": "Ekspor",
+  "@sharedExport": {
+    "description": "Shared export"
+  },
+  "sharedExportDataToFile": "Ekspor data ke file",
+  "@sharedExportDataToFile": {
+    "description": "Shared export data to file"
+  },
+  "sharedTimePlaceholder": "JJ:MM",
+  "@sharedTimePlaceholder": {
+    "description": "Shared time placeholder"
+  },
+  "sharedRetry": "Coba Lagi",
+  "@sharedRetry": {
+    "description": "Shared retry"
+  }
+}

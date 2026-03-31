@@ -1,0 +1,47 @@
+{
+  "@@locale": "ja",
+  "settingsTitle": "設定",
+  "@settingsTitle": {
+    "description": "Settings title"
+  },
+  "settingsMaterialYou": "Material You を使用",
+  "@settingsMaterialYou": {
+    "description": "Settings material you"
+  },
+  "settingsMaterialYouSubtitle": "システムのダイナミックカラーに従う",
+  "@settingsMaterialYouSubtitle": {
+    "description": "Settings material you subtitle"
+  },
+  "settingsTheme": "テーマ",
+  "@settingsTheme": {
+    "description": "Settings theme"
+  },
+  "settingsThemeSystem": "システム",
+  "@settingsThemeSystem": {
+    "description": "Settings theme system"
+  },
+  "settingsThemeLight": "ライト",
+  "@settingsThemeLight": {
+    "description": "Settings theme light"
+  },
+  "settingsThemeDark": "ダーク",
+  "@settingsThemeDark": {
+    "description": "Settings theme dark"
+  },
+  "settingsLanguage": "言語",
+  "@settingsLanguage": {
+    "description": "Settings language"
+  },
+  "settingsLanguageEnglish": "英語",
+  "@settingsLanguageEnglish": {
+    "description": "Settings language english"
+  },
+  "settingsLanguageJapanese": "日本語",
+  "@settingsLanguageJapanese": {
+    "description": "Settings language japanese"
+  },
+  "settingsLanguageIndonesian": "インドネシア語",
+  "@settingsLanguageIndonesian": {
+    "description": "Settings language indonesian"
+  }
+}

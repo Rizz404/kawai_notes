@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/navigator_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/theme_extension.dart';
 import 'package:flutter_setup_riverpod/feature/notes/models/note.dart';
@@ -15,7 +16,7 @@ class GraphViewScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Graph View'),
+        title: Text(context.l10n.notesGraphTitle),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => context.pop(),
@@ -24,7 +25,7 @@ class GraphViewScreen extends ConsumerWidget {
       body: listStateAsync.when(
         data: (state) {
           if (state.items.isEmpty) {
-            return const Center(child: Text('No notes available for graph.'));
+            return Center(child: Text(context.l10n.notesGraphEmpty));
           }
           return InteractiveViewer(
             constrained: false,
@@ -38,7 +39,8 @@ class GraphViewScreen extends ConsumerWidget {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(child: Text('Error: $e')),
+        error: (e, _) =>
+            Center(child: Text(context.l10n.notesError(e.toString()))),
       ),
     );
   }

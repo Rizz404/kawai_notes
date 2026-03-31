@@ -1,0 +1,51 @@
+{
+  "@@locale": "en",
+  "tasksTitle": "Tasks",
+  "@tasksTitle": {
+    "description": "Tasks title"
+  },
+  "tasksEmpty": "No Tasks. Create one!",
+  "@tasksEmpty": {
+    "description": "Tasks empty"
+  },
+  "tasksActive": "Active",
+  "@tasksActive": {
+    "description": "Tasks active"
+  },
+  "tasksCompleted": "Completed",
+  "@tasksCompleted": {
+    "description": "Tasks completed"
+  },
+  "tasksNothingHere": "Nothing here...",
+  "@tasksNothingHere": {
+    "description": "Tasks nothing here"
+  },
+  "tasksNew": "New Task",
+  "@tasksNew": {
+    "description": "Tasks new"
+  },
+  "tasksEdit": "Edit Task",
+  "@tasksEdit": {
+    "description": "Tasks edit"
+  },
+  "tasksTitleLabel": "Task Title",
+  "@tasksTitleLabel": {
+    "description": "Tasks title label"
+  },
+  "tasksDueDate": "Due Date",
+  "@tasksDueDate": {
+    "description": "Tasks due date"
+  },
+  "tasksSave": "Save Task",
+  "@tasksSave": {
+    "description": "Tasks save"
+  },
+  "tasksError": "Error: {error}",
+  "@tasksError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  }
+}

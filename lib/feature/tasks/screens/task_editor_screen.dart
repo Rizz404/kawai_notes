@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/navigator_extension.dart';
 import 'package:flutter_setup_riverpod/feature/tasks/providers/task_detail_provider.dart';
 import 'package:flutter_setup_riverpod/feature/tasks/providers/task_list_provider.dart';
@@ -30,7 +31,11 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.taskId == null ? 'New Task' : 'Edit Task'),
+        title: Text(
+          widget.taskId == null
+              ? context.l10n.tasksNew
+              : context.l10n.tasksEdit,
+        ),
       ),
       body: detailStateAsync.when(
         data: (state) {
@@ -46,20 +51,20 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
                 children: [
                   AppTextField(
                     name: 'title',
-                    label: 'Task Title',
+                    label: context.l10n.tasksTitleLabel,
                     validator: FormBuilderValidators.required(),
                   ),
                   const SizedBox(height: 16),
-                  const AppDateTimePicker(
+                  AppDateTimePicker(
                     name: 'dueDate',
-                    label: 'Due Date',
+                    label: context.l10n.tasksDueDate,
                     inputType: InputType.both,
                   ),
                   const Spacer(),
                   SizedBox(
                     width: double.infinity,
                     child: AppButton(
-                      text: 'Save Task',
+                      text: context.l10n.tasksSave,
                       onPressed: () async {
                         if (_formKey.currentState?.saveAndValidate() ?? false) {
                           final values = _formKey.currentState!.value;
@@ -90,7 +95,8 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(child: Text('Error: $e')),
+        error: (e, _) =>
+            Center(child: Text(context.l10n.tasksError(e.toString()))),
       ),
     );
   }

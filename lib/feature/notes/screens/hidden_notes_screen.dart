@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/navigator_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/theme_extension.dart';
 import 'package:flutter_setup_riverpod/feature/folders/widgets/folder_drawer.dart';
@@ -61,7 +62,7 @@ class _HiddenNotesScreenState extends ConsumerState<HiddenNotesScreen> {
                 icon: const Icon(Icons.close),
                 onPressed: _clearSelection,
               ),
-              title: Text('${_selectedIds.length} selected'),
+              title: Text(context.l10n.notesSelectedCount(_selectedIds.length)),
               actions: [
                 IconButton(
                   icon: const Icon(Icons.visibility),
@@ -74,7 +75,7 @@ class _HiddenNotesScreenState extends ConsumerState<HiddenNotesScreen> {
               ],
             )
           : AppBar(
-              title: const Text('Hidden Notes'),
+              title: Text(context.l10n.notesHiddenTitle),
               actions: [
                 Builder(
                   builder: (context) => IconButton(
@@ -115,16 +116,18 @@ class _HiddenNotesScreenState extends ConsumerState<HiddenNotesScreen> {
                   final notes = state.items;
                   if (notes.isEmpty) {
                     return ListView(
-                      children: const [
-                        SizedBox(height: 100),
-                        Center(child: Text('No notes found.')),
+                      children: [
+                        const SizedBox(height: 100),
+                        Center(child: Text(context.l10n.notesNotFound)),
                       ],
                     );
                   }
                   return isGridView ? _buildGrid(notes) : _buildList(notes);
                 },
                 loading: () => const Center(child: CircularProgressIndicator()),
-                error: (error, stack) => Center(child: Text('Error: $error')),
+                error: (error, stack) => Center(
+                  child: Text(context.l10n.notesError(error.toString())),
+                ),
               ),
             ),
           ],
@@ -166,7 +169,7 @@ class _HiddenNotesScreenState extends ConsumerState<HiddenNotesScreen> {
                     data: (content) {
                       if (content.trim().isEmpty && isUntitled) {
                         return Text(
-                          'No content',
+                          context.l10n.notesNoContent,
                           style: context.textTheme.bodyMedium?.copyWith(
                             fontStyle: FontStyle.italic,
                           ),
@@ -192,7 +195,7 @@ class _HiddenNotesScreenState extends ConsumerState<HiddenNotesScreen> {
               ? Padding(
                   padding: const EdgeInsets.only(top: 4.0),
                   child: Text(
-                    'Tags: ${note.tags.join(', ')}',
+                    context.l10n.notesTags(note.tags.join(', ')),
                     style: context.textTheme.labelSmall,
                   ),
                 )
@@ -271,7 +274,7 @@ class _HiddenNotesScreenState extends ConsumerState<HiddenNotesScreen> {
                             data: (content) {
                               if (content.trim().isEmpty && isUntitled) {
                                 return Text(
-                                  'No content',
+                                  context.l10n.notesNoContent,
                                   style: context.textTheme.bodyMedium?.copyWith(
                                     fontStyle: FontStyle.italic,
                                   ),
@@ -293,7 +296,7 @@ class _HiddenNotesScreenState extends ConsumerState<HiddenNotesScreen> {
                     if (note.tags.isNotEmpty) ...[
                       const SizedBox(height: 8),
                       Text(
-                        'Tags: ${note.tags.join(', ')}',
+                        context.l10n.notesTags(note.tags.join(', ')),
                         style: context.textTheme.labelSmall,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

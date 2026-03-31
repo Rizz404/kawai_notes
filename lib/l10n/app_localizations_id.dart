@@ -4,9 +4,9 @@ import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
 
-/// The translations for English (`en`).
-class L10nEn extends L10n {
-  L10nEn([String locale = 'en']) : super(locale);
+/// The translations for Indonesian (`id`).
+class L10nId extends L10n {
+  L10nId([String locale = 'id']) : super(locale);
 
   @override
   String get networkErrorDnsFailureUser =>
@@ -557,182 +557,182 @@ class L10nEn extends L10n {
   String get enumMaintenanceResultRescheduled => 'Rescheduled';
 
   @override
-  String get foldersTitle => 'Folders';
+  String get foldersTitle => 'Folder';
 
   @override
-  String get foldersAllNotes => 'All Notes';
+  String get foldersAllNotes => 'Semua Catatan';
 
   @override
-  String get foldersUncategorized => 'Uncategorized';
+  String get foldersUncategorized => 'Tidak Berkategori';
 
   @override
-  String get foldersEmpty => 'No custom folders';
+  String get foldersEmpty => 'Tidak ada folder khusus';
 
   @override
   String foldersError(String error) {
-    return 'Error: $error';
+    return 'Kesalahan: $error';
   }
 
   @override
-  String get foldersCreateNew => 'Create New Folder';
+  String get foldersCreateNew => 'Buat Folder Baru';
 
   @override
-  String get foldersNewTitle => 'New Folder';
+  String get foldersNewTitle => 'Folder Baru';
 
   @override
-  String get foldersCancel => 'Cancel';
+  String get foldersCancel => 'Batal';
 
   @override
-  String get foldersCreateBtn => 'Create';
+  String get foldersCreateBtn => 'Buat';
 
   @override
-  String get notesHidden => 'Hidden';
+  String get notesHidden => 'Tersembunyi';
 
   @override
   String notesError(String error) {
-    return 'Error: $error';
+    return 'Kesalahan: $error';
   }
 
   @override
   String notesSelectedCount(int count) {
-    return '$count selected';
+    return '$count dipilih';
   }
 
   @override
-  String get notesHiddenTitle => 'Hidden Notes';
+  String get notesHiddenTitle => 'Catatan Tersembunyi';
 
   @override
-  String get notesNotFound => 'No notes found.';
+  String get notesNotFound => 'Catatan tidak ditemukan.';
 
   @override
-  String get notesGraphTitle => 'Graph View';
+  String get notesGraphTitle => 'Tampilan Grafik';
 
   @override
-  String get notesGraphEmpty => 'No notes available for graph.';
+  String get notesGraphEmpty => 'Tidak ada catatan untuk grafik.';
 
   @override
-  String get notesMyTitle => 'My Notes';
+  String get notesMyTitle => 'Catatan Saya';
 
   @override
-  String get notesNew => 'New Note';
+  String get notesNew => 'Catatan Baru';
 
   @override
-  String get notesEdit => 'Edit Note';
+  String get notesEdit => 'Edit Catatan';
 
   @override
-  String get notesNoContent => 'No content';
+  String get notesNoContent => 'Tidak ada konten';
 
   @override
   String notesTags(String tags) {
-    return 'Tags: $tags';
+    return 'Tag: $tags';
   }
 
   @override
-  String get settingsTitle => 'Settings';
+  String get settingsTitle => 'Pengaturan';
 
   @override
-  String get settingsMaterialYou => 'Use Material You';
+  String get settingsMaterialYou => 'Gunakan Material You';
 
   @override
-  String get settingsMaterialYouSubtitle => 'Follow system dynamic colors';
+  String get settingsMaterialYouSubtitle => 'Ikuti warna dinamis sistem';
 
   @override
-  String get settingsTheme => 'Theme';
+  String get settingsTheme => 'Tema';
 
   @override
-  String get settingsThemeSystem => 'System';
+  String get settingsThemeSystem => 'Sistem';
 
   @override
-  String get settingsThemeLight => 'Light';
+  String get settingsThemeLight => 'Terang';
 
   @override
-  String get settingsThemeDark => 'Dark';
+  String get settingsThemeDark => 'Gelap';
 
   @override
-  String get settingsLanguage => 'Language';
+  String get settingsLanguage => 'Bahasa';
 
   @override
-  String get settingsLanguageEnglish => 'English';
+  String get settingsLanguageEnglish => 'Inggris';
 
   @override
-  String get settingsLanguageJapanese => 'Japanese';
+  String get settingsLanguageJapanese => 'Jepang';
 
   @override
-  String get settingsLanguageIndonesian => 'Indonesian';
+  String get settingsLanguageIndonesian => 'Indonesia';
 
   @override
-  String get tasksTitle => 'Tasks';
+  String get tasksTitle => 'Tugas';
 
   @override
-  String get tasksEmpty => 'No Tasks. Create one!';
+  String get tasksEmpty => 'Tidak ada Tugas. Buat satu!';
 
   @override
-  String get tasksActive => 'Active';
+  String get tasksActive => 'Aktif';
 
   @override
-  String get tasksCompleted => 'Completed';
+  String get tasksCompleted => 'Selesai';
 
   @override
-  String get tasksNothingHere => 'Nothing here...';
+  String get tasksNothingHere => 'Tidak ada apa-apa di sini...';
 
   @override
-  String get tasksNew => 'New Task';
+  String get tasksNew => 'Tugas Baru';
 
   @override
-  String get tasksEdit => 'Edit Task';
+  String get tasksEdit => 'Edit Tugas';
 
   @override
-  String get tasksTitleLabel => 'Task Title';
+  String get tasksTitleLabel => 'Judul Tugas';
 
   @override
-  String get tasksDueDate => 'Due Date';
+  String get tasksDueDate => 'Batas Waktu';
 
   @override
-  String get tasksSave => 'Save Task';
+  String get tasksSave => 'Simpan Tugas';
 
   @override
   String tasksError(String error) {
-    return 'Error: $error';
+    return 'Kesalahan: $error';
   }
 
   @override
-  String get adminShellBottomNavDashboard => 'Dashboard';
+  String get adminShellBottomNavDashboard => 'Dasbor';
 
   @override
-  String get adminShellBottomNavScanAsset => 'Scan Asset';
+  String get adminShellBottomNavScanAsset => 'Pindai Aset';
 
   @override
-  String get adminShellBottomNavProfile => 'Profile';
+  String get adminShellBottomNavProfile => 'Profil';
 
   @override
-  String get userShellBottomNavHome => 'Home';
+  String get userShellBottomNavHome => 'Beranda';
 
   @override
-  String get userShellBottomNavScanAsset => 'Scan Asset';
+  String get userShellBottomNavScanAsset => 'Pindai Aset';
 
   @override
-  String get userShellBottomNavProfile => 'Profile';
+  String get userShellBottomNavProfile => 'Profil';
 
   @override
-  String get appEndDrawerTitle => 'My App';
+  String get appEndDrawerTitle => 'Aplikasi Saya';
 
   @override
-  String get appEndDrawerPleaseLoginFirst => 'Please login first';
+  String get appEndDrawerPleaseLoginFirst => 'Silakan masuk terlebih dahulu';
 
   @override
-  String get appEndDrawerTheme => 'Theme';
+  String get appEndDrawerTheme => 'Tema';
 
   @override
-  String get appEndDrawerLanguage => 'Language';
+  String get appEndDrawerLanguage => 'Bahasa';
 
   @override
-  String get appEndDrawerLogout => 'Logout';
+  String get appEndDrawerLogout => 'Keluar';
 
   @override
-  String get appEndDrawerManagementSection => 'Management';
+  String get appEndDrawerManagementSection => 'Manajemen';
 
   @override
-  String get appEndDrawerMaintenanceSection => 'Maintenance';
+  String get appEndDrawerMaintenanceSection => 'Pemeliharaan';
 
   @override
   String get appEndDrawerEnglish => 'English';
@@ -744,152 +744,153 @@ class L10nEn extends L10n {
   String get appEndDrawerJapanese => '日本語';
 
   @override
-  String get appEndDrawerMyAssets => 'My Assets';
+  String get appEndDrawerMyAssets => 'Aset Saya';
 
   @override
-  String get appEndDrawerNotifications => 'Notifications';
+  String get appEndDrawerNotifications => 'Notifikasi';
 
   @override
-  String get appEndDrawerMyIssueReports => 'My Issue Reports';
+  String get appEndDrawerMyIssueReports => 'Laporan Masalah Saya';
 
   @override
-  String get appEndDrawerAssets => 'Assets';
+  String get appEndDrawerAssets => 'Aset';
 
   @override
-  String get appEndDrawerAssetMovements => 'Asset Movements';
+  String get appEndDrawerAssetMovements => 'Pergerakan Aset';
 
   @override
-  String get appEndDrawerCategories => 'Categories';
+  String get appEndDrawerCategories => 'Kategori';
 
   @override
-  String get appEndDrawerLocations => 'Locations';
+  String get appEndDrawerLocations => 'Lokasi';
 
   @override
-  String get appEndDrawerUsers => 'Users';
+  String get appEndDrawerUsers => 'Pengguna';
 
   @override
-  String get appEndDrawerMaintenanceSchedules => 'Maintenance Schedules';
+  String get appEndDrawerMaintenanceSchedules => 'Jadwal Pemeliharaan';
 
   @override
-  String get appEndDrawerMaintenanceRecords => 'Maintenance Records';
+  String get appEndDrawerMaintenanceRecords => 'Catatan Pemeliharaan';
 
   @override
-  String get appEndDrawerReports => 'Reports';
+  String get appEndDrawerReports => 'Laporan';
 
   @override
-  String get appEndDrawerIssueReports => 'Issue Reports';
+  String get appEndDrawerIssueReports => 'Laporan Masalah';
 
   @override
-  String get appEndDrawerScanLogs => 'Scan Logs';
+  String get appEndDrawerScanLogs => 'Log Pemindaian';
 
   @override
-  String get appEndDrawerScanAsset => 'Scan Asset';
+  String get appEndDrawerScanAsset => 'Pindai Aset';
 
   @override
-  String get appEndDrawerDashboard => 'Dashboard';
+  String get appEndDrawerDashboard => 'Dasbor';
 
   @override
-  String get appEndDrawerHome => 'Home';
+  String get appEndDrawerHome => 'Beranda';
 
   @override
-  String get appEndDrawerProfile => 'Profile';
+  String get appEndDrawerProfile => 'Profil';
 
   @override
-  String get customAppBarTitle => 'My App';
+  String get customAppBarTitle => 'Aplikasi Saya';
 
   @override
-  String get customAppBarOpenMenu => 'Open Menu';
+  String get customAppBarOpenMenu => 'Buka Menu';
 
   @override
-  String get appDropdownSelectOption => 'Select option';
+  String get appDropdownSelectOption => 'Pilih opsi';
 
   @override
-  String get appSearchFieldHint => 'Search...';
+  String get appSearchFieldHint => 'Cari...';
 
   @override
-  String get appSearchFieldClear => 'Clear';
+  String get appSearchFieldClear => 'Bersihkan';
 
   @override
-  String get appSearchFieldNoResultsFound => 'No results found';
+  String get appSearchFieldNoResultsFound => 'Tidak ada hasil';
 
   @override
-  String get staffShellBottomNavDashboard => 'Dashboard';
+  String get staffShellBottomNavDashboard => 'Dasbor';
 
   @override
-  String get staffShellBottomNavScanAsset => 'Scan Asset';
+  String get staffShellBottomNavScanAsset => 'Pindai Aset';
 
   @override
-  String get staffShellBottomNavProfile => 'Profile';
+  String get staffShellBottomNavProfile => 'Profil';
 
   @override
-  String get shellDoubleBackToExitApp => 'Press back again to exit';
+  String get shellDoubleBackToExitApp =>
+      'Tekan kembali sekali lagi untuk keluar';
 
   @override
-  String get sharedValidationErrors => 'Validation Errors';
+  String get sharedValidationErrors => 'Kesalahan Validasi';
 
   @override
   String sharedMaxFilesAllowed(int count) {
-    return 'Maximum $count files allowed';
+    return 'Maksimal $count file diizinkan';
   }
 
   @override
   String sharedFileTooLarge(String name, int size) {
-    return 'File $name exceeds ${size}MB limit';
+    return 'File $name melebihi batas ${size}MB';
   }
 
   @override
-  String get sharedFailedToPickFiles => 'Failed to pick files';
+  String get sharedFailedToPickFiles => 'Gagal memilih file';
 
   @override
-  String get sharedChooseFiles => 'Choose file(s)';
+  String get sharedChooseFiles => 'Pilih file';
 
   @override
-  String get sharedUnableToPreviewImage => 'Unable to preview image';
+  String get sharedUnableToPreviewImage => 'Tidak dapat pratinjau gambar';
 
   @override
   String get sharedVideoPreviewNotImplemented =>
-      'Video preview not implemented yet';
+      'Pratinjau video belum diimplementasikan';
 
   @override
   String get sharedPreviewNotAvailable =>
-      'Preview not available for this file type';
+      'Pratinjau tidak tersedia untuk jenis file ini';
 
   @override
-  String get sharedDelete => 'Delete';
+  String get sharedDelete => 'Hapus';
 
   @override
   String get sharedEdit => 'Edit';
 
   @override
-  String get sharedOptions => 'Options';
+  String get sharedOptions => 'Opsi';
 
   @override
-  String get sharedCreate => 'Create';
+  String get sharedCreate => 'Buat';
 
   @override
-  String get sharedAddNewItem => 'Add a new item';
+  String get sharedAddNewItem => 'Tambah item baru';
 
   @override
-  String get sharedSelectMany => 'Select Many';
+  String get sharedSelectMany => 'Pilih Banyak';
 
   @override
-  String get sharedSelectItemsToDelete => 'Select multiple items to delete';
+  String get sharedSelectItemsToDelete => 'Pilih beberapa item untuk dihapus';
 
   @override
-  String get sharedFilterAndSort => 'Filter & Sort';
+  String get sharedFilterAndSort => 'Saring & Urutkan';
 
   @override
-  String get sharedCustomizeDisplay => 'Customize display';
+  String get sharedCustomizeDisplay => 'Sesuaikan tampilan';
 
   @override
-  String get sharedExport => 'Export';
+  String get sharedExport => 'Ekspor';
 
   @override
-  String get sharedExportDataToFile => 'Export data to file';
+  String get sharedExportDataToFile => 'Ekspor data ke file';
 
   @override
-  String get sharedTimePlaceholder => 'HH:MM';
+  String get sharedTimePlaceholder => 'JJ:MM';
 
   @override
-  String get sharedRetry => 'Retry';
+  String get sharedRetry => 'Coba Lagi';
 }

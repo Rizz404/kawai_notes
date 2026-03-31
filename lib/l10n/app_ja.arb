@@ -1,17 +1,53 @@
 {
   "@@locale": "ja",
   "networkErrorDnsFailureUser": "サーバーに接続できません。\n• インターネット接続を確認してください\n• VPN/DNSが有効な場合は無効にしてください\n• しばらくしてから再試行してください",
+  "@networkErrorDnsFailureUser": {
+    "description": "Network error dns failure user"
+  },
   "networkErrorConnectionUser": "接続が切れました。\n• インターネット接続を確認してください\n• WiFi/データが有効であることを確認してください\n• しばらくしてから再試行してください",
+  "@networkErrorConnectionUser": {
+    "description": "Network error connection user"
+  },
   "networkErrorTimeoutUser": "接続タイムアウト。\n• インターネット速度を確認してください\n• しばらくしてから再試行してください\n• 問題が解決しない場合は管理者に連絡してください",
+  "@networkErrorTimeoutUser": {
+    "description": "Network error timeout user"
+  },
   "networkErrorReceiveTimeoutUser": "サーバーの応答時間が長すぎます。\n• インターネット接続が遅い可能性があります\n• しばらくしてから再試行してください\n• 問題が解決しない場合は管理者に連絡してください",
+  "@networkErrorReceiveTimeoutUser": {
+    "description": "Network error receive timeout user"
+  },
   "networkErrorServerUser": "サーバーエラーが発生しました。\n• しばらくしてから再試行してください\n• 問題が解決しない場合は管理者に連絡してください",
+  "@networkErrorServerUser": {
+    "description": "Network error server user"
+  },
   "networkErrorServer502User": "サーバーに到達できません。\n• サーバーがメンテナンス中の可能性があります\n• しばらくしてから再試行してください\n• 問題が解決しない場合は管理者に連絡してください",
+  "@networkErrorServer502User": {
+    "description": "Network error server502 user"
+  },
   "networkErrorServer503User": "サービスはメンテナンス中です。\n• しばらくお待ちください\n• 後で再試行してください\n• 詳細については管理者に連絡してください",
+  "@networkErrorServer503User": {
+    "description": "Network error server503 user"
+  },
   "networkErrorServer504User": "サーバータイムアウト。\n• サーバーが混雑しています\n• しばらくしてから再試行してください\n• 問題が解決しない場合は管理者に連絡してください",
+  "@networkErrorServer504User": {
+    "description": "Network error server504 user"
+  },
   "networkErrorHtmlResponse": "サーバーがJSONではなくHTMLを返しました。APIエンドポイント設定を確認してください。",
+  "@networkErrorHtmlResponse": {
+    "description": "Network error html response"
+  },
   "networkErrorFileDownloaded": "ファイルが正常にダウンロードされました",
+  "@networkErrorFileDownloaded": {
+    "description": "Network error file downloaded"
+  },
   "networkErrorUnknown": "不明なエラーが発生しました",
+  "@networkErrorUnknown": {
+    "description": "Network error unknown"
+  },
   "timeAgoJustNow": "たった今",
+  "@timeAgoJustNow": {
+    "description": "Time ago just now"
+  },
   "timeAgoMinute": "{count, plural, =1{1分前} other{{count}分前}}",
   "@timeAgoMinute": {
     "placeholders": {
@@ -53,27 +89,93 @@
     }
   },
   "monthJan": "1月",
+  "@monthJan": {
+    "description": "Month jan"
+  },
   "monthFeb": "2月",
+  "@monthFeb": {
+    "description": "Month feb"
+  },
   "monthMar": "3月",
+  "@monthMar": {
+    "description": "Month mar"
+  },
   "monthApr": "4月",
+  "@monthApr": {
+    "description": "Month apr"
+  },
   "monthMay": "5月",
+  "@monthMay": {
+    "description": "Month may"
+  },
   "monthJun": "6月",
+  "@monthJun": {
+    "description": "Month jun"
+  },
   "monthJul": "7月",
+  "@monthJul": {
+    "description": "Month jul"
+  },
   "monthAug": "8月",
+  "@monthAug": {
+    "description": "Month aug"
+  },
   "monthSep": "9月",
+  "@monthSep": {
+    "description": "Month sep"
+  },
   "monthOct": "10月",
+  "@monthOct": {
+    "description": "Month oct"
+  },
   "monthNov": "11月",
+  "@monthNov": {
+    "description": "Month nov"
+  },
   "monthDec": "12月",
+  "@monthDec": {
+    "description": "Month dec"
+  },
   "dayMon": "月曜日",
+  "@dayMon": {
+    "description": "Day mon"
+  },
   "dayTue": "火曜日",
+  "@dayTue": {
+    "description": "Day tue"
+  },
   "dayWed": "水曜日",
+  "@dayWed": {
+    "description": "Day wed"
+  },
   "dayThu": "木曜日",
+  "@dayThu": {
+    "description": "Day thu"
+  },
   "dayFri": "金曜日",
+  "@dayFri": {
+    "description": "Day fri"
+  },
   "daySat": "土曜日",
+  "@daySat": {
+    "description": "Day sat"
+  },
   "daySun": "日曜日",
+  "@daySun": {
+    "description": "Day sun"
+  },
   "currencyBillionSuffix": "十億",
+  "@currencyBillionSuffix": {
+    "description": "Currency billion suffix"
+  },
   "currencyMillionSuffix": "百万",
+  "@currencyMillionSuffix": {
+    "description": "Currency million suffix"
+  },
   "currencyThousandSuffix": "千",
+  "@currencyThousandSuffix": {
+    "description": "Currency thousand suffix"
+  },
   "enumSortOrderAsc": "昇順",
   "@enumSortOrderAsc": {
     "description": "Sort order ascending"
@@ -582,38 +684,177 @@
   "@enumMaintenanceResultRescheduled": {
     "description": "Maintenance result Rescheduled"
   },
-  "homeGreeting": "こんにちは、{name}さん！",
-  "@homeGreeting": {
-    "description": "Greeting banner with user name",
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
+  "foldersTitle": "フォルダ",
+  "@foldersTitle": {
+    "description": "Folders title"
   },
-  "homeReadyForAppraisal": "査定の準備はできていますか？",
-  "@homeReadyForAppraisal": {
-    "description": "Subtitle under greeting"
+  "foldersAllNotes": "すべてのノート",
+  "@foldersAllNotes": {
+    "description": "Folders all notes"
   },
-  "homeLatestAppraisal": "最新の査定",
-  "@homeLatestAppraisal": {
-    "description": "Section header for latest appraisal"
+  "foldersUncategorized": "未分類",
+  "@foldersUncategorized": {
+    "description": "Folders uncategorized"
   },
-  "homeRefresh": "更新",
-  "@homeRefresh": {
-    "description": "Refresh button label"
+  "foldersEmpty": "カスタムフォルダはありません",
+  "@foldersEmpty": {
+    "description": "Folders empty"
   },
-  "homeSeeAll": "すべて見る",
-  "@homeSeeAll": {
-    "description": "See all appraisals link"
+  "foldersError": "エラー: {error}",
+  "@foldersError": {
+    "description": "Folders error"
   },
-  "homeStartNewAppraisal": "新しい査定を開始",
-  "@homeStartNewAppraisal": {
-    "description": "Start new appraisal button"
+  "foldersCreateNew": "新しいフォルダを作成",
+  "@foldersCreateNew": {
+    "description": "Folders create new"
   },
-  "homeViewDetails": "詳細を見る",
-  "@homeViewDetails": {
-    "description": "View details button on appraisal card"
+  "foldersNewTitle": "新規フォルダ",
+  "@foldersNewTitle": {
+    "description": "Folders new title"
+  },
+  "foldersCancel": "キャンセル",
+  "@foldersCancel": {
+    "description": "Folders cancel"
+  },
+  "foldersCreateBtn": "作成",
+  "@foldersCreateBtn": {
+    "description": "Folders create btn"
+  },
+  "notesHidden": "非表示",
+  "@notesHidden": {
+    "description": "Notes hidden"
+  },
+  "notesError": "エラー: {error}",
+  "@notesError": {
+    "description": "Notes error"
+  },
+  "notesSelectedCount": "{count} 選択中",
+  "@notesSelectedCount": {
+    "description": "Notes selected count"
+  },
+  "notesHiddenTitle": "非表示のノート",
+  "@notesHiddenTitle": {
+    "description": "Notes hidden title"
+  },
+  "notesNotFound": "ノートが見つかりません。",
+  "@notesNotFound": {
+    "description": "Notes not found"
+  },
+  "notesGraphTitle": "グラフビュー",
+  "@notesGraphTitle": {
+    "description": "Notes graph title"
+  },
+  "notesGraphEmpty": "グラフ化するノートがありません。",
+  "@notesGraphEmpty": {
+    "description": "Notes graph empty"
+  },
+  "notesMyTitle": "マイノート",
+  "@notesMyTitle": {
+    "description": "Notes my title"
+  },
+  "notesNew": "新規ノート",
+  "@notesNew": {
+    "description": "Notes new"
+  },
+  "notesEdit": "ノートを編集",
+  "@notesEdit": {
+    "description": "Notes edit"
+  },
+  "notesNoContent": "コンテンツなし",
+  "@notesNoContent": {
+    "description": "Notes no content"
+  },
+  "notesTags": "タグ: {tags}",
+  "@notesTags": {
+    "description": "Notes tags"
+  },
+  "settingsTitle": "設定",
+  "@settingsTitle": {
+    "description": "Settings title"
+  },
+  "settingsMaterialYou": "Material You を使用",
+  "@settingsMaterialYou": {
+    "description": "Settings material you"
+  },
+  "settingsMaterialYouSubtitle": "システムのダイナミックカラーに従う",
+  "@settingsMaterialYouSubtitle": {
+    "description": "Settings material you subtitle"
+  },
+  "settingsTheme": "テーマ",
+  "@settingsTheme": {
+    "description": "Settings theme"
+  },
+  "settingsThemeSystem": "システム",
+  "@settingsThemeSystem": {
+    "description": "Settings theme system"
+  },
+  "settingsThemeLight": "ライト",
+  "@settingsThemeLight": {
+    "description": "Settings theme light"
+  },
+  "settingsThemeDark": "ダーク",
+  "@settingsThemeDark": {
+    "description": "Settings theme dark"
+  },
+  "settingsLanguage": "言語",
+  "@settingsLanguage": {
+    "description": "Settings language"
+  },
+  "settingsLanguageEnglish": "英語",
+  "@settingsLanguageEnglish": {
+    "description": "Settings language english"
+  },
+  "settingsLanguageJapanese": "日本語",
+  "@settingsLanguageJapanese": {
+    "description": "Settings language japanese"
+  },
+  "settingsLanguageIndonesian": "インドネシア語",
+  "@settingsLanguageIndonesian": {
+    "description": "Settings language indonesian"
+  },
+  "tasksTitle": "タスク",
+  "@tasksTitle": {
+    "description": "Tasks title"
+  },
+  "tasksEmpty": "タスクがありません。作成してください！",
+  "@tasksEmpty": {
+    "description": "Tasks empty"
+  },
+  "tasksActive": "アクティブ",
+  "@tasksActive": {
+    "description": "Tasks active"
+  },
+  "tasksCompleted": "完了",
+  "@tasksCompleted": {
+    "description": "Tasks completed"
+  },
+  "tasksNothingHere": "ここには何もありません...",
+  "@tasksNothingHere": {
+    "description": "Tasks nothing here"
+  },
+  "tasksNew": "新しいタスク",
+  "@tasksNew": {
+    "description": "Tasks new"
+  },
+  "tasksEdit": "タスクを編集",
+  "@tasksEdit": {
+    "description": "Tasks edit"
+  },
+  "tasksTitleLabel": "タスクのタイトル",
+  "@tasksTitleLabel": {
+    "description": "Tasks title label"
+  },
+  "tasksDueDate": "期限",
+  "@tasksDueDate": {
+    "description": "Tasks due date"
+  },
+  "tasksSave": "タスクを保存",
+  "@tasksSave": {
+    "description": "Tasks save"
+  },
+  "tasksError": "エラー: {error}",
+  "@tasksError": {
+    "description": "Tasks error"
   },
   "adminShellBottomNavDashboard": "ダッシュボード",
   "@adminShellBottomNavDashboard": {

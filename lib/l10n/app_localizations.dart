@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
+import 'app_localizations_id.dart';
 import 'app_localizations_ja.dart';
 
 // ignore_for_file: type=lint
@@ -94,6 +95,7 @@ abstract class L10n {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
+    Locale('id'),
     Locale('ja'),
   ];
 
@@ -1093,47 +1095,263 @@ abstract class L10n {
   /// **'Rescheduled'**
   String get enumMaintenanceResultRescheduled;
 
-  /// Greeting banner with user name
+  /// No description provided for @foldersTitle.
   ///
   /// In en, this message translates to:
-  /// **'Hello, {name}!'**
-  String homeGreeting(String name);
+  /// **'Folders'**
+  String get foldersTitle;
 
-  /// Subtitle under greeting
+  /// No description provided for @foldersAllNotes.
   ///
   /// In en, this message translates to:
-  /// **'Ready for your appraisal?'**
-  String get homeReadyForAppraisal;
+  /// **'All Notes'**
+  String get foldersAllNotes;
 
-  /// Section header for latest appraisal
+  /// No description provided for @foldersUncategorized.
   ///
   /// In en, this message translates to:
-  /// **'Latest Appraisal'**
-  String get homeLatestAppraisal;
+  /// **'Uncategorized'**
+  String get foldersUncategorized;
 
-  /// Refresh button label
+  /// No description provided for @foldersEmpty.
   ///
   /// In en, this message translates to:
-  /// **'Refresh'**
-  String get homeRefresh;
+  /// **'No custom folders'**
+  String get foldersEmpty;
 
-  /// See all appraisals link
+  /// No description provided for @foldersError.
   ///
   /// In en, this message translates to:
-  /// **'See All'**
-  String get homeSeeAll;
+  /// **'Error: {error}'**
+  String foldersError(String error);
 
-  /// Start new appraisal button
+  /// No description provided for @foldersCreateNew.
   ///
   /// In en, this message translates to:
-  /// **'Start New Appraisal'**
-  String get homeStartNewAppraisal;
+  /// **'Create New Folder'**
+  String get foldersCreateNew;
 
-  /// View details button on appraisal card
+  /// No description provided for @foldersNewTitle.
   ///
   /// In en, this message translates to:
-  /// **'View Details'**
-  String get homeViewDetails;
+  /// **'New Folder'**
+  String get foldersNewTitle;
+
+  /// No description provided for @foldersCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get foldersCancel;
+
+  /// No description provided for @foldersCreateBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get foldersCreateBtn;
+
+  /// No description provided for @notesHidden.
+  ///
+  /// In en, this message translates to:
+  /// **'Hidden'**
+  String get notesHidden;
+
+  /// No description provided for @notesError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String notesError(String error);
+
+  /// No description provided for @notesSelectedCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} selected'**
+  String notesSelectedCount(int count);
+
+  /// No description provided for @notesHiddenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hidden Notes'**
+  String get notesHiddenTitle;
+
+  /// No description provided for @notesNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No notes found.'**
+  String get notesNotFound;
+
+  /// No description provided for @notesGraphTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Graph View'**
+  String get notesGraphTitle;
+
+  /// No description provided for @notesGraphEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No notes available for graph.'**
+  String get notesGraphEmpty;
+
+  /// No description provided for @notesMyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My Notes'**
+  String get notesMyTitle;
+
+  /// No description provided for @notesNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New Note'**
+  String get notesNew;
+
+  /// No description provided for @notesEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Note'**
+  String get notesEdit;
+
+  /// No description provided for @notesNoContent.
+  ///
+  /// In en, this message translates to:
+  /// **'No content'**
+  String get notesNoContent;
+
+  /// No description provided for @notesTags.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags: {tags}'**
+  String notesTags(String tags);
+
+  /// No description provided for @settingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTitle;
+
+  /// No description provided for @settingsMaterialYou.
+  ///
+  /// In en, this message translates to:
+  /// **'Use Material You'**
+  String get settingsMaterialYou;
+
+  /// No description provided for @settingsMaterialYouSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow system dynamic colors'**
+  String get settingsMaterialYouSubtitle;
+
+  /// No description provided for @settingsTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get settingsTheme;
+
+  /// No description provided for @settingsThemeSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get settingsThemeSystem;
+
+  /// No description provided for @settingsThemeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get settingsThemeLight;
+
+  /// No description provided for @settingsThemeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get settingsThemeDark;
+
+  /// No description provided for @settingsLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get settingsLanguage;
+
+  /// No description provided for @settingsLanguageEnglish.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get settingsLanguageEnglish;
+
+  /// No description provided for @settingsLanguageJapanese.
+  ///
+  /// In en, this message translates to:
+  /// **'Japanese'**
+  String get settingsLanguageJapanese;
+
+  /// No description provided for @settingsLanguageIndonesian.
+  ///
+  /// In en, this message translates to:
+  /// **'Indonesian'**
+  String get settingsLanguageIndonesian;
+
+  /// No description provided for @tasksTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks'**
+  String get tasksTitle;
+
+  /// No description provided for @tasksEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No Tasks. Create one!'**
+  String get tasksEmpty;
+
+  /// No description provided for @tasksActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get tasksActive;
+
+  /// No description provided for @tasksCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get tasksCompleted;
+
+  /// No description provided for @tasksNothingHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing here...'**
+  String get tasksNothingHere;
+
+  /// No description provided for @tasksNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New Task'**
+  String get tasksNew;
+
+  /// No description provided for @tasksEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Task'**
+  String get tasksEdit;
+
+  /// No description provided for @tasksTitleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Task Title'**
+  String get tasksTitleLabel;
+
+  /// No description provided for @tasksDueDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Due Date'**
+  String get tasksDueDate;
+
+  /// No description provided for @tasksSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Task'**
+  String get tasksSave;
+
+  /// No description provided for @tasksError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String tasksError(String error);
 
   /// Admin shell bottom navigation label for dashboard
   ///
@@ -1530,7 +1748,7 @@ class _L10nDelegate extends LocalizationsDelegate<L10n> {
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'ja'].contains(locale.languageCode);
+      <String>['en', 'id', 'ja'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_L10nDelegate old) => false;
@@ -1541,6 +1759,8 @@ L10n lookupL10n(Locale locale) {
   switch (locale.languageCode) {
     case 'en':
       return L10nEn();
+    case 'id':
+      return L10nId();
     case 'ja':
       return L10nJa();
   }

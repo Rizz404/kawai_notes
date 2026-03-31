@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/theme_extension.dart';
 import 'package:flutter_setup_riverpod/feature/folders/providers/folder_list_provider.dart';
 import 'package:flutter_setup_riverpod/shared/widgets/app_text.dart';
@@ -21,7 +22,7 @@ class FolderDrawer extends ConsumerWidget {
             child: Align(
               alignment: Alignment.bottomLeft,
               child: AppText(
-                'Folders',
+                context.l10n.foldersTitle,
                 style: AppTextStyle.headlineSmall,
                 color: context.colorScheme.onPrimaryContainer,
               ),
@@ -29,7 +30,7 @@ class FolderDrawer extends ConsumerWidget {
           ),
           ListTile(
             leading: const Icon(Icons.note_outlined),
-            title: const AppText('All Notes'),
+            title: AppText(context.l10n.foldersAllNotes),
             onTap: () {
               // TODO: filter to all notes
               Navigator.pop(context);
@@ -37,7 +38,7 @@ class FolderDrawer extends ConsumerWidget {
           ),
           ListTile(
             leading: const Icon(Icons.folder_shared_outlined),
-            title: const AppText('Uncategorized'),
+            title: AppText(context.l10n.foldersUncategorized),
             onTap: () {
               // TODO: filter uncategorized
               Navigator.pop(context);
@@ -49,7 +50,7 @@ class FolderDrawer extends ConsumerWidget {
               data: (state) {
                 final folders = state.items;
                 if (folders.isEmpty) {
-                  return const Center(child: AppText('No custom folders'));
+                  return Center(child: AppText(context.l10n.foldersEmpty));
                 }
                 return ListView.builder(
                   itemCount: folders.length,
@@ -78,13 +79,15 @@ class FolderDrawer extends ConsumerWidget {
                 );
               },
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (e, _) => Center(child: AppText('Error: $e')),
+              error: (e, _) => Center(
+                child: AppText(context.l10n.foldersError(e.toString())),
+              ),
             ),
           ),
           const Divider(),
           ListTile(
             leading: const Icon(Icons.create_new_folder_outlined),
-            title: const AppText('Create New Folder'),
+            title: AppText(context.l10n.foldersCreateNew),
             onTap: () {
               // Show dialog to create folder
               _showCreateFolderDialog(context, ref);
@@ -101,15 +104,17 @@ class FolderDrawer extends ConsumerWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const AppText('New Folder'),
+          title: AppText(context.l10n.foldersNewTitle),
           content: TextField(
             controller: controller,
-            decoration: const InputDecoration(hintText: 'Folder name'),
+            decoration: InputDecoration(
+              hintText: context.l10n.foldersNewTitle,
+            ), // Assuming foldersNewTitle is 'New Folder'
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const AppText('Cancel'),
+              child: AppText(context.l10n.foldersCancel),
             ),
             TextButton(
               onPressed: () {
@@ -121,7 +126,7 @@ class FolderDrawer extends ConsumerWidget {
                 }
                 Navigator.pop(context);
               },
-              child: const AppText('Create'),
+              child: AppText(context.l10n.foldersCreateBtn),
             ),
           ],
         );

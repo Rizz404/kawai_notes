@@ -1,0 +1,43 @@
+{
+  "@@locale": "en",
+  "foldersTitle": "Folders",
+  "@foldersTitle": {
+    "description": "Folders title"
+  },
+  "foldersAllNotes": "All Notes",
+  "@foldersAllNotes": {
+    "description": "Folders all notes"
+  },
+  "foldersUncategorized": "Uncategorized",
+  "@foldersUncategorized": {
+    "description": "Folders uncategorized"
+  },
+  "foldersEmpty": "No custom folders",
+  "@foldersEmpty": {
+    "description": "Folders empty"
+  },
+  "foldersError": "Error: {error}",
+  "@foldersError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "foldersCreateNew": "Create New Folder",
+  "@foldersCreateNew": {
+    "description": "Folders create new"
+  },
+  "foldersNewTitle": "New Folder",
+  "@foldersNewTitle": {
+    "description": "Folders new title"
+  },
+  "foldersCancel": "Cancel",
+  "@foldersCancel": {
+    "description": "Folders cancel"
+  },
+  "foldersCreateBtn": "Create",
+  "@foldersCreateBtn": {
+    "description": "Folders create btn"
+  }
+}

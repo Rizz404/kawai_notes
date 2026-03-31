@@ -1,0 +1,51 @@
+{
+  "@@locale": "ja",
+  "notesHidden": "非表示",
+  "@notesHidden": {
+    "description": "Notes hidden"
+  },
+  "notesError": "エラー: {error}",
+  "@notesError": {
+    "description": "Notes error"
+  },
+  "notesSelectedCount": "{count} 選択中",
+  "@notesSelectedCount": {
+    "description": "Notes selected count"
+  },
+  "notesHiddenTitle": "非表示のノート",
+  "@notesHiddenTitle": {
+    "description": "Notes hidden title"
+  },
+  "notesNotFound": "ノートが見つかりません。",
+  "@notesNotFound": {
+    "description": "Notes not found"
+  },
+  "notesGraphTitle": "グラフビュー",
+  "@notesGraphTitle": {
+    "description": "Notes graph title"
+  },
+  "notesGraphEmpty": "グラフ化するノートがありません。",
+  "@notesGraphEmpty": {
+    "description": "Notes graph empty"
+  },
+  "notesMyTitle": "マイノート",
+  "@notesMyTitle": {
+    "description": "Notes my title"
+  },
+  "notesNew": "新規ノート",
+  "@notesNew": {
+    "description": "Notes new"
+  },
+  "notesEdit": "ノートを編集",
+  "@notesEdit": {
+    "description": "Notes edit"
+  },
+  "notesNoContent": "コンテンツなし",
+  "@notesNoContent": {
+    "description": "Notes no content"
+  },
+  "notesTags": "タグ: {tags}",
+  "@notesTags": {
+    "description": "Notes tags"
+  }
+}

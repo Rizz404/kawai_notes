@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/navigator_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/theme_extension.dart';
 import 'package:flutter_setup_riverpod/feature/tasks/models/task.dart';
@@ -15,7 +16,7 @@ class TasksScreen extends ConsumerWidget {
     final taskState = ref.watch(taskListNotifierProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Tasks')),
+      appBar: AppBar(title: Text(context.l10n.tasksTitle)),
       drawer: const AppDrawer(),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.push('/task-editor'),
@@ -25,7 +26,7 @@ class TasksScreen extends ConsumerWidget {
       body: taskState.when(
         data: (state) {
           if (state.isEmpty) {
-            return const Center(child: AppText('No Tasks. Create one!'));
+            return Center(child: AppText(context.l10n.tasksEmpty));
           }
           return DefaultTabController(
             length: 2,
@@ -35,9 +36,9 @@ class TasksScreen extends ConsumerWidget {
                   labelColor: context.colorScheme.primary,
                   unselectedLabelColor: context.colorScheme.onSurfaceVariant,
                   indicatorColor: context.colorScheme.primary,
-                  tabs: const [
-                    Tab(text: 'Active'),
-                    Tab(text: 'Completed'),
+                  tabs: [
+                    Tab(text: context.l10n.tasksActive),
+                    Tab(text: context.l10n.tasksCompleted),
                   ],
                 ),
                 Expanded(
@@ -53,14 +54,15 @@ class TasksScreen extends ConsumerWidget {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(child: AppText('Error: $e')),
+        error: (e, _) =>
+            Center(child: AppText(context.l10n.tasksError(e.toString()))),
       ),
     );
   }
 
   Widget _buildTaskList(BuildContext context, WidgetRef ref, List<Task> tasks) {
     if (tasks.isEmpty) {
-      return const Center(child: AppText('Nothing here...'));
+      return Center(child: AppText(context.l10n.tasksNothingHere));
     }
     return ListView.builder(
       itemCount: tasks.length,

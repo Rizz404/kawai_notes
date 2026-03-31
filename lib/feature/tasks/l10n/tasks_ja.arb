@@ -1,0 +1,47 @@
+{
+  "@@locale": "ja",
+  "tasksTitle": "タスク",
+  "@tasksTitle": {
+    "description": "Tasks title"
+  },
+  "tasksEmpty": "タスクがありません。作成してください！",
+  "@tasksEmpty": {
+    "description": "Tasks empty"
+  },
+  "tasksActive": "アクティブ",
+  "@tasksActive": {
+    "description": "Tasks active"
+  },
+  "tasksCompleted": "完了",
+  "@tasksCompleted": {
+    "description": "Tasks completed"
+  },
+  "tasksNothingHere": "ここには何もありません...",
+  "@tasksNothingHere": {
+    "description": "Tasks nothing here"
+  },
+  "tasksNew": "新しいタスク",
+  "@tasksNew": {
+    "description": "Tasks new"
+  },
+  "tasksEdit": "タスクを編集",
+  "@tasksEdit": {
+    "description": "Tasks edit"
+  },
+  "tasksTitleLabel": "タスクのタイトル",
+  "@tasksTitleLabel": {
+    "description": "Tasks title label"
+  },
+  "tasksDueDate": "期限",
+  "@tasksDueDate": {
+    "description": "Tasks due date"
+  },
+  "tasksSave": "タスクを保存",
+  "@tasksSave": {
+    "description": "Tasks save"
+  },
+  "tasksError": "エラー: {error}",
+  "@tasksError": {
+    "description": "Tasks error"
+  }
+}

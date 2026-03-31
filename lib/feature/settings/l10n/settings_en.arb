@@ -1,0 +1,47 @@
+{
+  "@@locale": "en",
+  "settingsTitle": "Settings",
+  "@settingsTitle": {
+    "description": "Settings title"
+  },
+  "settingsMaterialYou": "Use Material You",
+  "@settingsMaterialYou": {
+    "description": "Settings material you"
+  },
+  "settingsMaterialYouSubtitle": "Follow system dynamic colors",
+  "@settingsMaterialYouSubtitle": {
+    "description": "Settings material you subtitle"
+  },
+  "settingsTheme": "Theme",
+  "@settingsTheme": {
+    "description": "Settings theme"
+  },
+  "settingsThemeSystem": "System",
+  "@settingsThemeSystem": {
+    "description": "Settings theme system"
+  },
+  "settingsThemeLight": "Light",
+  "@settingsThemeLight": {
+    "description": "Settings theme light"
+  },
+  "settingsThemeDark": "Dark",
+  "@settingsThemeDark": {
+    "description": "Settings theme dark"
+  },
+  "settingsLanguage": "Language",
+  "@settingsLanguage": {
+    "description": "Settings language"
+  },
+  "settingsLanguageEnglish": "English",
+  "@settingsLanguageEnglish": {
+    "description": "Settings language english"
+  },
+  "settingsLanguageJapanese": "Japanese",
+  "@settingsLanguageJapanese": {
+    "description": "Settings language japanese"
+  },
+  "settingsLanguageIndonesian": "Indonesian",
+  "@settingsLanguageIndonesian": {
+    "description": "Settings language indonesian"
+  }
+}

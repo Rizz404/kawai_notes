@@ -1,0 +1,39 @@
+{
+  "@@locale": "ja",
+  "foldersTitle": "フォルダ",
+  "@foldersTitle": {
+    "description": "Folders title"
+  },
+  "foldersAllNotes": "すべてのノート",
+  "@foldersAllNotes": {
+    "description": "Folders all notes"
+  },
+  "foldersUncategorized": "未分類",
+  "@foldersUncategorized": {
+    "description": "Folders uncategorized"
+  },
+  "foldersEmpty": "カスタムフォルダはありません",
+  "@foldersEmpty": {
+    "description": "Folders empty"
+  },
+  "foldersError": "エラー: {error}",
+  "@foldersError": {
+    "description": "Folders error"
+  },
+  "foldersCreateNew": "新しいフォルダを作成",
+  "@foldersCreateNew": {
+    "description": "Folders create new"
+  },
+  "foldersNewTitle": "新規フォルダ",
+  "@foldersNewTitle": {
+    "description": "Folders new title"
+  },
+  "foldersCancel": "キャンセル",
+  "@foldersCancel": {
+    "description": "Folders cancel"
+  },
+  "foldersCreateBtn": "作成",
+  "@foldersCreateBtn": {
+    "description": "Folders create btn"
+  }
+}

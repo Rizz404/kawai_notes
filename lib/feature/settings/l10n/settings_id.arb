@@ -1,0 +1,47 @@
+{
+  "@@locale": "id",
+  "settingsTitle": "Pengaturan",
+  "@settingsTitle": {
+    "description": "Settings title"
+  },
+  "settingsMaterialYou": "Gunakan Material You",
+  "@settingsMaterialYou": {
+    "description": "Settings material you"
+  },
+  "settingsMaterialYouSubtitle": "Ikuti warna dinamis sistem",
+  "@settingsMaterialYouSubtitle": {
+    "description": "Settings material you subtitle"
+  },
+  "settingsTheme": "Tema",
+  "@settingsTheme": {
+    "description": "Settings theme"
+  },
+  "settingsThemeSystem": "Sistem",
+  "@settingsThemeSystem": {
+    "description": "Settings theme system"
+  },
+  "settingsThemeLight": "Terang",
+  "@settingsThemeLight": {
+    "description": "Settings theme light"
+  },
+  "settingsThemeDark": "Gelap",
+  "@settingsThemeDark": {
+    "description": "Settings theme dark"
+  },
+  "settingsLanguage": "Bahasa",
+  "@settingsLanguage": {
+    "description": "Settings language"
+  },
+  "settingsLanguageEnglish": "Inggris",
+  "@settingsLanguageEnglish": {
+    "description": "Settings language english"
+  },
+  "settingsLanguageJapanese": "Jepang",
+  "@settingsLanguageJapanese": {
+    "description": "Settings language japanese"
+  },
+  "settingsLanguageIndonesian": "Indonesia",
+  "@settingsLanguageIndonesian": {
+    "description": "Settings language indonesian"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "@@locale": "en",
+  "notesHidden": "Hidden",
+  "@notesHidden": {
+    "description": "Notes hidden"
+  },
+  "notesError": "Error: {error}",
+  "@notesError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "notesSelectedCount": "{count} selected",
+  "@notesSelectedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notesHiddenTitle": "Hidden Notes",
+  "@notesHiddenTitle": {
+    "description": "Notes hidden title"
+  },
+  "notesNotFound": "No notes found.",
+  "@notesNotFound": {
+    "description": "Notes not found"
+  },
+  "notesGraphTitle": "Graph View",
+  "@notesGraphTitle": {
+    "description": "Notes graph title"
+  },
+  "notesGraphEmpty": "No notes available for graph.",
+  "@notesGraphEmpty": {
+    "description": "Notes graph empty"
+  },
+  "notesMyTitle": "My Notes",
+  "@notesMyTitle": {
+    "description": "Notes my title"
+  },
+  "notesNew": "New Note",
+  "@notesNew": {
+    "description": "Notes new"
+  },
+  "notesEdit": "Edit Note",
+  "@notesEdit": {
+    "description": "Notes edit"
+  },
+  "notesNoContent": "No content",
+  "@notesNoContent": {
+    "description": "Notes no content"
+  },
+  "notesTags": "Tags: {tags}",
+  "@notesTags": {
+    "placeholders": {
+      "tags": {
+        "type": "String"
+      }
+    }
+  }
+}

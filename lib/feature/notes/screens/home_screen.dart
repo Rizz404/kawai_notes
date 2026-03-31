@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/navigator_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/theme_extension.dart';
 import 'package:flutter_setup_riverpod/di/service_providers.dart';
 import 'package:flutter_setup_riverpod/feature/folders/widgets/folder_drawer.dart';
 import 'package:flutter_setup_riverpod/feature/notes/models/note.dart';
 import 'package:flutter_setup_riverpod/feature/notes/providers/note_providers.dart';
-import 'package:flutter_setup_riverpod/shared/widgets/app_search_field.dart';
 import 'package:flutter_setup_riverpod/shared/widgets/app_drawer.dart';
+import 'package:flutter_setup_riverpod/shared/widgets/app_search_field.dart';
 import 'package:flutter_setup_riverpod/shared/widgets/screen_wrapper.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -72,7 +73,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 icon: const Icon(Icons.close),
                 onPressed: _clearSelection,
               ),
-              title: Text('${_selectedIds.length} selected'),
+              title: Text(context.l10n.notesSelectedCount(_selectedIds.length)),
               actions: [
                 IconButton(
                   icon: const Icon(Icons.visibility_off),
@@ -85,7 +86,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ],
             )
           : AppBar(
-              title: const Text('My Notes'),
+              title: Text(context.l10n.notesMyTitle),
               actions: [
                 IconButton(
                   icon: const Icon(Icons.hub_outlined),
@@ -133,9 +134,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     final notes = state.items;
                     if (notes.isEmpty) {
                       return ListView(
-                        children: const [
-                          SizedBox(height: 100),
-                          Center(child: Text('No notes found.')),
+                        children: [
+                          const SizedBox(height: 100),
+                          Center(child: Text(context.l10n.notesNotFound)),
                         ],
                       );
                     }
@@ -143,7 +144,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   },
                   loading: () =>
                       const Center(child: CircularProgressIndicator()),
-                  error: (error, stack) => Center(child: Text('Error: $error')),
+                  error: (error, stack) => Center(
+                    child: Text(context.l10n.notesError(error.toString())),
+                  ),
                 ),
               ),
             ],
@@ -186,7 +189,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     data: (content) {
                       if (content.trim().isEmpty && isUntitled) {
                         return Text(
-                          'No content',
+                          context.l10n.notesNoContent,
                           style: context.textTheme.bodyMedium?.copyWith(
                             fontStyle: FontStyle.italic,
                           ),
@@ -212,7 +215,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ? Padding(
                   padding: const EdgeInsets.only(top: 4.0),
                   child: Text(
-                    'Tags: ${note.tags.join(', ')}',
+                    context.l10n.notesTags(note.tags.join(', ')),
                     style: context.textTheme.labelSmall,
                   ),
                 )
@@ -291,7 +294,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             data: (content) {
                               if (content.trim().isEmpty && isUntitled) {
                                 return Text(
-                                  'No content',
+                                  context.l10n.notesNoContent,
                                   style: context.textTheme.bodyMedium?.copyWith(
                                     fontStyle: FontStyle.italic,
                                   ),
@@ -313,7 +316,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     if (note.tags.isNotEmpty) ...[
                       const SizedBox(height: 8),
                       Text(
-                        'Tags: ${note.tags.join(', ')}',
+                        context.l10n.notesTags(note.tags.join(', ')),
                         style: context.textTheme.labelSmall,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

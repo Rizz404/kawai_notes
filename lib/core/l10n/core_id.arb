@@ -1,54 +1,54 @@
 {
-  "@@locale": "ja",
-  "networkErrorDnsFailureUser": "サーバーに接続できません。\n• インターネット接続を確認してください\n• VPN/DNSが有効な場合は無効にしてください\n• しばらくしてから再試行してください",
+  "@@locale": "id",
+  "networkErrorDnsFailureUser": "Gagal terhubung ke server.\n• Periksa koneksi internet Anda\n• Matikan VPN/DNS jika aktif\n• Coba lagi sesaat lagi",
   "@networkErrorDnsFailureUser": {
     "description": "Network error dns failure user"
   },
-  "networkErrorConnectionUser": "接続が切れました。\n• インターネット接続を確認してください\n• WiFi/データが有効であることを確認してください\n• しばらくしてから再試行してください",
+  "networkErrorConnectionUser": "Koneksi terputus.\n• Periksa koneksi internet Anda\n• Pastikan WiFi/data aktif\n• Coba lagi sesaat lagi",
   "@networkErrorConnectionUser": {
     "description": "Network error connection user"
   },
-  "networkErrorTimeoutUser": "接続タイムアウト。\n• インターネット速度を確認してください\n• しばらくしてから再試行してください\n• 問題が解決しない場合は管理者に連絡してください",
+  "networkErrorTimeoutUser": "Koneksi habis waktu.\n• Periksa kecepatan internet Anda\n• Coba lagi sesaat lagi\n• Hubungi admin jika masalah berlanjut",
   "@networkErrorTimeoutUser": {
     "description": "Network error timeout user"
   },
-  "networkErrorReceiveTimeoutUser": "サーバーの応答時間が長すぎます。\n• インターネット接続が遅い可能性があります\n• しばらくしてから再試行してください\n• 問題が解決しない場合は管理者に連絡してください",
+  "networkErrorReceiveTimeoutUser": "Server terlalu lama merespons.\n• Koneksi internet Anda mungkin lambat\n• Coba lagi sesaat lagi\n• Hubungi admin jika masalah berlanjut",
   "@networkErrorReceiveTimeoutUser": {
     "description": "Network error receive timeout user"
   },
-  "networkErrorServerUser": "サーバーエラーが発生しました。\n• しばらくしてから再試行してください\n• 問題が解決しない場合は管理者に連絡してください",
+  "networkErrorServerUser": "Terjadi kesalahan server.\n• Coba lagi sesaat lagi\n• Hubungi admin jika masalah berlanjut",
   "@networkErrorServerUser": {
     "description": "Network error server user"
   },
-  "networkErrorServer502User": "サーバーに到達できません。\n• サーバーがメンテナンス中の可能性があります\n• しばらくしてから再試行してください\n• 問題が解決しない場合は管理者に連絡してください",
+  "networkErrorServer502User": "Server tidak dapat dijangkau.\n• Server mungkin sedang dalam perbaikan\n• Coba lagi sesaat lagi\n• Hubungi admin jika masalah berlanjut",
   "@networkErrorServer502User": {
     "description": "Network error server502 user"
   },
-  "networkErrorServer503User": "サービスはメンテナンス中です。\n• しばらくお待ちください\n• 後で再試行してください\n• 詳細については管理者に連絡してください",
+  "networkErrorServer503User": "Layanan sedang dalam perbaikan.\n• Tunggu sebentar\n• Coba lagi nanti\n• Hubungi admin untuk info lebih lanjut",
   "@networkErrorServer503User": {
     "description": "Network error server503 user"
   },
-  "networkErrorServer504User": "サーバータイムアウト。\n• サーバーが混雑しています\n• しばらくしてから再試行してください\n• 問題が解決しない場合は管理者に連絡してください",
+  "networkErrorServer504User": "Waktu habis pada server.\n• Server sedang sibuk\n• Coba lagi sesaat lagi\n• Hubungi admin jika masalah berlanjut",
   "@networkErrorServer504User": {
     "description": "Network error server504 user"
   },
-  "networkErrorHtmlResponse": "サーバーがJSONではなくHTMLを返しました。APIエンドポイント設定を確認してください。",
+  "networkErrorHtmlResponse": "Server mengembalikan HTML, bukan JSON. Periksa konfigurasi endpoint API.",
   "@networkErrorHtmlResponse": {
     "description": "Network error html response"
   },
-  "networkErrorFileDownloaded": "ファイルが正常にダウンロードされました",
+  "networkErrorFileDownloaded": "Berkas berhasil diunduh",
   "@networkErrorFileDownloaded": {
     "description": "Network error file downloaded"
   },
-  "networkErrorUnknown": "不明なエラーが発生しました",
+  "networkErrorUnknown": "Terjadi kesalahan yang tidak diketahui",
   "@networkErrorUnknown": {
     "description": "Network error unknown"
   },
-  "timeAgoJustNow": "たった今",
+  "timeAgoJustNow": "baru saja",
   "@timeAgoJustNow": {
     "description": "Time ago just now"
   },
-  "timeAgoMinute": "{count, plural, =1{1分前} other{{count}分前}}",
+  "timeAgoMinute": "{count, plural, =1{1 menit yang lalu} other{{count} menit yang lalu}}",
   "@timeAgoMinute": {
     "placeholders": {
       "count": {
@@ -56,7 +56,7 @@
       }
     }
   },
-  "timeAgoHour": "{count, plural, =1{1時間前} other{{count}時間前}}",
+  "timeAgoHour": "{count, plural, =1{1 jam yang lalu} other{{count} jam yang lalu}}",
   "@timeAgoHour": {
     "placeholders": {
       "count": {
@@ -64,7 +64,7 @@
       }
     }
   },
-  "timeAgoDay": "{count, plural, =1{1日前} other{{count}日前}}",
+  "timeAgoDay": "{count, plural, =1{1 hari yang lalu} other{{count} hari yang lalu}}",
   "@timeAgoDay": {
     "placeholders": {
       "count": {
@@ -72,7 +72,7 @@
       }
     }
   },
-  "timeAgoMonth": "{count, plural, =1{1ヶ月前} other{{count}ヶ月前}}",
+  "timeAgoMonth": "{count, plural, =1{1 bulan yang lalu} other{{count} bulan yang lalu}}",
   "@timeAgoMonth": {
     "placeholders": {
       "count": {
@@ -80,7 +80,7 @@
       }
     }
   },
-  "timeAgoYear": "{count, plural, =1{1年前} other{{count}年前}}",
+  "timeAgoYear": "{count, plural, =1{1 tahun yang lalu} other{{count} tahun yang lalu}}",
   "@timeAgoYear": {
     "placeholders": {
       "count": {
@@ -88,367 +88,367 @@
       }
     }
   },
-  "monthJan": "1月",
+  "monthJan": "Jan",
   "@monthJan": {
     "description": "Month jan"
   },
-  "monthFeb": "2月",
+  "monthFeb": "Feb",
   "@monthFeb": {
     "description": "Month feb"
   },
-  "monthMar": "3月",
+  "monthMar": "Mar",
   "@monthMar": {
     "description": "Month mar"
   },
-  "monthApr": "4月",
+  "monthApr": "Apr",
   "@monthApr": {
     "description": "Month apr"
   },
-  "monthMay": "5月",
+  "monthMay": "Mei",
   "@monthMay": {
     "description": "Month may"
   },
-  "monthJun": "6月",
+  "monthJun": "Jun",
   "@monthJun": {
     "description": "Month jun"
   },
-  "monthJul": "7月",
+  "monthJul": "Jul",
   "@monthJul": {
     "description": "Month jul"
   },
-  "monthAug": "8月",
+  "monthAug": "Agu",
   "@monthAug": {
     "description": "Month aug"
   },
-  "monthSep": "9月",
+  "monthSep": "Sep",
   "@monthSep": {
     "description": "Month sep"
   },
-  "monthOct": "10月",
+  "monthOct": "Okt",
   "@monthOct": {
     "description": "Month oct"
   },
-  "monthNov": "11月",
+  "monthNov": "Nov",
   "@monthNov": {
     "description": "Month nov"
   },
-  "monthDec": "12月",
+  "monthDec": "Des",
   "@monthDec": {
     "description": "Month dec"
   },
-  "dayMon": "月曜日",
+  "dayMon": "Senin",
   "@dayMon": {
     "description": "Day mon"
   },
-  "dayTue": "火曜日",
+  "dayTue": "Selasa",
   "@dayTue": {
     "description": "Day tue"
   },
-  "dayWed": "水曜日",
+  "dayWed": "Rabu",
   "@dayWed": {
     "description": "Day wed"
   },
-  "dayThu": "木曜日",
+  "dayThu": "Kamis",
   "@dayThu": {
     "description": "Day thu"
   },
-  "dayFri": "金曜日",
+  "dayFri": "Jumat",
   "@dayFri": {
     "description": "Day fri"
   },
-  "daySat": "土曜日",
+  "daySat": "Sabtu",
   "@daySat": {
     "description": "Day sat"
   },
-  "daySun": "日曜日",
+  "daySun": "Minggu",
   "@daySun": {
     "description": "Day sun"
   },
-  "currencyBillionSuffix": "十億",
+  "currencyBillionSuffix": "M",
   "@currencyBillionSuffix": {
     "description": "Currency billion suffix"
   },
-  "currencyMillionSuffix": "百万",
+  "currencyMillionSuffix": "Jt",
   "@currencyMillionSuffix": {
     "description": "Currency million suffix"
   },
-  "currencyThousandSuffix": "千",
+  "currencyThousandSuffix": "Rb",
   "@currencyThousandSuffix": {
     "description": "Currency thousand suffix"
   },
-  "enumSortOrderAsc": "昇順",
+  "enumSortOrderAsc": "Naik",
   "@enumSortOrderAsc": {
     "description": "Sort order ascending"
   },
-  "enumSortOrderDesc": "降順",
+  "enumSortOrderDesc": "Turun",
   "@enumSortOrderDesc": {
     "description": "Sort order descending"
   },
-  "enumCategorySortByCategoryCode": "カテゴリコード",
+  "enumCategorySortByCategoryCode": "Kode Kategori",
   "@enumCategorySortByCategoryCode": {
     "description": "Sort by category code"
   },
-  "enumCategorySortByName": "名前",
+  "enumCategorySortByName": "Nama",
   "@enumCategorySortByName": {
     "description": "Sort by name"
   },
-  "enumCategorySortByCategoryName": "カテゴリ名",
+  "enumCategorySortByCategoryName": "Nama Kategori",
   "@enumCategorySortByCategoryName": {
     "description": "Sort by category name"
   },
-  "enumCategorySortByCreatedAt": "作成日時",
+  "enumCategorySortByCreatedAt": "Tanggal Dibuat",
   "@enumCategorySortByCreatedAt": {
     "description": "Sort by creation date"
   },
-  "enumCategorySortByUpdatedAt": "更新日時",
+  "enumCategorySortByUpdatedAt": "Tanggal Diubah",
   "@enumCategorySortByUpdatedAt": {
     "description": "Sort by update date"
   },
-  "enumLocationSortByLocationCode": "ロケーションコード",
+  "enumLocationSortByLocationCode": "Kode Lokasi",
   "@enumLocationSortByLocationCode": {
     "description": "Sort by location code"
   },
-  "enumLocationSortByName": "名前",
+  "enumLocationSortByName": "Nama",
   "@enumLocationSortByName": {
     "description": "Sort by name"
   },
-  "enumLocationSortByLocationName": "ロケーション名",
+  "enumLocationSortByLocationName": "Nama Lokasi",
   "@enumLocationSortByLocationName": {
     "description": "Sort by location name"
   },
-  "enumLocationSortByBuilding": "建物",
+  "enumLocationSortByBuilding": "Gedung",
   "@enumLocationSortByBuilding": {
     "description": "Sort by building"
   },
-  "enumLocationSortByFloor": "階",
+  "enumLocationSortByFloor": "Lantai",
   "@enumLocationSortByFloor": {
     "description": "Sort by floor"
   },
-  "enumLocationSortByCreatedAt": "作成日時",
+  "enumLocationSortByCreatedAt": "Tanggal Dibuat",
   "@enumLocationSortByCreatedAt": {
     "description": "Sort by creation date"
   },
-  "enumLocationSortByUpdatedAt": "更新日時",
+  "enumLocationSortByUpdatedAt": "Tanggal Diubah",
   "@enumLocationSortByUpdatedAt": {
     "description": "Sort by update date"
   },
-  "enumNotificationSortByType": "タイプ",
+  "enumNotificationSortByType": "Jenis",
   "@enumNotificationSortByType": {
     "description": "Sort by type"
   },
-  "enumNotificationSortByIsRead": "既読状態",
+  "enumNotificationSortByIsRead": "Status Baca",
   "@enumNotificationSortByIsRead": {
     "description": "Sort by read status"
   },
-  "enumNotificationSortByCreatedAt": "受信日時",
+  "enumNotificationSortByCreatedAt": "Tanggal Diterima",
   "@enumNotificationSortByCreatedAt": {
     "description": "Sort by received date"
   },
-  "enumNotificationSortByTitle": "タイトル",
+  "enumNotificationSortByTitle": "Judul",
   "@enumNotificationSortByTitle": {
     "description": "Sort by title"
   },
-  "enumNotificationSortByMessage": "メッセージ",
+  "enumNotificationSortByMessage": "Pesan",
   "@enumNotificationSortByMessage": {
     "description": "Sort by message"
   },
-  "enumScanLogSortByScanTimestamp": "スキャン日時",
+  "enumScanLogSortByScanTimestamp": "Waktu Pindai",
   "@enumScanLogSortByScanTimestamp": {
     "description": "Sort by scan timestamp"
   },
-  "enumScanLogSortByScannedValue": "スキャン値",
+  "enumScanLogSortByScannedValue": "Nilai Pindai",
   "@enumScanLogSortByScannedValue": {
     "description": "Sort by scanned value"
   },
-  "enumScanLogSortByScanMethod": "スキャン方法",
+  "enumScanLogSortByScanMethod": "Metode Pindai",
   "@enumScanLogSortByScanMethod": {
     "description": "Sort by scan method"
   },
-  "enumScanLogSortByScanResult": "スキャン結果",
+  "enumScanLogSortByScanResult": "Hasil Pindai",
   "@enumScanLogSortByScanResult": {
     "description": "Sort by scan result"
   },
-  "enumAssetSortByAssetTag": "資産タグ",
+  "enumAssetSortByAssetTag": "Tag Aset",
   "@enumAssetSortByAssetTag": {
     "description": "Sort by asset tag"
   },
-  "enumAssetSortByAssetName": "資産名",
+  "enumAssetSortByAssetName": "Nama Aset",
   "@enumAssetSortByAssetName": {
     "description": "Sort by asset name"
   },
-  "enumAssetSortByBrand": "ブランド",
+  "enumAssetSortByBrand": "Merek",
   "@enumAssetSortByBrand": {
     "description": "Sort by brand"
   },
-  "enumAssetSortByModel": "モデル",
+  "enumAssetSortByModel": "Model",
   "@enumAssetSortByModel": {
     "description": "Sort by model"
   },
-  "enumAssetSortBySerialNumber": "シリアル番号",
+  "enumAssetSortBySerialNumber": "Nomor Seri",
   "@enumAssetSortBySerialNumber": {
     "description": "Sort by serial number"
   },
-  "enumAssetSortByPurchaseDate": "購入日",
+  "enumAssetSortByPurchaseDate": "Tanggal Pembelian",
   "@enumAssetSortByPurchaseDate": {
     "description": "Sort by purchase date"
   },
-  "enumAssetSortByPurchasePrice": "購入価格",
+  "enumAssetSortByPurchasePrice": "Harga Beli",
   "@enumAssetSortByPurchasePrice": {
     "description": "Sort by purchase price"
   },
-  "enumAssetSortByVendorName": "ベンダー名",
+  "enumAssetSortByVendorName": "Nama Vendor",
   "@enumAssetSortByVendorName": {
     "description": "Sort by vendor name"
   },
-  "enumAssetSortByWarrantyEnd": "保証終了日",
+  "enumAssetSortByWarrantyEnd": "Batas Garansi",
   "@enumAssetSortByWarrantyEnd": {
     "description": "Sort by warranty end date"
   },
-  "enumAssetSortByStatus": "ステータス",
+  "enumAssetSortByStatus": "Status",
   "@enumAssetSortByStatus": {
     "description": "Sort by status"
   },
-  "enumAssetSortByConditionStatus": "コンディション",
+  "enumAssetSortByConditionStatus": "Kondisi",
   "@enumAssetSortByConditionStatus": {
     "description": "Sort by condition"
   },
-  "enumAssetSortByCreatedAt": "作成日時",
+  "enumAssetSortByCreatedAt": "Tanggal Dibuat",
   "@enumAssetSortByCreatedAt": {
     "description": "Sort by creation date"
   },
-  "enumAssetSortByUpdatedAt": "更新日時",
+  "enumAssetSortByUpdatedAt": "Tanggal Diubah",
   "@enumAssetSortByUpdatedAt": {
     "description": "Sort by update date"
   },
-  "enumAssetMovementSortByMovementDate": "移動日",
+  "enumAssetMovementSortByMovementDate": "Tanggal Pindah",
   "@enumAssetMovementSortByMovementDate": {
     "description": "Sort by movement date"
   },
-  "enumAssetMovementSortByMovementdate": "移動日",
+  "enumAssetMovementSortByMovementdate": "Tanggal Pindah",
   "@enumAssetMovementSortByMovementdate": {
     "description": "Sort by movement date (lowercase alias)"
   },
-  "enumAssetMovementSortByCreatedAt": "作成日時",
+  "enumAssetMovementSortByCreatedAt": "Tanggal Dibuat",
   "@enumAssetMovementSortByCreatedAt": {
     "description": "Sort by creation date"
   },
-  "enumAssetMovementSortByCreatedat": "作成日時",
+  "enumAssetMovementSortByCreatedat": "Tanggal Dibuat",
   "@enumAssetMovementSortByCreatedat": {
     "description": "Sort by creation date (lowercase alias)"
   },
-  "enumAssetMovementSortByUpdatedAt": "更新日時",
+  "enumAssetMovementSortByUpdatedAt": "Tanggal Diubah",
   "@enumAssetMovementSortByUpdatedAt": {
     "description": "Sort by update date"
   },
-  "enumAssetMovementSortByUpdatedat": "更新日時",
+  "enumAssetMovementSortByUpdatedat": "Tanggal Diubah",
   "@enumAssetMovementSortByUpdatedat": {
     "description": "Sort by update date (lowercase alias)"
   },
-  "enumIssueReportSortByReportedDate": "報告日",
+  "enumIssueReportSortByReportedDate": "Tanggal Laporan",
   "@enumIssueReportSortByReportedDate": {
     "description": "Sort by reported date"
   },
-  "enumIssueReportSortByResolvedDate": "解決日",
+  "enumIssueReportSortByResolvedDate": "Tanggal Selesai",
   "@enumIssueReportSortByResolvedDate": {
     "description": "Sort by resolved date"
   },
-  "enumIssueReportSortByIssueType": "問題タイプ",
+  "enumIssueReportSortByIssueType": "Jenis Masalah",
   "@enumIssueReportSortByIssueType": {
     "description": "Sort by issue type"
   },
-  "enumIssueReportSortByPriority": "優先度",
+  "enumIssueReportSortByPriority": "Prioritas",
   "@enumIssueReportSortByPriority": {
     "description": "Sort by priority"
   },
-  "enumIssueReportSortByStatus": "ステータス",
+  "enumIssueReportSortByStatus": "Status Masalah",
   "@enumIssueReportSortByStatus": {
     "description": "Sort by status"
   },
-  "enumIssueReportSortByTitle": "タイトル",
+  "enumIssueReportSortByTitle": "Judul",
   "@enumIssueReportSortByTitle": {
     "description": "Sort by title"
   },
-  "enumIssueReportSortByDescription": "説明",
+  "enumIssueReportSortByDescription": "Deskripsi",
   "@enumIssueReportSortByDescription": {
     "description": "Sort by description"
   },
-  "enumIssueReportSortByCreatedAt": "作成日時",
+  "enumIssueReportSortByCreatedAt": "Tanggal Dibuat",
   "@enumIssueReportSortByCreatedAt": {
     "description": "Sort by creation date"
   },
-  "enumIssueReportSortByUpdatedAt": "更新日時",
+  "enumIssueReportSortByUpdatedAt": "Tanggal Diubah",
   "@enumIssueReportSortByUpdatedAt": {
     "description": "Sort by update date"
   },
-  "enumMaintenanceScheduleSortByNextScheduledDate": "次回予定日",
+  "enumMaintenanceScheduleSortByNextScheduledDate": "Jadwal Berikutnya",
   "@enumMaintenanceScheduleSortByNextScheduledDate": {
     "description": "Sort by next scheduled date"
   },
-  "enumMaintenanceScheduleSortByMaintenanceType": "メンテナンスタイプ",
+  "enumMaintenanceScheduleSortByMaintenanceType": "Jenis Perawatan",
   "@enumMaintenanceScheduleSortByMaintenanceType": {
     "description": "Sort by maintenance type"
   },
-  "enumMaintenanceScheduleSortByState": "状態",
+  "enumMaintenanceScheduleSortByState": "Status Perawatan",
   "@enumMaintenanceScheduleSortByState": {
     "description": "Sort by state"
   },
-  "enumMaintenanceScheduleSortByCreatedAt": "作成日時",
+  "enumMaintenanceScheduleSortByCreatedAt": "Tanggal Dibuat",
   "@enumMaintenanceScheduleSortByCreatedAt": {
     "description": "Sort by creation date"
   },
-  "enumMaintenanceScheduleSortByUpdatedAt": "更新日時",
+  "enumMaintenanceScheduleSortByUpdatedAt": "Tanggal Diubah",
   "@enumMaintenanceScheduleSortByUpdatedAt": {
     "description": "Sort by update date"
   },
-  "enumMaintenanceRecordSortByMaintenanceDate": "メンテナンス日",
+  "enumMaintenanceRecordSortByMaintenanceDate": "Tanggal Perawatan",
   "@enumMaintenanceRecordSortByMaintenanceDate": {
     "description": "Sort by maintenance date"
   },
-  "enumMaintenanceRecordSortByActualCost": "実費用",
+  "enumMaintenanceRecordSortByActualCost": "Biaya Aktual",
   "@enumMaintenanceRecordSortByActualCost": {
     "description": "Sort by cost"
   },
-  "enumMaintenanceRecordSortByTitle": "タイトル",
+  "enumMaintenanceRecordSortByTitle": "Judul",
   "@enumMaintenanceRecordSortByTitle": {
     "description": "Sort by title"
   },
-  "enumMaintenanceRecordSortByCreatedAt": "作成日時",
+  "enumMaintenanceRecordSortByCreatedAt": "Tanggal Dibuat",
   "@enumMaintenanceRecordSortByCreatedAt": {
     "description": "Sort by creation date"
   },
-  "enumMaintenanceRecordSortByUpdatedAt": "更新日時",
+  "enumMaintenanceRecordSortByUpdatedAt": "Tanggal Diubah",
   "@enumMaintenanceRecordSortByUpdatedAt": {
     "description": "Sort by update date"
   },
-  "enumUserSortByName": "名前",
+  "enumUserSortByName": "Nama",
   "@enumUserSortByName": {
     "description": "Sort by name"
   },
-  "enumUserSortByFullName": "氏名",
+  "enumUserSortByFullName": "Nama Lengkap",
   "@enumUserSortByFullName": {
     "description": "Sort by full name"
   },
-  "enumUserSortByEmail": "メールアドレス",
+  "enumUserSortByEmail": "Email",
   "@enumUserSortByEmail": {
     "description": "Sort by email"
   },
-  "enumUserSortByRole": "役割",
+  "enumUserSortByRole": "Peran",
   "@enumUserSortByRole": {
     "description": "Sort by role"
   },
-  "enumUserSortByEmployeeId": "社員ID",
+  "enumUserSortByEmployeeId": "ID Karyawan",
   "@enumUserSortByEmployeeId": {
     "description": "Sort by employee ID"
   },
-  "enumUserSortByIsActive": "有効状態",
+  "enumUserSortByIsActive": "Status Aktif",
   "@enumUserSortByIsActive": {
     "description": "Sort by active status"
   },
-  "enumUserSortByCreatedAt": "登録日時",
+  "enumUserSortByCreatedAt": "Tanggal Bergabung",
   "@enumUserSortByCreatedAt": {
     "description": "Sort by join date"
   },
-  "enumUserSortByUpdatedAt": "更新日時",
+  "enumUserSortByUpdatedAt": "Tanggal Diubah",
   "@enumUserSortByUpdatedAt": {
     "description": "Sort by update date"
   },
@@ -460,227 +460,227 @@
   "@enumExportFormatExcel": {
     "description": "Export format Excel"
   },
-  "enumMutationTypeCreate": "作成",
+  "enumMutationTypeCreate": "Buat",
   "@enumMutationTypeCreate": {
     "description": "Mutation type create"
   },
-  "enumMutationTypeUpdate": "更新",
+  "enumMutationTypeUpdate": "Ubah",
   "@enumMutationTypeUpdate": {
     "description": "Mutation type update"
   },
-  "enumMutationTypeDelete": "削除",
+  "enumMutationTypeDelete": "Hapus",
   "@enumMutationTypeDelete": {
     "description": "Mutation type delete"
   },
-  "enumLanguageEnglish": "英語",
+  "enumLanguageEnglish": "Inggris",
   "@enumLanguageEnglish": {
     "description": "Language English"
   },
-  "enumLanguageJapanese": "日本語",
+  "enumLanguageJapanese": "Jepang",
   "@enumLanguageJapanese": {
     "description": "Language Japanese"
   },
-  "enumLanguageIndonesian": "インドネシア語",
+  "enumLanguageIndonesian": "Indonesia",
   "@enumLanguageIndonesian": {
     "description": "Language Indonesian"
   },
-  "enumUserRoleAdmin": "管理者",
+  "enumUserRoleAdmin": "Admin",
   "@enumUserRoleAdmin": {
     "description": "User role Admin"
   },
-  "enumUserRoleUser": "ユーザー",
+  "enumUserRoleUser": "Manusia",
   "@enumUserRoleUser": {
     "description": "User role User"
   },
-  "enumAssetStatusActive": "アクティブ",
+  "enumAssetStatusActive": "Aktif",
   "@enumAssetStatusActive": {
     "description": "Asset status Active"
   },
-  "enumAssetStatusMaintenance": "メンテナンス中",
+  "enumAssetStatusMaintenance": "Perawatan",
   "@enumAssetStatusMaintenance": {
     "description": "Asset status Maintenance"
   },
-  "enumAssetStatusDisposed": "廃棄済み",
+  "enumAssetStatusDisposed": "Dibuang",
   "@enumAssetStatusDisposed": {
     "description": "Asset status Disposed"
   },
-  "enumAssetStatusLost": "紛失",
+  "enumAssetStatusLost": "Hilang",
   "@enumAssetStatusLost": {
     "description": "Asset status Lost"
   },
-  "enumAssetConditionGood": "良好",
+  "enumAssetConditionGood": "Bagus",
   "@enumAssetConditionGood": {
     "description": "Asset condition Good"
   },
-  "enumAssetConditionFair": "普通",
+  "enumAssetConditionFair": "Cukup",
   "@enumAssetConditionFair": {
     "description": "Asset condition Fair"
   },
-  "enumAssetConditionPoor": "悪い",
+  "enumAssetConditionPoor": "Buruk",
   "@enumAssetConditionPoor": {
     "description": "Asset condition Poor"
   },
-  "enumAssetConditionDamaged": "破損",
+  "enumAssetConditionDamaged": "Rusak",
   "@enumAssetConditionDamaged": {
     "description": "Asset condition Damaged"
   },
-  "enumNotificationTypeMaintenance": "メンテナンス",
+  "enumNotificationTypeMaintenance": "Perawatan",
   "@enumNotificationTypeMaintenance": {
     "description": "Notification type Maintenance"
   },
-  "enumNotificationTypeWarranty": "保証",
+  "enumNotificationTypeWarranty": "Garansi",
   "@enumNotificationTypeWarranty": {
     "description": "Notification type Warranty"
   },
-  "enumNotificationTypeIssue": "問題",
+  "enumNotificationTypeIssue": "Masalah",
   "@enumNotificationTypeIssue": {
     "description": "Notification type Issue"
   },
-  "enumNotificationTypeMovement": "移動",
+  "enumNotificationTypeMovement": "Pergerakan",
   "@enumNotificationTypeMovement": {
     "description": "Notification type Movement"
   },
-  "enumNotificationTypeStatusChange": "ステータス変更",
+  "enumNotificationTypeStatusChange": "Perubahan Status",
   "@enumNotificationTypeStatusChange": {
     "description": "Notification type Status Change"
   },
-  "enumNotificationTypeLocationChange": "場所変更",
+  "enumNotificationTypeLocationChange": "Perubahan Lokasi",
   "@enumNotificationTypeLocationChange": {
     "description": "Notification type Location Change"
   },
-  "enumNotificationTypeCategoryChange": "カテゴリ変更",
+  "enumNotificationTypeCategoryChange": "Perubahan Kategori",
   "@enumNotificationTypeCategoryChange": {
     "description": "Notification type Category Change"
   },
-  "enumNotificationPriorityLow": "低",
+  "enumNotificationPriorityLow": "Rendah",
   "@enumNotificationPriorityLow": {
     "description": "Priority Low"
   },
-  "enumNotificationPriorityNormal": "中",
+  "enumNotificationPriorityNormal": "Normal",
   "@enumNotificationPriorityNormal": {
     "description": "Priority Normal"
   },
-  "enumNotificationPriorityHigh": "高",
+  "enumNotificationPriorityHigh": "Tinggi",
   "@enumNotificationPriorityHigh": {
     "description": "Priority High"
   },
-  "enumNotificationPriorityUrgent": "緊急",
+  "enumNotificationPriorityUrgent": "Mendesak",
   "@enumNotificationPriorityUrgent": {
     "description": "Priority Urgent"
   },
-  "enumScanMethodTypeDataMatrix": "データマトリックス",
+  "enumScanMethodTypeDataMatrix": "Data Matrix",
   "@enumScanMethodTypeDataMatrix": {
     "description": "Scan method Data Matrix"
   },
-  "enumScanMethodTypeManualInput": "手動入力",
+  "enumScanMethodTypeManualInput": "Masukan Manual",
   "@enumScanMethodTypeManualInput": {
     "description": "Scan method Manual Input"
   },
-  "enumScanResultTypeSuccess": "成功",
+  "enumScanResultTypeSuccess": "Sukses",
   "@enumScanResultTypeSuccess": {
     "description": "Scan result Success"
   },
-  "enumScanResultTypeInvalidID": "無効なID",
+  "enumScanResultTypeInvalidID": "ID Tidak Valid",
   "@enumScanResultTypeInvalidID": {
     "description": "Scan result Invalid ID"
   },
-  "enumScanResultTypeAssetNotFound": "資産が見つかりません",
+  "enumScanResultTypeAssetNotFound": "Aset Tidak Ditemukan",
   "@enumScanResultTypeAssetNotFound": {
     "description": "Scan result Asset Not Found"
   },
-  "enumMaintenanceScheduleTypePreventive": "予防",
+  "enumMaintenanceScheduleTypePreventive": "Pencegahan",
   "@enumMaintenanceScheduleTypePreventive": {
     "description": "Schedule type Preventive"
   },
-  "enumMaintenanceScheduleTypeCorrective": "事後",
+  "enumMaintenanceScheduleTypeCorrective": "Perbaikan",
   "@enumMaintenanceScheduleTypeCorrective": {
     "description": "Schedule type Corrective"
   },
-  "enumMaintenanceScheduleTypeInspection": "点検",
+  "enumMaintenanceScheduleTypeInspection": "Inspeksi",
   "@enumMaintenanceScheduleTypeInspection": {
     "description": "Schedule type Inspection"
   },
-  "enumMaintenanceScheduleTypeCalibration": "校正",
+  "enumMaintenanceScheduleTypeCalibration": "Kalibrasi",
   "@enumMaintenanceScheduleTypeCalibration": {
     "description": "Schedule type Calibration"
   },
-  "enumScheduleStateActive": "有効",
+  "enumScheduleStateActive": "Aktif",
   "@enumScheduleStateActive": {
     "description": "Schedule state Active"
   },
-  "enumScheduleStatePaused": "一時停止",
+  "enumScheduleStatePaused": "Ditunda",
   "@enumScheduleStatePaused": {
     "description": "Schedule state Paused"
   },
-  "enumScheduleStateStopped": "停止",
+  "enumScheduleStateStopped": "Berhenti",
   "@enumScheduleStateStopped": {
     "description": "Schedule state Stopped"
   },
-  "enumScheduleStateCompleted": "完了",
+  "enumScheduleStateCompleted": "Selesai",
   "@enumScheduleStateCompleted": {
     "description": "Schedule state Completed"
   },
-  "enumIntervalUnitDays": "日",
+  "enumIntervalUnitDays": "Hari",
   "@enumIntervalUnitDays": {
     "description": "Interval unit Days"
   },
-  "enumIntervalUnitWeeks": "週",
+  "enumIntervalUnitWeeks": "Minggu",
   "@enumIntervalUnitWeeks": {
     "description": "Interval unit Weeks"
   },
-  "enumIntervalUnitMonths": "月",
+  "enumIntervalUnitMonths": "Bulan",
   "@enumIntervalUnitMonths": {
     "description": "Interval unit Months"
   },
-  "enumIntervalUnitYears": "年",
+  "enumIntervalUnitYears": "Tahun",
   "@enumIntervalUnitYears": {
     "description": "Interval unit Years"
   },
-  "enumIssuePriorityLow": "低",
+  "enumIssuePriorityLow": "Rendah",
   "@enumIssuePriorityLow": {
     "description": "Issue priority Low"
   },
-  "enumIssuePriorityMedium": "中",
+  "enumIssuePriorityMedium": "Sedang",
   "@enumIssuePriorityMedium": {
     "description": "Issue priority Medium"
   },
-  "enumIssuePriorityHigh": "高",
+  "enumIssuePriorityHigh": "Tinggi",
   "@enumIssuePriorityHigh": {
     "description": "Issue priority High"
   },
-  "enumIssuePriorityCritical": "クリティカル",
+  "enumIssuePriorityCritical": "Kritis",
   "@enumIssuePriorityCritical": {
     "description": "Issue priority Critical"
   },
-  "enumIssueStatusOpen": "未対応",
+  "enumIssueStatusOpen": "Buka",
   "@enumIssueStatusOpen": {
     "description": "Issue status Open"
   },
-  "enumIssueStatusInProgress": "対応中",
+  "enumIssueStatusInProgress": "Dalam Proses",
   "@enumIssueStatusInProgress": {
     "description": "Issue status In Progress"
   },
-  "enumIssueStatusResolved": "解決済み",
+  "enumIssueStatusResolved": "Terselesaikan",
   "@enumIssueStatusResolved": {
     "description": "Issue status Resolved"
   },
-  "enumIssueStatusClosed": "完了",
+  "enumIssueStatusClosed": "Tutup",
   "@enumIssueStatusClosed": {
     "description": "Issue status Closed"
   },
-  "enumMaintenanceResultSuccess": "成功",
+  "enumMaintenanceResultSuccess": "Sukses",
   "@enumMaintenanceResultSuccess": {
     "description": "Maintenance result Success"
   },
-  "enumMaintenanceResultPartial": "部分的",
+  "enumMaintenanceResultPartial": "Sebagian",
   "@enumMaintenanceResultPartial": {
     "description": "Maintenance result Partial"
   },
-  "enumMaintenanceResultFailed": "失敗",
+  "enumMaintenanceResultFailed": "Gagal",
   "@enumMaintenanceResultFailed": {
     "description": "Maintenance result Failed"
   },
-  "enumMaintenanceResultRescheduled": "再スケジュール",
+  "enumMaintenanceResultRescheduled": "Dijadwalkan Ulang",
   "@enumMaintenanceResultRescheduled": {
     "description": "Maintenance result Rescheduled"
   }

@@ -1,17 +1,53 @@
 {
   "@@locale": "en",
   "networkErrorDnsFailureUser": "Cannot connect to server.\n• Check your internet connection\n• Disable VPN/DNS if active\n• Try again in a moment",
+  "@networkErrorDnsFailureUser": {
+    "description": "Network error dns failure user"
+  },
   "networkErrorConnectionUser": "Connection lost.\n• Check your internet connection\n• Ensure WiFi/data is active\n• Try again in a moment",
+  "@networkErrorConnectionUser": {
+    "description": "Network error connection user"
+  },
   "networkErrorTimeoutUser": "Connection timeout.\n• Check your internet speed\n• Try again in a moment\n• Contact admin if problem persists",
+  "@networkErrorTimeoutUser": {
+    "description": "Network error timeout user"
+  },
   "networkErrorReceiveTimeoutUser": "Server took too long to respond.\n• Your internet connection might be slow\n• Try again in a moment\n• Contact admin if problem persists",
+  "@networkErrorReceiveTimeoutUser": {
+    "description": "Network error receive timeout user"
+  },
   "networkErrorServerUser": "Server error occurred.\n• Try again in a moment\n• Contact admin if problem persists",
+  "@networkErrorServerUser": {
+    "description": "Network error server user"
+  },
   "networkErrorServer502User": "Server unreachable.\n• Server might be under maintenance\n• Try again in a moment\n• Contact admin if problem persists",
+  "@networkErrorServer502User": {
+    "description": "Network error server502 user"
+  },
   "networkErrorServer503User": "Service under maintenance.\n• Wait a moment\n• Try again later\n• Contact admin for more info",
+  "@networkErrorServer503User": {
+    "description": "Network error server503 user"
+  },
   "networkErrorServer504User": "Server timeout.\n• Server is busy\n• Try again in a moment\n• Contact admin if problem persists",
+  "@networkErrorServer504User": {
+    "description": "Network error server504 user"
+  },
   "networkErrorHtmlResponse": "Server returned HTML instead of JSON. Check API endpoint configuration.",
+  "@networkErrorHtmlResponse": {
+    "description": "Network error html response"
+  },
   "networkErrorFileDownloaded": "File downloaded successfully",
+  "@networkErrorFileDownloaded": {
+    "description": "Network error file downloaded"
+  },
   "networkErrorUnknown": "Unknown error occurred",
+  "@networkErrorUnknown": {
+    "description": "Network error unknown"
+  },
   "timeAgoJustNow": "just now",
+  "@timeAgoJustNow": {
+    "description": "Time ago just now"
+  },
   "timeAgoMinute": "{count, plural, =1{1 minute ago} other{{count} minutes ago}}",
   "@timeAgoMinute": {
     "placeholders": {
@@ -53,27 +89,93 @@
     }
   },
   "monthJan": "Jan",
+  "@monthJan": {
+    "description": "Month jan"
+  },
   "monthFeb": "Feb",
+  "@monthFeb": {
+    "description": "Month feb"
+  },
   "monthMar": "Mar",
+  "@monthMar": {
+    "description": "Month mar"
+  },
   "monthApr": "Apr",
+  "@monthApr": {
+    "description": "Month apr"
+  },
   "monthMay": "May",
+  "@monthMay": {
+    "description": "Month may"
+  },
   "monthJun": "Jun",
+  "@monthJun": {
+    "description": "Month jun"
+  },
   "monthJul": "Jul",
+  "@monthJul": {
+    "description": "Month jul"
+  },
   "monthAug": "Aug",
+  "@monthAug": {
+    "description": "Month aug"
+  },
   "monthSep": "Sep",
+  "@monthSep": {
+    "description": "Month sep"
+  },
   "monthOct": "Oct",
+  "@monthOct": {
+    "description": "Month oct"
+  },
   "monthNov": "Nov",
+  "@monthNov": {
+    "description": "Month nov"
+  },
   "monthDec": "Dec",
+  "@monthDec": {
+    "description": "Month dec"
+  },
   "dayMon": "Monday",
+  "@dayMon": {
+    "description": "Day mon"
+  },
   "dayTue": "Tuesday",
+  "@dayTue": {
+    "description": "Day tue"
+  },
   "dayWed": "Wednesday",
+  "@dayWed": {
+    "description": "Day wed"
+  },
   "dayThu": "Thursday",
+  "@dayThu": {
+    "description": "Day thu"
+  },
   "dayFri": "Friday",
+  "@dayFri": {
+    "description": "Day fri"
+  },
   "daySat": "Saturday",
+  "@daySat": {
+    "description": "Day sat"
+  },
   "daySun": "Sunday",
+  "@daySun": {
+    "description": "Day sun"
+  },
   "currencyBillionSuffix": "B",
+  "@currencyBillionSuffix": {
+    "description": "Currency billion suffix"
+  },
   "currencyMillionSuffix": "M",
+  "@currencyMillionSuffix": {
+    "description": "Currency million suffix"
+  },
   "currencyThousandSuffix": "K",
+  "@currencyThousandSuffix": {
+    "description": "Currency thousand suffix"
+  },
   "enumSortOrderAsc": "Ascending",
   "@enumSortOrderAsc": {
     "description": "Sort order ascending"

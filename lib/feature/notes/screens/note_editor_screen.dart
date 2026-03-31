@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/navigator_extension.dart';
 import 'package:flutter_setup_riverpod/feature/folders/providers/folder_list_provider.dart';
 import 'package:flutter_setup_riverpod/feature/notes/providers/note_providers.dart';
@@ -108,7 +109,11 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.noteId == null ? 'New Note' : 'Edit Note'),
+          title: Text(
+            widget.noteId == null
+                ? context.l10n.notesNew
+                : context.l10n.notesEdit,
+          ),
           actions: [
             IconButton(
               icon: Icon(
@@ -177,7 +182,7 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
                                   Expanded(
                                     child: AppCheckbox(
                                       name: 'isHidden',
-                                      title: const Text('Hidden'),
+                                      title: Text(context.l10n.notesHidden),
                                       initialValue:
                                           state.note?.isHidden ?? false,
                                     ),
@@ -203,7 +208,8 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
             );
           },
           loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, stackTrace) => Center(child: Text('Error: $error')),
+          error: (error, stackTrace) =>
+              Center(child: Text(context.l10n.notesError(error.toString()))),
         ),
       ),
     );

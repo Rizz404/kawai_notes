@@ -556,27 +556,143 @@ class L10nJa extends L10n {
   String get enumMaintenanceResultRescheduled => '再スケジュール';
 
   @override
-  String homeGreeting(String name) {
-    return 'こんにちは、$nameさん！';
+  String get foldersTitle => 'フォルダ';
+
+  @override
+  String get foldersAllNotes => 'すべてのノート';
+
+  @override
+  String get foldersUncategorized => '未分類';
+
+  @override
+  String get foldersEmpty => 'カスタムフォルダはありません';
+
+  @override
+  String foldersError(String error) {
+    return 'エラー: $error';
   }
 
   @override
-  String get homeReadyForAppraisal => '査定の準備はできていますか？';
+  String get foldersCreateNew => '新しいフォルダを作成';
 
   @override
-  String get homeLatestAppraisal => '最新の査定';
+  String get foldersNewTitle => '新規フォルダ';
 
   @override
-  String get homeRefresh => '更新';
+  String get foldersCancel => 'キャンセル';
 
   @override
-  String get homeSeeAll => 'すべて見る';
+  String get foldersCreateBtn => '作成';
 
   @override
-  String get homeStartNewAppraisal => '新しい査定を開始';
+  String get notesHidden => '非表示';
 
   @override
-  String get homeViewDetails => '詳細を見る';
+  String notesError(String error) {
+    return 'エラー: $error';
+  }
+
+  @override
+  String notesSelectedCount(int count) {
+    return '$count 選択中';
+  }
+
+  @override
+  String get notesHiddenTitle => '非表示のノート';
+
+  @override
+  String get notesNotFound => 'ノートが見つかりません。';
+
+  @override
+  String get notesGraphTitle => 'グラフビュー';
+
+  @override
+  String get notesGraphEmpty => 'グラフ化するノートがありません。';
+
+  @override
+  String get notesMyTitle => 'マイノート';
+
+  @override
+  String get notesNew => '新規ノート';
+
+  @override
+  String get notesEdit => 'ノートを編集';
+
+  @override
+  String get notesNoContent => 'コンテンツなし';
+
+  @override
+  String notesTags(String tags) {
+    return 'タグ: $tags';
+  }
+
+  @override
+  String get settingsTitle => '設定';
+
+  @override
+  String get settingsMaterialYou => 'Material You を使用';
+
+  @override
+  String get settingsMaterialYouSubtitle => 'システムのダイナミックカラーに従う';
+
+  @override
+  String get settingsTheme => 'テーマ';
+
+  @override
+  String get settingsThemeSystem => 'システム';
+
+  @override
+  String get settingsThemeLight => 'ライト';
+
+  @override
+  String get settingsThemeDark => 'ダーク';
+
+  @override
+  String get settingsLanguage => '言語';
+
+  @override
+  String get settingsLanguageEnglish => '英語';
+
+  @override
+  String get settingsLanguageJapanese => '日本語';
+
+  @override
+  String get settingsLanguageIndonesian => 'インドネシア語';
+
+  @override
+  String get tasksTitle => 'タスク';
+
+  @override
+  String get tasksEmpty => 'タスクがありません。作成してください！';
+
+  @override
+  String get tasksActive => 'アクティブ';
+
+  @override
+  String get tasksCompleted => '完了';
+
+  @override
+  String get tasksNothingHere => 'ここには何もありません...';
+
+  @override
+  String get tasksNew => '新しいタスク';
+
+  @override
+  String get tasksEdit => 'タスクを編集';
+
+  @override
+  String get tasksTitleLabel => 'タスクのタイトル';
+
+  @override
+  String get tasksDueDate => '期限';
+
+  @override
+  String get tasksSave => 'タスクを保存';
+
+  @override
+  String tasksError(String error) {
+    return 'エラー: $error';
+  }
 
   @override
   String get adminShellBottomNavDashboard => 'ダッシュボード';

@@ -1,0 +1,47 @@
+{
+  "@@locale": "id",
+  "tasksTitle": "Tugas",
+  "@tasksTitle": {
+    "description": "Tasks title"
+  },
+  "tasksEmpty": "Tidak ada Tugas. Buat satu!",
+  "@tasksEmpty": {
+    "description": "Tasks empty"
+  },
+  "tasksActive": "Aktif",
+  "@tasksActive": {
+    "description": "Tasks active"
+  },
+  "tasksCompleted": "Selesai",
+  "@tasksCompleted": {
+    "description": "Tasks completed"
+  },
+  "tasksNothingHere": "Tidak ada apa-apa di sini...",
+  "@tasksNothingHere": {
+    "description": "Tasks nothing here"
+  },
+  "tasksNew": "Tugas Baru",
+  "@tasksNew": {
+    "description": "Tasks new"
+  },
+  "tasksEdit": "Edit Tugas",
+  "@tasksEdit": {
+    "description": "Tasks edit"
+  },
+  "tasksTitleLabel": "Judul Tugas",
+  "@tasksTitleLabel": {
+    "description": "Tasks title label"
+  },
+  "tasksDueDate": "Batas Waktu",
+  "@tasksDueDate": {
+    "description": "Tasks due date"
+  },
+  "tasksSave": "Simpan Tugas",
+  "@tasksSave": {
+    "description": "Tasks save"
+  },
+  "tasksError": "Kesalahan: {error}",
+  "@tasksError": {
+    "description": "Tasks error"
+  }
+}
