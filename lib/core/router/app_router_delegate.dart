@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_setup_riverpod/core/extensions/logger_extension.dart';
 import 'package:flutter_setup_riverpod/core/router/app_custom_transition_page.dart';
 import 'package:flutter_setup_riverpod/core/router/app_route.dart';
 import 'package:flutter_setup_riverpod/core/router/app_route_state.dart';
@@ -40,16 +41,19 @@ class AppRouterDelegate extends RouterDelegate<AppRouteState>
 
   /// Push a new route on top of the stack
   void push(String path, {Map<String, dynamic>? extra}) {
+    logInfo('[Router] pushing new route: $path');
     _setPath(path, extra: extra, replace: false);
   }
 
   /// Replaces the current top route
   void replace(String path, {Map<String, dynamic>? extra}) {
+    logInfo('[Router] replacing current route with: $path');
     _setPath(path, extra: extra, replace: true);
   }
 
   /// Clears the stack and pushes the targeted route (sama dengan go Router atau replaceAll auto_route).
   void replaceAll(String path, {Map<String, dynamic>? extra}) {
+    logInfo('[Router] replaceAll stack with: $path');
     _pages.clear();
     _setPath(path, extra: extra, replace: false);
   }
@@ -60,6 +64,7 @@ class AppRouterDelegate extends RouterDelegate<AppRouteState>
     bool Function(Page<dynamic> page) predicate, {
     Map<String, dynamic>? extra,
   }) {
+    logInfo('[Router] pushAndRemoveUntil: $path');
     while (_pages.isNotEmpty && !predicate(_pages.last)) {
       _pages.removeLast();
     }
@@ -71,14 +76,18 @@ class AppRouterDelegate extends RouterDelegate<AppRouteState>
 
   /// Safely pops the topmost route.
   void pop() {
+    logInfo('[Router] popping route');
     if (canPop()) {
       _pages.removeLast();
       notifyListeners();
+    } else {
+      logInfo('[Router] cannot pop, stack size is ${_pages.length}');
     }
   }
 
   /// Pops the topmost route if possible, returning true if successful.
   bool maybePop() {
+    logInfo('[Router] maybePop');
     if (canPop()) {
       pop();
       return true;
@@ -88,6 +97,7 @@ class AppRouterDelegate extends RouterDelegate<AppRouteState>
 
   /// Pops routes consecutively until the predicate returns true.
   void popUntil(bool Function(Page<dynamic> page) predicate) {
+    logInfo('[Router] popUntil');
     while (_pages.isNotEmpty && !predicate(_pages.last)) {
       _pages.removeLast();
     }
@@ -107,13 +117,18 @@ class AppRouterDelegate extends RouterDelegate<AppRouteState>
     bool replace = false,
   }) async {
     final uri = Uri.parse(path);
+    logInfo('[Router] setting location $path');
+
     final routeMatch = _matchRoute(uri.path);
     final routeState = AppRouteState.fromUri(uri, extra: extra);
 
     if (routeMatch != null) {
+      logInfo('[Router] matched route ${routeMatch.path} for $path');
+
       if (routeMatch.redirect != null) {
         final redirectPath = await routeMatch.redirect!(routeState);
         if (redirectPath != null && redirectPath != path) {
+          logInfo('[Router] redirecting to $redirectPath');
           return _setPath(redirectPath, extra: extra, replace: replace);
         }
       }
@@ -162,6 +177,10 @@ class AppRouterDelegate extends RouterDelegate<AppRouteState>
       }
       _pages.add(page);
     }
+    logInfo('[Router] Full paths for routes:');
+    for (int i = 0; i < _pages.length; i++) {
+      logInfo('  => ${_pages[i].name}');
+    }
     notifyListeners();
   }
 
@@ -189,6 +208,11 @@ class AppRouterDelegate extends RouterDelegate<AppRouteState>
 
   @override
   Future<void> setNewRoutePath(AppRouteState configuration) async {
+    final uri = Uri.parse(configuration.path);
+    if (_pages.isNotEmpty && _pages.last.name == uri.toString()) {
+      return;
+    }
+    logInfo('[Router] setNewRoutePath ${configuration.path}');
     await _setPath(configuration.path, extra: configuration.extra);
   }
 }

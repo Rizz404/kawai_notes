@@ -129,7 +129,6 @@ class HomeScreen extends ConsumerWidget {
 
   Widget _buildGrid(List<Note> notes) {
     return GridView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 16,
