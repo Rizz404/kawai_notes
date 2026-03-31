@@ -16,6 +16,7 @@ class NoteRepository {
     String? ulid,
     required String title,
     required String content,
+    int? folderId,
   }) async {
     final noteUlid = ulid ?? Ulid().toString();
     final slug = slugify(title);
@@ -38,6 +39,12 @@ class NoteRepository {
       links: links,
       updatedAt: DateTime.now(),
     );
+
+    if (folderId != null) {
+      note.folder.targetId = folderId;
+    } else {
+      note.folder.targetId = 0; // Detach
+    }
 
     _objectBoxService.store.box<Note>().put(note);
     return note;

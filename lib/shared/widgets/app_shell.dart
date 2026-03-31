@@ -39,14 +39,14 @@ class AppBottomNav extends StatelessWidget {
       indicatorColor: context.colorScheme.primaryContainer,
       destinations: const [
         NavigationDestination(
-          icon: Icon(Icons.home_outlined),
-          selectedIcon: Icon(Icons.home),
-          label: 'Home',
+          icon: Icon(Icons.note_alt_outlined),
+          selectedIcon: Icon(Icons.note_alt),
+          label: 'Notes',
         ),
         NavigationDestination(
-          icon: Icon(Icons.person_outline),
-          selectedIcon: Icon(Icons.person),
-          label: 'Profile',
+          icon: Icon(Icons.check_circle_outline),
+          selectedIcon: Icon(Icons.check_circle),
+          label: 'Tasks',
         ),
       ],
     );

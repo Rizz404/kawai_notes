@@ -1,8 +1,7 @@
 import 'package:objectbox/objectbox.dart';
-import '../../folders/models/folder.dart';
 
 @Entity()
-class Note {
+class Task {
   @Id()
   int id;
 
@@ -10,11 +9,10 @@ class Note {
   String ulid;
 
   String title;
-  String contentPath;
-  List<String> tags;
-  List<String> links;
+  bool isCompleted;
 
-  final folder = ToOne<Folder>();
+  @Property(type: PropertyType.date)
+  DateTime? dueDate;
 
   @Property(type: PropertyType.date)
   DateTime createdAt;
@@ -22,13 +20,12 @@ class Note {
   @Property(type: PropertyType.date)
   DateTime updatedAt;
 
-  Note({
+  Task({
     this.id = 0,
     required this.ulid,
     required this.title,
-    required this.contentPath,
-    this.tags = const [],
-    this.links = const [],
+    this.isCompleted = false,
+    this.dueDate,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) : createdAt = createdAt ?? DateTime.now(),

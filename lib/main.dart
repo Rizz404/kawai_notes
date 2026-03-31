@@ -10,6 +10,7 @@ import 'package:flutter_setup_riverpod/core/services/objectbox_service.dart';
 import 'package:flutter_setup_riverpod/core/themes/app_theme.dart';
 import 'package:flutter_setup_riverpod/core/utils/logger.dart';
 import 'package:flutter_setup_riverpod/core/utils/talker_config.dart';
+import 'package:flutter_setup_riverpod/core/services/notification_service.dart';
 import 'package:flutter_setup_riverpod/di/common_providers.dart';
 import 'package:flutter_setup_riverpod/di/service_providers.dart';
 import 'package:flutter_setup_riverpod/l10n/app_localizations.dart';
@@ -42,6 +43,9 @@ Future<void> main() async {
     // * Local DB
     final objectBoxService = await ObjectBoxService.create();
 
+    final notificationService = NotificationService();
+    await notificationService.init();
+
     runApp(
       ProviderScope(
         overrides: [
@@ -51,6 +55,7 @@ Future<void> main() async {
           ),
           sharedPreferencesProvider.overrideWithValue(preferences),
           objectBoxServiceProvider.overrideWithValue(objectBoxService),
+          notificationServiceProvider.overrideWithValue(notificationService),
         ],
         observers: [TalkerConfig.riverpodObserver],
         child: const MyApp(),

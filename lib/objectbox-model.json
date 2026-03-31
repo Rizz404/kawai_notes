@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:6860182552042913652",
-      "lastPropertyId": "8:5966551342573610358",
+      "lastPropertyId": "9:3377055333441613179",
       "name": "Note",
       "properties": [
         {
@@ -50,13 +50,96 @@
           "id": "8:5966551342573610358",
           "name": "updatedAt",
           "type": 10
+        },
+        {
+          "id": "9:3377055333441613179",
+          "name": "folderId",
+          "indexId": "2:65864467470878022",
+          "type": 11,
+          "flags": 520,
+          "relationTarget": "Folder"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:989942441982959393",
+      "lastPropertyId": "4:7747667081816772761",
+      "name": "Folder",
+      "properties": [
+        {
+          "id": "1:8361430000973876349",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1618639552421150365",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:4129226984821415488",
+          "name": "parentId",
+          "type": 6
+        },
+        {
+          "id": "4:7747667081816772761",
+          "name": "createdAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:8457444526397322708",
+      "lastPropertyId": "7:957742348540222657",
+      "name": "Task",
+      "properties": [
+        {
+          "id": "1:2135620141465990797",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:156187430093926112",
+          "name": "ulid",
+          "indexId": "3:6970795018483787890",
+          "type": 9,
+          "flags": 2080
+        },
+        {
+          "id": "3:6549717136243493366",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "4:5073216522250009034",
+          "name": "isCompleted",
+          "type": 1
+        },
+        {
+          "id": "5:3543433272579142769",
+          "name": "dueDate",
+          "type": 10
+        },
+        {
+          "id": "6:7870156956799161307",
+          "name": "createdAt",
+          "type": 10
+        },
+        {
+          "id": "7:957742348540222657",
+          "name": "updatedAt",
+          "type": 10
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "1:6860182552042913652",
-  "lastIndexId": "1:1579921379446234601",
+  "lastEntityId": "3:8457444526397322708",
+  "lastIndexId": "3:6970795018483787890",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,

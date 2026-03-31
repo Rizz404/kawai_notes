@@ -4,8 +4,10 @@ import 'package:flutter_setup_riverpod/core/extensions/navigator_extension.dart'
 import 'package:flutter_setup_riverpod/core/extensions/theme_extension.dart';
 import 'package:flutter_setup_riverpod/feature/notes/models/note.dart';
 import 'package:flutter_setup_riverpod/feature/notes/providers/note_providers.dart';
+import 'package:flutter_setup_riverpod/feature/folders/widgets/folder_drawer.dart';
 import 'package:flutter_setup_riverpod/shared/widgets/app_search_field.dart';
 import 'package:flutter_setup_riverpod/shared/widgets/screen_wrapper.dart';
+import 'package:flutter_setup_riverpod/shared/widgets/app_shell.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -19,6 +21,12 @@ class HomeScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('My Notes'),
         actions: [
+          Builder(
+            builder: (context) => IconButton(
+              icon: const Icon(Icons.folder_outlined),
+              onPressed: () => Scaffold.of(context).openEndDrawer(),
+            ),
+          ),
           IconButton(
             icon: Icon(isGridView ? Icons.view_list : Icons.grid_view),
             onPressed: () {
@@ -27,9 +35,19 @@ class HomeScreen extends ConsumerWidget {
           ),
         ],
       ),
+      endDrawer: const FolderDrawer(),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.push('/note-editor'),
-        child: const Icon(Icons.add),
+        backgroundColor: context.colorScheme.primary,
+        child: Icon(Icons.add, color: context.colorScheme.onPrimary),
+      ),
+      bottomNavigationBar: AppBottomNav(
+        currentIndex: 0,
+        onTap: (index) {
+          if (index == 1) {
+            context.replace('/tasks');
+          }
+        },
       ),
       body: ScreenWrapper(
         child: Column(

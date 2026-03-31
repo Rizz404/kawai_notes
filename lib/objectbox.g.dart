@@ -14,7 +14,9 @@ import 'package:objectbox/internal.dart'
 import 'package:objectbox/objectbox.dart' as obx;
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
+import 'feature/folders/models/folder.dart';
 import 'feature/notes/models/note.dart';
+import 'feature/tasks/models/task.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
@@ -22,7 +24,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(1, 6860182552042913652),
     name: 'Note',
-    lastPropertyId: const obx_int.IdUid(8, 5966551342573610358),
+    lastPropertyId: const obx_int.IdUid(9, 3377055333441613179),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -70,6 +72,102 @@ final _entities = <obx_int.ModelEntity>[
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(8, 5966551342573610358),
+        name: 'updatedAt',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(9, 3377055333441613179),
+        name: 'folderId',
+        type: 11,
+        flags: 520,
+        indexId: const obx_int.IdUid(2, 65864467470878022),
+        relationField: 'folder',
+        relationTarget: 'Folder',
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(2, 989942441982959393),
+    name: 'Folder',
+    lastPropertyId: const obx_int.IdUid(4, 7747667081816772761),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 8361430000973876349),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 1618639552421150365),
+        name: 'name',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 4129226984821415488),
+        name: 'parentId',
+        type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 7747667081816772761),
+        name: 'createdAt',
+        type: 10,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(3, 8457444526397322708),
+    name: 'Task',
+    lastPropertyId: const obx_int.IdUid(7, 957742348540222657),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 2135620141465990797),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 156187430093926112),
+        name: 'ulid',
+        type: 9,
+        flags: 2080,
+        indexId: const obx_int.IdUid(3, 6970795018483787890),
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 6549717136243493366),
+        name: 'title',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 5073216522250009034),
+        name: 'isCompleted',
+        type: 1,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 3543433272579142769),
+        name: 'dueDate',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(6, 7870156956799161307),
+        name: 'createdAt',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(7, 957742348540222657),
         name: 'updatedAt',
         type: 10,
         flags: 0,
@@ -123,8 +221,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
     // Typically, this is done with `dart run build_runner build`.
     generatorVersion: obx_int.GeneratorVersion.v2025_12_16,
     entities: _entities,
-    lastEntityId: const obx_int.IdUid(1, 6860182552042913652),
-    lastIndexId: const obx_int.IdUid(1, 1579921379446234601),
+    lastEntityId: const obx_int.IdUid(3, 8457444526397322708),
+    lastIndexId: const obx_int.IdUid(3, 6970795018483787890),
     lastRelationId: const obx_int.IdUid(0, 0),
     lastSequenceId: const obx_int.IdUid(0, 0),
     retiredEntityUids: const [],
@@ -139,7 +237,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
   final bindings = <Type, obx_int.EntityDefinition>{
     Note: obx_int.EntityDefinition<Note>(
       model: _entities[0],
-      toOneRelations: (Note object) => [],
+      toOneRelations: (Note object) => [object.folder],
       toManyRelations: (Note object) => {},
       getId: (Note object) => object.id,
       setId: (Note object, int id) {
@@ -155,7 +253,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final linksOffset = fbb.writeList(
           object.links.map(fbb.writeString).toList(growable: false),
         );
-        fbb.startTable(9);
+        fbb.startTable(10);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, ulidOffset);
         fbb.addOffset(2, titleOffset);
@@ -164,6 +262,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addOffset(5, linksOffset);
         fbb.addInt64(6, object.createdAt.millisecondsSinceEpoch);
         fbb.addInt64(7, object.updatedAt.millisecondsSinceEpoch);
+        fbb.addInt64(8, object.folder.targetId);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -206,6 +305,130 @@ obx_int.ModelDefinition getObjectBoxModel() {
           contentPath: contentPathParam,
           tags: tagsParam,
           links: linksParam,
+          createdAt: createdAtParam,
+          updatedAt: updatedAtParam,
+        );
+        object.folder.targetId = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          20,
+          0,
+        );
+        object.folder.attach(store);
+        return object;
+      },
+    ),
+    Folder: obx_int.EntityDefinition<Folder>(
+      model: _entities[1],
+      toOneRelations: (Folder object) => [],
+      toManyRelations: (Folder object) => {},
+      getId: (Folder object) => object.id,
+      setId: (Folder object, int id) {
+        object.id = id;
+      },
+      objectToFB: (Folder object, fb.Builder fbb) {
+        final nameOffset = fbb.writeString(object.name);
+        fbb.startTable(5);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, nameOffset);
+        fbb.addInt64(2, object.parentId);
+        fbb.addInt64(3, object.createdAt.millisecondsSinceEpoch);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final idParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final nameParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 6, '');
+        final parentIdParam = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          8,
+        );
+        final createdAtParam = DateTime.fromMillisecondsSinceEpoch(
+          const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0),
+        );
+        final object = Folder(
+          id: idParam,
+          name: nameParam,
+          parentId: parentIdParam,
+          createdAt: createdAtParam,
+        );
+
+        return object;
+      },
+    ),
+    Task: obx_int.EntityDefinition<Task>(
+      model: _entities[2],
+      toOneRelations: (Task object) => [],
+      toManyRelations: (Task object) => {},
+      getId: (Task object) => object.id,
+      setId: (Task object, int id) {
+        object.id = id;
+      },
+      objectToFB: (Task object, fb.Builder fbb) {
+        final ulidOffset = fbb.writeString(object.ulid);
+        final titleOffset = fbb.writeString(object.title);
+        fbb.startTable(8);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, ulidOffset);
+        fbb.addOffset(2, titleOffset);
+        fbb.addBool(3, object.isCompleted);
+        fbb.addInt64(4, object.dueDate?.millisecondsSinceEpoch);
+        fbb.addInt64(5, object.createdAt.millisecondsSinceEpoch);
+        fbb.addInt64(6, object.updatedAt.millisecondsSinceEpoch);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final dueDateValue = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          12,
+        );
+        final idParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final ulidParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 6, '');
+        final titleParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 8, '');
+        final isCompletedParam = const fb.BoolReader().vTableGet(
+          buffer,
+          rootOffset,
+          10,
+          false,
+        );
+        final dueDateParam = dueDateValue == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(dueDateValue);
+        final createdAtParam = DateTime.fromMillisecondsSinceEpoch(
+          const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0),
+        );
+        final updatedAtParam = DateTime.fromMillisecondsSinceEpoch(
+          const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0),
+        );
+        final object = Task(
+          id: idParam,
+          ulid: ulidParam,
+          title: titleParam,
+          isCompleted: isCompletedParam,
+          dueDate: dueDateParam,
           createdAt: createdAtParam,
           updatedAt: updatedAtParam,
         );
@@ -254,5 +477,67 @@ class Note_ {
   /// See [Note.updatedAt].
   static final updatedAt = obx.QueryDateProperty<Note>(
     _entities[0].properties[7],
+  );
+
+  /// See [Note.folder].
+  static final folder = obx.QueryRelationToOne<Note, Folder>(
+    _entities[0].properties[8],
+  );
+}
+
+/// [Folder] entity fields to define ObjectBox queries.
+class Folder_ {
+  /// See [Folder.id].
+  static final id = obx.QueryIntegerProperty<Folder>(
+    _entities[1].properties[0],
+  );
+
+  /// See [Folder.name].
+  static final name = obx.QueryStringProperty<Folder>(
+    _entities[1].properties[1],
+  );
+
+  /// See [Folder.parentId].
+  static final parentId = obx.QueryIntegerProperty<Folder>(
+    _entities[1].properties[2],
+  );
+
+  /// See [Folder.createdAt].
+  static final createdAt = obx.QueryDateProperty<Folder>(
+    _entities[1].properties[3],
+  );
+}
+
+/// [Task] entity fields to define ObjectBox queries.
+class Task_ {
+  /// See [Task.id].
+  static final id = obx.QueryIntegerProperty<Task>(_entities[2].properties[0]);
+
+  /// See [Task.ulid].
+  static final ulid = obx.QueryStringProperty<Task>(_entities[2].properties[1]);
+
+  /// See [Task.title].
+  static final title = obx.QueryStringProperty<Task>(
+    _entities[2].properties[2],
+  );
+
+  /// See [Task.isCompleted].
+  static final isCompleted = obx.QueryBooleanProperty<Task>(
+    _entities[2].properties[3],
+  );
+
+  /// See [Task.dueDate].
+  static final dueDate = obx.QueryDateProperty<Task>(
+    _entities[2].properties[4],
+  );
+
+  /// See [Task.createdAt].
+  static final createdAt = obx.QueryDateProperty<Task>(
+    _entities[2].properties[5],
+  );
+
+  /// See [Task.updatedAt].
+  static final updatedAt = obx.QueryDateProperty<Task>(
+    _entities[2].properties[6],
   );
 }

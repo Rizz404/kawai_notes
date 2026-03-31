@@ -3,6 +3,7 @@ import 'package:flutter_setup_riverpod/core/services/language_storage_service.da
 import 'package:flutter_setup_riverpod/core/services/note_file_service.dart';
 import 'package:flutter_setup_riverpod/core/services/objectbox_service.dart';
 import 'package:flutter_setup_riverpod/core/services/theme_storage_service.dart';
+import 'package:flutter_setup_riverpod/core/services/notification_service.dart';
 import 'package:flutter_setup_riverpod/di/common_providers.dart';
 
 final languageStorageServiceProvider = Provider<LanguageStorageService>((ref) {
@@ -19,4 +20,7 @@ final objectBoxServiceProvider = Provider<ObjectBoxService>((ref) {
 });
 final noteFileServiceProvider = Provider<NoteFileService>((ref) {
   return NoteFileService();
+});
+final notificationServiceProvider = Provider<NotificationService>((ref) {
+  return NotificationService();
 });

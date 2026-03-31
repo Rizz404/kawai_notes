@@ -8,6 +8,8 @@ import 'package:flutter_setup_riverpod/core/router/router_observer.dart';
 import 'package:flutter_setup_riverpod/core/router/router_refresh_listenable.dart';
 import 'package:flutter_setup_riverpod/feature/notes/screens/home_screen.dart';
 import 'package:flutter_setup_riverpod/feature/notes/screens/note_editor_screen.dart';
+import 'package:flutter_setup_riverpod/feature/tasks/screens/tasks_screen.dart';
+import 'package:flutter_setup_riverpod/feature/tasks/screens/task_editor_screen.dart';
 
 // Example route dummy. User should replace this.
 final routerRoutesProvider = Provider<List<AppRoute>>((ref) {
@@ -18,6 +20,23 @@ final routerRoutesProvider = Provider<List<AppRoute>>((ref) {
       builder: (context, state) => const HomeScreen(),
       // Menerapkan custom transition fadeScale dari app_transitions.dart
       transitionsBuilder: AppTransitions.fadeScale,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+    AppRoute(
+      path: '/tasks',
+      name: 'tasks',
+      builder: (context, state) => const TasksScreen(),
+      transitionsBuilder: AppTransitions.fadeScale,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+    AppRoute(
+      path: '/task-editor',
+      name: 'task_editor',
+      builder: (context, state) {
+        final extra = state.extra as Map<String, dynamic>?;
+        return TaskEditorScreen(taskId: extra?['id'] as int?);
+      },
+      transitionsBuilder: AppTransitions.slideFromRight,
       transitionDuration: const Duration(milliseconds: 300),
     ),
     AppRoute(

@@ -71,6 +71,7 @@ class NoteDetailNotifier extends AsyncNotifier<NoteDetailState> {
   Future<void> saveNote({
     required String title,
     required String content,
+    int? folderId,
   }) async {
     final current = state.value;
     if (current == null) return;
@@ -85,6 +86,7 @@ class NoteDetailNotifier extends AsyncNotifier<NoteDetailState> {
         ulid: current.note?.ulid,
         title: title,
         content: content,
+        folderId: folderId,
       );
 
       ref.invalidate(noteListNotifierProvider);
