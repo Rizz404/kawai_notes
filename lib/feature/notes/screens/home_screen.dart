@@ -7,7 +7,7 @@ import 'package:flutter_setup_riverpod/feature/folders/widgets/folder_drawer.dar
 import 'package:flutter_setup_riverpod/feature/notes/models/note.dart';
 import 'package:flutter_setup_riverpod/feature/notes/providers/note_providers.dart';
 import 'package:flutter_setup_riverpod/shared/widgets/app_search_field.dart';
-import 'package:flutter_setup_riverpod/shared/widgets/app_shell.dart';
+import 'package:flutter_setup_riverpod/shared/widgets/app_drawer.dart';
 import 'package:flutter_setup_riverpod/shared/widgets/screen_wrapper.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -106,24 +106,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ],
             ),
       endDrawer: const FolderDrawer(),
+      drawer: const AppDrawer(),
       floatingActionButton: _isSelectionMode
           ? null
           : FloatingActionButton(
               onPressed: () => context.push('/note-editor'),
               backgroundColor: context.colorScheme.primary,
               child: Icon(Icons.add, color: context.colorScheme.onPrimary),
-            ),
-      bottomNavigationBar: _isSelectionMode
-          ? null
-          : AppBottomNav(
-              currentIndex: 0,
-              onTap: (index) {
-                if (index == 1) {
-                  context.replace('/tasks');
-                } else if (index == 2) {
-                  context.replace('/other');
-                }
-              },
             ),
       body: RefreshIndicator(
         onRefresh: _handleRefresh,

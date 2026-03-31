@@ -60,6 +60,7 @@ class NoteListNotifier extends AsyncNotifier<NoteListState> {
         .getAllNotes()
         .where((n) => !n.isHidden)
         .toList();
+    allNotes.sort((a, b) => b.createdAt.compareTo(a.createdAt));
 
     List<Note> filtered = allNotes;
     if (query.isNotEmpty) {

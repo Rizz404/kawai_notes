@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_setup_riverpod/core/extensions/navigator_extension.dart';
 import 'package:flutter_setup_riverpod/di/common_providers.dart';
-import 'package:flutter_setup_riverpod/shared/widgets/app_shell.dart';
+import 'package:flutter_setup_riverpod/shared/widgets/app_drawer.dart';
 import 'package:flutter_setup_riverpod/shared/widgets/screen_wrapper.dart';
 
 class OtherScreen extends ConsumerWidget {
@@ -15,16 +15,7 @@ class OtherScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Settings')),
-      bottomNavigationBar: AppBottomNav(
-        currentIndex: 2,
-        onTap: (index) {
-          if (index == 0) {
-            context.replace('/');
-          } else if (index == 1) {
-            context.replace('/tasks');
-          }
-        },
-      ),
+      drawer: const AppDrawer(),
       body: ScreenWrapper(
         child: ListView(
           children: [

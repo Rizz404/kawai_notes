@@ -4,7 +4,7 @@ import 'package:flutter_setup_riverpod/core/extensions/navigator_extension.dart'
 import 'package:flutter_setup_riverpod/core/extensions/theme_extension.dart';
 import 'package:flutter_setup_riverpod/feature/tasks/models/task.dart';
 import 'package:flutter_setup_riverpod/feature/tasks/providers/task_list_provider.dart';
-import 'package:flutter_setup_riverpod/shared/widgets/app_shell.dart';
+import 'package:flutter_setup_riverpod/shared/widgets/app_drawer.dart';
 import 'package:flutter_setup_riverpod/shared/widgets/app_text.dart';
 
 class TasksScreen extends ConsumerWidget {
@@ -16,20 +16,11 @@ class TasksScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Tasks')),
+      drawer: const AppDrawer(),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.push('/task-editor'),
         backgroundColor: context.colorScheme.primary,
         child: Icon(Icons.add, color: context.colorScheme.onPrimary),
-      ),
-      bottomNavigationBar: AppBottomNav(
-        currentIndex: 1,
-        onTap: (index) {
-          if (index == 0) {
-            context.replace('/');
-          } else if (index == 2) {
-            context.replace('/other');
-          }
-        },
       ),
       body: taskState.when(
         data: (state) {
