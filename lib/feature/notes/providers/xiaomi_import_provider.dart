@@ -1,20 +1,24 @@
 import 'dart:io';
 import 'dart:async';
+import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_setup_riverpod/core/extensions/logger_extension.dart';
 import 'package:flutter_setup_riverpod/di/repository_providers.dart';
 import 'package:flutter_setup_riverpod/feature/notes/providers/note_list_provider.dart';
 
-class XiaomiImportState {
-  final bool isLoading;
-  final Object? error;
+class XiaomiImportState extends Equatable {
+  final bool isMutating;
+  final Object? mutationError;
 
-  const XiaomiImportState({this.isLoading = false, this.error});
+  const XiaomiImportState({this.isMutating = false, this.mutationError});
+
+  @override
+  List<Object?> get props => [isMutating, mutationError];
 }
 
 final xiaomiImportProvider =
-    NotifierProvider<XiaomiImportNotifier, XiaomiImportState>(
+    NotifierProvider.autoDispose<XiaomiImportNotifier, XiaomiImportState>(
       XiaomiImportNotifier.new,
     );
 
@@ -23,7 +27,7 @@ class XiaomiImportNotifier extends Notifier<XiaomiImportState> {
   XiaomiImportState build() => const XiaomiImportState();
 
   Future<bool> importXiaomiNotesBulk() async {
-    state = const XiaomiImportState(isLoading: true);
+    state = const XiaomiImportState(isMutating: true);
 
     try {
       final result = await FilePicker.platform.pickFiles(
@@ -103,7 +107,7 @@ class XiaomiImportNotifier extends Notifier<XiaomiImportState> {
       return true;
     } catch (e, st) {
       logError('Failed to import Xiaomi notes', e, st);
-      state = XiaomiImportState(error: e);
+      state = XiaomiImportState(mutationError: e);
       return false;
     }
   }

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_setup_riverpod/core/extensions/riverpod_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/markdown_parser_extension.dart';
 import 'package:flutter_setup_riverpod/di/repository_providers.dart';
 
@@ -22,6 +23,7 @@ class NotePreviewNotifier extends AsyncNotifier<String> {
 
   @override
   FutureOr<String> build() async {
+    ref.cacheFor(const Duration(minutes: 5));
     final repo = ref.read(noteRepositoryProvider);
     final note = repo.getNote(_noteId);
     if (note == null) return '';
@@ -33,7 +35,5 @@ class NotePreviewNotifier extends AsyncNotifier<String> {
   }
 }
 
-final notePreviewProvider =
-    AsyncNotifierProvider.family<NotePreviewNotifier, String, int>(
-      NotePreviewNotifier.new,
-    );
+final notePreviewProvider = AsyncNotifierProvider.autoDispose
+    .family<NotePreviewNotifier, String, int>(NotePreviewNotifier.new);

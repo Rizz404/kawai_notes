@@ -59,6 +59,6 @@ class BackupNotifier extends AsyncNotifier<void> {
   }
 }
 
-final backupProvider = AsyncNotifierProvider<BackupNotifier, void>(
+final backupProvider = AsyncNotifierProvider.autoDispose<BackupNotifier, void>(
   BackupNotifier.new,
 );

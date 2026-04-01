@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_setup_riverpod/core/extensions/riverpod_extension.dart';
 import 'package:flutter_setup_riverpod/di/repository_providers.dart';
 import 'package:flutter_setup_riverpod/di/service_providers.dart';
 import 'package:flutter_setup_riverpod/feature/tasks/models/task.dart';
@@ -36,10 +37,8 @@ class TaskDetailState extends Equatable {
   List<Object?> get props => [data, isMutating, mutationError];
 }
 
-final taskDetailNotifierProvider =
-    AsyncNotifierProvider.family<TaskDetailNotifier, TaskDetailState, int?>(
-      TaskDetailNotifier.new,
-    );
+final taskDetailNotifierProvider = AsyncNotifierProvider.autoDispose
+    .family<TaskDetailNotifier, TaskDetailState, int?>(TaskDetailNotifier.new);
 
 class TaskDetailNotifier extends AsyncNotifier<TaskDetailState> {
   final int? _id;
@@ -50,6 +49,7 @@ class TaskDetailNotifier extends AsyncNotifier<TaskDetailState> {
 
   @override
   FutureOr<TaskDetailState> build() async {
+    ref.cacheFor(const Duration(minutes: 5));
     _taskRepository = ref.read(taskRepositoryProvider);
     if (_id == null) {
       return const TaskDetailState();

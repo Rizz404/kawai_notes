@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_setup_riverpod/core/extensions/riverpod_extension.dart';
 import 'package:flutter_setup_riverpod/di/repository_providers.dart';
 import 'package:flutter_setup_riverpod/feature/notes/models/note.dart';
 import 'package:flutter_setup_riverpod/feature/notes/providers/note_list_provider.dart';
@@ -40,10 +41,8 @@ class NoteDetailState extends Equatable {
   List<Object?> get props => [note, content, isMutating, mutationError];
 }
 
-final noteDetailNotifierProvider =
-    AsyncNotifierProvider.family<NoteDetailNotifier, NoteDetailState, int?>(
-      NoteDetailNotifier.new,
-    );
+final noteDetailNotifierProvider = AsyncNotifierProvider.autoDispose
+    .family<NoteDetailNotifier, NoteDetailState, int?>(NoteDetailNotifier.new);
 
 class NoteDetailNotifier extends AsyncNotifier<NoteDetailState> {
   final int? _id;
@@ -54,6 +53,8 @@ class NoteDetailNotifier extends AsyncNotifier<NoteDetailState> {
 
   @override
   FutureOr<NoteDetailState> build() async {
+    ref.cacheFor(const Duration(minutes: 5));
+
     _noteRepository = ref.read(noteRepositoryProvider);
 
     if (_id == null) {

@@ -103,7 +103,7 @@ class OtherScreen extends ConsumerWidget {
                 return ListTile(
                   leading: const Icon(Icons.note_add_outlined),
                   title: const Text('Import Xiaomi Notes (Bulk)'),
-                  trailing: importState.isLoading
+                  trailing: importState.isMutating
                       ? const SizedBox(
                           width: 24,
                           height: 24,
@@ -111,12 +111,14 @@ class OtherScreen extends ConsumerWidget {
                         )
                       : const Icon(Icons.chevron_right),
                   onTap: () async {
-                    if (importState.isLoading) return;
+                    if (importState.isMutating) return;
                     final didImport = await ref
                         .read(xiaomiImportProvider.notifier)
                         .importXiaomiNotesBulk();
                     if (context.mounted) {
-                      final error = ref.read(xiaomiImportProvider).error;
+                      final error = ref
+                          .read(xiaomiImportProvider)
+                          .mutationError;
                       if (error != null) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('Import failed: $error')),
