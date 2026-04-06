@@ -100,36 +100,90 @@ class OtherScreen extends ConsumerWidget {
             Consumer(
               builder: (context, ref, child) {
                 final importState = ref.watch(xiaomiImportProvider);
-                return ListTile(
-                  leading: const Icon(Icons.note_add_outlined),
-                  title: const Text('Import Xiaomi Notes (Bulk)'),
-                  trailing: importState.isMutating
-                      ? const SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                      : const Icon(Icons.chevron_right),
-                  onTap: () async {
-                    if (importState.isMutating) return;
-                    final didImport = await ref
-                        .read(xiaomiImportProvider.notifier)
-                        .importXiaomiNotesBulk();
-                    if (context.mounted) {
-                      final error = ref
-                          .read(xiaomiImportProvider)
-                          .mutationError;
-                      if (error != null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Import failed: $error')),
-                        );
-                      } else if (didImport) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Import successful!')),
-                        );
-                      }
-                    }
-                  },
+                return Column(
+                  children: [
+                    ListTile(
+                      leading: const Icon(Icons.note_add_outlined),
+                      title: const Text('Import Xiaomi Notes (Bulk)'),
+                      trailing:
+                          importState.isMutating &&
+                              !importState.isImportingFolder
+                          ? const SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : const Icon(Icons.chevron_right),
+                      onTap: () async {
+                        if (importState.isMutating) return;
+                        final didImport = await ref
+                            .read(xiaomiImportProvider.notifier)
+                            .importXiaomiNotesBulk();
+                        if (context.mounted) {
+                          final error = ref
+                              .read(xiaomiImportProvider)
+                              .mutationError;
+                          if (error != null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Import failed: $error')),
+                            );
+                          } else if (didImport) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Import successful!'),
+                              ),
+                            );
+                          }
+                        }
+                      },
+                    ),
+                    const Divider(),
+                    ListTile(
+                      leading: const Icon(Icons.folder_shared_outlined),
+                      title: const Text('Import Xiaomi Notes (Folder)'),
+                      subtitle: importState.isImportingFolder
+                          ? Text(
+                              '${importState.processedFiles} / ${importState.totalFiles} imported',
+                            )
+                          : null,
+                      trailing: importState.isImportingFolder
+                          ? const SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : const Icon(Icons.chevron_right),
+                      onTap: () async {
+                        if (importState.isMutating) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Another import is running in the background',
+                              ),
+                            ),
+                          );
+                          return;
+                        }
+
+                        await ref
+                            .read(xiaomiImportProvider.notifier)
+                            .importXiaomiNotesFromFolder();
+
+                        if (context.mounted) {
+                          final error = ref
+                              .read(xiaomiImportProvider)
+                              .mutationError;
+                          if (error != null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Folder import failed: $error'),
+                              ),
+                            );
+                          }
+                        }
+                      },
+                    ),
+                  ],
                 );
               },
             ),

@@ -62,4 +62,33 @@ class NotificationService {
   Future<void> cancelNotification(int id) async {
     await _flutterLocalNotificationsPlugin.cancel(id: id);
   }
+
+  Future<void> showProgressNotification({
+    required int id,
+    required String title,
+    required String body,
+    required int maxProgress,
+    required int progress,
+  }) async {
+    final androidDetails = AndroidNotificationDetails(
+      'import_progress',
+      'Import Progress',
+      channelDescription: 'Notifications for bulk import progress',
+      channelShowBadge: false,
+      importance: Importance.low,
+      priority: Priority.low,
+      showProgress: true,
+      maxProgress: maxProgress,
+      progress: progress,
+      onlyAlertOnce: true,
+    );
+    final notificationDetails = NotificationDetails(android: androidDetails);
+
+    await _flutterLocalNotificationsPlugin.show(
+      id: id,
+      title: title,
+      body: body,
+      notificationDetails: notificationDetails,
+    );
+  }
 }

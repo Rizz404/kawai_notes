@@ -1,3 +1,6 @@
+Berikut versi copilot-instructions.md yang diselaraskan dengan guidelines.md:
+
+```markdown
 # Flutter Setup Riverpod — Copilot Instructions
 
 ## Purpose
@@ -13,10 +16,10 @@ Follow these rules on every suggestion, edit, or generation — no exceptions.
 If the request is ambiguous or missing key info, ask one short question before writing any code.
 Do not assume and generate a large block that may need to be thrown away.
 
-Examples of when to ask first:
+Ask first when:
 - Multiple valid approaches exist
-- The target file or class is unclear
-- Static text vs localization is unclear (ask: *"Static text atau l10n?"*)
+- Target file or class is unclear
+- Static text vs localization is unclear → ask: *"Static text atau l10n?"*
 - New widget vs reuse existing is unclear
 
 ---
@@ -38,7 +41,7 @@ When asked to implement something "with the same pattern as X", copy X entirely,
 
 **Before writing any widget, check if a shared widget already exists.**
 
-Run: `rg "class App" lib/shared/widgets/` or `eza --tree lib/shared/widgets/`
+Run: `rg "class App" lib/shared/widgets/`
 
 If a shared widget covers the use case → use it. Do not create a new one.
 
@@ -61,10 +64,11 @@ Available shared widgets (import from `package:flutter_setup_riverpod/shared/wid
 | `UserShell` | User navigation shell |
 | `AppEndDrawer` | End drawer |
 
-**Decision rule before using any raw Material/Cupertino widget:**
+Decision rule:
 1. Shared widget exists? → **Use it**
 2. Feature-local widget exists? → **Reuse it**
-3. Neither exists? → Create new, following widget tier rules below
+3. Neither? → Create new, follow tier rules (rule 8)
+4. Shared widget is missing a needed capability? → Ask before creating a new one
 ```dart
 // Avoid
 TextField(decoration: InputDecoration(...))
@@ -88,7 +92,8 @@ color: context.colorScheme.primary
 color: context.colors.surface
 ```
 
-Never use `Color(0xFF...)`, `Colors.*`, or any hardcoded color value anywhere.
+Never use `Color(0xFF...)`, `Colors.*`, or any hardcoded color value.
+If a color token does not exist, ask before introducing a new one.
 
 ---
 
@@ -121,8 +126,9 @@ logError('Something failed', e, stackTrace);
 ```
 
 - Use: `logInfo`, `logError`, `logData`, `logDomain`, `logPresentation`, `logService`
-- Only add logging in: BLoCs, Repositories, Services, Use Cases
-- Never add logging inside widgets or screens unless explicitly asked
+- Only in: BLoCs, Repositories, Services, Use Cases
+- Never in widgets or screens unless explicitly asked
+- If unsure: ask *"Perlu logging di widget/screen ini?"*
 
 ---
 
@@ -141,8 +147,7 @@ logError('Something failed', e, stackTrace);
 ## 8. Widget Structure
 
 Keep everything inline in `build()` unless there is a clear reason to extract.
-
-### Scaffold slots are always inline
+Scaffold slots are always inline — never wrap in `_buildX()`:
 ```dart
 // Avoid
 appBar: _buildAppBar()
@@ -153,15 +158,13 @@ appBar: CustomAppBar(title: 'Screen Title')
 body: ListView.builder(...)
 ```
 
-### Extraction tiers
-
-**Tier 1 — Private function `_buildX`**
-When: leaf content is complex, accesses parent scope, no independent props needed.
+**Tier 1 — `_buildX`**
+When: leaf subtree is complex, accesses parent scope, no independent props needed.
 ```dart
 Widget _buildEmptyState() => Center(child: AppText('No items'));
 ```
 
-**Tier 2 — Private class `_MyWidget`**
+**Tier 2 — `_MyWidget`**
 Only when one of these is required:
 - Independent props (not from parent scope)
 - `const` constructor for rebuild optimization
@@ -172,15 +175,26 @@ Only when one of these is required:
 Only when used across more than one screen or file.
 Location: `lib/features/<feature>/widgets/<name>.dart`
 
-**Decision tree:**
+Decision tree:
 - Used in > 1 screen? → Tier 3
 - Needs independent props / own state / lifecycle? → Tier 2
 - Complex leaf that reduces nesting? → Tier 1
 - Everything else (including scaffold slots) → inline
 
+Feature structure:
+```
+lib/features/category/
+├── screens/
+│   └── category_screen.dart   ← inline build, Tier 1 & 2 if needed
+└── widgets/
+    └── category_card.dart     ← Tier 3
+```
+
 ---
 
 ## 9. Widget Member Ordering
+
+Applies to: StatelessWidget, StatefulWidget, ConsumerWidget, ConsumerStatefulWidget, HookWidget, HookConsumerWidget
 
 **StatelessWidget / ConsumerWidget:**
 1. Fields / final variables
@@ -191,7 +205,7 @@ Location: `lib/features/<feature>/widgets/<name>.dart`
 
 **StatefulWidget State class:**
 1. Variables (controllers, flags, notifiers)
-2. Override methods (`initState`, `dispose`, etc.)
+2. Override methods (`initState`, `didChangeDependencies`, `dispose`, etc.)
 3. Private logic functions (`_handleX`, `_loadX`)
 4. `build()` — widget tree only, no logic or variable declarations inside
 5. Private widget functions `_buildX`
@@ -217,30 +231,36 @@ void initState() {
 
 Do not reformat, reorder, or refactor code that is not part of the request.
 Only touch lines directly related to the task.
+Avoid introducing new dependencies unless explicitly requested.
 
 ---
 
 ## 11. Deletions — Point, Don't Remove
 
-When the task involves deleting a file, folder, class, or function, do not perform the deletion.
+When the task involves deleting a file, folder, class, or function 30+ lines — do not perform the deletion.
 Instead, tell me what to remove and where.
 ```
-// Instead of deleting, say:
 // "Remove `_buildOldWidget()` in lib/features/transaction/screens/transaction_screen.dart"
 // "Delete lib/features/legacy/ folder — no longer referenced"
 ```
 
-This applies to:
-- Entire files or folders
-- Large classes or widgets
-- Long functions (30+ lines)
-- Any removal where showing the diff would waste tokens
-
-For small removals (1–5 lines), just make the edit directly.
+For 1–5 lines → edit directly.
 
 ---
 
-## 12. Const
+## 12. Static Analysis & Formatting
+
+Never run auto-formatters: `dart format`, `flutter format` — ever.
+Never run `flutter analyze`, `dart analyze`, or `dart fix` unless:
+- All requested implementations are complete, or
+- Explicitly asked to find errors
+
+Do not run analyze after every change or as a default step.
+If relevant, ask: *"Mau aku jalankan flutter analyze?"* and wait for confirmation.
+
+---
+
+## 13. Const
 
 Use `const` everywhere it is valid:
 ```dart
@@ -251,48 +271,53 @@ const EdgeInsets.symmetric(horizontal: 16)
 
 ---
 
-## 13. Comments
+## 14. Comments
 
-Use Better Comments format only:
+Use Better Comments format only. Use Bahasa Indonesia, singkat dan padat.
 ```dart
-// TODO: implement pagination
-// FIXME: null check missing here
-// ! warning: this mutates shared state
-// ? should this use a stream instead?
-// * this is called on every frame
+// TODO: implementasi pagination
+// FIXME: null check belum ada
+// ! warning: ini mutasi shared state
+// ? apakah perlu pakai stream?
+// * dipanggil setiap frame
 ```
 
+Inline comments max 1–2 lines. Jika penjelasan panjang, tulis di chat — bukan di kode.
+
 ---
 
-## 14. Documentation
+## 15. Documentation
 
 - No `.md` files unless explicitly requested
-- Inline comments: 1–2 lines max
-- Code should be self-explanatory
+- If explanation is needed, write it in chat — not as a new file
 
 ---
 
-## 15. Response Style
+## 16. Response Style
 
-- Be brief and to the point
+- Brief and to the point
 - Only mention what changed, added, or removed
 - No lengthy explanations unless asked
 
 ---
 
-## 16. Terminal Tools
+## 17. Terminal Tools
 
-Prefer modern CLI tools:
+Primary shell: **PowerShell**. Always use PowerShell-compatible commands.
+Never run Linux/bash-only commands (e.g. `rm -rf`, `ls`, `export`, `&&` chaining) — they will error.
+Never open interactive or pager tools that cannot be closed by the AI: `bat`, `less`, `neovim`, `micro`, `broot`, `jid`, `glow` (without flags).
+To read file content, use `Get-Content` (PowerShell native) or `rg` for search-based reading.
 
 | Task | Tool |
 |---|---|
 | List files | `eza` |
 | Find files | `fd` |
 | Search content | `rg` |
-| Read files | `bat` |
+| Read files | `Get-Content` (PowerShell native) |
 | Replace text | `sd` |
-| Git UI | `lazygit` |
-| Navigate | `z` (zoxide) |
-| Monitor | `btm`, `procs` |
+| JSON processing | `jq` |
+| Git UI | `lazygit`, `gh`, `delta` |
+| Navigate | `z` (zoxide), `fzf`, `yazi` |
+| Monitor | `btm`, `procs`, `dust`, `duf` |
 
-Avoid: `dir`, `findstr`, `find`, `grep`, `cat`, manual `cd`
+Avoid: `bat`, `less`, `neovim`, `micro`, `broot`, `jid`, `glow`, `vi`, `vim`, `nano`, `cat`, `dir`, `findstr`, `find`, `grep`, manual `cd`

@@ -240,13 +240,18 @@ For 1–5 lines → edit directly.
 
 ---
 
-## 11) Static Analysis — Never Auto-Run
+## 11) Static Analysis & Formatting
 
 Never run unless explicitly asked:
 - `flutter analyze`, `dart analyze`, `dart fix`
 - `dart format`, `flutter format`
 - Any lint or auto-fix command
 
+When to run analyze:
+- All requested implementations are complete, or
+- Explicitly asked to find errors
+
+Do not run analyze after every change or as a default step.
 If relevant, ask: *"Mau aku jalankan flutter analyze?"* and wait for confirmation.
 
 ---
@@ -294,15 +299,21 @@ Inline comments max 1–2 lines. Jika penjelasan panjang, tulis di chat — buka
 
 ## 16) Terminal Tools
 
+Primary shell: **PowerShell**. Always use PowerShell-compatible commands.
+Never run Linux/bash-only commands (e.g. `rm -rf`, `ls`, `export`, `&&` chaining) — they will error.
+Never open interactive or pager tools that cannot be closed by the AI: `bat`, `less`, `neovim`, `micro`, `broot`, `jid`, `glow` (without flags).
+To read file content, use `Get-Content` (PowerShell native) or `rg` for search-based reading.
+
 | Task | Tool |
 |---|---|
 | List files | `eza` |
 | Find files | `fd` |
 | Search content | `rg` |
-| Read files | `bat` |
+| Read files | `Get-Content` (PowerShell native) |
 | Replace text | `sd` |
+| JSON processing | `jq` |
 | Git UI | `lazygit`, `gh`, `delta` |
 | Navigate | `z` (zoxide), `fzf`, `yazi` |
 | Monitor | `btm`, `procs`, `dust`, `duf` |
 
-Avoid: `dir`, `findstr`, `find`, `grep`, `cat`, manual `cd`
+Avoid: `bat`, `less`, `neovim`, `micro`, `broot`, `jid`, `glow`, `vi`, `vim`, `nano`, `cat`, `dir`, `findstr`, `find`, `grep`, manual `cd`
