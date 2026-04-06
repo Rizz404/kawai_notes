@@ -1095,6 +1095,12 @@ abstract class L10n {
   /// **'Rescheduled'**
   String get enumMaintenanceResultRescheduled;
 
+  /// Message shown when pressing back button at home root
+  ///
+  /// In en, this message translates to:
+  /// **'Press back again to exit'**
+  String get pressBackAgainToExit;
+
   /// Folders title
   ///
   /// In en, this message translates to:

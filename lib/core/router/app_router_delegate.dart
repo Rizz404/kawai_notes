@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/logger_extension.dart';
 import 'package:flutter_setup_riverpod/core/router/app_custom_transition_page.dart';
 import 'package:flutter_setup_riverpod/core/router/app_route.dart';
 import 'package:flutter_setup_riverpod/core/router/app_route_state.dart';
+import 'package:flutter_setup_riverpod/core/utils/toast_utils.dart';
 
 class AppRouterDelegate extends RouterDelegate<AppRouteState>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<AppRouteState> {
@@ -136,6 +139,37 @@ class AppRouterDelegate extends RouterDelegate<AppRouteState>
     popUntil((page) => page.name != null && Uri.parse(page.name!).path == path);
   }
 
+  DateTime? _lastBackPressTime;
+
+  @override
+  Future<bool> popRoute() async {
+    logInfo('[Router] popRoute called (back button pressed)');
+    if (maybePop()) {
+      return true;
+    }
+
+    if (_currentShell != null && _currentBranchIndex != 0) {
+      logInfo('[Router] redirecting to home branch instead of exiting');
+      _switchBranch(0);
+      return true;
+    }
+
+    final now = DateTime.now();
+    if (_lastBackPressTime == null ||
+        now.difference(_lastBackPressTime!) > const Duration(seconds: 2)) {
+      _lastBackPressTime = now;
+      final context = navigatorKey.currentContext;
+      if (context != null) {
+        // AppToast info is from toast_utils, string is from localization extension
+        AppToast.info(context.l10n.pressBackAgainToExit);
+      }
+      return true;
+    }
+
+    logInfo('[Router] exiting app');
+    return false;
+  }
+
   // --- Core Engine ---
 
   Future<void> _setPath(
@@ -247,8 +281,6 @@ class AppRouterDelegate extends RouterDelegate<AppRouteState>
   }
 
   AppRoute? _matchRoute(String path) {
-    bool resetShell = false;
-
     for (final route in _routes) {
       if (route is AppStatefulShellRoute) {
         for (int i = 0; i < route.branches.length; i++) {
@@ -270,7 +302,7 @@ class AppRouterDelegate extends RouterDelegate<AppRouteState>
 
     // fallback mapping to first path
     final fallback = _findRouteInBranch('/', _routes);
-    if (fallback != null && fallback is AppRoute) {
+    if (fallback != null) {
       for (final r in _routes) {
         if (r is AppStatefulShellRoute) {
           for (int i = 0; i < r.branches.length; i++) {
@@ -330,27 +362,35 @@ class AppRouterDelegate extends RouterDelegate<AppRouteState>
       for (int i = 0; i < _currentShell!.branches.length; i++) {
         final branchPages = _branchPages[i] ?? [];
         children.add(
-          Navigator(
-            key:
-                _currentShell!.branches[i].navigatorKey ??
-                GlobalKey<NavigatorState>(debugLabel: 'Branch_$i'),
-            pages: branchPages.isEmpty
-                ? [const MaterialPage<dynamic>(child: SizedBox.shrink())]
-                : List.of(branchPages),
-            onDidRemovePage: (page) {
-              if (branchPages.length > 1) {
-                branchPages.remove(page);
-                notifyListeners();
+          NavigatorPopHandler(
+            onPopWithResult: (_) async {
+              final handled = await popRoute();
+              if (!handled) {
+                await SystemNavigator.pop();
               }
             },
+            child: Navigator(
+              key:
+                  _currentShell!.branches[i].navigatorKey ??
+                  GlobalKey<NavigatorState>(debugLabel: 'Branch_$i'),
+              pages: branchPages.isEmpty
+                  ? [const MaterialPage<dynamic>(child: SizedBox.shrink())]
+                  : List.of(branchPages),
+              onDidRemovePage: (page) {
+                if (branchPages.length > 1) {
+                  branchPages.remove(page);
+                  notifyListeners();
+                }
+              },
+            ),
           ),
         );
       }
 
       final navigationShell = StatefulNavigationShell(
         currentIndex: _currentBranchIndex,
-        children: children,
         onSwitchBranch: _switchBranch,
+        children: children,
       );
 
       pages.add(

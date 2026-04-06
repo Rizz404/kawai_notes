@@ -683,5 +683,9 @@
   "enumMaintenanceResultRescheduled": "Rescheduled",
   "@enumMaintenanceResultRescheduled": {
     "description": "Maintenance result Rescheduled"
+  },
+  "pressBackAgainToExit": "Press back again to exit",
+  "@pressBackAgainToExit": {
+    "description": "Message shown when pressing back button at home root"
   }
 }

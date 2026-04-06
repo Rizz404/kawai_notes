@@ -42,7 +42,13 @@ class StatefulNavigationShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IndexedStack(index: currentIndex, children: children);
+    // Disable Hero animations on inactive branches to prevent duplicate hero tag errors
+    return IndexedStack(
+      index: currentIndex,
+      children: children.asMap().entries.map((entry) {
+        return HeroMode(enabled: entry.key == currentIndex, child: entry.value);
+      }).toList(),
+    );
   }
 }
 

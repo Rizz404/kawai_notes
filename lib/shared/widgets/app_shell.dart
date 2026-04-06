@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_setup_riverpod/core/extensions/theme_extension.dart';
-import 'package:flutter_setup_riverpod/core/router/app_route.dart'; // import StatefulNavigationShell
+import 'package:flutter_setup_riverpod/core/router/app_route.dart';
 
-class AppShellBody extends StatelessWidget {
+class AppShellBody extends ConsumerWidget {
   const AppShellBody({required this.navigationShell, super.key});
 
   final StatefulNavigationShell navigationShell;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: navigationShell,
       bottomNavigationBar: AppBottomNav(
@@ -55,8 +55,8 @@ class AppBottomNav extends StatelessWidget {
           label: 'Tasks',
         ),
         NavigationDestination(
-          icon: Icon(Icons.settings_outlined),
-          selectedIcon: Icon(Icons.settings),
+          icon: Icon(Icons.more_horiz_outlined),
+          selectedIcon: Icon(Icons.more_horiz),
           label: 'Settings',
         ),
       ],

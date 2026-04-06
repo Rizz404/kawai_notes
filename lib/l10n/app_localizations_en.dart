@@ -557,6 +557,9 @@ class L10nEn extends L10n {
   String get enumMaintenanceResultRescheduled => 'Rescheduled';
 
   @override
+  String get pressBackAgainToExit => 'Press back again to exit';
+
+  @override
   String get foldersTitle => 'Folders';
 
   @override

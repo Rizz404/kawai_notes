@@ -557,6 +557,9 @@ class L10nId extends L10n {
   String get enumMaintenanceResultRescheduled => 'Dijadwalkan Ulang';
 
   @override
+  String get pressBackAgainToExit => 'Tekan kembali sekali lagi untuk keluar';
+
+  @override
   String get foldersTitle => 'Folder';
 
   @override

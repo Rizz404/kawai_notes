@@ -684,6 +684,10 @@
   "@enumMaintenanceResultRescheduled": {
     "description": "Maintenance result Rescheduled"
   },
+  "pressBackAgainToExit": "もう一度戻るボタンを押して終了",
+  "@pressBackAgainToExit": {
+    "description": "Message shown when pressing back button at home root"
+  },
   "foldersTitle": "フォルダ",
   "@foldersTitle": {
     "description": "Folders title"

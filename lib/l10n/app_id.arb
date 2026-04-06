@@ -684,6 +684,10 @@
   "@enumMaintenanceResultRescheduled": {
     "description": "Maintenance result Rescheduled"
   },
+  "pressBackAgainToExit": "Tekan kembali sekali lagi untuk keluar",
+  "@pressBackAgainToExit": {
+    "description": "Message shown when pressing back button at home root"
+  },
   "foldersTitle": "Folder",
   "@foldersTitle": {
     "description": "Folders title"

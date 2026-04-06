@@ -556,6 +556,9 @@ class L10nJa extends L10n {
   String get enumMaintenanceResultRescheduled => '再スケジュール';
 
   @override
+  String get pressBackAgainToExit => 'もう一度戻るボタンを押して終了';
+
+  @override
   String get foldersTitle => 'フォルダ';
 
   @override

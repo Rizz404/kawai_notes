@@ -129,6 +129,7 @@ class MyApp extends ConsumerWidget {
           builder: botToastBuilder,
 
           // * Router Configuration
+          backButtonDispatcher: RootBackButtonDispatcher(),
           routerDelegate: routerDelegate,
           routeInformationParser: routeParser,
           // * Localization Configuration
