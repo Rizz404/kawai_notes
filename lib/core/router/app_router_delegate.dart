@@ -363,6 +363,7 @@ class AppRouterDelegate extends RouterDelegate<AppRouteState>
         final branchPages = _branchPages[i] ?? [];
         children.add(
           NavigatorPopHandler(
+            enabled: i == _currentBranchIndex,
             onPopWithResult: (_) async {
               final handled = await popRoute();
               if (!handled) {
