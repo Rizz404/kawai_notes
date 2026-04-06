@@ -3,6 +3,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/navigator_extension.dart';
+import 'package:flutter_setup_riverpod/core/extensions/theme_extension.dart';
 import 'package:flutter_setup_riverpod/feature/folders/providers/folder_list_provider.dart';
 import 'package:flutter_setup_riverpod/feature/notes/providers/note_providers.dart';
 import 'package:flutter_setup_riverpod/shared/widgets/app_checkbox.dart';
@@ -136,71 +137,86 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
                 children: [
                   FormBuilder(
                     key: _formKey,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          AppTextField(
-                            name: 'title',
-                            label: 'Title (Optional)',
-                            initialValue:
-                                state.note?.title ?? widget.initialTitle ?? '',
+                    child: Column(
+                      children: [
+                        AppTextField(
+                          name: 'title',
+                          label: 'Title (Optional)',
+                          initialValue:
+                              state.note?.title ?? widget.initialTitle ?? '',
+                          isBorderless: true,
+                          textStyle: const TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w500,
                           ),
-                          const SizedBox(height: 16),
-                          folderStateAsync.maybeWhen(
-                            data: (folderState) {
-                              final folders = folderState.items;
-                              final items = folders
-                                  .map(
-                                    (f) => AppDropdownItem<int>(
-                                      value: f.id,
-                                      label: f.name,
-                                    ),
-                                  )
-                                  .toList();
-
-                              // Insert a "No Folder" item
-                              items.insert(
-                                0,
-                                const AppDropdownItem<int>(
-                                  value: 0,
-                                  label: 'Uncategorized',
-                                ),
-                              );
-
-                              return Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: AppDropdown<int>(
-                                      name: 'folderId',
-                                      initialValue:
-                                          state.note?.folder.targetId ?? 0,
-                                      items: items,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 16),
-                                  Expanded(
-                                    child: AppCheckbox(
-                                      name: 'isHidden',
-                                      title: Text(context.l10n.notesHidden),
-                                      initialValue:
-                                          state.note?.isHidden ?? false,
-                                    ),
-                                  ),
-                                ],
-                              );
-                            },
-                            orElse: () => const SizedBox.shrink(),
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 8,
                           ),
-                          const SizedBox(height: 16),
-                          AppRichTextEditor(
+                        ),
+                        Expanded(
+                          child: AppRichTextEditor(
                             name: 'content',
                             initialValue: state.content,
                             showToolbar: _showToolbar,
                             focusNode: _contentFocusNode,
+                            textStyle: TextStyle(
+                              fontSize: 16,
+                              height: 1.5,
+                              color: context.colors.onSurface,
+                            ),
+                            bottomActions: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              child: folderStateAsync.maybeWhen(
+                                data: (folderState) {
+                                  final folders = folderState.items;
+                                  final items = folders
+                                      .map(
+                                        (f) => AppDropdownItem<int>(
+                                          value: f.id,
+                                          label: f.name,
+                                        ),
+                                      )
+                                      .toList();
+
+                                  // Insert a "No Folder" item
+                                  items.insert(
+                                    0,
+                                    const AppDropdownItem<int>(
+                                      value: 0,
+                                      label: 'Uncategorized',
+                                    ),
+                                  );
+
+                                  return Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        child: AppDropdown<int>(
+                                          name: 'folderId',
+                                          initialValue:
+                                              state.note?.folder.targetId ?? 0,
+                                          items: items,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 16),
+                                      Expanded(
+                                        child: AppCheckbox(
+                                          name: 'isHidden',
+                                          title: Text(context.l10n.notesHidden),
+                                          initialValue:
+                                              state.note?.isHidden ?? false,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                                orElse: () => const SizedBox.shrink(),
+                              ),
+                            ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ],

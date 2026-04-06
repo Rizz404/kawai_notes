@@ -63,6 +63,15 @@ class AppTextField extends StatefulWidget {
   /// Opsi melumpuhkan fungsi field sama sekali.
   final bool? enabled;
 
+  /// Jika true, menghilangkan border dan menggunakan background transparan.
+  final bool isBorderless;
+
+  /// Custom text style untuk input field.
+  final TextStyle? textStyle;
+
+  /// Custom padding untuk content area input field.
+  final EdgeInsetsGeometry? contentPadding;
+
   const AppTextField({
     super.key,
     required this.name,
@@ -80,6 +89,9 @@ class AppTextField extends StatefulWidget {
     this.suffixIcon,
     this.onChanged,
     this.enabled,
+    this.isBorderless = false,
+    this.textStyle,
+    this.contentPadding,
   });
 
   @override
@@ -192,8 +204,8 @@ class _AppTextFieldState extends State<AppTextField> {
       valueTransformer: (value) => value?.trim(),
       onChanged: widget.onChanged,
       decoration: InputDecoration(
-        labelText: widget.label,
-        hintText: widget.placeHolder,
+        labelText: widget.isBorderless ? null : widget.label,
+        hintText: widget.isBorderless ? widget.label : widget.placeHolder,
         prefixText: getPrefixText(),
         suffixText: widget.suffixText,
         prefixIcon: widget.prefixIcon,
@@ -211,33 +223,45 @@ class _AppTextFieldState extends State<AppTextField> {
                     },
                   )
                 : null),
-        filled: true,
-        fillColor: context.colors.surface,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: context.colors.border, width: 1),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: context.colors.border, width: 1),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: context.colors.primary, width: 2),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: context.semantic.error, width: 1),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: context.semantic.error, width: 2),
-        ),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 16,
-        ),
+        filled: !widget.isBorderless,
+        fillColor: widget.isBorderless
+            ? Colors.transparent
+            : context.colors.surface,
+        border: widget.isBorderless
+            ? InputBorder.none
+            : OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: context.colors.border, width: 1),
+              ),
+        enabledBorder: widget.isBorderless
+            ? InputBorder.none
+            : OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: context.colors.border, width: 1),
+              ),
+        focusedBorder: widget.isBorderless
+            ? InputBorder.none
+            : OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: context.colors.primary, width: 2),
+              ),
+        errorBorder: widget.isBorderless
+            ? InputBorder.none
+            : OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: context.semantic.error, width: 1),
+              ),
+        focusedErrorBorder: widget.isBorderless
+            ? InputBorder.none
+            : OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: context.semantic.error, width: 2),
+              ),
+        contentPadding:
+            widget.contentPadding ??
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       ),
+      style: widget.textStyle,
       validator: widget.validator,
       enabled: widget.enabled ?? true,
     );

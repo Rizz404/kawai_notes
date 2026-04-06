@@ -11,11 +11,15 @@ import 'package:path_provider/path_provider.dart';
 
 class AppRichTextEditor extends FormBuilderField<String> {
   final bool showToolbar;
+  final Widget? bottomActions;
+  final TextStyle? textStyle;
 
   AppRichTextEditor({
     super.key,
     required super.name,
     this.showToolbar = false,
+    this.bottomActions,
+    this.textStyle,
     super.focusNode,
     super.validator,
     super.onChanged,
@@ -33,6 +37,30 @@ class AppRichTextEditor extends FormBuilderField<String> {
            return Column(
              crossAxisAlignment: CrossAxisAlignment.stretch,
              children: [
+               Expanded(
+                 child: Padding(
+                   padding: const EdgeInsets.symmetric(vertical: 8),
+                   child: QuillEditor.basic(
+                     focusNode: widget.focusNode,
+                     controller: state._quillController,
+                     config: QuillEditorConfig(
+                       customStyles: DefaultStyles(
+                         paragraph: DefaultTextBlockStyle(
+                           widget.textStyle ??
+                               field.context.textTheme.bodyLarge!.copyWith(
+                                 fontSize: 16,
+                                 height: 1.5,
+                               ),
+                           const HorizontalSpacing(0, 0),
+                           const VerticalSpacing(0, 0),
+                           const VerticalSpacing(0, 0),
+                           null,
+                         ),
+                       ),
+                     ),
+                   ),
+                 ),
+               ),
                if (widget.showToolbar)
                  Row(
                    children: [
@@ -60,34 +88,7 @@ class AppRichTextEditor extends FormBuilderField<String> {
                      ),
                    ],
                  ),
-               Container(
-                 height: 300, // or flexible
-                 padding: const EdgeInsets.all(16),
-                 decoration: BoxDecoration(
-                   color: field.context.colors.surface,
-                   border: Border.all(
-                     color: field.hasError
-                         ? field.context.semantic.error
-                         : field.context.colors.border,
-                   ),
-                   borderRadius: BorderRadius.circular(8),
-                 ),
-                 child: QuillEditor.basic(
-                   focusNode: widget.focusNode,
-                   controller: state._quillController,
-                   config: QuillEditorConfig(
-                     customStyles: DefaultStyles(
-                       paragraph: DefaultTextBlockStyle(
-                         field.context.textTheme.bodyMedium!,
-                         const HorizontalSpacing(0, 0),
-                         const VerticalSpacing(0, 0),
-                         const VerticalSpacing(0, 0),
-                         null,
-                       ),
-                     ),
-                   ),
-                 ),
-               ),
+               if (widget.bottomActions != null) widget.bottomActions!,
                if (field.hasError) ...[
                  const SizedBox(height: 4),
                  Text(
