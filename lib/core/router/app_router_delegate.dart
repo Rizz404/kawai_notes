@@ -7,14 +7,19 @@ import 'package:flutter_setup_riverpod/core/router/app_route_state.dart';
 class AppRouterDelegate extends RouterDelegate<AppRouteState>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<AppRouteState> {
   final GlobalKey<NavigatorState> _navigatorKey;
-  final List<AppRoute> _routes;
+  final List<AppRouteBase> _routes;
   final Listenable? refreshListenable;
 
   final List<Page<dynamic>> _pages = [];
 
+  // Stateful Shell Route State
+  AppStatefulShellRoute? _currentShell;
+  int _currentBranchIndex = 0;
+  final Map<int, List<Page<dynamic>>> _branchPages = {};
+
   AppRouterDelegate({
     required GlobalKey<NavigatorState> navigatorKey,
-    required List<AppRoute> routes,
+    required List<AppRouteBase> routes,
     this.refreshListenable,
   }) : _navigatorKey = navigatorKey,
        _routes = routes {
@@ -28,8 +33,18 @@ class AppRouterDelegate extends RouterDelegate<AppRouteState>
   GlobalKey<NavigatorState> get navigatorKey => _navigatorKey;
 
   @override
-  AppRouteState get currentConfiguration =>
-      AppRouteState.fromPath(_pages.isEmpty ? '/' : _pages.last.name ?? '/');
+  AppRouteState get currentConfiguration {
+    if (_pages.isNotEmpty) {
+      return AppRouteState.fromPath(_pages.last.name ?? '/');
+    } else if (_currentShell != null &&
+        _branchPages.containsKey(_currentBranchIndex) &&
+        _branchPages[_currentBranchIndex]!.isNotEmpty) {
+      return AppRouteState.fromPath(
+        _branchPages[_currentBranchIndex]!.last.name ?? '/',
+      );
+    }
+    return AppRouteState.fromPath('/');
+  }
 
   @override
   void dispose() {
@@ -72,16 +87,28 @@ class AppRouterDelegate extends RouterDelegate<AppRouteState>
   }
 
   /// Returns true if the navigator can pop top most route.
-  bool canPop() => _pages.length > 1;
+  bool canPop() {
+    if (_pages.isNotEmpty) return true;
+    if (_currentShell != null &&
+        _branchPages.containsKey(_currentBranchIndex)) {
+      return _branchPages[_currentBranchIndex]!.length > 1;
+    }
+    return false;
+  }
 
   /// Safely pops the topmost route.
   void pop() {
     logInfo('[Router] popping route');
-    if (canPop()) {
+    if (_pages.isNotEmpty) {
       _pages.removeLast();
       notifyListeners();
+    } else if (_currentShell != null &&
+        _branchPages.containsKey(_currentBranchIndex) &&
+        _branchPages[_currentBranchIndex]!.length > 1) {
+      _branchPages[_currentBranchIndex]!.removeLast();
+      notifyListeners();
     } else {
-      logInfo('[Router] cannot pop, stack size is ${_pages.length}');
+      logInfo('[Router] cannot pop further');
     }
   }
 
@@ -162,10 +189,38 @@ class AppRouterDelegate extends RouterDelegate<AppRouteState>
         }
       }
 
-      if (replace && _pages.isNotEmpty) {
-        _pages.removeLast();
+      bool isBranchRoute = false;
+      if (_currentShell != null) {
+        for (int i = 0; i < _currentShell!.branches.length; i++) {
+          if (_findRouteInBranch(
+                routeMatch.path,
+                _currentShell!.branches[i].routes,
+              ) !=
+              null) {
+            isBranchRoute = true;
+            break;
+          }
+        }
       }
-      _pages.add(page);
+
+      if (isBranchRoute) {
+        if (!_branchPages.containsKey(_currentBranchIndex)) {
+          _branchPages[_currentBranchIndex] = [];
+        }
+
+        // Return from any active modals/global routes when jumping between branch routes natively
+        _pages.clear();
+
+        if (replace && _branchPages[_currentBranchIndex]!.isNotEmpty) {
+          _branchPages[_currentBranchIndex]!.removeLast();
+        }
+        _branchPages[_currentBranchIndex]!.add(page);
+      } else {
+        if (replace && _pages.isNotEmpty) {
+          _pages.removeLast();
+        }
+        _pages.add(page);
+      }
     } else {
       final page = const MaterialPage<dynamic>(
         key: ValueKey('404'),
@@ -178,27 +233,156 @@ class AppRouterDelegate extends RouterDelegate<AppRouteState>
       _pages.add(page);
     }
     logInfo('[Router] Full paths for routes:');
+    if (_currentShell != null) {
+      logInfo('  => Shell branch [$_currentBranchIndex]');
+      final currentBranchPages = _branchPages[_currentBranchIndex] ?? [];
+      for (int i = 0; i < currentBranchPages.length; i++) {
+        logInfo('  => ${currentBranchPages[i].name}');
+      }
+    }
     for (int i = 0; i < _pages.length; i++) {
-      logInfo('  => ${_pages[i].name}');
+      logInfo('  => ${_pages[i].name} (Global)');
     }
     notifyListeners();
   }
 
   AppRoute? _matchRoute(String path) {
-    return _routes.firstWhere(
-      (r) => r.path == path,
-      orElse: () =>
-          _routes.firstWhere((r) => r.path == '/', orElse: () => _routes.first),
-    );
+    bool resetShell = false;
+
+    for (final route in _routes) {
+      if (route is AppStatefulShellRoute) {
+        for (int i = 0; i < route.branches.length; i++) {
+          final branch = route.branches[i];
+          final match = _findRouteInBranch(path, branch.routes);
+          if (match != null) {
+            _currentShell = route;
+            _currentBranchIndex = i;
+            return match;
+          }
+        }
+      }
+    }
+
+    final matchRegular = _findRouteInBranch(path, _routes);
+    if (matchRegular != null) {
+      return matchRegular;
+    }
+
+    // fallback mapping to first path
+    final fallback = _findRouteInBranch('/', _routes);
+    if (fallback != null && fallback is AppRoute) {
+      for (final r in _routes) {
+        if (r is AppStatefulShellRoute) {
+          for (int i = 0; i < r.branches.length; i++) {
+            if (_findRouteInBranch('/', r.branches[i].routes) != null) {
+              _currentShell = r;
+              _currentBranchIndex = i;
+              return fallback;
+            }
+          }
+        }
+      }
+      _currentShell = null;
+      return fallback;
+    }
+    return null;
+  }
+
+  AppRoute? _findRouteInBranch(String path, List<AppRouteBase> routes) {
+    for (final route in routes) {
+      if (route is AppRoute && route.path == path) {
+        return route;
+      }
+      if (route.children.isNotEmpty) {
+        final found = _findRouteInBranch(path, route.children);
+        if (found != null) return found;
+      }
+    }
+    return null;
+  }
+
+  void _switchBranch(int index) {
+    if (index != _currentBranchIndex) {
+      _currentBranchIndex = index;
+      if (!_branchPages.containsKey(index) || _branchPages[index]!.isEmpty) {
+        final initialRoute = _currentShell!.branches[index].routes.first;
+        if (initialRoute is AppRoute) {
+          _setPath(initialRoute.path, replace: true);
+          return; // notifyListeners already called in setPath
+        }
+      }
+      notifyListeners();
+    } else {
+      // Pop all to top for this branch if tapped again
+      if (_branchPages.containsKey(index) && _branchPages[index]!.length > 1) {
+        _branchPages[index]!.removeRange(1, _branchPages[index]!.length);
+        notifyListeners();
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final pages = <Page<dynamic>>[];
+
+    if (_currentShell != null) {
+      final children = <Widget>[];
+      for (int i = 0; i < _currentShell!.branches.length; i++) {
+        final branchPages = _branchPages[i] ?? [];
+        children.add(
+          Navigator(
+            key:
+                _currentShell!.branches[i].navigatorKey ??
+                GlobalKey<NavigatorState>(debugLabel: 'Branch_$i'),
+            pages: branchPages.isEmpty
+                ? [const MaterialPage<dynamic>(child: SizedBox.shrink())]
+                : List.of(branchPages),
+            onDidRemovePage: (page) {
+              if (branchPages.length > 1) {
+                branchPages.remove(page);
+                notifyListeners();
+              }
+            },
+          ),
+        );
+      }
+
+      final navigationShell = StatefulNavigationShell(
+        currentIndex: _currentBranchIndex,
+        children: children,
+        onSwitchBranch: _switchBranch,
+      );
+
+      pages.add(
+        MaterialPage<dynamic>(
+          key: const ValueKey('AppShell'),
+          name: 'shell',
+          child: _currentShell!.builder(
+            context,
+            AppRouteState.fromPath('/'),
+            navigationShell,
+          ),
+        ),
+      );
+    }
+
+    pages.addAll(_pages);
+
+    if (pages.isEmpty) {
+      pages.add(
+        const MaterialPage<dynamic>(
+          key: ValueKey('404'),
+          name: '/404',
+          child: Scaffold(body: Center(child: Text('Route not found'))),
+        ),
+      );
+    }
+
     return Navigator(
       key: navigatorKey,
-      pages: List.of(_pages),
+      pages: pages,
       onDidRemovePage: (page) {
-        if (_pages.length > 1) {
+        if (_pages.contains(page)) {
           _pages.remove(page);
           notifyListeners();
         }

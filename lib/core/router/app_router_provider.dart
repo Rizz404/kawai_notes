@@ -15,23 +15,50 @@ import 'package:flutter_setup_riverpod/feature/settings/screens/backup_screen.da
 import 'package:flutter_setup_riverpod/feature/tasks/screens/task_editor_screen.dart';
 import 'package:flutter_setup_riverpod/feature/tasks/screens/tasks_screen.dart';
 
+import 'package:flutter_setup_riverpod/shared/widgets/app_shell.dart';
+
 // Example route dummy. User should replace this.
-final routerRoutesProvider = Provider<List<AppRoute>>((ref) {
+final routerRoutesProvider = Provider<List<AppRouteBase>>((ref) {
   return [
-    AppRoute(
-      path: '/',
-      name: 'home',
-      builder: (context, state) => const HomeScreen(),
-      // Menerapkan custom transition fadeScale dari app_transitions.dart
-      transitionsBuilder: AppTransitions.fadeScale,
-      transitionDuration: const Duration(milliseconds: 300),
-    ),
-    AppRoute(
-      path: '/tasks',
-      name: 'tasks',
-      builder: (context, state) => const TasksScreen(),
-      transitionsBuilder: AppTransitions.fadeScale,
-      transitionDuration: const Duration(milliseconds: 300),
+    AppStatefulShellRoute(
+      builder: (context, state, navigationShell) {
+        return AppShellBody(navigationShell: navigationShell);
+      },
+      branches: [
+        AppStatefulShellBranch(
+          routes: [
+            AppRoute(
+              path: '/',
+              name: 'home',
+              builder: (context, state) => const HomeScreen(),
+              transitionsBuilder: AppTransitions.fadeScale,
+              transitionDuration: const Duration(milliseconds: 300),
+            ),
+          ],
+        ),
+        AppStatefulShellBranch(
+          routes: [
+            AppRoute(
+              path: '/tasks',
+              name: 'tasks',
+              builder: (context, state) => const TasksScreen(),
+              transitionsBuilder: AppTransitions.fadeScale,
+              transitionDuration: const Duration(milliseconds: 300),
+            ),
+          ],
+        ),
+        AppStatefulShellBranch(
+          routes: [
+            AppRoute(
+              path: '/other',
+              name: 'other',
+              builder: (context, state) => const OtherScreen(),
+              transitionsBuilder: AppTransitions.fadeScale,
+              transitionDuration: const Duration(milliseconds: 300),
+            ),
+          ],
+        ),
+      ],
     ),
     AppRoute(
       path: '/task-editor',
@@ -67,15 +94,7 @@ final routerRoutesProvider = Provider<List<AppRoute>>((ref) {
           initialTitle: extra?['title'] as String?,
         );
       },
-      // Menerapkan custom transition slideFromRight
       transitionsBuilder: AppTransitions.slideFromRight,
-      transitionDuration: const Duration(milliseconds: 300),
-    ),
-    AppRoute(
-      path: '/other',
-      name: 'other',
-      builder: (context, state) => const OtherScreen(),
-      transitionsBuilder: AppTransitions.fadeScale,
       transitionDuration: const Duration(milliseconds: 300),
     ),
     AppRoute(

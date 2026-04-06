@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_setup_riverpod/core/extensions/theme_extension.dart';
+import 'package:flutter_setup_riverpod/core/router/app_route.dart'; // import StatefulNavigationShell
 
-/// Komponen wrapper untuk bagian body dari navigasi shell utama aplikasi.
 class AppShellBody extends StatelessWidget {
-  /// Konstruktor dasar dari komponen AppShellBody.
-  const AppShellBody({required this.child, super.key});
+  const AppShellBody({required this.navigationShell, super.key});
 
-  /// Widget children yang akan dirender di bagian body.
-  final Widget child;
+  final StatefulNavigationShell navigationShell;
 
   @override
   Widget build(BuildContext context) {
-    return child;
+    return Scaffold(
+      body: navigationShell,
+      bottomNavigationBar: AppBottomNav(
+        currentIndex: navigationShell.currentIndex,
+        onTap: (index) {
+          navigationShell.onSwitchBranch(index);
+        },
+      ),
+    );
   }
 }
 
-/// Komponen widget bottom navigation bar utama aplikasi.
 class AppBottomNav extends StatelessWidget {
   /// Konstruktor dasar dari komponen AppBottomNav.
   const AppBottomNav({
