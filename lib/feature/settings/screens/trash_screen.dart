@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:kawai_notes/shared/widgets/app_text.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kawai_notes/core/extensions/localization_extension.dart';
 import 'package:kawai_notes/core/extensions/theme_extension.dart';
 import 'package:kawai_notes/feature/settings/providers/trash_provider.dart';
+import 'package:kawai_notes/shared/widgets/app_text.dart';
 import 'package:kawai_notes/shared/widgets/screen_wrapper.dart';
 
 class TrashScreen extends ConsumerWidget {

@@ -1,12 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kawai_notes/core/services/auth_service.dart';
+import 'package:kawai_notes/core/services/backup_service.dart';
 import 'package:kawai_notes/core/services/encryption_service.dart';
 import 'package:kawai_notes/core/services/language_storage_service.dart';
 import 'package:kawai_notes/core/services/note_file_service.dart';
 import 'package:kawai_notes/core/services/notification_service.dart';
 import 'package:kawai_notes/core/services/objectbox_service.dart';
 import 'package:kawai_notes/core/services/theme_storage_service.dart';
-import 'package:kawai_notes/core/services/backup_service.dart';
 import 'package:kawai_notes/di/common_providers.dart';
 
 final languageStorageServiceProvider = Provider<LanguageStorageService>((ref) {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kawai_notes/shared/widgets/app_text.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kawai_notes/core/extensions/localization_extension.dart';
 import 'package:kawai_notes/core/extensions/navigator_extension.dart';
@@ -9,6 +8,7 @@ import 'package:kawai_notes/feature/notes/models/note.dart';
 import 'package:kawai_notes/feature/notes/providers/hidden_note_list_provider.dart';
 import 'package:kawai_notes/feature/notes/providers/note_providers.dart';
 import 'package:kawai_notes/shared/widgets/app_search_field.dart';
+import 'package:kawai_notes/shared/widgets/app_text.dart';
 import 'package:kawai_notes/shared/widgets/screen_wrapper.dart';
 
 class HiddenNotesScreen extends ConsumerStatefulWidget {

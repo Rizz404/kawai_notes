@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kawai_notes/core/themes/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kawai_notes/core/themes/app_colors.dart';
 
 class AppTheme {
   AppTheme._();

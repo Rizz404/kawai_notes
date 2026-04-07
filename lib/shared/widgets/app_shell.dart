@@ -27,9 +27,7 @@ class AppShellBody extends ConsumerWidget {
         body: navigationShell,
         bottomNavigationBar: AppBottomNav(
           currentIndex: navigationShell.currentIndex,
-          onTap: (index) {
-            navigationShell.onSwitchBranch(index);
-          },
+          onTap: navigationShell.onSwitchBranch,
         ),
       ),
     );

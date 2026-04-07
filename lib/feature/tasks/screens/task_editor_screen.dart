@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:kawai_notes/shared/widgets/app_text.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:kawai_notes/core/extensions/localization_extension.dart';
 import 'package:kawai_notes/core/extensions/navigator_extension.dart';
 import 'package:kawai_notes/feature/tasks/providers/task_detail_provider.dart';
 import 'package:kawai_notes/feature/tasks/providers/task_list_provider.dart';
 import 'package:kawai_notes/shared/widgets/app_button.dart';
 import 'package:kawai_notes/shared/widgets/app_date_time_picker.dart';
+import 'package:kawai_notes/shared/widgets/app_text.dart';
 import 'package:kawai_notes/shared/widgets/app_text_field.dart';
 import 'package:kawai_notes/shared/widgets/screen_wrapper.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 
 class TaskEditorScreen extends ConsumerStatefulWidget {
   final int? taskId;

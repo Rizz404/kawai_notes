@@ -1,7 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:kawai_notes/shared/widgets/app_text.dart';
 import 'package:kawai_notes/core/extensions/theme_extension.dart';
+import 'package:kawai_notes/shared/widgets/app_text.dart';
 
 class AppToast {
   AppToast._();

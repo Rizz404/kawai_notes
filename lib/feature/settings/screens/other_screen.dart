@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:kawai_notes/shared/widgets/app_text.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kawai_notes/core/extensions/localization_extension.dart';
 import 'package:kawai_notes/core/extensions/navigator_extension.dart';
 import 'package:kawai_notes/di/common_providers.dart';
 import 'package:kawai_notes/feature/notes/providers/xiaomi_import_provider.dart';
 import 'package:kawai_notes/shared/widgets/app_drawer.dart';
+import 'package:kawai_notes/shared/widgets/app_text.dart';
 import 'package:kawai_notes/shared/widgets/screen_wrapper.dart';
 
 class OtherScreen extends ConsumerWidget {

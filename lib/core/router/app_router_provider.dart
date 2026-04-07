@@ -10,12 +10,11 @@ import 'package:kawai_notes/feature/notes/screens/graph_view_screen.dart';
 import 'package:kawai_notes/feature/notes/screens/hidden_notes_screen.dart';
 import 'package:kawai_notes/feature/notes/screens/home_screen.dart';
 import 'package:kawai_notes/feature/notes/screens/note_editor_screen.dart';
-import 'package:kawai_notes/feature/settings/screens/other_screen.dart';
 import 'package:kawai_notes/feature/settings/screens/backup_screen.dart';
+import 'package:kawai_notes/feature/settings/screens/other_screen.dart';
 import 'package:kawai_notes/feature/settings/screens/trash_screen.dart';
 import 'package:kawai_notes/feature/tasks/screens/task_editor_screen.dart';
 import 'package:kawai_notes/feature/tasks/screens/tasks_screen.dart';
-
 import 'package:kawai_notes/shared/widgets/app_shell.dart';
 
 // Example route dummy. User should replace this.

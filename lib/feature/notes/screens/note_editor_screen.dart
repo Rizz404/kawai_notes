@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:kawai_notes/shared/widgets/app_text.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kawai_notes/core/extensions/localization_extension.dart';
 import 'package:kawai_notes/core/extensions/navigator_extension.dart';
 import 'package:kawai_notes/feature/notes/providers/note_providers.dart';
 import 'package:kawai_notes/shared/widgets/app_rich_text_editor.dart';
+import 'package:kawai_notes/shared/widgets/app_text.dart';
 import 'package:kawai_notes/shared/widgets/app_text_field.dart';
 import 'package:kawai_notes/shared/widgets/screen_wrapper.dart';
 
