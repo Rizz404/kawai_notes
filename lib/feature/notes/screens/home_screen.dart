@@ -165,7 +165,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       itemCount: notes.length,
       itemBuilder: (context, index) {
         final note = notes[index];
-        final isUntitled = note.title == 'Untitled';
+        final isUntitled =
+            note.title == 'Untitled' ||
+            note.title == context.l10n.notesUntitledNote;
         final isSelected = _selectedIds.contains(note.id);
         return ListTile(
           selected: isSelected,
@@ -251,7 +253,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       itemCount: notes.length,
       itemBuilder: (context, index) {
         final note = notes[index];
-        final isUntitled = note.title == 'Untitled';
+        final isUntitled =
+            note.title == 'Untitled' ||
+            note.title == context.l10n.notesUntitledNote;
         final isSelected = _selectedIds.contains(note.id);
 
         return InkWell(

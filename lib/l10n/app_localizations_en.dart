@@ -643,6 +643,9 @@ class L10nEn extends L10n {
   String get notesSearchHiddenNotes => 'Search hidden notes...';
 
   @override
+  String get notesUntitledNote => 'Untitled Note';
+
+  @override
   String get settingsTitle => 'Settings';
 
   @override

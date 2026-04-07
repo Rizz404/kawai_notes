@@ -75,5 +75,9 @@
   "notesSearchHiddenNotes": "Search hidden notes...",
   "@notesSearchHiddenNotes": {
     "description": "Notes search hidden notes"
+  },
+  "notesUntitledNote": "Untitled Note",
+  "@notesUntitledNote": {
+    "description": "Untitled note default title"
   }
 }

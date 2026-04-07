@@ -643,6 +643,9 @@ class L10nId extends L10n {
   String get notesSearchHiddenNotes => 'Cari catatan tersembunyi...';
 
   @override
+  String get notesUntitledNote => 'Catatan Tanpa Judul';
+
+  @override
   String get settingsTitle => 'Pengaturan';
 
   @override

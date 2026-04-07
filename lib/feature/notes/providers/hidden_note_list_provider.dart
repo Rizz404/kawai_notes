@@ -29,10 +29,31 @@ class HiddenNoteListNotifier extends AsyncNotifier<NoteListState> {
     List<Note> filtered = allNotes;
     if (query.isNotEmpty) {
       final q = query.toLowerCase();
-      filtered = allNotes.where((note) {
-        return note.title.toLowerCase().contains(q) ||
+      final List<Note> matchedNotes = [];
+      for (final note in allNotes) {
+        bool isMatch =
+            note.title.toLowerCase().contains(q) ||
             note.tags.any((tag) => tag.toLowerCase().contains(q));
-      }).toList();
+
+        if (!isMatch) {
+          try {
+            final content = await _noteRepository.readNoteContent(
+              note.contentPath,
+              isHidden: note.isHidden,
+            );
+            if (content.toLowerCase().contains(q)) {
+              isMatch = true;
+            }
+          } catch (_) {
+            // Ignore error and skip content matching if file read fails
+          }
+        }
+
+        if (isMatch) {
+          matchedNotes.add(note);
+        }
+      }
+      filtered = matchedNotes;
     }
 
     return NoteListState(items: filtered, query: query);

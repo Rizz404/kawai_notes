@@ -642,6 +642,9 @@ class L10nJa extends L10n {
   String get notesSearchHiddenNotes => '非表示のノートを検索...';
 
   @override
+  String get notesUntitledNote => '無題のメモ';
+
+  @override
   String get settingsTitle => '設定';
 
   @override

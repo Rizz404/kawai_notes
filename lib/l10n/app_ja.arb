@@ -776,6 +776,7 @@
   "notesTitleOptional": "タイトル（オプション）",
   "notesSearchNotes": "ノートを検索...",
   "notesSearchHiddenNotes": "非表示のノートを検索...",
+  "notesUntitledNote": "無題のメモ",
   "settingsTitle": "設定",
   "@settingsTitle": {
     "description": "Settings title"

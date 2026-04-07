@@ -1251,6 +1251,12 @@ abstract class L10n {
   /// **'Search hidden notes...'**
   String get notesSearchHiddenNotes;
 
+  /// Untitled note default title
+  ///
+  /// In en, this message translates to:
+  /// **'Untitled Note'**
+  String get notesUntitledNote;
+
   /// Settings title
   ///
   /// In en, this message translates to:

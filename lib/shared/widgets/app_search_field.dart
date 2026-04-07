@@ -134,6 +134,7 @@ class AppSearchField<T> extends StatefulWidget {
 
 class _AppSearchFieldState<T> extends State<AppSearchField<T>> {
   late GlobalKey<FormBuilderFieldState<FormBuilderTextField, String>> _fieldKey;
+  late TextEditingController _controller;
   bool _hasText = false;
 
   final LayerLink _layerLink = LayerLink();
@@ -151,6 +152,7 @@ class _AppSearchFieldState<T> extends State<AppSearchField<T>> {
     super.initState();
     _fieldKey =
         GlobalKey<FormBuilderFieldState<FormBuilderTextField, String>>();
+    _controller = TextEditingController(text: widget.initialValue);
     _hasText = widget.initialValue?.isNotEmpty ?? false;
     _currentDisplayCount = widget.initialItemsToShow;
     _displayText = widget.initialDisplayText;
@@ -171,6 +173,7 @@ class _AppSearchFieldState<T> extends State<AppSearchField<T>> {
     _focusNode.dispose();
     _scrollController.dispose();
     _debounceTimer?.cancel();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -276,6 +279,7 @@ class _AppSearchFieldState<T> extends State<AppSearchField<T>> {
     setState(() {
       _displayText = null;
     });
+    _controller.clear();
     _fieldKey.currentState?.didChange('');
     widget.onClear?.call();
     widget.onChanged?.call('');
@@ -408,7 +412,9 @@ class _AppSearchFieldState<T> extends State<AppSearchField<T>> {
                 width: 24,
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
-                  valueColor: AlwaysStoppedAnimation(context.colorScheme.primary),
+                  valueColor: AlwaysStoppedAnimation(
+                    context.colorScheme.primary,
+                  ),
                 ),
               ),
             ),
@@ -457,7 +463,9 @@ class _AppSearchFieldState<T> extends State<AppSearchField<T>> {
                   AppText(
                     subtitle,
                     style: AppTextStyle.bodySmall,
-                    color: context.colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
+                    color: context.colorScheme.onSurfaceVariant.withValues(
+                      alpha: 0.5,
+                    ),
                   ),
                 ],
               ],
@@ -479,7 +487,7 @@ class _AppSearchFieldState<T> extends State<AppSearchField<T>> {
           child: FormBuilderTextField(
             key: _fieldKey,
             name: widget.name,
-            initialValue: widget.initialValue,
+            controller: _controller,
             enabled: widget.enabled,
             focusNode: widget.enableAutocomplete ? _focusNode : null,
             onChanged: _onTextChanged,
@@ -489,25 +497,39 @@ class _AppSearchFieldState<T> extends State<AppSearchField<T>> {
               labelText: widget.label,
               hintText: widget.hintText ?? context.l10n.appSearchFieldHint,
               hintStyle: context.textTheme.bodyMedium?.copyWith(
-                color: context.colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
+                color: context.colorScheme.onSurfaceVariant.withValues(
+                  alpha: 0.5,
+                ),
               ),
               prefixIcon:
                   widget.prefixIcon ??
-                  Icon(Icons.search, color: context.colorScheme.onSurfaceVariant),
+                  Icon(
+                    Icons.search,
+                    color: context.colorScheme.onSurfaceVariant,
+                  ),
               suffixIcon: _buildSuffixIcon(),
               filled: true,
               fillColor: widget.fillColor ?? context.colorScheme.surface,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: context.colorScheme.outlineVariant, width: 1),
+                borderSide: BorderSide(
+                  color: context.colorScheme.outlineVariant,
+                  width: 1,
+                ),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: context.colorScheme.outlineVariant, width: 1),
+                borderSide: BorderSide(
+                  color: context.colorScheme.outlineVariant,
+                  width: 1,
+                ),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: context.colorScheme.primary, width: 2),
+                borderSide: BorderSide(
+                  color: context.colorScheme.primary,
+                  width: 2,
+                ),
               ),
               disabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -528,7 +550,9 @@ class _AppSearchFieldState<T> extends State<AppSearchField<T>> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
-              color: context.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+              color: context.colorScheme.surfaceContainerHighest.withValues(
+                alpha: 0.5,
+              ),
               borderRadius: BorderRadius.circular(8),
               border: Border.all(
                 color: context.colorScheme.primary.withValues(alpha: 0.3),

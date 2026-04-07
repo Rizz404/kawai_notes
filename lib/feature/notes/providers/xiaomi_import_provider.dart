@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kawai_notes/core/extensions/logger_extension.dart';
 import 'package:kawai_notes/di/repository_providers.dart';
@@ -48,11 +49,18 @@ class XiaomiImportNotifier extends Notifier<XiaomiImportState> {
     state = const XiaomiImportState(isMutating: true);
 
     try {
-      final result = await FilePicker.platform.pickFiles(
-        allowMultiple: true,
-        type: FileType.custom,
-        allowedExtensions: ['md'],
-      );
+      FilePickerResult? result;
+      try {
+        result = await FilePicker.platform.pickFiles(
+          allowMultiple: true,
+          type: FileType.custom,
+          allowedExtensions: ['md'],
+        );
+      } on PlatformException catch (e) {
+        logError('FilePicker platform error: ${e.code}', e);
+        state = XiaomiImportState(mutationError: e);
+        return false;
+      }
 
       if (result == null || result.files.isEmpty) {
         state = const XiaomiImportState();
@@ -69,13 +77,13 @@ class XiaomiImportNotifier extends Notifier<XiaomiImportState> {
         String content = await fileObj.readAsString();
 
         // Extract title
-        String title = 'Untitled Note';
+        String title = 'Untitled';
         final titleRegex = RegExp(r'^## Title:\s*(.*)$', multiLine: true);
         final titleMatch = titleRegex.firstMatch(content);
         if (titleMatch != null) {
-          title = titleMatch.group(1)?.trim() ?? 'Untitled Note';
+          title = titleMatch.group(1)?.trim() ?? 'Untitled';
           if (title.toLowerCase() == 'untitled note') {
-            title = 'Untitled Note';
+            title = 'Untitled';
           }
           // Remove title line
           content = content.replaceFirst(titleMatch.group(0)!, '');
@@ -163,7 +171,15 @@ class XiaomiImportNotifier extends Notifier<XiaomiImportState> {
         }
       }
 
-      final selectedDirectory = await FilePicker.platform.getDirectoryPath();
+      String? selectedDirectory;
+      try {
+        selectedDirectory = await FilePicker.platform.getDirectoryPath();
+      } on PlatformException catch (e) {
+        logError('FilePicker platform error: ${e.code}', e);
+        state = XiaomiImportState(mutationError: e);
+        return false;
+      }
+
       if (selectedDirectory == null) return false;
 
       state = const XiaomiImportState(
@@ -206,13 +222,13 @@ class XiaomiImportNotifier extends Notifier<XiaomiImportState> {
         String content = await file.readAsString();
 
         // Extract title
-        String title = 'Untitled Note';
+        String title = 'Untitled';
         final titleRegex = RegExp(r'^## Title:\s*(.*)$', multiLine: true);
         final titleMatch = titleRegex.firstMatch(content);
         if (titleMatch != null) {
-          title = titleMatch.group(1)?.trim() ?? 'Untitled Note';
+          title = titleMatch.group(1)?.trim() ?? 'Untitled';
           if (title.toLowerCase() == 'untitled note') {
-            title = 'Untitled Note';
+            title = 'Untitled';
           }
           // Remove title line
           content = content.replaceFirst(titleMatch.group(0)!, '');

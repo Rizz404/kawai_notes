@@ -51,5 +51,6 @@
   "notesImportingNotes": "メモをインポート中",
   "notesTitleOptional": "タイトル（オプション）",
   "notesSearchNotes": "ノートを検索...",
-  "notesSearchHiddenNotes": "非表示のノートを検索..."
+  "notesSearchHiddenNotes": "非表示のノートを検索...",
+  "notesUntitledNote": "無題のメモ"
 }

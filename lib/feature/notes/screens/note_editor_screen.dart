@@ -57,7 +57,7 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
     if (values == null) return;
 
     final rawTitle = values['title']?.toString().trim() ?? '';
-    final title = rawTitle.isEmpty ? 'Untitled' : rawTitle;
+    final title = rawTitle.isEmpty ? context.l10n.notesUntitledNote : rawTitle;
     final content = values['content']?.toString() ?? '';
 
     // if new note and completely empty, skip saving
@@ -140,8 +140,15 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
                         AppTextField(
                           name: 'title',
                           label: context.l10n.notesTitleOptional,
+                          placeHolder: context.l10n.notesUntitledNote,
                           initialValue:
-                              state.note?.title ?? widget.initialTitle ?? '',
+                              (state.note?.title == 'Untitled' ||
+                                  state.note?.title ==
+                                      context.l10n.notesUntitledNote)
+                              ? ''
+                              : (state.note?.title ??
+                                    widget.initialTitle ??
+                                    ''),
                           isBorderless: true,
                           textStyle: const TextStyle(
                             fontSize: 22,

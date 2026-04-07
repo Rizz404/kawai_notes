@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kawai_notes/core/services/backup_service.dart';
 import 'package:kawai_notes/core/utils/logger.dart';
@@ -90,9 +91,15 @@ class BackupNotifier extends AsyncNotifier<void> {
   }
 
   Future<void> setAutoBackupFolder() async {
-    final path = await FilePicker.platform.getDirectoryPath(
-      dialogTitle: 'Choose Auto Backup Folder',
-    );
+    String? path;
+    try {
+      path = await FilePicker.platform.getDirectoryPath(
+        dialogTitle: 'Choose Auto Backup Folder',
+      );
+    } on PlatformException catch (e, stack) {
+      AppLogger.instance.error('FilePicker platform error', e, stack);
+      return;
+    }
     if (path != null) {
       await _backupService.setAutoBackupFolder(path);
       ref.invalidate(autoBackupFolderProvider);

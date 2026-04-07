@@ -776,6 +776,7 @@
   "notesTitleOptional": "Judul (Opsional)",
   "notesSearchNotes": "Cari catatan...",
   "notesSearchHiddenNotes": "Cari catatan tersembunyi...",
+  "notesUntitledNote": "Catatan Tanpa Judul",
   "settingsTitle": "Pengaturan",
   "@settingsTitle": {
     "description": "Settings title"

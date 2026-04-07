@@ -118,7 +118,11 @@ class _ToastCard extends StatelessWidget {
     if (type == _ToastType.serverError) {
       return context.colorScheme.onTertiaryContainer;
     }
-    return context.colorScheme.onPrimary;
+    final backgroundColor = _getBackgroundColor(context);
+    return ThemeData.estimateBrightnessForColor(backgroundColor) ==
+            Brightness.light
+        ? Colors.black
+        : Colors.white;
   }
 
   @override
