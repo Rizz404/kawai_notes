@@ -100,8 +100,39 @@ class NoteRepository {
   Future<void> deleteNote(int id) async {
     final note = getNote(id);
     if (note != null) {
+      note.isDeleted = true;
+      note.updatedAt = DateTime.now();
+      _objectBoxService.store.box<Note>().put(note);
+    }
+  }
+
+  Future<void> restoreNote(int id) async {
+    final note = getNote(id);
+    if (note != null) {
+      note.isDeleted = false;
+      note.updatedAt = DateTime.now();
+      _objectBoxService.store.box<Note>().put(note);
+    }
+  }
+
+  Future<void> hardDeleteNote(int id) async {
+    final note = getNote(id);
+    if (note != null) {
       await _noteFileService.deleteNoteFile(note.contentPath);
       _objectBoxService.store.box<Note>().remove(id);
+    }
+  }
+
+  Future<void> cleanUpTrashNotes({int days = 30}) async {
+    final threshold = DateTime.now().subtract(Duration(days: days));
+    final trashNotes = _objectBoxService.store
+        .box<Note>()
+        .getAll()
+        .where((n) => n.isDeleted && n.updatedAt.isBefore(threshold))
+        .toList();
+
+    for (final note in trashNotes) {
+      await hardDeleteNote(note.id);
     }
   }
 }

@@ -24,7 +24,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(1, 6860182552042913652),
     name: 'Note',
-    lastPropertyId: const obx_int.IdUid(11, 4920438314773740203),
+    lastPropertyId: const obx_int.IdUid(12, 4827311702158349030),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -94,6 +94,12 @@ final _entities = <obx_int.ModelEntity>[
       obx_int.ModelProperty(
         id: const obx_int.IdUid(11, 4920438314773740203),
         name: 'isPinned',
+        type: 1,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(12, 4827311702158349030),
+        name: 'isDeleted',
         type: 1,
         flags: 0,
       ),
@@ -265,7 +271,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final linksOffset = fbb.writeList(
           object.links.map(fbb.writeString).toList(growable: false),
         );
-        fbb.startTable(12);
+        fbb.startTable(13);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, ulidOffset);
         fbb.addOffset(2, titleOffset);
@@ -277,6 +283,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addInt64(8, object.folder.targetId);
         fbb.addBool(9, object.isHidden);
         fbb.addBool(10, object.isPinned);
+        fbb.addBool(11, object.isDeleted);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -318,6 +325,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
           24,
           false,
         );
+        final isDeletedParam = const fb.BoolReader().vTableGet(
+          buffer,
+          rootOffset,
+          26,
+          false,
+        );
         final createdAtParam = DateTime.fromMillisecondsSinceEpoch(
           const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0),
         );
@@ -333,6 +346,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           links: linksParam,
           isHidden: isHiddenParam,
           isPinned: isPinnedParam,
+          isDeleted: isDeletedParam,
           createdAt: createdAtParam,
           updatedAt: updatedAtParam,
         );
@@ -520,6 +534,11 @@ class Note_ {
   /// See [Note.isPinned].
   static final isPinned = obx.QueryBooleanProperty<Note>(
     _entities[0].properties[10],
+  );
+
+  /// See [Note.isDeleted].
+  static final isDeleted = obx.QueryBooleanProperty<Note>(
+    _entities[0].properties[11],
   );
 }
 

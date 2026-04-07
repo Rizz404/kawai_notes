@@ -16,6 +16,7 @@ class Note {
 
   bool isHidden;
   bool isPinned;
+  bool isDeleted;
 
   final folder = ToOne<Folder>();
 
@@ -34,6 +35,7 @@ class Note {
     this.links = const [],
     this.isHidden = false,
     this.isPinned = false,
+    this.isDeleted = false,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) : createdAt = createdAt ?? DateTime.now(),

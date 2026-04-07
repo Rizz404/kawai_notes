@@ -97,6 +97,15 @@ class OtherScreen extends ConsumerWidget {
               },
             ),
             const Divider(),
+            ListTile(
+              leading: const Icon(Icons.delete_outlined),
+              title: const Text('Trash'),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () {
+                context.push('/trash');
+              },
+            ),
+            const Divider(),
             Consumer(
               builder: (context, ref, child) {
                 final importState = ref.watch(xiaomiImportProvider);

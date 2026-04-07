@@ -23,7 +23,7 @@ class HiddenNoteListNotifier extends AsyncNotifier<NoteListState> {
   Future<NoteListState> _fetch({required String query}) async {
     final allNotes = _noteRepository
         .getAllNotes()
-        .where((n) => n.isHidden)
+        .where((n) => n.isHidden && !n.isDeleted)
         .toList();
 
     List<Note> filtered = allNotes;

@@ -84,6 +84,20 @@ class NoteDetailNotifier extends AsyncNotifier<NoteDetailState> {
 
     final hiddenStatus = isHidden ?? current.note?.isHidden ?? false;
     final pinnedStatus = isPinned ?? current.note?.isPinned ?? false;
+    final folderTargetId = folderId ?? current.note?.folder.targetId ?? 0;
+
+    // Check if anything actually changed
+    final bool hasChanged =
+        current.note == null ||
+        current.note!.title != title ||
+        current.content != content ||
+        current.note!.isHidden != hiddenStatus ||
+        current.note!.isPinned != pinnedStatus ||
+        current.note!.folder.targetId != folderTargetId;
+
+    if (!hasChanged) {
+      return; // Skip saving to avoid updating `updatedAt`
+    }
 
     state = AsyncData(
       current.copyWith(isMutating: true, mutationError: () => null),
@@ -95,9 +109,10 @@ class NoteDetailNotifier extends AsyncNotifier<NoteDetailState> {
         ulid: current.note?.ulid,
         title: title,
         content: content,
-        folderId: folderId,
+        folderId: folderTargetId == 0 ? null : folderTargetId,
         isHidden: hiddenStatus,
         isPinned: pinnedStatus,
+        createdAt: current.note?.createdAt,
       );
 
       ref.invalidate(noteListNotifierProvider);

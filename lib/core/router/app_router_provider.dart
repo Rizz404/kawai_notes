@@ -12,6 +12,7 @@ import 'package:flutter_setup_riverpod/feature/notes/screens/home_screen.dart';
 import 'package:flutter_setup_riverpod/feature/notes/screens/note_editor_screen.dart';
 import 'package:flutter_setup_riverpod/feature/settings/screens/other_screen.dart';
 import 'package:flutter_setup_riverpod/feature/settings/screens/backup_screen.dart';
+import 'package:flutter_setup_riverpod/feature/settings/screens/trash_screen.dart';
 import 'package:flutter_setup_riverpod/feature/tasks/screens/task_editor_screen.dart';
 import 'package:flutter_setup_riverpod/feature/tasks/screens/tasks_screen.dart';
 
@@ -101,6 +102,13 @@ final routerRoutesProvider = Provider<List<AppRouteBase>>((ref) {
       path: '/backup',
       name: 'backup',
       builder: (context, state) => const BackupScreen(),
+      transitionsBuilder: AppTransitions.slideFromRight,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+    AppRoute(
+      path: '/trash',
+      name: 'trash',
+      builder: (context, state) => const TrashScreen(),
       transitionsBuilder: AppTransitions.slideFromRight,
       transitionDuration: const Duration(milliseconds: 300),
     ),

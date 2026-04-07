@@ -16,6 +16,9 @@ import 'package:flutter_setup_riverpod/core/utils/logger.dart';
 import 'package:flutter_setup_riverpod/core/utils/talker_config.dart';
 import 'package:flutter_setup_riverpod/di/common_providers.dart';
 import 'package:flutter_setup_riverpod/di/service_providers.dart';
+import 'package:flutter_setup_riverpod/core/services/encryption_service.dart';
+import 'package:flutter_setup_riverpod/core/services/note_file_service.dart';
+import 'package:flutter_setup_riverpod/feature/notes/repositories/note_repository.dart';
 import 'package:flutter_setup_riverpod/l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -48,6 +51,14 @@ Future<void> main() async {
 
     final backupService = BackupService(objectBoxService, preferences);
     backupService.runAutoBackup();
+
+    // * Cleanup Trash Notes
+    final noteRepo = NoteRepository(
+      objectBoxService,
+      NoteFileService(),
+      EncryptionService(),
+    );
+    await noteRepo.cleanUpTrashNotes(days: 30);
 
     final notificationService = NotificationService();
     await notificationService.init();

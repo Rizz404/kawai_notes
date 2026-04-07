@@ -252,7 +252,7 @@ class XiaomiImportNotifier extends Notifier<XiaomiImportState> {
             progress: processed,
           );
           // Yield to framework
-          await Future.delayed(Duration.zero);
+          await Future<void>.delayed(Duration.zero);
         }
       }
 
