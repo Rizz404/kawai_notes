@@ -807,6 +807,36 @@ class L10nId extends L10n {
       'Ini akan menimpa semua catatan Anda saat ini. Tindakan ini tidak dapat dibatalkan.';
 
   @override
+  String get settingsAutoBackupSettings => 'Pengaturan Cadangan Otomatis';
+
+  @override
+  String get settingsAutoBackupFolder => 'Folder Cadangan';
+
+  @override
+  String get settingsAutoBackupFolderDefault => 'Default (Dokumen Aplikasi)';
+
+  @override
+  String get settingsAutoBackupChooseFolder => 'Pilih Folder';
+
+  @override
+  String get settingsAutoBackupResetFolder => 'Reset';
+
+  @override
+  String get settingsAutoBackupTime => 'Waktu Cadangan (harian)';
+
+  @override
+  String get settingsAutoBackupSetTime => 'Atur Waktu';
+
+  @override
+  String get settingsAutoBackupRunNow => 'Jalankan Cadangan Otomatis Sekarang';
+
+  @override
+  String get settingsAutoBackupRunSuccess => 'Cadangan otomatis berhasil';
+
+  @override
+  String get settingsAutoBackupRunFailed => 'Cadangan otomatis gagal';
+
+  @override
   String get tasksTitle => 'Tugas';
 
   @override

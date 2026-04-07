@@ -857,6 +857,16 @@
   "settingsRestoreSuccess": "Pemulihan berhasil, memulai ulang aplikasi...",
   "settingsRestoreFailed": "Pemulihan gagal",
   "settingsOverwriteWarning": "Ini akan menimpa semua catatan Anda saat ini. Tindakan ini tidak dapat dibatalkan.",
+  "settingsAutoBackupSettings": "Pengaturan Cadangan Otomatis",
+  "settingsAutoBackupFolder": "Folder Cadangan",
+  "settingsAutoBackupFolderDefault": "Default (Dokumen Aplikasi)",
+  "settingsAutoBackupChooseFolder": "Pilih Folder",
+  "settingsAutoBackupResetFolder": "Reset",
+  "settingsAutoBackupTime": "Waktu Cadangan (harian)",
+  "settingsAutoBackupSetTime": "Atur Waktu",
+  "settingsAutoBackupRunNow": "Jalankan Cadangan Otomatis Sekarang",
+  "settingsAutoBackupRunSuccess": "Cadangan otomatis berhasil",
+  "settingsAutoBackupRunFailed": "Cadangan otomatis gagal",
   "tasksTitle": "Tugas",
   "@tasksTitle": {
     "description": "Tasks title"

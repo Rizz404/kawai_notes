@@ -857,6 +857,16 @@
   "settingsRestoreSuccess": "復元が成功しました、アプリを再起動しています...",
   "settingsRestoreFailed": "復元に失敗しました",
   "settingsOverwriteWarning": "これにより現在のすべてのメモが上書きされます。この操作は元に戻せません。",
+  "settingsAutoBackupSettings": "自動バックアップ設定",
+  "settingsAutoBackupFolder": "バックアップフォルダ",
+  "settingsAutoBackupFolderDefault": "デフォルト（アプリのドキュメント）",
+  "settingsAutoBackupChooseFolder": "フォルダを選択",
+  "settingsAutoBackupResetFolder": "リセット",
+  "settingsAutoBackupTime": "バックアップ時刻（毎日）",
+  "settingsAutoBackupSetTime": "時刻を設定",
+  "settingsAutoBackupRunNow": "今すぐ自動バックアップを実行",
+  "settingsAutoBackupRunSuccess": "自動バックアップが完了しました",
+  "settingsAutoBackupRunFailed": "自動バックアップに失敗しました",
   "tasksTitle": "タスク",
   "@tasksTitle": {
     "description": "Tasks title"

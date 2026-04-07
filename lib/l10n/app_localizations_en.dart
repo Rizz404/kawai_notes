@@ -804,6 +804,37 @@ class L10nEn extends L10n {
       'This will overwrite all your current notes. This action cannot be undone.';
 
   @override
+  String get settingsAutoBackupSettings => 'Auto Backup Settings';
+
+  @override
+  String get settingsAutoBackupFolder => 'Backup Folder';
+
+  @override
+  String get settingsAutoBackupFolderDefault => 'Default (App Documents)';
+
+  @override
+  String get settingsAutoBackupChooseFolder => 'Choose Folder';
+
+  @override
+  String get settingsAutoBackupResetFolder => 'Reset';
+
+  @override
+  String get settingsAutoBackupTime => 'Backup Time (daily)';
+
+  @override
+  String get settingsAutoBackupSetTime => 'Set Time';
+
+  @override
+  String get settingsAutoBackupRunNow => 'Run Auto Backup Now';
+
+  @override
+  String get settingsAutoBackupRunSuccess =>
+      'Auto backup completed successfully';
+
+  @override
+  String get settingsAutoBackupRunFailed => 'Auto backup failed';
+
+  @override
   String get tasksTitle => 'Tasks';
 
   @override

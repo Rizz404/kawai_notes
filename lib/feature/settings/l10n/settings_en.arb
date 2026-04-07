@@ -172,5 +172,15 @@
   "settingsBackupExportFailed": "Backup export cancelled or failed",
   "settingsRestoreSuccess": "Restore successful, restarting app...",
   "settingsRestoreFailed": "Restore failed",
-  "settingsOverwriteWarning": "This will overwrite all your current notes. This action cannot be undone."
+  "settingsOverwriteWarning": "This will overwrite all your current notes. This action cannot be undone.",
+  "settingsAutoBackupSettings": "Auto Backup Settings",
+  "settingsAutoBackupFolder": "Backup Folder",
+  "settingsAutoBackupFolderDefault": "Default (App Documents)",
+  "settingsAutoBackupChooseFolder": "Choose Folder",
+  "settingsAutoBackupResetFolder": "Reset",
+  "settingsAutoBackupTime": "Backup Time (daily)",
+  "settingsAutoBackupSetTime": "Set Time",
+  "settingsAutoBackupRunNow": "Run Auto Backup Now",
+  "settingsAutoBackupRunSuccess": "Auto backup completed successfully",
+  "settingsAutoBackupRunFailed": "Auto backup failed"
 }

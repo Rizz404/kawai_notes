@@ -51,7 +51,14 @@ Future<void> main() async {
     // * Local DB
     final objectBoxService = await ObjectBoxService.create();
 
-    final backupService = BackupService(objectBoxService, preferences);
+    final notificationService = NotificationService();
+    await notificationService.init();
+
+    final backupService = BackupService(
+      objectBoxService,
+      preferences,
+      notificationService,
+    );
     await backupService.runAutoBackup();
 
     // * Cleanup Trash Notes
@@ -61,9 +68,6 @@ Future<void> main() async {
       EncryptionService(),
     );
     await noteRepo.cleanUpTrashNotes(days: 30);
-
-    final notificationService = NotificationService();
-    await notificationService.init();
 
     FlutterNativeSplash.remove();
 

@@ -63,6 +63,30 @@ class NotificationService {
     await _flutterLocalNotificationsPlugin.cancel(id: id);
   }
 
+  Future<void> showBackupSuccessNotification({
+    required String title,
+    required String body,
+  }) async {
+    const androidDetails = AndroidNotificationDetails(
+      'backup_channel',
+      'Auto Backup',
+      channelDescription: 'Notifications for auto backup results',
+      importance: Importance.defaultImportance,
+      priority: Priority.defaultPriority,
+    );
+    const notificationDetails = NotificationDetails(
+      android: androidDetails,
+      iOS: DarwinNotificationDetails(),
+    );
+
+    await _flutterLocalNotificationsPlugin.show(
+      id: 9001,
+      title: title,
+      body: body,
+      notificationDetails: notificationDetails,
+    );
+  }
+
   Future<void> showProgressNotification({
     required int id,
     required String title,

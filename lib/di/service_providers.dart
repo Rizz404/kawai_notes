@@ -39,5 +39,6 @@ final authServiceProvider = Provider<AuthService>((ref) {
 final backupServiceProvider = Provider<BackupService>((ref) {
   final objectBoxService = ref.watch(objectBoxServiceProvider);
   final prefs = ref.watch(sharedPreferencesProvider);
-  return BackupService(objectBoxService, prefs);
+  final notificationService = ref.watch(notificationServiceProvider);
+  return BackupService(objectBoxService, prefs, notificationService);
 });

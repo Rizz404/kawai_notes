@@ -797,6 +797,36 @@ class L10nJa extends L10n {
   String get settingsOverwriteWarning => 'これにより現在のすべてのメモが上書きされます。この操作は元に戻せません。';
 
   @override
+  String get settingsAutoBackupSettings => '自動バックアップ設定';
+
+  @override
+  String get settingsAutoBackupFolder => 'バックアップフォルダ';
+
+  @override
+  String get settingsAutoBackupFolderDefault => 'デフォルト（アプリのドキュメント）';
+
+  @override
+  String get settingsAutoBackupChooseFolder => 'フォルダを選択';
+
+  @override
+  String get settingsAutoBackupResetFolder => 'リセット';
+
+  @override
+  String get settingsAutoBackupTime => 'バックアップ時刻（毎日）';
+
+  @override
+  String get settingsAutoBackupSetTime => '時刻を設定';
+
+  @override
+  String get settingsAutoBackupRunNow => '今すぐ自動バックアップを実行';
+
+  @override
+  String get settingsAutoBackupRunSuccess => '自動バックアップが完了しました';
+
+  @override
+  String get settingsAutoBackupRunFailed => '自動バックアップに失敗しました';
+
+  @override
   String get tasksTitle => 'タスク';
 
   @override

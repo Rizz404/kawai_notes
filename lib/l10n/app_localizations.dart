@@ -1539,6 +1539,66 @@ abstract class L10n {
   /// **'This will overwrite all your current notes. This action cannot be undone.'**
   String get settingsOverwriteWarning;
 
+  /// No description provided for @settingsAutoBackupSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto Backup Settings'**
+  String get settingsAutoBackupSettings;
+
+  /// No description provided for @settingsAutoBackupFolder.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup Folder'**
+  String get settingsAutoBackupFolder;
+
+  /// No description provided for @settingsAutoBackupFolderDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Default (App Documents)'**
+  String get settingsAutoBackupFolderDefault;
+
+  /// No description provided for @settingsAutoBackupChooseFolder.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Folder'**
+  String get settingsAutoBackupChooseFolder;
+
+  /// No description provided for @settingsAutoBackupResetFolder.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get settingsAutoBackupResetFolder;
+
+  /// No description provided for @settingsAutoBackupTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup Time (daily)'**
+  String get settingsAutoBackupTime;
+
+  /// No description provided for @settingsAutoBackupSetTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Set Time'**
+  String get settingsAutoBackupSetTime;
+
+  /// No description provided for @settingsAutoBackupRunNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Run Auto Backup Now'**
+  String get settingsAutoBackupRunNow;
+
+  /// No description provided for @settingsAutoBackupRunSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto backup completed successfully'**
+  String get settingsAutoBackupRunSuccess;
+
+  /// No description provided for @settingsAutoBackupRunFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto backup failed'**
+  String get settingsAutoBackupRunFailed;
+
   /// Tasks title
   ///
   /// In en, this message translates to:
