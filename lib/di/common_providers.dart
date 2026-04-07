@@ -4,11 +4,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:flutter_setup_riverpod/core/enums/language_enum.dart';
-import 'package:flutter_setup_riverpod/core/services/language_storage_service.dart';
-import 'package:flutter_setup_riverpod/core/services/theme_storage_service.dart';
-import 'package:flutter_setup_riverpod/di/service_providers.dart';
-import 'package:flutter_setup_riverpod/l10n/app_localizations.dart';
+import 'package:kawai_notes/core/enums/language_enum.dart';
+import 'package:kawai_notes/core/services/language_storage_service.dart';
+import 'package:kawai_notes/core/services/theme_storage_service.dart';
+import 'package:kawai_notes/di/service_providers.dart';
+import 'package:kawai_notes/l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final secureStorageProvider = Provider<FlutterSecureStorage>((ref) {

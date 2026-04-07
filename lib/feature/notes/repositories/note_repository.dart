@@ -1,8 +1,8 @@
-import 'package:flutter_setup_riverpod/core/extensions/markdown_parser_extension.dart';
-import 'package:flutter_setup_riverpod/core/services/encryption_service.dart';
-import 'package:flutter_setup_riverpod/core/services/note_file_service.dart';
-import 'package:flutter_setup_riverpod/core/services/objectbox_service.dart';
-import 'package:flutter_setup_riverpod/feature/notes/models/note.dart';
+import 'package:kawai_notes/core/extensions/markdown_parser_extension.dart';
+import 'package:kawai_notes/core/services/encryption_service.dart';
+import 'package:kawai_notes/core/services/note_file_service.dart';
+import 'package:kawai_notes/core/services/objectbox_service.dart';
+import 'package:kawai_notes/feature/notes/models/note.dart';
 import 'package:slugify/slugify.dart';
 import 'package:ulid/ulid.dart';
 

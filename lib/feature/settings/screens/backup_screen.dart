@@ -2,11 +2,11 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
-import 'package:flutter_setup_riverpod/feature/settings/providers/backup_provider.dart';
-import 'package:flutter_setup_riverpod/shared/widgets/app_button.dart';
-import 'package:flutter_setup_riverpod/shared/widgets/app_text.dart';
-import 'package:flutter_setup_riverpod/shared/widgets/screen_wrapper.dart';
+import 'package:kawai_notes/core/extensions/localization_extension.dart';
+import 'package:kawai_notes/feature/settings/providers/backup_provider.dart';
+import 'package:kawai_notes/shared/widgets/app_button.dart';
+import 'package:kawai_notes/shared/widgets/app_text.dart';
+import 'package:kawai_notes/shared/widgets/screen_wrapper.dart';
 import 'package:intl/intl.dart';
 
 class BackupScreen extends ConsumerWidget {
@@ -40,7 +40,9 @@ class BackupScreen extends ConsumerWidget {
                           .read(backupProvider.notifier)
                           .exportBackup();
                       if (success) {
-                        BotToast.showText(text: context.l10n.settingsBackupExportSuccess);
+                        BotToast.showText(
+                          text: context.l10n.settingsBackupExportSuccess,
+                        );
                       } else {
                         BotToast.showText(
                           text: context.l10n.settingsBackupExportFailed,
@@ -57,9 +59,7 @@ class BackupScreen extends ConsumerWidget {
                     fontSize: 18,
                   ),
                   const SizedBox(height: 8),
-                  AppText(
-                    context.l10n.settingsRestoreDescription,
-                  ),
+                  AppText(context.l10n.settingsRestoreDescription),
                   const SizedBox(height: 16),
                   AppButton(
                     text: context.l10n.settingsImportBackupBtn,
@@ -78,7 +78,9 @@ class BackupScreen extends ConsumerWidget {
                           Phoenix.rebirth(context);
                         }
                       } else {
-                        BotToast.showText(text: context.l10n.settingsRestoreFailed);
+                        BotToast.showText(
+                          text: context.l10n.settingsRestoreFailed,
+                        );
                       }
                     },
                   ),
@@ -94,7 +96,9 @@ class BackupScreen extends ConsumerWidget {
                   autoDateAsync.when(
                     data: (date) => AppText(
                       date != null
-                          ? context.l10n.settingsLastAutoBackup(DateFormat('yyyy-MM-dd HH:mm').format(date))
+                          ? context.l10n.settingsLastAutoBackup(
+                              DateFormat('yyyy-MM-dd HH:mm').format(date),
+                            )
                           : context.l10n.settingsNoAutoBackup,
                     ),
                     loading: () => const CircularProgressIndicator(),
@@ -121,7 +125,9 @@ class BackupScreen extends ConsumerWidget {
                                 Phoenix.rebirth(context);
                               }
                             } else {
-                              BotToast.showText(text: context.l10n.settingsRestoreFailed);
+                              BotToast.showText(
+                                text: context.l10n.settingsRestoreFailed,
+                              );
                             }
                           },
                   ),
@@ -136,9 +142,7 @@ class BackupScreen extends ConsumerWidget {
       context: context,
       builder: (context) => AlertDialog(
         title: AppText(context.l10n.settingsAreYouSure),
-        content: AppText(
-          context.l10n.settingsOverwriteWarning,
-        ),
+        content: AppText(context.l10n.settingsOverwriteWarning),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),

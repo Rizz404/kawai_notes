@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_setup_riverpod/core/extensions/theme_extension.dart';
+import 'package:kawai_notes/core/extensions/theme_extension.dart';
 
 /// Enum yang mewakili setiap style typography pada aplikasi.
 enum AppTextStyle {

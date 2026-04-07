@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_setup_riverpod/l10n/app_localizations.dart';
+import 'package:kawai_notes/l10n/app_localizations.dart';
 
 /// Global key untuk mengakses referensi ke root dari material app navigator.
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>(

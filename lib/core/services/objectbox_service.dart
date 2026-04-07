@@ -1,4 +1,4 @@
-import 'package:flutter_setup_riverpod/objectbox.g.dart';
+import 'package:kawai_notes/objectbox.g.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 

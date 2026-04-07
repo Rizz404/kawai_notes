@@ -1,5 +1,5 @@
-import 'package:flutter_setup_riverpod/core/services/objectbox_service.dart';
-import 'package:flutter_setup_riverpod/feature/tasks/models/task.dart';
+import 'package:kawai_notes/core/services/objectbox_service.dart';
+import 'package:kawai_notes/feature/tasks/models/task.dart';
 import 'package:ulid/ulid.dart';
 
 class TaskRepository {

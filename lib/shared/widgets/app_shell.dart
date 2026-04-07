@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
-import 'package:flutter_setup_riverpod/core/extensions/theme_extension.dart';
-import 'package:flutter_setup_riverpod/core/router/app_route.dart';
-import 'package:flutter_setup_riverpod/core/router/app_router_provider.dart';
+import 'package:kawai_notes/core/extensions/localization_extension.dart';
+import 'package:kawai_notes/core/extensions/theme_extension.dart';
+import 'package:kawai_notes/core/router/app_route.dart';
+import 'package:kawai_notes/core/router/app_router_provider.dart';
 
 class AppShellBody extends ConsumerWidget {
   const AppShellBody({required this.navigationShell, super.key});

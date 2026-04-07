@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "rizz.learn.flutter.flutter_setup_riverpod"
+    namespace = "rizz.learn.flutter.kawai_notes"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -20,7 +20,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "rizz.learn.flutter.flutter_setup_riverpod"
+        applicationId = "rizz.learn.flutter.kawai_notes"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode

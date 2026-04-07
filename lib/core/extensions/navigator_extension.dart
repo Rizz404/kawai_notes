@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_setup_riverpod/core/router/app_router_delegate.dart';
+import 'package:kawai_notes/core/router/app_router_delegate.dart';
 
 extension NavigatorExtension on BuildContext {
   /// Mendapatkan instance AppRouterDelegate dari BuildContext

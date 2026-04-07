@@ -1,8 +1,8 @@
 // * Uncomment kalo dibutuhin
-/* import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
-import 'package:flutter_setup_riverpod/core/extensions/logger_extension.dart';
-import 'package:flutter_setup_riverpod/core/utils/toast_utils.dart';
-import 'package:flutter_setup_riverpod/l10n/app_localizations.dart';
+/* import 'package:kawai_notes/core/extensions/localization_extension.dart';
+import 'package:kawai_notes/core/extensions/logger_extension.dart';
+import 'package:kawai_notes/core/utils/toast_utils.dart';
+import 'package:kawai_notes/l10n/app_localizations.dart';
 import 'package:dio/dio.dart';
 
 class NetworkErrorInterceptor extends Interceptor {

@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_setup_riverpod/core/services/backup_service.dart';
-import 'package:flutter_setup_riverpod/core/utils/logger.dart';
-import 'package:flutter_setup_riverpod/di/service_providers.dart';
+import 'package:kawai_notes/core/services/backup_service.dart';
+import 'package:kawai_notes/core/utils/logger.dart';
+import 'package:kawai_notes/di/service_providers.dart';
 
 final backupAutoDateProvider = FutureProvider.autoDispose<DateTime?>((
   ref,

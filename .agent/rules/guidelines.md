@@ -40,7 +40,7 @@ Before writing any widget, run: `rg "class App" lib/shared/widgets/`
 
 If a shared widget covers the use case → use it. Do not create a new one.
 
-Available shared widgets (import from `package:flutter_setup_riverpod/shared/widgets/...`):
+Available shared widgets (import from `package:kawai_notes/shared/widgets/...`):
 
 | Widget              | Purpose                                |
 | ------------------- | -------------------------------------- |
@@ -106,13 +106,13 @@ Never import all extensions by default. Only import what the file actually uses.
 | Filter dropdowns              | `dropdown_extension.dart`                              | `AppDropdownExtensions.createFilterItems()`                                    |
 | Backup frequency labels       | `backup_frequency_extension.dart`                      | `frequency.label`, `frequency.labelId`                                         |
 
-All extensions are in `package:flutter_setup_riverpod/core/extensions/`.
+All extensions are in `package:kawai_notes/core/extensions/`.
 
 ---
 
 ## 5) Logging
 ```dart
-import 'package:flutter_setup_riverpod/core/utils/logger.dart';
+import 'package:kawai_notes/core/utils/logger.dart';
 
 logInfo('Starting process');
 logError('Something failed', e, stackTrace);

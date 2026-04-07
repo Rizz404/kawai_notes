@@ -1,4 +1,4 @@
-# flutter_setup_riverpod
+# kawai_notes
 
 A new Flutter project.
 

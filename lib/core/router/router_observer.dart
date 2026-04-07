@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_setup_riverpod/core/extensions/logger_extension.dart';
+import 'package:kawai_notes/core/extensions/logger_extension.dart';
 
 class AppRouterObserver extends NavigatorObserver {
   @override

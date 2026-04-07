@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_setup_riverpod/core/themes/app_colors.dart';
-import 'package:flutter_setup_riverpod/core/themes/app_theme.dart';
+import 'package:kawai_notes/core/themes/app_colors.dart';
+import 'package:kawai_notes/core/themes/app_theme.dart';
 
 /// Extension untuk mempermudah akses properti theme dari BuildContext.
 extension ThemeExtension on BuildContext {

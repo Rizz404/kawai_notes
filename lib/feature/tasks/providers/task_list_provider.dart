@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_setup_riverpod/di/repository_providers.dart';
-import 'package:flutter_setup_riverpod/feature/tasks/models/task.dart';
-import 'package:flutter_setup_riverpod/feature/tasks/repositories/task_repository.dart';
+import 'package:kawai_notes/di/repository_providers.dart';
+import 'package:kawai_notes/feature/tasks/models/task.dart';
+import 'package:kawai_notes/feature/tasks/repositories/task_repository.dart';
 
 class TaskListState extends Equatable {
   final List<Task> items;

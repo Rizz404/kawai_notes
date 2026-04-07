@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_setup_riverpod/di/repository_providers.dart';
-import 'package:flutter_setup_riverpod/feature/notes/models/note.dart';
-import 'package:flutter_setup_riverpod/feature/notes/repositories/note_repository.dart';
+import 'package:kawai_notes/di/repository_providers.dart';
+import 'package:kawai_notes/feature/notes/models/note.dart';
+import 'package:kawai_notes/feature/notes/repositories/note_repository.dart';
 
 class NoteListState extends Equatable {
   final List<Note> items;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_setup_riverpod/core/extensions/theme_extension.dart';
+import 'package:kawai_notes/core/extensions/theme_extension.dart';
 
 /// Enumerasi ragam format field teks form seperti [email], [password], atau [number].
 enum AppTextFieldType {

@@ -1,6 +1,6 @@
 // * Uncomment kalo dibutuhin
-/* import 'package:flutter_setup_riverpod/core/extensions/logger_extension.dart';
-import 'package:flutter_setup_riverpod/core/services/auth_service.dart';
+/* import 'package:kawai_notes/core/extensions/logger_extension.dart';
+import 'package:kawai_notes/core/services/auth_service.dart';
 import 'package:dio/dio.dart';
 
 class AuthInterceptor extends Interceptor {

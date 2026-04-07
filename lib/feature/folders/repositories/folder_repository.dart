@@ -1,5 +1,5 @@
-import 'package:flutter_setup_riverpod/core/services/objectbox_service.dart';
-import 'package:flutter_setup_riverpod/feature/folders/models/folder.dart';
+import 'package:kawai_notes/core/services/objectbox_service.dart';
+import 'package:kawai_notes/feature/folders/models/folder.dart';
 
 class FolderRepository {
   final ObjectBoxService _objectBoxService;

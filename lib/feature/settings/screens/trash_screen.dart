@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_setup_riverpod/shared/widgets/app_text.dart';
+import 'package:kawai_notes/shared/widgets/app_text.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
-import 'package:flutter_setup_riverpod/core/extensions/theme_extension.dart';
-import 'package:flutter_setup_riverpod/feature/settings/providers/trash_provider.dart';
-import 'package:flutter_setup_riverpod/shared/widgets/screen_wrapper.dart';
+import 'package:kawai_notes/core/extensions/localization_extension.dart';
+import 'package:kawai_notes/core/extensions/theme_extension.dart';
+import 'package:kawai_notes/feature/settings/providers/trash_provider.dart';
+import 'package:kawai_notes/shared/widgets/screen_wrapper.dart';
 
 class TrashScreen extends ConsumerWidget {
   const TrashScreen({super.key});
@@ -75,7 +75,11 @@ class TrashScreen extends ConsumerWidget {
                     : context.l10n.settingsTrashDeleteSubtitleSoon;
 
                 return ListTile(
-                  title: AppText(note.title.isEmpty ? context.l10n.settingsUntitled : note.title),
+                  title: AppText(
+                    note.title.isEmpty
+                        ? context.l10n.settingsUntitled
+                        : note.title,
+                  ),
                   subtitle: AppText(subtitleText),
                   trailing: PopupMenuButton<String>(
                     onSelected: (value) {

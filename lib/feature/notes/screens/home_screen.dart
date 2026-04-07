@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_setup_riverpod/shared/widgets/app_text.dart';
+import 'package:kawai_notes/shared/widgets/app_text.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
-import 'package:flutter_setup_riverpod/core/extensions/navigator_extension.dart';
-import 'package:flutter_setup_riverpod/core/extensions/theme_extension.dart';
-import 'package:flutter_setup_riverpod/di/service_providers.dart';
-import 'package:flutter_setup_riverpod/feature/folders/widgets/folder_drawer.dart';
-import 'package:flutter_setup_riverpod/feature/notes/models/note.dart';
-import 'package:flutter_setup_riverpod/feature/notes/providers/note_providers.dart';
-import 'package:flutter_setup_riverpod/shared/widgets/app_drawer.dart';
-import 'package:flutter_setup_riverpod/shared/widgets/app_search_field.dart';
-import 'package:flutter_setup_riverpod/shared/widgets/screen_wrapper.dart';
+import 'package:kawai_notes/core/extensions/localization_extension.dart';
+import 'package:kawai_notes/core/extensions/navigator_extension.dart';
+import 'package:kawai_notes/core/extensions/theme_extension.dart';
+import 'package:kawai_notes/di/service_providers.dart';
+import 'package:kawai_notes/feature/folders/widgets/folder_drawer.dart';
+import 'package:kawai_notes/feature/notes/models/note.dart';
+import 'package:kawai_notes/feature/notes/providers/note_providers.dart';
+import 'package:kawai_notes/shared/widgets/app_drawer.dart';
+import 'package:kawai_notes/shared/widgets/app_search_field.dart';
+import 'package:kawai_notes/shared/widgets/screen_wrapper.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -194,14 +194,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         return AppText(
                           context.l10n.notesNoContent,
                           style: AppTextStyle.bodyMedium,
-                            fontStyle: FontStyle.italic,
+                          fontStyle: FontStyle.italic,
                         );
                       }
                       return AppText(
                         content.trim(),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: isUntitled ? AppTextStyle.bodyMedium : AppTextStyle.bodySmall,
+                        style: isUntitled
+                            ? AppTextStyle.bodyMedium
+                            : AppTextStyle.bodySmall,
                       );
                     },
                     loading: () => const SizedBox.shrink(),
@@ -303,7 +305,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 return AppText(
                                   context.l10n.notesNoContent,
                                   style: AppTextStyle.bodyMedium,
-                            fontStyle: FontStyle.italic,
+                                  fontStyle: FontStyle.italic,
                                 );
                               }
                               return AppText(

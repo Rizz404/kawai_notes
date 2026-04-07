@@ -4,11 +4,11 @@ import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
-import 'package:flutter_setup_riverpod/core/extensions/logger_extension.dart';
-import 'package:flutter_setup_riverpod/di/repository_providers.dart';
-import 'package:flutter_setup_riverpod/di/service_providers.dart';
-import 'package:flutter_setup_riverpod/feature/notes/providers/note_list_provider.dart';
+import 'package:kawai_notes/core/extensions/localization_extension.dart';
+import 'package:kawai_notes/core/extensions/logger_extension.dart';
+import 'package:kawai_notes/di/repository_providers.dart';
+import 'package:kawai_notes/di/service_providers.dart';
+import 'package:kawai_notes/feature/notes/providers/note_list_provider.dart';
 
 class XiaomiImportState extends Equatable {
   final bool isMutating;

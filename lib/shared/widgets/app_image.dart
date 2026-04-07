@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_setup_riverpod/core/extensions/theme_extension.dart';
+import 'package:kawai_notes/core/extensions/theme_extension.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 /// Enum yang mendefinisikan beberapa variabel ukuran standar dari komponen AppImage.

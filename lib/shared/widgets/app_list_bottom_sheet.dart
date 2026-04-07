@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
-import 'package:flutter_setup_riverpod/core/extensions/theme_extension.dart';
-import 'package:flutter_setup_riverpod/shared/widgets/app_text.dart';
+import 'package:kawai_notes/core/extensions/localization_extension.dart';
+import 'package:kawai_notes/core/extensions/theme_extension.dart';
+import 'package:kawai_notes/shared/widgets/app_text.dart';
 
 /// Bottom sheet yang menampilkan opsi daftar item.
 class AppListOptionsBottomSheet extends StatelessWidget {

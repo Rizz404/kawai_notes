@@ -1,4 +1,4 @@
-import 'package:flutter_setup_riverpod/feature/folders/models/folder.dart';
+import 'package:kawai_notes/feature/folders/models/folder.dart';
 import 'package:objectbox/objectbox.dart';
 
 @Entity()

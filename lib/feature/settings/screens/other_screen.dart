@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_setup_riverpod/shared/widgets/app_text.dart';
+import 'package:kawai_notes/shared/widgets/app_text.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
-import 'package:flutter_setup_riverpod/core/extensions/navigator_extension.dart';
-import 'package:flutter_setup_riverpod/di/common_providers.dart';
-import 'package:flutter_setup_riverpod/feature/notes/providers/xiaomi_import_provider.dart';
-import 'package:flutter_setup_riverpod/shared/widgets/app_drawer.dart';
-import 'package:flutter_setup_riverpod/shared/widgets/screen_wrapper.dart';
+import 'package:kawai_notes/core/extensions/localization_extension.dart';
+import 'package:kawai_notes/core/extensions/navigator_extension.dart';
+import 'package:kawai_notes/di/common_providers.dart';
+import 'package:kawai_notes/feature/notes/providers/xiaomi_import_provider.dart';
+import 'package:kawai_notes/shared/widgets/app_drawer.dart';
+import 'package:kawai_notes/shared/widgets/screen_wrapper.dart';
 
 class OtherScreen extends ConsumerWidget {
   const OtherScreen({super.key});
@@ -114,7 +114,9 @@ class OtherScreen extends ConsumerWidget {
                   children: [
                     ListTile(
                       leading: const Icon(Icons.note_add_outlined),
-                      title: AppText(context.l10n.settingsImportXiaomiNotesBulk),
+                      title: AppText(
+                        context.l10n.settingsImportXiaomiNotesBulk,
+                      ),
                       trailing:
                           importState.isMutating &&
                               !importState.isImportingFolder
@@ -136,13 +138,19 @@ class OtherScreen extends ConsumerWidget {
                           if (error != null) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: AppText(context.l10n.settingsImportFailed(error.toString())),
+                                content: AppText(
+                                  context.l10n.settingsImportFailed(
+                                    error.toString(),
+                                  ),
+                                ),
                               ),
                             );
                           } else if (didImport) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: AppText(context.l10n.settingsImportSuccessful),
+                                content: AppText(
+                                  context.l10n.settingsImportSuccessful,
+                                ),
                               ),
                             );
                           }
@@ -152,10 +160,15 @@ class OtherScreen extends ConsumerWidget {
                     const Divider(),
                     ListTile(
                       leading: const Icon(Icons.folder_shared_outlined),
-                      title: AppText(context.l10n.settingsImportXiaomiNotesFolder),
+                      title: AppText(
+                        context.l10n.settingsImportXiaomiNotesFolder,
+                      ),
                       subtitle: importState.isImportingFolder
                           ? AppText(
-                              context.l10n.settingsImportFolderProgress(importState.processedFiles, importState.totalFiles),
+                              context.l10n.settingsImportFolderProgress(
+                                importState.processedFiles,
+                                importState.totalFiles,
+                              ),
                             )
                           : null,
                       trailing: importState.isImportingFolder
@@ -189,7 +202,9 @@ class OtherScreen extends ConsumerWidget {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: AppText(
-                                  context.l10n.settingsFolderImportFailed(error.toString()),
+                                  context.l10n.settingsFolderImportFailed(
+                                    error.toString(),
+                                  ),
                                 ),
                               ),
                             );

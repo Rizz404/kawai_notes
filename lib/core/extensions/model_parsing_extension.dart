@@ -1,4 +1,4 @@
-import 'package:flutter_setup_riverpod/core/extensions/logger_extension.dart';
+import 'package:kawai_notes/core/extensions/logger_extension.dart';
 
 /// Extension untuk mengambil field secara aman dari format JSON dengan penyesuaian tipe data.
 extension SafeMap on Map<String, dynamic> {

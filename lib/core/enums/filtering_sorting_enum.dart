@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
+import 'package:kawai_notes/core/extensions/localization_extension.dart';
 
 enum SortOrder {
   asc('asc'),

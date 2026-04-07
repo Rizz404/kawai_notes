@@ -1,11 +1,11 @@
 // * Uncomment kalo dibutuhin
-/* import 'package:flutter_setup_riverpod/core/constants/api_constant.dart';
-import 'package:flutter_setup_riverpod/core/network/api_wrapper.dart';
-import 'package:flutter_setup_riverpod/core/network/interceptors/auth_interceptor.dart';
-import 'package:flutter_setup_riverpod/core/network/interceptors/locale_interceptor.dart';
-import 'package:flutter_setup_riverpod/core/network/interceptors/network_error_interceptor.dart';
-import 'package:flutter_setup_riverpod/core/services/auth_service.dart';
-import 'package:flutter_setup_riverpod/core/utils/logger.dart';
+/* import 'package:kawai_notes/core/constants/api_constant.dart';
+import 'package:kawai_notes/core/network/api_wrapper.dart';
+import 'package:kawai_notes/core/network/interceptors/auth_interceptor.dart';
+import 'package:kawai_notes/core/network/interceptors/locale_interceptor.dart';
+import 'package:kawai_notes/core/network/interceptors/network_error_interceptor.dart';
+import 'package:kawai_notes/core/services/auth_service.dart';
+import 'package:kawai_notes/core/utils/logger.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 

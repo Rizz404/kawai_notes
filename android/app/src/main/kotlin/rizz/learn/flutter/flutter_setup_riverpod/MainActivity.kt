@@ -1,4 +1,4 @@
-package rizz.learn.flutter.flutter_setup_riverpod
+package rizz.learn.flutter.kawai_notes
 
 import io.flutter.embedding.android.FlutterActivity
 

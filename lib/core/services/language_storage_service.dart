@@ -1,9 +1,9 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_setup_riverpod/core/constants/storage_key_constant.dart';
-import 'package:flutter_setup_riverpod/core/extensions/logger_extension.dart';
-import 'package:flutter_setup_riverpod/l10n/app_localizations.dart';
+import 'package:kawai_notes/core/constants/storage_key_constant.dart';
+import 'package:kawai_notes/core/extensions/logger_extension.dart';
+import 'package:kawai_notes/l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class LanguageStorageService {

@@ -1,5 +1,5 @@
 // * Uncomment kalo dibutuhin
-/* import 'package:flutter_setup_riverpod/core/enums/language_enum.dart';
+/* import 'package:kawai_notes/core/enums/language_enum.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 

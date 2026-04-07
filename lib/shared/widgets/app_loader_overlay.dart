@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_setup_riverpod/core/extensions/theme_extension.dart';
+import 'package:kawai_notes/core/extensions/theme_extension.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 

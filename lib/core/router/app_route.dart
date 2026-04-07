@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/widgets.dart';
 
-import 'package:flutter_setup_riverpod/core/router/app_route_state.dart';
+import 'package:kawai_notes/core/router/app_route_state.dart';
 
 typedef RouteBuilder =
     Widget Function(BuildContext context, AppRouteState state);

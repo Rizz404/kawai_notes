@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_setup_riverpod/shared/widgets/app_text.dart';
+import 'package:kawai_notes/shared/widgets/app_text.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
-import 'package:flutter_setup_riverpod/core/extensions/navigator_extension.dart';
-import 'package:flutter_setup_riverpod/feature/notes/providers/note_providers.dart';
-import 'package:flutter_setup_riverpod/shared/widgets/app_rich_text_editor.dart';
-import 'package:flutter_setup_riverpod/shared/widgets/app_text_field.dart';
-import 'package:flutter_setup_riverpod/shared/widgets/screen_wrapper.dart';
+import 'package:kawai_notes/core/extensions/localization_extension.dart';
+import 'package:kawai_notes/core/extensions/navigator_extension.dart';
+import 'package:kawai_notes/feature/notes/providers/note_providers.dart';
+import 'package:kawai_notes/shared/widgets/app_rich_text_editor.dart';
+import 'package:kawai_notes/shared/widgets/app_text_field.dart';
+import 'package:kawai_notes/shared/widgets/screen_wrapper.dart';
 
 class NoteEditorScreen extends ConsumerStatefulWidget {
   final int? noteId;

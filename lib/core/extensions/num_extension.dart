@@ -1,4 +1,4 @@
-import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
+import 'package:kawai_notes/core/extensions/localization_extension.dart';
 
 /// Extension untuk mempermudah format angka ke dalam bentuk currency.
 extension NumExtension on num {

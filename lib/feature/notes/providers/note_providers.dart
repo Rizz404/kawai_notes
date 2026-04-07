@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_setup_riverpod/core/extensions/riverpod_extension.dart';
-import 'package:flutter_setup_riverpod/core/extensions/markdown_parser_extension.dart';
-import 'package:flutter_setup_riverpod/di/repository_providers.dart';
+import 'package:kawai_notes/core/extensions/riverpod_extension.dart';
+import 'package:kawai_notes/core/extensions/markdown_parser_extension.dart';
+import 'package:kawai_notes/di/repository_providers.dart';
 
 export 'note_detail_provider.dart';
 export 'note_list_provider.dart';

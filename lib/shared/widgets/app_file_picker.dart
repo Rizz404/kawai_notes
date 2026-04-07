@@ -4,11 +4,11 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
-import 'package:flutter_setup_riverpod/core/extensions/logger_extension.dart';
-import 'package:flutter_setup_riverpod/core/extensions/theme_extension.dart';
-import 'package:flutter_setup_riverpod/core/utils/toast_utils.dart';
-import 'package:flutter_setup_riverpod/shared/widgets/app_text.dart';
+import 'package:kawai_notes/core/extensions/localization_extension.dart';
+import 'package:kawai_notes/core/extensions/logger_extension.dart';
+import 'package:kawai_notes/core/extensions/theme_extension.dart';
+import 'package:kawai_notes/core/utils/toast_utils.dart';
+import 'package:kawai_notes/shared/widgets/app_text.dart';
 
 /// Form field untuk menyajikan input file picker yang mendukung multiselect dan batasan format.
 class AppFilePicker extends StatelessWidget {

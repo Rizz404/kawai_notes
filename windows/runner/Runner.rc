@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "rizz.learn.flutter" "\0"
-            VALUE "FileDescription", "flutter_setup_riverpod" "\0"
+            VALUE "FileDescription", "kawai_notes" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "flutter_setup_riverpod" "\0"
+            VALUE "InternalName", "kawai_notes" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2026 rizz.learn.flutter. All rights reserved." "\0"
-            VALUE "OriginalFilename", "flutter_setup_riverpod.exe" "\0"
-            VALUE "ProductName", "flutter_setup_riverpod" "\0"
+            VALUE "OriginalFilename", "kawai_notes.exe" "\0"
+            VALUE "ProductName", "kawai_notes" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

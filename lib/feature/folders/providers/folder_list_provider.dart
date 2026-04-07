@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_setup_riverpod/di/repository_providers.dart';
-import 'package:flutter_setup_riverpod/feature/folders/models/folder.dart';
-import 'package:flutter_setup_riverpod/feature/folders/repositories/folder_repository.dart';
+import 'package:kawai_notes/di/repository_providers.dart';
+import 'package:kawai_notes/feature/folders/models/folder.dart';
+import 'package:kawai_notes/feature/folders/repositories/folder_repository.dart';
 
 class FolderListState extends Equatable {
   final List<Folder> items;

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_setup_riverpod/shared/widgets/app_text.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
-import 'package:flutter_setup_riverpod/core/extensions/logger_extension.dart';
-import 'package:flutter_setup_riverpod/core/router/app_custom_transition_page.dart';
-import 'package:flutter_setup_riverpod/core/router/app_route.dart';
-import 'package:flutter_setup_riverpod/core/router/app_route_state.dart';
-import 'package:flutter_setup_riverpod/core/utils/toast_utils.dart';
+import 'package:kawai_notes/core/extensions/localization_extension.dart';
+import 'package:kawai_notes/core/extensions/logger_extension.dart';
+import 'package:kawai_notes/core/router/app_custom_transition_page.dart';
+import 'package:kawai_notes/core/router/app_route.dart';
+import 'package:kawai_notes/core/router/app_route_state.dart';
+import 'package:kawai_notes/core/utils/toast_utils.dart';
+import 'package:kawai_notes/shared/widgets/app_text.dart';
 
 class AppRouterDelegate extends RouterDelegate<AppRouteState>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<AppRouteState> {

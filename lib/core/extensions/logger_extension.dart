@@ -1,4 +1,4 @@
-import 'package:flutter_setup_riverpod/core/utils/logger.dart';
+import 'package:kawai_notes/core/utils/logger.dart';
 
 /// Extension untuk mempermudah akses logger pada setiap object.
 extension LoggerExtensions on Object {
