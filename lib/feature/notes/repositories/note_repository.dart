@@ -43,7 +43,12 @@ class NoteRepository {
     }
 
     // Save actual file
-    await _noteFileService.saveNoteFile(fileName, fileContent);
+    await _noteFileService.saveNoteFile(
+      fileName,
+      fileContent,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+    );
 
     // Save to ObjectBox
     final note = Note(

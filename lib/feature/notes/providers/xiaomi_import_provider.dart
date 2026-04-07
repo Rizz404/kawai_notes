@@ -85,8 +85,16 @@ class XiaomiImportNotifier extends Notifier<XiaomiImportState> {
           RegExp(r'^\*+\s*', multiLine: false),
           '',
         );
-        // Clean up leading newlines
-        content = content.trimLeft();
+        // Clean up Created At text
+        content = content.replaceAll(
+          RegExp(
+            r'\**(Created at:\s*)?\d{2}/\d{2}/\d{4}\s+\d{2}:\d{2}\**',
+            multiLine: true,
+          ),
+          '',
+        );
+        // Clean up trailing and leading newlines
+        content = content.trim();
 
         // Extract Date from filename
         // e.g. note_08-12-2024_12-19-00_0178.md
@@ -191,8 +199,16 @@ class XiaomiImportNotifier extends Notifier<XiaomiImportState> {
           RegExp(r'^\*+\s*', multiLine: false),
           '',
         );
-        // Clean up leading newlines
-        content = content.trimLeft();
+        // Clean up Created At text
+        content = content.replaceAll(
+          RegExp(
+            r'\**(Created at:\s*)?\d{2}/\d{2}/\d{4}\s+\d{2}:\d{2}\**',
+            multiLine: true,
+          ),
+          '',
+        );
+        // Clean up trailing and leading newlines
+        content = content.trim();
 
         // Extract Date from filename
         // e.g. note_08-12-2024_12-19-00_0178.md

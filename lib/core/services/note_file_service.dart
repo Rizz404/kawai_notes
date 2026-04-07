@@ -13,10 +13,23 @@ class NoteFileService {
     return notesDir;
   }
 
-  Future<File> saveNoteFile(String fileName, String content) async {
+  Future<File> saveNoteFile(
+    String fileName,
+    String content, {
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) async {
     final dir = await _getNotesDir();
     final file = File(p.join(dir.path, fileName));
-    return await file.writeAsString(content);
+    await file.writeAsString(content);
+
+    if (updatedAt != null || createdAt != null) {
+      final modifyTime = updatedAt ?? createdAt!;
+      await file.setLastModified(modifyTime);
+      await file.setLastAccessed(modifyTime);
+    }
+
+    return file;
   }
 
   Future<String> readNoteFile(String fileName) async {
