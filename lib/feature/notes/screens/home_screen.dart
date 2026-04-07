@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:kawai_notes/core/extensions/localization_extension.dart';
 import 'package:kawai_notes/core/extensions/navigator_extension.dart';
 import 'package:kawai_notes/core/extensions/theme_extension.dart';
@@ -243,12 +244,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Widget _buildGrid(List<Note> notes) {
-    return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 16,
-        mainAxisSpacing: 16,
-      ),
+    return MasonryGridView.count(
+      crossAxisCount: 2,
+      crossAxisSpacing: 16,
+      mainAxisSpacing: 16,
       itemCount: notes.length,
       itemBuilder: (context, index) {
         final note = notes[index];
@@ -265,6 +264,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             context.push('/note-editor', extra: {'id': note.id});
           },
           child: Container(
+            constraints: const BoxConstraints(minHeight: 100, maxHeight: 250),
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: isSelected
@@ -282,6 +282,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               clipBehavior: Clip.none,
               children: [
                 Column(
+                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if (!isUntitled) ...[
@@ -293,7 +294,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                       const SizedBox(height: 8),
                     ],
-                    Expanded(
+                    Flexible(
                       child: Consumer(
                         builder: (context, ref, _) {
                           final previewAsync = ref.watch(
@@ -311,7 +312,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               return AppText(
                                 content.trim(),
                                 style: AppTextStyle.bodyMedium,
-                                maxLines: isUntitled ? 8 : 4,
+                                maxLines: isUntitled ? 24 : 20,
                                 overflow: TextOverflow.ellipsis,
                               );
                             },
