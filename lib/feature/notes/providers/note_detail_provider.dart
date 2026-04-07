@@ -77,11 +77,13 @@ class NoteDetailNotifier extends AsyncNotifier<NoteDetailState> {
     required String content,
     int? folderId,
     bool? isHidden,
+    bool? isPinned,
   }) async {
     final current = state.value;
     if (current == null) return;
 
     final hiddenStatus = isHidden ?? current.note?.isHidden ?? false;
+    final pinnedStatus = isPinned ?? current.note?.isPinned ?? false;
 
     state = AsyncData(
       current.copyWith(isMutating: true, mutationError: () => null),
@@ -95,6 +97,7 @@ class NoteDetailNotifier extends AsyncNotifier<NoteDetailState> {
         content: content,
         folderId: folderId,
         isHidden: hiddenStatus,
+        isPinned: pinnedStatus,
       );
 
       ref.invalidate(noteListNotifierProvider);

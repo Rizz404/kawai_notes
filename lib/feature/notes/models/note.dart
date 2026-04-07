@@ -15,6 +15,7 @@ class Note {
   List<String> links;
 
   bool isHidden;
+  bool isPinned;
 
   final folder = ToOne<Folder>();
 
@@ -32,6 +33,7 @@ class Note {
     this.tags = const [],
     this.links = const [],
     this.isHidden = false,
+    this.isPinned = false,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) : createdAt = createdAt ?? DateTime.now(),

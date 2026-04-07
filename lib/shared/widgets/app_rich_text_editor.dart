@@ -17,7 +17,7 @@ class AppRichTextEditor extends FormBuilderField<String> {
   AppRichTextEditor({
     super.key,
     required super.name,
-    this.showToolbar = false,
+    this.showToolbar = true,
     this.bottomActions,
     this.textStyle,
     super.focusNode,
@@ -62,10 +62,11 @@ class AppRichTextEditor extends FormBuilderField<String> {
                  ),
                ),
                if (widget.showToolbar)
-                 Row(
-                   children: [
-                     Expanded(
-                       child: QuillSimpleToolbar(
+                 SingleChildScrollView(
+                   scrollDirection: Axis.horizontal,
+                   child: Row(
+                     children: [
+                       QuillSimpleToolbar(
                          controller: state._quillController,
                          config: const QuillSimpleToolbarConfig(
                            showFontFamily: false,
@@ -80,13 +81,13 @@ class AppRichTextEditor extends FormBuilderField<String> {
                            showDirection: false,
                          ),
                        ),
-                     ),
-                     IconButton(
-                       icon: const Icon(Icons.image),
-                       onPressed: state._pickAndInsertImage,
-                       tooltip: 'Insert Image',
-                     ),
-                   ],
+                       IconButton(
+                         icon: const Icon(Icons.image),
+                         onPressed: state._pickAndInsertImage,
+                         tooltip: 'Insert Image',
+                       ),
+                     ],
+                   ),
                  ),
                if (widget.bottomActions != null) widget.bottomActions!,
                if (field.hasError) ...[

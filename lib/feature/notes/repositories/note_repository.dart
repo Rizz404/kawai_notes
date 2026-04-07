@@ -24,6 +24,7 @@ class NoteRepository {
     required String content,
     int? folderId,
     bool isHidden = false,
+    bool isPinned = false,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) async {
@@ -53,6 +54,7 @@ class NoteRepository {
       tags: tags,
       links: links,
       isHidden: isHidden,
+      isPinned: isPinned,
       createdAt: createdAt,
       updatedAt: updatedAt,
     );

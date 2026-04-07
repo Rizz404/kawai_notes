@@ -220,6 +220,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                 )
               : null,
+          trailing: note.isPinned
+              ? Icon(
+                  Icons.push_pin,
+                  size: 20,
+                  color: context.colorScheme.onSurfaceVariant,
+                )
+              : null,
           onTap: () {
             if (_isSelectionMode) {
               _toggleSelection(note.id);
@@ -331,6 +338,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     child: Checkbox(
                       value: isSelected,
                       onChanged: (_) => _toggleSelection(note.id),
+                    ),
+                  ),
+                if (note.isPinned)
+                  Positioned(
+                    top: -8,
+                    right: _isSelectionMode ? 24 : -8,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        Icons.push_pin,
+                        size: 20,
+                        color: context.colorScheme.onSurfaceVariant,
+                      ),
                     ),
                   ),
               ],

@@ -3,11 +3,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/navigator_extension.dart';
-import 'package:flutter_setup_riverpod/core/extensions/theme_extension.dart';
-import 'package:flutter_setup_riverpod/feature/folders/providers/folder_list_provider.dart';
 import 'package:flutter_setup_riverpod/feature/notes/providers/note_providers.dart';
-import 'package:flutter_setup_riverpod/shared/widgets/app_checkbox.dart';
-import 'package:flutter_setup_riverpod/shared/widgets/app_dropdown.dart';
 import 'package:flutter_setup_riverpod/shared/widgets/app_rich_text_editor.dart';
 import 'package:flutter_setup_riverpod/shared/widgets/app_text_field.dart';
 import 'package:flutter_setup_riverpod/shared/widgets/screen_wrapper.dart';
@@ -26,7 +22,9 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
     with WidgetsBindingObserver {
   final _formKey = GlobalKey<FormBuilderState>();
   final FocusNode _contentFocusNode = FocusNode();
-  bool _showToolbar = false;
+
+  bool _isPinned = false;
+  bool _isPinnedInitialized = false;
 
   @override
   void initState() {
@@ -60,8 +58,6 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
     final rawTitle = values['title']?.toString().trim() ?? '';
     final title = rawTitle.isEmpty ? 'Untitled' : rawTitle;
     final content = values['content']?.toString() ?? '';
-    final folderId = values['folderId'] as int?;
-    final isHidden = values['isHidden'] as bool? ?? false;
 
     // if new note and completely empty, skip saving
     if (widget.noteId == null && rawTitle.isEmpty && content.isEmpty) return;
@@ -70,12 +66,7 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
       if (mounted) {
         ref
             .read(noteDetailNotifierProvider(widget.noteId).notifier)
-            .saveNote(
-              title: title,
-              content: content,
-              folderId: folderId,
-              isHidden: isHidden,
-            );
+            .saveNote(title: title, content: content, isPinned: _isPinned);
       }
     });
   }
@@ -83,12 +74,18 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
   @override
   Widget build(BuildContext context) {
     final stateAsync = ref.watch(noteDetailNotifierProvider(widget.noteId));
-    final folderStateAsync = ref.watch(folderListNotifierProvider);
 
     ref.listen<AsyncValue<NoteDetailState>>(
       noteDetailNotifierProvider(widget.noteId),
       (previous, next) {
         if (next.hasValue && next.value != null) {
+          if (!_isPinnedInitialized) {
+            setState(() {
+              _isPinned = next.value!.note?.isPinned ?? false;
+              _isPinnedInitialized = true;
+            });
+          }
+
           if (next.value!.mutationError != null &&
               (previous?.value?.mutationError != next.value!.mutationError)) {
             if (mounted) {
@@ -117,10 +114,8 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
           ),
           actions: [
             IconButton(
-              icon: Icon(
-                _showToolbar ? Icons.text_format : Icons.text_format_outlined,
-              ),
-              onPressed: () => setState(() => _showToolbar = !_showToolbar),
+              icon: Icon(_isPinned ? Icons.push_pin : Icons.push_pin_outlined),
+              onPressed: () => setState(() => _isPinned = !_isPinned),
             ),
             IconButton(
               icon: const Icon(Icons.check),
@@ -157,62 +152,11 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
                           child: AppRichTextEditor(
                             name: 'content',
                             initialValue: state.content,
-                            showToolbar: _showToolbar,
+                            showToolbar: true,
                             focusNode: _contentFocusNode,
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                               fontSize: 16,
                               height: 1.5,
-                              color: context.colors.onSurface,
-                            ),
-                            bottomActions: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8),
-                              child: folderStateAsync.maybeWhen(
-                                data: (folderState) {
-                                  final folders = folderState.items;
-                                  final items = folders
-                                      .map(
-                                        (f) => AppDropdownItem<int>(
-                                          value: f.id,
-                                          label: f.name,
-                                        ),
-                                      )
-                                      .toList();
-
-                                  // Insert a "No Folder" item
-                                  items.insert(
-                                    0,
-                                    const AppDropdownItem<int>(
-                                      value: 0,
-                                      label: 'Uncategorized',
-                                    ),
-                                  );
-
-                                  return Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Expanded(
-                                        child: AppDropdown<int>(
-                                          name: 'folderId',
-                                          initialValue:
-                                              state.note?.folder.targetId ?? 0,
-                                          items: items,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 16),
-                                      Expanded(
-                                        child: AppCheckbox(
-                                          name: 'isHidden',
-                                          title: Text(context.l10n.notesHidden),
-                                          initialValue:
-                                              state.note?.isHidden ?? false,
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                },
-                                orElse: () => const SizedBox.shrink(),
-                              ),
                             ),
                           ),
                         ),
