@@ -46,16 +46,16 @@ class AppSwitch extends StatelessWidget {
         style: AppTextStyle.bodyMedium,
         fontWeight: FontWeight.w500,
         color: enabled
-            ? context.colors.textPrimary
-            : context.colors.textDisabled,
+            ? context.colorScheme.onSurface
+            : context.colorScheme.onSurface.withValues(alpha: 0.38),
       ),
       subtitle: subtitle != null
           ? AppText(
               subtitle!,
               style: AppTextStyle.bodySmall,
               color: enabled
-                  ? context.colors.textSecondary
-                  : context.colors.textDisabled,
+                  ? context.colorScheme.onSurfaceVariant
+                  : context.colorScheme.onSurface.withValues(alpha: 0.38),
             )
           : null,
       initialValue: initialValue,

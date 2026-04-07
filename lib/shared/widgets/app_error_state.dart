@@ -56,7 +56,7 @@ class AppErrorState extends StatelessWidget {
             AppText(
               description,
               style: AppTextStyle.bodyMedium,
-              color: context.colors.textSecondary,
+              color: context.colorScheme.onSurfaceVariant,
               textAlign: TextAlign.center,
             ),
             if (onRetry != null) ...[

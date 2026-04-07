@@ -80,9 +80,9 @@ class AppChoiceChip<T> extends StatelessWidget {
           validator: validator,
           spacing: spacing,
           selectedColor: context.colorScheme.primary,
-          backgroundColor: context.colors.surfaceVariant,
+          backgroundColor: context.colorScheme.surfaceContainerHighest,
           labelStyle: TextStyle(
-            color: context.colors.textPrimary,
+            color: context.colorScheme.onSurface,
             fontWeight: FontWeight.w500,
           ),
           decoration: const InputDecoration(

@@ -77,7 +77,7 @@ class AppSlider extends StatelessWidget {
           onChanged: onChanged,
           validator: validator,
           activeColor: context.colorScheme.primary,
-          inactiveColor: context.colors.border,
+          inactiveColor: context.colorScheme.outlineVariant,
           decoration: const InputDecoration(
             border: InputBorder.none,
             contentPadding: EdgeInsets.zero,

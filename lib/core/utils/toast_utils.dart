@@ -118,7 +118,7 @@ class _ToastCard extends StatelessWidget {
     if (type == _ToastType.serverError) {
       return context.colorScheme.onTertiaryContainer;
     }
-    return context.colors.textOnPrimary;
+    return context.colorScheme.onPrimary;
   }
 
   @override
@@ -133,7 +133,7 @@ class _ToastCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
           boxShadow: [
             BoxShadow(
-              color: context.colors.scrim,
+              color: context.colorScheme.scrim,
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),

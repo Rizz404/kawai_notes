@@ -76,7 +76,7 @@ class _GraphPainter extends CustomPainter {
     }
 
     final edgePaint = Paint()
-      ..color = context.colors.border
+      ..color = context.colorScheme.outlineVariant
       ..strokeWidth = 2.0;
 
     final nodePaint = Paint()

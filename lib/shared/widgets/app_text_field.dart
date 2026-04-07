@@ -226,24 +226,24 @@ class _AppTextFieldState extends State<AppTextField> {
         filled: !widget.isBorderless,
         fillColor: widget.isBorderless
             ? Colors.transparent
-            : context.colors.surface,
+            : context.colorScheme.surface,
         border: widget.isBorderless
             ? InputBorder.none
             : OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: context.colors.border, width: 1),
+                borderSide: BorderSide(color: context.colorScheme.outlineVariant, width: 1),
               ),
         enabledBorder: widget.isBorderless
             ? InputBorder.none
             : OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: context.colors.border, width: 1),
+                borderSide: BorderSide(color: context.colorScheme.outlineVariant, width: 1),
               ),
         focusedBorder: widget.isBorderless
             ? InputBorder.none
             : OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: context.colors.primary, width: 2),
+                borderSide: BorderSide(color: context.colorScheme.primary, width: 2),
               ),
         errorBorder: widget.isBorderless
             ? InputBorder.none

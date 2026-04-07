@@ -347,11 +347,11 @@ class _AppSearchFieldState<T> extends State<AppSearchField<T>> {
           child: Material(
             elevation: 16,
             borderRadius: BorderRadius.circular(12),
-            color: context.colors.surface,
+            color: context.colorScheme.surface,
             child: Container(
               constraints: BoxConstraints(maxHeight: availableHeight),
               decoration: BoxDecoration(
-                border: Border.all(color: context.colors.border),
+                border: Border.all(color: context.colorScheme.outlineVariant),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: _buildSuggestionsList(),
@@ -368,7 +368,7 @@ class _AppSearchFieldState<T> extends State<AppSearchField<T>> {
         padding: const EdgeInsets.all(16),
         child: Center(
           child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation(context.colors.primary),
+            valueColor: AlwaysStoppedAnimation(context.colorScheme.primary),
           ),
         ),
       );
@@ -381,7 +381,7 @@ class _AppSearchFieldState<T> extends State<AppSearchField<T>> {
           child: AppText(
             context.l10n.appSearchFieldNoResultsFound,
             customStyle: context.textTheme.bodyMedium?.copyWith(
-              color: context.colors.textSecondary,
+              color: context.colorScheme.onSurfaceVariant,
             ),
           ),
         ),
@@ -408,7 +408,7 @@ class _AppSearchFieldState<T> extends State<AppSearchField<T>> {
                 width: 24,
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
-                  valueColor: AlwaysStoppedAnimation(context.colors.primary),
+                  valueColor: AlwaysStoppedAnimation(context.colorScheme.primary),
                 ),
               ),
             ),
@@ -436,12 +436,12 @@ class _AppSearchFieldState<T> extends State<AppSearchField<T>> {
       padding: const EdgeInsets.all(12),
       margin: const EdgeInsets.symmetric(vertical: 4),
       decoration: BoxDecoration(
-        color: context.colors.surfaceVariant,
+        color: context.colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
         children: [
-          Icon(icon, color: context.colors.primary, size: 20),
+          Icon(icon, color: context.colorScheme.primary, size: 20),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -457,7 +457,7 @@ class _AppSearchFieldState<T> extends State<AppSearchField<T>> {
                   AppText(
                     subtitle,
                     style: AppTextStyle.bodySmall,
-                    color: context.colors.textTertiary,
+                    color: context.colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
                   ),
                 ],
               ],
@@ -489,30 +489,30 @@ class _AppSearchFieldState<T> extends State<AppSearchField<T>> {
               labelText: widget.label,
               hintText: widget.hintText ?? context.l10n.appSearchFieldHint,
               hintStyle: context.textTheme.bodyMedium?.copyWith(
-                color: context.colors.textTertiary,
+                color: context.colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
               ),
               prefixIcon:
                   widget.prefixIcon ??
-                  Icon(Icons.search, color: context.colors.textSecondary),
+                  Icon(Icons.search, color: context.colorScheme.onSurfaceVariant),
               suffixIcon: _buildSuffixIcon(),
               filled: true,
-              fillColor: widget.fillColor ?? context.colors.surface,
+              fillColor: widget.fillColor ?? context.colorScheme.surface,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: context.colors.border, width: 1),
+                borderSide: BorderSide(color: context.colorScheme.outlineVariant, width: 1),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: context.colors.border, width: 1),
+                borderSide: BorderSide(color: context.colorScheme.outlineVariant, width: 1),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: context.colors.primary, width: 2),
+                borderSide: BorderSide(color: context.colorScheme.primary, width: 2),
               ),
               disabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
                 borderSide: BorderSide(
-                  color: context.colors.disabled,
+                  color: context.colorScheme.onSurface.withValues(alpha: 0.12),
                   width: 1,
                 ),
               ),
@@ -528,10 +528,10 @@ class _AppSearchFieldState<T> extends State<AppSearchField<T>> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
-              color: context.colors.surfaceVariant.withValues(alpha: 0.5),
+              color: context.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
               borderRadius: BorderRadius.circular(8),
               border: Border.all(
-                color: context.colors.primary.withValues(alpha: 0.3),
+                color: context.colorScheme.primary.withValues(alpha: 0.3),
                 width: 1,
               ),
             ),
@@ -539,7 +539,7 @@ class _AppSearchFieldState<T> extends State<AppSearchField<T>> {
               children: [
                 Icon(
                   Icons.check_circle,
-                  color: context.colors.primary,
+                  color: context.colorScheme.primary,
                   size: 16,
                 ),
                 const SizedBox(width: 8),
@@ -548,7 +548,7 @@ class _AppSearchFieldState<T> extends State<AppSearchField<T>> {
                     _displayText!,
                     style: AppTextStyle.bodySmall,
                     fontWeight: FontWeight.w600,
-                    color: context.colors.textPrimary,
+                    color: context.colorScheme.onSurface,
                   ),
                 ),
                 InkWell(
@@ -565,7 +565,7 @@ class _AppSearchFieldState<T> extends State<AppSearchField<T>> {
                     child: Icon(
                       Icons.close,
                       size: 16,
-                      color: context.colors.textSecondary,
+                      color: context.colorScheme.onSurfaceVariant,
                     ),
                   ),
                 ),
@@ -586,7 +586,7 @@ class _AppSearchFieldState<T> extends State<AppSearchField<T>> {
           width: 20,
           child: CircularProgressIndicator(
             strokeWidth: 2,
-            valueColor: AlwaysStoppedAnimation(context.colors.primary),
+            valueColor: AlwaysStoppedAnimation(context.colorScheme.primary),
           ),
         ),
       );
@@ -594,7 +594,7 @@ class _AppSearchFieldState<T> extends State<AppSearchField<T>> {
 
     if (widget.showClearButton && _hasText) {
       return IconButton(
-        icon: Icon(Icons.clear, color: context.colors.textSecondary),
+        icon: Icon(Icons.clear, color: context.colorScheme.onSurfaceVariant),
         onPressed: widget.enabled ? _clearText : null,
         tooltip: context.l10n.appSearchFieldClear,
       );

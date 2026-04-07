@@ -70,18 +70,18 @@ class AppDateTimePicker extends StatelessWidget {
         labelText: label,
         suffixIcon: Icon(icon ?? _defaultIcon),
         filled: true,
-        fillColor: context.colors.surface,
+        fillColor: context.colorScheme.surface,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: context.colors.border, width: 1),
+          borderSide: BorderSide(color: context.colorScheme.outlineVariant, width: 1),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: context.colors.border, width: 1),
+          borderSide: BorderSide(color: context.colorScheme.outlineVariant, width: 1),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: context.colors.primary, width: 2),
+          borderSide: BorderSide(color: context.colorScheme.primary, width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),

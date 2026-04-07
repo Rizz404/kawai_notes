@@ -246,7 +246,7 @@ class _HiddenNotesScreenState extends ConsumerState<HiddenNotesScreen> {
               border: Border.all(
                 color: isSelected
                     ? context.colorScheme.primary
-                    : context.colors.border,
+                    : context.colorScheme.outlineVariant,
                 width: isSelected ? 2 : 1,
               ),
               borderRadius: BorderRadius.circular(8),

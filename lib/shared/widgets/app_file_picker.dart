@@ -67,7 +67,7 @@ class AppFilePicker extends StatelessWidget {
   void _previewFile(BuildContext context, PlatformFile file) {
     showDialog<void>(
       context: context,
-      barrierColor: context.colors.overlay,
+      barrierColor: context.colorScheme.scrim,
       builder: (context) => _FilePreviewDialog(file: file),
     );
   }
@@ -178,12 +178,12 @@ class AppFilePicker extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: context.colors.surface,
+                  color: context.colorScheme.surface,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
                     color: field.hasError
                         ? context.semantic.error
-                        : context.colors.border,
+                        : context.colorScheme.outlineVariant,
                   ),
                 ),
                 child: Row(
@@ -197,7 +197,7 @@ class AppFilePicker extends StatelessWidget {
                       child: AppText(
                         hintText ?? context.l10n.sharedChooseFiles,
                         style: AppTextStyle.bodyMedium,
-                        color: context.colors.textSecondary,
+                        color: context.colorScheme.onSurfaceVariant,
                       ),
                     ),
                     Icon(
@@ -310,7 +310,7 @@ class _FileItem extends StatelessWidget {
       width: 48,
       height: 48,
       decoration: BoxDecoration(
-        color: context.colors.surfaceVariant,
+        color: context.colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Icon(
@@ -327,9 +327,9 @@ class _FileItem extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: context.colors.surface,
+        color: context.colorScheme.surface,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: context.colors.border),
+        border: Border.all(color: context.colorScheme.outlineVariant),
       ),
       child: Row(
         children: [
@@ -351,7 +351,7 @@ class _FileItem extends StatelessWidget {
                 AppText(
                   _getFileSize(file.size),
                   style: AppTextStyle.bodySmall,
-                  color: context.colors.textSecondary,
+                  color: context.colorScheme.onSurfaceVariant,
                 ),
               ],
             ),
@@ -413,7 +413,7 @@ class _FilePreviewDialog extends StatelessWidget {
           top: 16,
           right: 16,
           child: IconButton(
-            icon: Icon(Icons.close, color: context.colors.textOnPrimary),
+            icon: Icon(Icons.close, color: context.colorScheme.onPrimary),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),

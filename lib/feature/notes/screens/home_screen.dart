@@ -273,7 +273,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               border: Border.all(
                 color: isSelected
                     ? context.colorScheme.primary
-                    : context.colors.border,
+                    : context.colorScheme.outlineVariant,
                 width: isSelected ? 2 : 1,
               ),
               borderRadius: BorderRadius.circular(8),

@@ -34,8 +34,8 @@ class AppCheckbox extends StatelessWidget {
       initialValue: initialValue,
       controlAffinity: ListTileControlAffinity.leading,
       contentPadding: EdgeInsets.zero,
-      activeColor: context.colors.primary,
-      checkColor: context.colors.textOnPrimary,
+      activeColor: context.colorScheme.primary,
+      checkColor: context.colorScheme.onPrimary,
     );
   }
 }

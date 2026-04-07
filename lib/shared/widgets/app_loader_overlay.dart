@@ -25,7 +25,7 @@ class AppLoaderOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LoaderOverlay(
-      overlayColor: (overlayColor ?? context.colors.overlay).withValues(
+      overlayColor: (overlayColor ?? context.colorScheme.scrim).withValues(
         alpha: overlayOpacity ?? 0.6,
       ),
       overlayWidgetBuilder: (progress) => Center(

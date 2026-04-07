@@ -108,37 +108,37 @@ class AppDropdown<T> extends StatelessWidget {
         labelText: label,
         hintText: hintText ?? context.l10n.appDropdownSelectOption,
         hintStyle: context.textTheme.bodyMedium?.copyWith(
-          color: context.colors.textTertiary,
+          color: context.colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
         ),
         prefixIcon: prefixIcon,
         filled: true,
-        fillColor: fillColor ?? context.colors.surface,
+        fillColor: fillColor ?? context.colorScheme.surface,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: context.colors.border, width: 1),
+          borderSide: BorderSide(color: context.colorScheme.outlineVariant, width: 1),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: context.colors.border, width: 1),
+          borderSide: BorderSide(color: context.colorScheme.outlineVariant, width: 1),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: context.colors.primary, width: 2),
+          borderSide: BorderSide(color: context.colorScheme.primary, width: 2),
         ),
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: context.colors.disabled, width: 1),
+          borderSide: BorderSide(color: context.colorScheme.onSurface.withValues(alpha: 0.12), width: 1),
         ),
         contentPadding:
             contentPadding ??
             const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       ),
       style: context.textTheme.bodyMedium?.copyWith(
-        color: context.colors.textPrimary,
+        color: context.colorScheme.onSurface,
       ),
-      dropdownColor: context.colors.surface,
-      iconEnabledColor: context.colors.textSecondary,
-      iconDisabledColor: context.colors.textDisabled,
+      dropdownColor: context.colorScheme.surface,
+      iconEnabledColor: context.colorScheme.onSurfaceVariant,
+      iconDisabledColor: context.colorScheme.onSurface.withValues(alpha: 0.38),
     );
 
     if (width != null) {

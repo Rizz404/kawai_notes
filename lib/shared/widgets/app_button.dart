@@ -70,7 +70,7 @@ class AppButton extends StatelessWidget {
         ),
         AppButtonColor.success: (
           bg: context.semantic.success,
-          fg: context.colors.textOnPrimary,
+          fg: context.colorScheme.onPrimary,
         ),
         AppButtonColor.error: (
           bg: theme.colorScheme.error,
@@ -78,7 +78,7 @@ class AppButton extends StatelessWidget {
         ),
         AppButtonColor.warning: (
           bg: context.semantic.warning,
-          fg: context.colors.textPrimary,
+          fg: context.colorScheme.onSurface,
         ),
         AppButtonColor.neutral: (
           bg: theme.colorScheme.surfaceContainerHighest,

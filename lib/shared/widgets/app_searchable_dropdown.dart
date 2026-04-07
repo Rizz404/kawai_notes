@@ -273,11 +273,11 @@ class _AppSearchableDropdownState<T> extends State<AppSearchableDropdown<T>> {
             child: Material(
               elevation: 16,
               borderRadius: BorderRadius.circular(12),
-              color: context.colors.surface,
+              color: context.colorScheme.surface,
               child: Container(
                 constraints: BoxConstraints(maxHeight: availableHeight),
                 decoration: BoxDecoration(
-                  border: Border.all(color: context.colors.border),
+                  border: Border.all(color: context.colorScheme.outlineVariant),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Column(
@@ -299,7 +299,7 @@ class _AppSearchableDropdownState<T> extends State<AppSearchableDropdown<T>> {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: context.colors.border)),
+        border: Border(bottom: BorderSide(color: context.colorScheme.outlineVariant)),
       ),
       child: TextField(
         controller: _searchController,
@@ -308,19 +308,19 @@ class _AppSearchableDropdownState<T> extends State<AppSearchableDropdown<T>> {
         decoration: InputDecoration(
           hintText: context.l10n.appSearchFieldHint,
           hintStyle: context.textTheme.bodySmall?.copyWith(
-            color: context.colors.textTertiary,
+            color: context.colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
           ),
           prefixIcon: Icon(
             Icons.search,
             size: 20,
-            color: context.colors.textSecondary,
+            color: context.colorScheme.onSurfaceVariant,
           ),
           suffixIcon: _searchController.text.isNotEmpty
               ? IconButton(
                   icon: Icon(
                     Icons.clear,
                     size: 20,
-                    color: context.colors.textSecondary,
+                    color: context.colorScheme.onSurfaceVariant,
                   ),
                   onPressed: () {
                     _searchController.clear();
@@ -330,7 +330,7 @@ class _AppSearchableDropdownState<T> extends State<AppSearchableDropdown<T>> {
               : null,
           isDense: true,
           filled: true,
-          fillColor: context.colors.surfaceVariant,
+          fillColor: context.colorScheme.surfaceContainerHighest,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide.none,
@@ -354,7 +354,7 @@ class _AppSearchableDropdownState<T> extends State<AppSearchableDropdown<T>> {
         padding: const EdgeInsets.all(24),
         child: Center(
           child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation(context.colors.primary),
+            valueColor: AlwaysStoppedAnimation(context.colorScheme.primary),
           ),
         ),
       );
@@ -367,7 +367,7 @@ class _AppSearchableDropdownState<T> extends State<AppSearchableDropdown<T>> {
           child: AppText(
             context.l10n.appSearchFieldNoResultsFound,
             style: AppTextStyle.bodyMedium,
-            color: context.colors.textSecondary,
+            color: context.colorScheme.onSurfaceVariant,
           ),
         ),
       );
@@ -395,7 +395,7 @@ class _AppSearchableDropdownState<T> extends State<AppSearchableDropdown<T>> {
                 height: 24,
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
-                  valueColor: AlwaysStoppedAnimation(context.colors.primary),
+                  valueColor: AlwaysStoppedAnimation(context.colorScheme.primary),
                 ),
               ),
             ),
@@ -409,7 +409,7 @@ class _AppSearchableDropdownState<T> extends State<AppSearchableDropdown<T>> {
               child: AppText(
                 'Tidak ada data lagi',
                 style: AppTextStyle.bodySmall,
-                color: context.colors.textTertiary,
+                color: context.colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
               ),
             ),
           );
@@ -439,11 +439,11 @@ class _AppSearchableDropdownState<T> extends State<AppSearchableDropdown<T>> {
         margin: const EdgeInsets.symmetric(vertical: 2),
         decoration: BoxDecoration(
           color: isSelected
-              ? context.colors.primary.withValues(alpha: 0.1)
-              : context.colors.surfaceVariant,
+              ? context.colorScheme.primary.withValues(alpha: 0.1)
+              : context.colorScheme.surfaceContainerHighest,
           borderRadius: BorderRadius.circular(8),
           border: isSelected
-              ? Border.all(color: context.colors.primary, width: 1.5)
+              ? Border.all(color: context.colorScheme.primary, width: 1.5)
               : null,
         ),
         child: Row(
@@ -452,8 +452,8 @@ class _AppSearchableDropdownState<T> extends State<AppSearchableDropdown<T>> {
               Icon(
                 icon,
                 color: isSelected
-                    ? context.colors.primary
-                    : context.colors.textSecondary,
+                    ? context.colorScheme.primary
+                    : context.colorScheme.onSurfaceVariant,
                 size: 20,
               ),
               const SizedBox(width: 12),
@@ -467,22 +467,22 @@ class _AppSearchableDropdownState<T> extends State<AppSearchableDropdown<T>> {
                     style: AppTextStyle.bodyMedium,
                     fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                     color: isSelected
-                        ? context.colors.primary
-                        : context.colors.textPrimary,
+                        ? context.colorScheme.primary
+                        : context.colorScheme.onSurface,
                   ),
                   if (subtitle != null) ...[
                     const SizedBox(height: 2),
                     AppText(
                       subtitle,
                       style: AppTextStyle.bodySmall,
-                      color: context.colors.textTertiary,
+                      color: context.colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
                     ),
                   ],
                 ],
               ),
             ),
             if (isSelected)
-              Icon(Icons.check_circle, color: context.colors.primary, size: 20),
+              Icon(Icons.check_circle, color: context.colorScheme.primary, size: 20),
           ],
         ),
       ),
@@ -519,7 +519,7 @@ class _AppSearchableDropdownState<T> extends State<AppSearchableDropdown<T>> {
                     hintText:
                         widget.hintText ?? context.l10n.appDropdownSelectOption,
                     hintStyle: context.textTheme.bodyMedium?.copyWith(
-                      color: context.colors.textTertiary,
+                      color: context.colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
                     ),
                     prefixIcon: widget.prefixIcon,
                     suffixIcon: Row(
@@ -530,7 +530,7 @@ class _AppSearchableDropdownState<T> extends State<AppSearchableDropdown<T>> {
                             icon: Icon(
                               Icons.clear,
                               size: 20,
-                              color: context.colors.textSecondary,
+                              color: context.colorScheme.onSurfaceVariant,
                             ),
                             onPressed: _clearSelection,
                             splashRadius: 20,
@@ -545,32 +545,32 @@ class _AppSearchableDropdownState<T> extends State<AppSearchableDropdown<T>> {
                               ? Icons.arrow_drop_up
                               : Icons.arrow_drop_down,
                           color: widget.enabled
-                              ? context.colors.textSecondary
-                              : context.colors.textDisabled,
+                              ? context.colorScheme.onSurfaceVariant
+                              : context.colorScheme.onSurface.withValues(alpha: 0.38),
                         ),
                         const SizedBox(width: 8),
                       ],
                     ),
                     filled: true,
-                    fillColor: widget.fillColor ?? context.colors.surface,
+                    fillColor: widget.fillColor ?? context.colorScheme.surface,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide(
-                        color: context.colors.border,
+                        color: context.colorScheme.outlineVariant,
                         width: 1,
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide(
-                        color: context.colors.border,
+                        color: context.colorScheme.outlineVariant,
                         width: 1,
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide(
-                        color: context.colors.primary,
+                        color: context.colorScheme.primary,
                         width: 2,
                       ),
                     ),
@@ -591,7 +591,7 @@ class _AppSearchableDropdownState<T> extends State<AppSearchableDropdown<T>> {
                     disabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide(
-                        color: context.colors.disabled,
+                        color: context.colorScheme.onSurface.withValues(alpha: 0.12),
                         width: 1,
                       ),
                     ),
@@ -608,8 +608,8 @@ class _AppSearchableDropdownState<T> extends State<AppSearchableDropdown<T>> {
                           displayText,
                           style: AppTextStyle.bodyMedium,
                           color: widget.enabled
-                              ? context.colors.textPrimary
-                              : context.colors.textDisabled,
+                              ? context.colorScheme.onSurface
+                              : context.colorScheme.onSurface.withValues(alpha: 0.38),
                         )
                       : null,
                 ),

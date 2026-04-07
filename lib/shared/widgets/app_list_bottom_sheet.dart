@@ -69,7 +69,7 @@ class AppListOptionsBottomSheet extends StatelessWidget {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: context.colors.border,
+                color: context.colorScheme.outlineVariant,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -107,7 +107,7 @@ class AppListOptionsBottomSheet extends StatelessWidget {
                 showModalBottomSheet<void>(
                   context: context,
                   isScrollControlled: true,
-                  backgroundColor: context.colors.surface,
+                  backgroundColor: context.colorScheme.surface,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(16),
@@ -128,7 +128,7 @@ class AppListOptionsBottomSheet extends StatelessWidget {
                   showModalBottomSheet<void>(
                     context: context,
                     isScrollControlled: true,
-                    backgroundColor: context.colors.surface,
+                    backgroundColor: context.colorScheme.surface,
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.vertical(
                         top: Radius.circular(16),
@@ -168,7 +168,7 @@ class _OptionTile extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          border: Border.all(color: context.colors.border),
+          border: Border.all(color: context.colorScheme.outlineVariant),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
@@ -197,7 +197,7 @@ class _OptionTile extends StatelessWidget {
                   AppText(
                     subtitle,
                     style: AppTextStyle.bodySmall,
-                    color: context.colors.textSecondary,
+                    color: context.colorScheme.onSurfaceVariant,
                   ),
                 ],
               ),
@@ -205,7 +205,7 @@ class _OptionTile extends StatelessWidget {
             Icon(
               Icons.arrow_forward_ios,
               size: 16,
-              color: context.colors.textTertiary,
+              color: context.colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
             ),
           ],
         ),
