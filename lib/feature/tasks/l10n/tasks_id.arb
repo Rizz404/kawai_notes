@@ -43,5 +43,6 @@
   "tasksError": "Kesalahan: {error}",
   "@tasksError": {
     "description": "Tasks error"
-  }
+  },
+  "tasksTaskReminder": "Pengingat Tugas"
 }

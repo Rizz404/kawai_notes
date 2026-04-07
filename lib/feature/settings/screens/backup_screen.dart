@@ -2,6 +2,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
 import 'package:flutter_setup_riverpod/feature/settings/providers/backup_provider.dart';
 import 'package:flutter_setup_riverpod/shared/widgets/app_button.dart';
 import 'package:flutter_setup_riverpod/shared/widgets/app_text.dart';
@@ -98,7 +99,7 @@ class BackupScreen extends ConsumerWidget {
                     ),
                     loading: () => const CircularProgressIndicator(),
                     error: (_, __) =>
-                        const AppText('Error loading auto backup status'),
+                        AppText(context.l10n.settingsErrorLoadingAutoBackup),
                   ),
                   const SizedBox(height: 16),
                   AppButton(
@@ -141,11 +142,11 @@ class BackupScreen extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
+            child: Text(context.l10n.settingsCancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('Continue'),
+            child: Text(context.l10n.settingsContinue),
           ),
         ],
       ),

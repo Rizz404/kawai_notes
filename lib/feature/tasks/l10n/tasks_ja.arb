@@ -43,5 +43,6 @@
   "tasksError": "エラー: {error}",
   "@tasksError": {
     "description": "Tasks error"
-  }
+  },
+  "tasksTaskReminder": "タスクのリマインダー"
 }

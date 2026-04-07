@@ -47,5 +47,6 @@
   "notesTags": "タグ: {tags}",
   "@notesTags": {
     "description": "Notes tags"
-  }
+  },
+  "notesImportingNotes": "メモをインポート中"
 }

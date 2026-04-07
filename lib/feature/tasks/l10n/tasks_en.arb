@@ -47,5 +47,9 @@
         "type": "String"
       }
     }
+  },
+  "tasksTaskReminder": "Task Reminder",
+  "@tasksTaskReminder": {
+    "description": "Tasks task reminder"
   }
 }

@@ -631,6 +631,9 @@ class L10nId extends L10n {
   }
 
   @override
+  String get notesImportingNotes => 'Mengimpor Catatan';
+
+  @override
   String get settingsTitle => 'Pengaturan';
 
   @override
@@ -662,6 +665,28 @@ class L10nId extends L10n {
 
   @override
   String get settingsLanguageIndonesian => 'Indonesia';
+
+  @override
+  String get settingsTrash => 'Tempat Sampah';
+
+  @override
+  String get settingsCancel => 'Batal';
+
+  @override
+  String get settingsDelete => 'Hapus';
+
+  @override
+  String get settingsRestore => 'Pulihkan';
+
+  @override
+  String get settingsDeletePermanently => 'Hapus Permanen';
+
+  @override
+  String get settingsErrorLoadingAutoBackup =>
+      'Gagal memuat status pencadangan otomatis';
+
+  @override
+  String get settingsContinue => 'Lanjutkan';
 
   @override
   String get tasksTitle => 'Tugas';
@@ -697,6 +722,9 @@ class L10nId extends L10n {
   String tasksError(String error) {
     return 'Kesalahan: $error';
   }
+
+  @override
+  String get tasksTaskReminder => 'Pengingat Tugas';
 
   @override
   String get adminShellBottomNavDashboard => 'Dasbor';
@@ -896,4 +924,26 @@ class L10nId extends L10n {
 
   @override
   String get sharedRetry => 'Coba Lagi';
+
+  @override
+  String get sharedMyNotes => 'Catatan Saya';
+
+  @override
+  String get sharedTasks => 'Tugas';
+
+  @override
+  String get sharedSettings => 'Pengaturan';
+
+  @override
+  String get sharedMaterialYou => 'Material You';
+
+  @override
+  String get sharedAppName => 'Kawai Notes';
+
+  @override
+  String get sharedRouteNotFound => 'Rute tidak ditemukan';
+
+  @override
+  String get sharedErrorInitializingApp =>
+      'Kesalahan menginisialisasi aplikasi';
 }

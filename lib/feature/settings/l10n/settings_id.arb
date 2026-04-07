@@ -43,5 +43,12 @@
   "settingsLanguageIndonesian": "Indonesia",
   "@settingsLanguageIndonesian": {
     "description": "Settings language indonesian"
-  }
+  },
+  "settingsTrash": "Tempat Sampah",
+  "settingsCancel": "Batal",
+  "settingsDelete": "Hapus",
+  "settingsRestore": "Pulihkan",
+  "settingsDeletePermanently": "Hapus Permanen",
+  "settingsErrorLoadingAutoBackup": "Gagal memuat status pencadangan otomatis",
+  "settingsContinue": "Lanjutkan"
 }

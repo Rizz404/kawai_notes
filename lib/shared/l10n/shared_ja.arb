@@ -271,5 +271,12 @@
   "sharedRetry": "再試行",
   "@sharedRetry": {
     "description": "Retry button label"
-  }
+  },
+  "sharedMyNotes": "マイノート",
+  "sharedTasks": "タスク",
+  "sharedSettings": "設定",
+  "sharedMaterialYou": "Material You",
+  "sharedAppName": "Kawai Notes",
+  "sharedRouteNotFound": "ルートが見つかりません",
+  "sharedErrorInitializingApp": "アプリの初期化エラー"
 }

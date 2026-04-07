@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/theme_extension.dart';
 import 'package:flutter_setup_riverpod/feature/settings/providers/trash_provider.dart';
 import 'package:flutter_setup_riverpod/shared/widgets/screen_wrapper.dart';
@@ -13,7 +14,7 @@ class TrashScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Trash'),
+        title: Text(context.l10n.settingsTrash),
         actions: [
           IconButton(
             icon: const Icon(Icons.delete_forever),
@@ -29,14 +30,14 @@ class TrashScreen extends ConsumerWidget {
                     actions: [
                       TextButton(
                         onPressed: () => Navigator.of(context).pop(false),
-                        child: const Text('Cancel'),
+                        child: Text(context.l10n.settingsCancel),
                       ),
                       TextButton(
                         onPressed: () => Navigator.of(context).pop(true),
                         style: TextButton.styleFrom(
                           foregroundColor: context.colorScheme.error,
                         ),
-                        child: const Text('Delete'),
+                        child: Text(context.l10n.settingsDelete),
                       ),
                     ],
                   );
@@ -44,7 +45,7 @@ class TrashScreen extends ConsumerWidget {
               );
 
               if (confirm == true) {
-                ref.read(trashListNotifierProvider.notifier).emptyTrash();
+                await ref.read(trashListNotifierProvider.notifier).emptyTrash();
               }
             },
           ),
@@ -88,13 +89,13 @@ class TrashScreen extends ConsumerWidget {
                       }
                     },
                     itemBuilder: (context) => [
-                      const PopupMenuItem(
+                      PopupMenuItem(
                         value: 'restore',
-                        child: Text('Restore'),
+                        child: Text(context.l10n.settingsRestore),
                       ),
-                      const PopupMenuItem(
+                      PopupMenuItem(
                         value: 'delete',
-                        child: Text('Delete Permanently'),
+                        child: Text(context.l10n.settingsDeletePermanently),
                       ),
                     ],
                   ),

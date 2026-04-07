@@ -47,5 +47,6 @@
   "notesTags": "Tag: {tags}",
   "@notesTags": {
     "description": "Notes tags"
-  }
+  },
+  "notesImportingNotes": "Mengimpor Catatan"
 }

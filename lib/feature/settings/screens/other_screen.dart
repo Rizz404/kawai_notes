@@ -99,7 +99,7 @@ class OtherScreen extends ConsumerWidget {
             const Divider(),
             ListTile(
               leading: const Icon(Icons.delete_outlined),
-              title: const Text('Trash'),
+              title: Text(context.l10n.settingsTrash),
               trailing: const Icon(Icons.chevron_right),
               onTap: () {
                 context.push('/trash');

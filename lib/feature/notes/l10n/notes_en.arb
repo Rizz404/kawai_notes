@@ -59,5 +59,9 @@
         "type": "String"
       }
     }
+  },
+  "notesImportingNotes": "Importing Notes",
+  "@notesImportingNotes": {
+    "description": "Notes importing notes"
   }
 }

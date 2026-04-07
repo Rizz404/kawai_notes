@@ -631,6 +631,9 @@ class L10nEn extends L10n {
   }
 
   @override
+  String get notesImportingNotes => 'Importing Notes';
+
+  @override
   String get settingsTitle => 'Settings';
 
   @override
@@ -662,6 +665,28 @@ class L10nEn extends L10n {
 
   @override
   String get settingsLanguageIndonesian => 'Indonesian';
+
+  @override
+  String get settingsTrash => 'Trash';
+
+  @override
+  String get settingsCancel => 'Cancel';
+
+  @override
+  String get settingsDelete => 'Delete';
+
+  @override
+  String get settingsRestore => 'Restore';
+
+  @override
+  String get settingsDeletePermanently => 'Delete Permanently';
+
+  @override
+  String get settingsErrorLoadingAutoBackup =>
+      'Error loading auto backup status';
+
+  @override
+  String get settingsContinue => 'Continue';
 
   @override
   String get tasksTitle => 'Tasks';
@@ -697,6 +722,9 @@ class L10nEn extends L10n {
   String tasksError(String error) {
     return 'Error: $error';
   }
+
+  @override
+  String get tasksTaskReminder => 'Task Reminder';
 
   @override
   String get adminShellBottomNavDashboard => 'Dashboard';
@@ -895,4 +923,25 @@ class L10nEn extends L10n {
 
   @override
   String get sharedRetry => 'Retry';
+
+  @override
+  String get sharedMyNotes => 'My Notes';
+
+  @override
+  String get sharedTasks => 'Tasks';
+
+  @override
+  String get sharedSettings => 'Settings';
+
+  @override
+  String get sharedMaterialYou => 'Material You';
+
+  @override
+  String get sharedAppName => 'Kawai Notes';
+
+  @override
+  String get sharedRouteNotFound => 'Route not found';
+
+  @override
+  String get sharedErrorInitializingApp => 'Error initializing app';
 }

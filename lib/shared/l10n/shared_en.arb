@@ -271,5 +271,33 @@
   "sharedRetry": "Retry",
   "@sharedRetry": {
     "description": "Retry button label"
+  },
+  "sharedMyNotes": "My Notes",
+  "@sharedMyNotes": {
+    "description": "Shared my notes"
+  },
+  "sharedTasks": "Tasks",
+  "@sharedTasks": {
+    "description": "Shared tasks"
+  },
+  "sharedSettings": "Settings",
+  "@sharedSettings": {
+    "description": "Shared settings"
+  },
+  "sharedMaterialYou": "Material You",
+  "@sharedMaterialYou": {
+    "description": "Shared material you"
+  },
+  "sharedAppName": "Kawai Notes",
+  "@sharedAppName": {
+    "description": "Shared app name"
+  },
+  "sharedRouteNotFound": "Route not found",
+  "@sharedRouteNotFound": {
+    "description": "Shared route not found"
+  },
+  "sharedErrorInitializingApp": "Error initializing app",
+  "@sharedErrorInitializingApp": {
+    "description": "Shared error initializing app"
   }
 }

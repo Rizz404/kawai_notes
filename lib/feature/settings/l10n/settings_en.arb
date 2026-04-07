@@ -43,5 +43,33 @@
   "settingsLanguageIndonesian": "Indonesian",
   "@settingsLanguageIndonesian": {
     "description": "Settings language indonesian"
+  },
+  "settingsTrash": "Trash",
+  "@settingsTrash": {
+    "description": "Settings trash"
+  },
+  "settingsCancel": "Cancel",
+  "@settingsCancel": {
+    "description": "Settings cancel"
+  },
+  "settingsDelete": "Delete",
+  "@settingsDelete": {
+    "description": "Settings delete"
+  },
+  "settingsRestore": "Restore",
+  "@settingsRestore": {
+    "description": "Settings restore"
+  },
+  "settingsDeletePermanently": "Delete Permanently",
+  "@settingsDeletePermanently": {
+    "description": "Settings delete permanently"
+  },
+  "settingsErrorLoadingAutoBackup": "Error loading auto backup status",
+  "@settingsErrorLoadingAutoBackup": {
+    "description": "Settings error loading auto backup status"
+  },
+  "settingsContinue": "Continue",
+  "@settingsContinue": {
+    "description": "Settings continue"
   }
 }

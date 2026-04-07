@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/theme_extension.dart';
 import 'package:flutter_setup_riverpod/core/router/app_route.dart';
 import 'package:flutter_setup_riverpod/core/router/app_router_provider.dart';
@@ -56,21 +57,21 @@ class AppBottomNav extends StatelessWidget {
       onDestinationSelected: onTap,
       backgroundColor: context.colors.surface,
       indicatorColor: context.colorScheme.primaryContainer,
-      destinations: const [
+      destinations: [
         NavigationDestination(
-          icon: Icon(Icons.note_alt_outlined),
-          selectedIcon: Icon(Icons.note_alt),
-          label: 'Notes',
+          icon: const Icon(Icons.note_alt_outlined),
+          selectedIcon: const Icon(Icons.note_alt),
+          label: context.l10n.sharedMyNotes,
         ),
         NavigationDestination(
-          icon: Icon(Icons.check_circle_outline),
-          selectedIcon: Icon(Icons.check_circle),
-          label: 'Tasks',
+          icon: const Icon(Icons.check_circle_outline),
+          selectedIcon: const Icon(Icons.check_circle),
+          label: context.l10n.sharedTasks,
         ),
         NavigationDestination(
-          icon: Icon(Icons.more_horiz_outlined),
-          selectedIcon: Icon(Icons.more_horiz),
-          label: 'Settings',
+          icon: const Icon(Icons.more_horiz_outlined),
+          selectedIcon: const Icon(Icons.more_horiz),
+          label: context.l10n.sharedSettings,
         ),
       ],
     );

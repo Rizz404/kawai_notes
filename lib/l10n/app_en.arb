@@ -788,6 +788,10 @@
       }
     }
   },
+  "notesImportingNotes": "Importing Notes",
+  "@notesImportingNotes": {
+    "description": "Notes importing notes"
+  },
   "settingsTitle": "Settings",
   "@settingsTitle": {
     "description": "Settings title"
@@ -831,6 +835,34 @@
   "settingsLanguageIndonesian": "Indonesian",
   "@settingsLanguageIndonesian": {
     "description": "Settings language indonesian"
+  },
+  "settingsTrash": "Trash",
+  "@settingsTrash": {
+    "description": "Settings trash"
+  },
+  "settingsCancel": "Cancel",
+  "@settingsCancel": {
+    "description": "Settings cancel"
+  },
+  "settingsDelete": "Delete",
+  "@settingsDelete": {
+    "description": "Settings delete"
+  },
+  "settingsRestore": "Restore",
+  "@settingsRestore": {
+    "description": "Settings restore"
+  },
+  "settingsDeletePermanently": "Delete Permanently",
+  "@settingsDeletePermanently": {
+    "description": "Settings delete permanently"
+  },
+  "settingsErrorLoadingAutoBackup": "Error loading auto backup status",
+  "@settingsErrorLoadingAutoBackup": {
+    "description": "Settings error loading auto backup status"
+  },
+  "settingsContinue": "Continue",
+  "@settingsContinue": {
+    "description": "Settings continue"
   },
   "tasksTitle": "Tasks",
   "@tasksTitle": {
@@ -879,6 +911,10 @@
         "type": "String"
       }
     }
+  },
+  "tasksTaskReminder": "Task Reminder",
+  "@tasksTaskReminder": {
+    "description": "Tasks task reminder"
   },
   "adminShellBottomNavDashboard": "Dashboard",
   "@adminShellBottomNavDashboard": {
@@ -1151,5 +1187,33 @@
   "sharedRetry": "Retry",
   "@sharedRetry": {
     "description": "Retry button label"
+  },
+  "sharedMyNotes": "My Notes",
+  "@sharedMyNotes": {
+    "description": "Shared my notes"
+  },
+  "sharedTasks": "Tasks",
+  "@sharedTasks": {
+    "description": "Shared tasks"
+  },
+  "sharedSettings": "Settings",
+  "@sharedSettings": {
+    "description": "Shared settings"
+  },
+  "sharedMaterialYou": "Material You",
+  "@sharedMaterialYou": {
+    "description": "Shared material you"
+  },
+  "sharedAppName": "Kawai Notes",
+  "@sharedAppName": {
+    "description": "Shared app name"
+  },
+  "sharedRouteNotFound": "Route not found",
+  "@sharedRouteNotFound": {
+    "description": "Shared route not found"
+  },
+  "sharedErrorInitializingApp": "Error initializing app",
+  "@sharedErrorInitializingApp": {
+    "description": "Shared error initializing app"
   }
 }

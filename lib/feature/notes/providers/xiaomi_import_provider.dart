@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/logger_extension.dart';
 import 'package:flutter_setup_riverpod/di/repository_providers.dart';
 import 'package:flutter_setup_riverpod/di/service_providers.dart';
@@ -169,7 +170,7 @@ class XiaomiImportNotifier extends Notifier<XiaomiImportState> {
 
       await notificationService.showProgressNotification(
         id: notificationId,
-        title: 'Importing Notes',
+        title: LocalizationExtension.current.notesImportingNotes,
         body: '0 / $total',
         maxProgress: total,
         progress: 0,
@@ -246,7 +247,7 @@ class XiaomiImportNotifier extends Notifier<XiaomiImportState> {
           state = state.copyWith(processedFiles: processed);
           await notificationService.showProgressNotification(
             id: notificationId,
-            title: 'Importing Notes',
+            title: LocalizationExtension.current.notesImportingNotes,
             body: '$processed / $total',
             maxProgress: total,
             progress: processed,
@@ -264,7 +265,7 @@ class XiaomiImportNotifier extends Notifier<XiaomiImportState> {
     } catch (e, st) {
       logError('Failed to import Xiaomi notes from folder', e, st);
       state = XiaomiImportState(mutationError: e);
-      ref.read(notificationServiceProvider).cancelNotification(888);
+      await ref.read(notificationServiceProvider).cancelNotification(888);
     }
   }
 }

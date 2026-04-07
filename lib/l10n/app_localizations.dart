@@ -1227,6 +1227,12 @@ abstract class L10n {
   /// **'Tags: {tags}'**
   String notesTags(String tags);
 
+  /// Notes importing notes
+  ///
+  /// In en, this message translates to:
+  /// **'Importing Notes'**
+  String get notesImportingNotes;
+
   /// Settings title
   ///
   /// In en, this message translates to:
@@ -1293,6 +1299,48 @@ abstract class L10n {
   /// **'Indonesian'**
   String get settingsLanguageIndonesian;
 
+  /// Settings trash
+  ///
+  /// In en, this message translates to:
+  /// **'Trash'**
+  String get settingsTrash;
+
+  /// Settings cancel
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get settingsCancel;
+
+  /// Settings delete
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get settingsDelete;
+
+  /// Settings restore
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get settingsRestore;
+
+  /// Settings delete permanently
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Permanently'**
+  String get settingsDeletePermanently;
+
+  /// Settings error loading auto backup status
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading auto backup status'**
+  String get settingsErrorLoadingAutoBackup;
+
+  /// Settings continue
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get settingsContinue;
+
   /// Tasks title
   ///
   /// In en, this message translates to:
@@ -1358,6 +1406,12 @@ abstract class L10n {
   /// In en, this message translates to:
   /// **'Error: {error}'**
   String tasksError(String error);
+
+  /// Tasks task reminder
+  ///
+  /// In en, this message translates to:
+  /// **'Task Reminder'**
+  String get tasksTaskReminder;
 
   /// Admin shell bottom navigation label for dashboard
   ///
@@ -1742,6 +1796,48 @@ abstract class L10n {
   /// In en, this message translates to:
   /// **'Retry'**
   String get sharedRetry;
+
+  /// Shared my notes
+  ///
+  /// In en, this message translates to:
+  /// **'My Notes'**
+  String get sharedMyNotes;
+
+  /// Shared tasks
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks'**
+  String get sharedTasks;
+
+  /// Shared settings
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get sharedSettings;
+
+  /// Shared material you
+  ///
+  /// In en, this message translates to:
+  /// **'Material You'**
+  String get sharedMaterialYou;
+
+  /// Shared app name
+  ///
+  /// In en, this message translates to:
+  /// **'Kawai Notes'**
+  String get sharedAppName;
+
+  /// Shared route not found
+  ///
+  /// In en, this message translates to:
+  /// **'Route not found'**
+  String get sharedRouteNotFound;
+
+  /// Shared error initializing app
+  ///
+  /// In en, this message translates to:
+  /// **'Error initializing app'**
+  String get sharedErrorInitializingApp;
 }
 
 class _L10nDelegate extends LocalizationsDelegate<L10n> {

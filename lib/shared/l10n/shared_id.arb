@@ -255,5 +255,12 @@
   "sharedRetry": "Coba Lagi",
   "@sharedRetry": {
     "description": "Shared retry"
-  }
+  },
+  "sharedMyNotes": "Catatan Saya",
+  "sharedTasks": "Tugas",
+  "sharedSettings": "Pengaturan",
+  "sharedMaterialYou": "Material You",
+  "sharedAppName": "Kawai Notes",
+  "sharedRouteNotFound": "Rute tidak ditemukan",
+  "sharedErrorInitializingApp": "Kesalahan menginisialisasi aplikasi"
 }

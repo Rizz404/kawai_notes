@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/riverpod_extension.dart';
 import 'package:flutter_setup_riverpod/di/repository_providers.dart';
 import 'package:flutter_setup_riverpod/di/service_providers.dart';
@@ -76,7 +77,7 @@ class TaskDetailNotifier extends AsyncNotifier<TaskDetailState> {
         final notifications = ref.read(notificationServiceProvider);
         await notifications.scheduleNotification(
           id: task.id,
-          title: 'Task Reminder',
+          title: LocalizationExtension.current.tasksTaskReminder,
           body: title,
           scheduledDate: dueDate,
         );

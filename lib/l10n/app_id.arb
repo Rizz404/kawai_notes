@@ -772,6 +772,7 @@
   "@notesTags": {
     "description": "Notes tags"
   },
+  "notesImportingNotes": "Mengimpor Catatan",
   "settingsTitle": "Pengaturan",
   "@settingsTitle": {
     "description": "Settings title"
@@ -816,6 +817,13 @@
   "@settingsLanguageIndonesian": {
     "description": "Settings language indonesian"
   },
+  "settingsTrash": "Tempat Sampah",
+  "settingsCancel": "Batal",
+  "settingsDelete": "Hapus",
+  "settingsRestore": "Pulihkan",
+  "settingsDeletePermanently": "Hapus Permanen",
+  "settingsErrorLoadingAutoBackup": "Gagal memuat status pencadangan otomatis",
+  "settingsContinue": "Lanjutkan",
   "tasksTitle": "Tugas",
   "@tasksTitle": {
     "description": "Tasks title"
@@ -860,6 +868,7 @@
   "@tasksError": {
     "description": "Tasks error"
   },
+  "tasksTaskReminder": "Pengingat Tugas",
   "adminShellBottomNavDashboard": "Dasbor",
   "@adminShellBottomNavDashboard": {
     "description": "Admin shell bottom nav dashboard"
@@ -1115,5 +1124,12 @@
   "sharedRetry": "Coba Lagi",
   "@sharedRetry": {
     "description": "Shared retry"
-  }
+  },
+  "sharedMyNotes": "Catatan Saya",
+  "sharedTasks": "Tugas",
+  "sharedSettings": "Pengaturan",
+  "sharedMaterialYou": "Material You",
+  "sharedAppName": "Kawai Notes",
+  "sharedRouteNotFound": "Rute tidak ditemukan",
+  "sharedErrorInitializingApp": "Kesalahan menginisialisasi aplikasi"
 }

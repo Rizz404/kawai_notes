@@ -256,10 +256,14 @@ class AppRouterDelegate extends RouterDelegate<AppRouteState>
         _pages.add(page);
       }
     } else {
-      final page = const MaterialPage<dynamic>(
-        key: ValueKey('404'),
+      final page = MaterialPage<dynamic>(
+        key: const ValueKey('404'),
         name: '/404',
-        child: Scaffold(body: Center(child: Text('Route not found'))),
+        child: Builder(
+          builder: (context) => Scaffold(
+            body: Center(child: Text(context.l10n.sharedRouteNotFound)),
+          ),
+        ),
       );
       if (replace && _pages.isNotEmpty) {
         _pages.removeLast();
@@ -411,10 +415,14 @@ class AppRouterDelegate extends RouterDelegate<AppRouteState>
 
     if (pages.isEmpty) {
       pages.add(
-        const MaterialPage<dynamic>(
-          key: ValueKey('404'),
+        MaterialPage<dynamic>(
+          key: const ValueKey('404'),
           name: '/404',
-          child: Scaffold(body: Center(child: Text('Route not found'))),
+          child: Builder(
+            builder: (context) => Scaffold(
+              body: Center(child: Text(context.l10n.sharedRouteNotFound)),
+            ),
+          ),
         ),
       );
     }

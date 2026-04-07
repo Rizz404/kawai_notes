@@ -43,5 +43,12 @@
   "settingsLanguageIndonesian": "インドネシア語",
   "@settingsLanguageIndonesian": {
     "description": "Settings language indonesian"
-  }
+  },
+  "settingsTrash": "ゴミ箱",
+  "settingsCancel": "キャンセル",
+  "settingsDelete": "削除",
+  "settingsRestore": "復元",
+  "settingsDeletePermanently": "完全に削除",
+  "settingsErrorLoadingAutoBackup": "自動バックアップステータスの取得に失敗しました",
+  "settingsContinue": "続行する"
 }

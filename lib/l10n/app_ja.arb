@@ -772,6 +772,7 @@
   "@notesTags": {
     "description": "Notes tags"
   },
+  "notesImportingNotes": "メモをインポート中",
   "settingsTitle": "設定",
   "@settingsTitle": {
     "description": "Settings title"
@@ -816,6 +817,13 @@
   "@settingsLanguageIndonesian": {
     "description": "Settings language indonesian"
   },
+  "settingsTrash": "ゴミ箱",
+  "settingsCancel": "キャンセル",
+  "settingsDelete": "削除",
+  "settingsRestore": "復元",
+  "settingsDeletePermanently": "完全に削除",
+  "settingsErrorLoadingAutoBackup": "自動バックアップステータスの取得に失敗しました",
+  "settingsContinue": "続行する",
   "tasksTitle": "タスク",
   "@tasksTitle": {
     "description": "Tasks title"
@@ -860,6 +868,7 @@
   "@tasksError": {
     "description": "Tasks error"
   },
+  "tasksTaskReminder": "タスクのリマインダー",
   "adminShellBottomNavDashboard": "ダッシュボード",
   "@adminShellBottomNavDashboard": {
     "description": "Admin shell bottom navigation label for dashboard"
@@ -1131,5 +1140,12 @@
   "sharedRetry": "再試行",
   "@sharedRetry": {
     "description": "Retry button label"
-  }
+  },
+  "sharedMyNotes": "マイノート",
+  "sharedTasks": "タスク",
+  "sharedSettings": "設定",
+  "sharedMaterialYou": "Material You",
+  "sharedAppName": "Kawai Notes",
+  "sharedRouteNotFound": "ルートが見つかりません",
+  "sharedErrorInitializingApp": "アプリの初期化エラー"
 }

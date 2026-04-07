@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/navigator_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/theme_extension.dart';
 import 'package:flutter_setup_riverpod/di/common_providers.dart';
@@ -33,7 +34,7 @@ class AppDrawer extends ConsumerWidget {
                   ),
                   const SizedBox(height: 16),
                   AppText(
-                    'Kawai Notes',
+                    context.l10n.sharedAppName,
                     customStyle: TextStyle(
                       color: context.colorScheme.onPrimary,
                       fontSize: 20,
@@ -46,7 +47,7 @@ class AppDrawer extends ConsumerWidget {
           ),
           ListTile(
             leading: const Icon(Icons.note_outlined),
-            title: const Text('My Notes'),
+            title: Text(context.l10n.sharedMyNotes),
             onTap: () {
               Navigator.pop(context);
               context.replace('/');
@@ -54,7 +55,7 @@ class AppDrawer extends ConsumerWidget {
           ),
           ListTile(
             leading: const Icon(Icons.check_box_outlined),
-            title: const Text('Tasks'),
+            title: Text(context.l10n.sharedTasks),
             onTap: () {
               Navigator.pop(context);
               context.replace('/tasks');
@@ -66,7 +67,7 @@ class AppDrawer extends ConsumerWidget {
               final isMaterialYouEnabled = ref.watch(materialYouProvider);
               return SwitchListTile(
                 secondary: const Icon(Icons.color_lens_outlined),
-                title: const Text('Material You'),
+                title: Text(context.l10n.sharedMaterialYou),
                 value: isMaterialYouEnabled,
                 onChanged: (bool value) {
                   ref.read(materialYouProvider.notifier).toggle();
@@ -77,7 +78,7 @@ class AppDrawer extends ConsumerWidget {
           const Divider(),
           ListTile(
             leading: const Icon(Icons.settings_outlined),
-            title: const Text('Settings'),
+            title: Text(context.l10n.sharedSettings),
             onTap: () {
               Navigator.pop(context);
               context.replace('/other');
