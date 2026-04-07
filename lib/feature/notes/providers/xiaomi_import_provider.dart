@@ -4,11 +4,11 @@ import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kawai_notes/core/extensions/localization_extension.dart';
 import 'package:kawai_notes/core/extensions/logger_extension.dart';
 import 'package:kawai_notes/di/repository_providers.dart';
 import 'package:kawai_notes/di/service_providers.dart';
 import 'package:kawai_notes/feature/notes/providers/note_list_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class XiaomiImportState extends Equatable {
   final bool isMutating;
@@ -138,12 +138,33 @@ class XiaomiImportNotifier extends Notifier<XiaomiImportState> {
     }
   }
 
-  Future<void> importXiaomiNotesFromFolder() async {
-    if (state.isImportingFolder) return;
+  Future<bool> importXiaomiNotesFromFolder({
+    required String importingNotesTitle,
+  }) async {
+    if (state.isImportingFolder) return false;
 
     try {
+      if (Platform.isAndroid) {
+        final storageStatus = await Permission.manageExternalStorage.status;
+        if (!storageStatus.isGranted) {
+          final result = await Permission.manageExternalStorage.request();
+          if (!result.isGranted) {
+            final storageStatus2 = await Permission.storage.status;
+            if (!storageStatus2.isGranted) {
+              final result2 = await Permission.storage.request();
+              if (!result2.isGranted) {
+                state = const XiaomiImportState(
+                  mutationError: 'Storage permission required',
+                );
+                return false;
+              }
+            }
+          }
+        }
+      }
+
       final selectedDirectory = await FilePicker.platform.getDirectoryPath();
-      if (selectedDirectory == null) return;
+      if (selectedDirectory == null) return false;
 
       state = const XiaomiImportState(
         isMutating: true,
@@ -158,8 +179,10 @@ class XiaomiImportNotifier extends Notifier<XiaomiImportState> {
           .toList();
 
       if (mdFiles.isEmpty) {
-        state = const XiaomiImportState();
-        return;
+        state = const XiaomiImportState(
+          mutationError: 'No markdown files found',
+        );
+        return false;
       }
 
       final total = mdFiles.length;
@@ -170,7 +193,7 @@ class XiaomiImportNotifier extends Notifier<XiaomiImportState> {
 
       await notificationService.showProgressNotification(
         id: notificationId,
-        title: LocalizationExtension.current.notesImportingNotes,
+        title: importingNotesTitle,
         body: '0 / $total',
         maxProgress: total,
         progress: 0,
@@ -247,8 +270,8 @@ class XiaomiImportNotifier extends Notifier<XiaomiImportState> {
           state = state.copyWith(processedFiles: processed);
           await notificationService.showProgressNotification(
             id: notificationId,
-            title: LocalizationExtension.current.notesImportingNotes,
-            body: '$processed / $total',
+            title: importingNotesTitle,
+            body: '$processed / $total - $title',
             maxProgress: total,
             progress: processed,
           );
@@ -262,10 +285,12 @@ class XiaomiImportNotifier extends Notifier<XiaomiImportState> {
       ref.invalidate(noteListNotifierProvider);
 
       state = const XiaomiImportState();
+      return true;
     } catch (e, st) {
       logError('Failed to import Xiaomi notes from folder', e, st);
       state = XiaomiImportState(mutationError: e);
       await ref.read(notificationServiceProvider).cancelNotification(888);
+      return false;
     }
   }
 }

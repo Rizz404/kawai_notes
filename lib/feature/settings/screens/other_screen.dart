@@ -190,9 +190,12 @@ class OtherScreen extends ConsumerWidget {
                           return;
                         }
 
-                        await ref
+                        final didImport = await ref
                             .read(xiaomiImportProvider.notifier)
-                            .importXiaomiNotesFromFolder();
+                            .importXiaomiNotesFromFolder(
+                              importingNotesTitle:
+                                  context.l10n.notesImportingNotes,
+                            );
 
                         if (context.mounted) {
                           final error = ref
@@ -205,6 +208,14 @@ class OtherScreen extends ConsumerWidget {
                                   context.l10n.settingsFolderImportFailed(
                                     error.toString(),
                                   ),
+                                ),
+                              ),
+                            );
+                          } else if (didImport) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: AppText(
+                                  context.l10n.settingsImportSuccessful,
                                 ),
                               ),
                             );
