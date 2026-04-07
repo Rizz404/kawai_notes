@@ -792,6 +792,18 @@
   "@notesImportingNotes": {
     "description": "Notes importing notes"
   },
+  "notesTitleOptional": "Title (Optional)",
+  "@notesTitleOptional": {
+    "description": "Notes title optional"
+  },
+  "notesSearchNotes": "Search notes...",
+  "@notesSearchNotes": {
+    "description": "Notes search notes"
+  },
+  "notesSearchHiddenNotes": "Search hidden notes...",
+  "@notesSearchHiddenNotes": {
+    "description": "Notes search hidden notes"
+  },
   "settingsTitle": "Settings",
   "@settingsTitle": {
     "description": "Settings title"
@@ -864,6 +876,107 @@
   "@settingsContinue": {
     "description": "Settings continue"
   },
+  "settingsBackupAndRestore": "Backup & Restore",
+  "@settingsBackupAndRestore": {
+    "description": "Settings backup and restore"
+  },
+  "settingsExportYourNotesToAZipFile": "Export your notes to a zip file.",
+  "@settingsExportYourNotesToAZipFile": {
+    "description": "Settings export your notes"
+  },
+  "settingsAreYouSure": "Are you sure?",
+  "@settingsAreYouSure": {
+    "description": "Settings are you sure"
+  },
+  "settingsEmptyTrashQuestion": "Empty Trash?",
+  "@settingsEmptyTrashQuestion": {
+    "description": "Settings empty trash question"
+  },
+  "settingsTrashIsEmpty": "Trash is empty.",
+  "@settingsTrashIsEmpty": {
+    "description": "Settings trash is empty"
+  },
+  "settingsTrashDeleteSubtitleReady": "Deleted (auto-delete in {days} days)",
+  "@settingsTrashDeleteSubtitleReady": {
+    "description": "Trash delete subtitle",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsTrashDeleteSubtitleSoon": "Deleted (auto-delete very soon)",
+  "@settingsTrashDeleteSubtitleSoon": {
+    "description": "Trash delete subtitle soon"
+  },
+  "settingsUntitled": "Untitled",
+  "@settingsUntitled": {
+    "description": "Untitled fallback"
+  },
+  "settingsImportXiaomiNotesBulk": "Import Xiaomi Notes (Bulk)",
+  "@settingsImportXiaomiNotesBulk": {
+    "description": "Settings import bulk"
+  },
+  "settingsImportFailed": "Import failed: {error}",
+  "@settingsImportFailed": {
+    "description": "Settings import failed",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsImportSuccessful": "Import successful!",
+  "@settingsImportSuccessful": {
+    "description": "Settings import successful"
+  },
+  "settingsImportXiaomiNotesFolder": "Import Xiaomi Notes (Folder)",
+  "@settingsImportXiaomiNotesFolder": {
+    "description": "Settings import folder"
+  },
+  "settingsTrashDeleteDescription": "All notes in the trash will be permanently deleted.",
+  "@settingsTrashDeleteDescription": {
+    "description": "Settings trash delete description"
+  },
+  "settingsImportAnotherRunning": "Another import is running in the background",
+  "@settingsImportAnotherRunning": {
+    "description": "Settings import another running"
+  },
+  "settingsFolderImportFailed": "Folder import failed: {error}",
+  "@settingsFolderImportFailed": {
+    "description": "Settings folder import failed",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsImportFolderProgress": "{processed} / {total} imported",
+  "@settingsImportFolderProgress": {
+    "description": "Settings import folder progress",
+    "placeholders": {
+      "processed": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsManualBackup": "Manual Backup",
+  "settingsExportBackup": "Export Backup",
+  "settingsRestoreBackupTitle": "Restore Backup",
+  "settingsRestoreDescription": "Import notes from a zip file. This will replace your current data.",
+  "settingsImportBackupBtn": "Import Backup",
+  "settingsAutoBackupTitle": "Auto Backup",
+  "settingsLastAutoBackup": "Last auto backup: {date}",
+  "settingsNoAutoBackup": "No auto backup available.",
+  "settingsRestoreFromAutoBackup": "Restore from Auto Backup",
+  "settingsBackupExportSuccess": "Backup exported successfully",
+  "settingsBackupExportFailed": "Backup export cancelled or failed",
+  "settingsRestoreSuccess": "Restore successful, restarting app...",
+  "settingsRestoreFailed": "Restore failed",
+  "settingsOverwriteWarning": "This will overwrite all your current notes. This action cannot be undone.",
   "tasksTitle": "Tasks",
   "@tasksTitle": {
     "description": "Tasks title"

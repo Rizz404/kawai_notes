@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_setup_riverpod/shared/widgets/app_text.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_setup_riverpod/core/extensions/theme_extension.dart';
@@ -92,9 +93,9 @@ class AppRichTextEditor extends FormBuilderField<String> {
                if (widget.bottomActions != null) widget.bottomActions!,
                if (field.hasError) ...[
                  const SizedBox(height: 4),
-                 Text(
+                 AppText(
                    field.errorText!,
-                   style: TextStyle(
+                   customStyle: TextStyle(
                      color: field.context.semantic.error,
                      fontSize: 12,
                    ),

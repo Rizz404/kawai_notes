@@ -18,32 +18,32 @@ class BackupScreen extends ConsumerWidget {
     final backupState = ref.watch(backupProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Backup & Restore')),
+      appBar: AppBar(title: AppText(context.l10n.settingsBackupAndRestore)),
       body: ScreenWrapper(
         child: backupState.isLoading
             ? const Center(child: CircularProgressIndicator())
             : ListView(
                 padding: const EdgeInsets.all(16),
                 children: [
-                  const AppText(
-                    'Manual Backup',
+                  AppText(
+                    context.l10n.settingsManualBackup,
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                   ),
                   const SizedBox(height: 8),
-                  const AppText('Export your notes to a zip file.'),
+                  AppText(context.l10n.settingsExportYourNotesToAZipFile),
                   const SizedBox(height: 16),
                   AppButton(
-                    text: 'Export Backup',
+                    text: context.l10n.settingsExportBackup,
                     onPressed: () async {
                       final success = await ref
                           .read(backupProvider.notifier)
                           .exportBackup();
                       if (success) {
-                        BotToast.showText(text: 'Backup exported successfully');
+                        BotToast.showText(text: context.l10n.settingsBackupExportSuccess);
                       } else {
                         BotToast.showText(
-                          text: 'Backup export cancelled or failed',
+                          text: context.l10n.settingsBackupExportFailed,
                         );
                       }
                     },
@@ -51,18 +51,18 @@ class BackupScreen extends ConsumerWidget {
                   const SizedBox(height: 32),
                   const Divider(),
                   const SizedBox(height: 32),
-                  const AppText(
-                    'Restore Backup',
+                  AppText(
+                    context.l10n.settingsRestoreBackupTitle,
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                   ),
                   const SizedBox(height: 8),
-                  const AppText(
-                    'Import notes from a zip file. This will replace your current data.',
+                  AppText(
+                    context.l10n.settingsRestoreDescription,
                   ),
                   const SizedBox(height: 16),
                   AppButton(
-                    text: 'Import Backup',
+                    text: context.l10n.settingsImportBackupBtn,
                     onPressed: () async {
                       final confirm = await _showConfirmDialog(context);
                       if (confirm != true) return;
@@ -72,21 +72,21 @@ class BackupScreen extends ConsumerWidget {
                           .importBackup();
                       if (success) {
                         BotToast.showText(
-                          text: 'Restore successful, restarting app...',
+                          text: context.l10n.settingsRestoreSuccess,
                         );
                         if (context.mounted) {
                           Phoenix.rebirth(context);
                         }
                       } else {
-                        BotToast.showText(text: 'Restore failed');
+                        BotToast.showText(text: context.l10n.settingsRestoreFailed);
                       }
                     },
                   ),
                   const SizedBox(height: 32),
                   const Divider(),
                   const SizedBox(height: 32),
-                  const AppText(
-                    'Auto Backup',
+                  AppText(
+                    context.l10n.settingsAutoBackupTitle,
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                   ),
@@ -94,8 +94,8 @@ class BackupScreen extends ConsumerWidget {
                   autoDateAsync.when(
                     data: (date) => AppText(
                       date != null
-                          ? 'Last auto backup: ${DateFormat('yyyy-MM-dd HH:mm').format(date)}'
-                          : 'No auto backup available.',
+                          ? context.l10n.settingsLastAutoBackup(DateFormat('yyyy-MM-dd HH:mm').format(date))
+                          : context.l10n.settingsNoAutoBackup,
                     ),
                     loading: () => const CircularProgressIndicator(),
                     error: (_, __) =>
@@ -103,7 +103,7 @@ class BackupScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 16),
                   AppButton(
-                    text: 'Restore from Auto Backup',
+                    text: context.l10n.settingsRestoreFromAutoBackup,
                     onPressed: autoDateAsync.value == null
                         ? null
                         : () async {
@@ -115,13 +115,13 @@ class BackupScreen extends ConsumerWidget {
                                 .restoreAutoBackup();
                             if (success) {
                               BotToast.showText(
-                                text: 'Restore successful, restarting app...',
+                                text: context.l10n.settingsRestoreSuccess,
                               );
                               if (context.mounted) {
                                 Phoenix.rebirth(context);
                               }
                             } else {
-                              BotToast.showText(text: 'Restore failed');
+                              BotToast.showText(text: context.l10n.settingsRestoreFailed);
                             }
                           },
                   ),
@@ -135,18 +135,18 @@ class BackupScreen extends ConsumerWidget {
     return showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Are you sure?'),
-        content: const Text(
-          'This will overwrite all your current notes. This action cannot be undone.',
+        title: AppText(context.l10n.settingsAreYouSure),
+        content: AppText(
+          context.l10n.settingsOverwriteWarning,
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: Text(context.l10n.settingsCancel),
+            child: AppText(context.l10n.settingsCancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            child: Text(context.l10n.settingsContinue),
+            child: AppText(context.l10n.settingsContinue),
           ),
         ],
       ),

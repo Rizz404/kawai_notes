@@ -16,7 +16,7 @@ class TasksScreen extends ConsumerWidget {
     final taskState = ref.watch(taskListNotifierProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text(context.l10n.tasksTitle)),
+      appBar: AppBar(title: AppText(context.l10n.tasksTitle)),
       drawer: const AppDrawer(),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.push('/task-editor'),

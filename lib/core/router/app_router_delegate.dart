@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_setup_riverpod/shared/widgets/app_text.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/logger_extension.dart';
@@ -261,7 +262,7 @@ class AppRouterDelegate extends RouterDelegate<AppRouteState>
         name: '/404',
         child: Builder(
           builder: (context) => Scaffold(
-            body: Center(child: Text(context.l10n.sharedRouteNotFound)),
+            body: Center(child: AppText(context.l10n.sharedRouteNotFound)),
           ),
         ),
       );
@@ -420,7 +421,7 @@ class AppRouterDelegate extends RouterDelegate<AppRouteState>
           name: '/404',
           child: Builder(
             builder: (context) => Scaffold(
-              body: Center(child: Text(context.l10n.sharedRouteNotFound)),
+              body: Center(child: AppText(context.l10n.sharedRouteNotFound)),
             ),
           ),
         ),

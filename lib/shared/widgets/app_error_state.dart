@@ -64,7 +64,7 @@ class AppErrorState extends StatelessWidget {
               ElevatedButton.icon(
                 onPressed: onRetry,
                 icon: const Icon(Icons.refresh),
-                label: Text(retryButtonText ?? context.l10n.sharedRetry),
+                label: AppText(retryButtonText ?? context.l10n.sharedRetry),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 32,

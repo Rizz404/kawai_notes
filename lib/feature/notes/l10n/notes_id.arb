@@ -48,5 +48,8 @@
   "@notesTags": {
     "description": "Notes tags"
   },
-  "notesImportingNotes": "Mengimpor Catatan"
+  "notesImportingNotes": "Mengimpor Catatan",
+  "notesTitleOptional": "Judul (Opsional)",
+  "notesSearchNotes": "Cari catatan...",
+  "notesSearchHiddenNotes": "Cari catatan tersembunyi..."
 }

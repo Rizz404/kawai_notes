@@ -378,9 +378,9 @@ class _AppSearchFieldState<T> extends State<AppSearchField<T>> {
       return Padding(
         padding: const EdgeInsets.all(16),
         child: Center(
-          child: Text(
+          child: AppText(
             context.l10n.appSearchFieldNoResultsFound,
-            style: context.textTheme.bodyMedium?.copyWith(
+            customStyle: context.textTheme.bodyMedium?.copyWith(
               color: context.colors.textSecondary,
             ),
           ),

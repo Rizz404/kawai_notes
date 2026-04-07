@@ -633,6 +633,15 @@ class L10nJa extends L10n {
   String get notesImportingNotes => 'メモをインポート中';
 
   @override
+  String get notesTitleOptional => 'タイトル（オプション）';
+
+  @override
+  String get notesSearchNotes => 'ノートを検索...';
+
+  @override
+  String get notesSearchHiddenNotes => '非表示のノートを検索...';
+
+  @override
   String get settingsTitle => '設定';
 
   @override
@@ -685,6 +694,107 @@ class L10nJa extends L10n {
 
   @override
   String get settingsContinue => '続行する';
+
+  @override
+  String get settingsBackupAndRestore => 'バックアップと復元';
+
+  @override
+  String get settingsExportYourNotesToAZipFile => 'ノートをzipファイルにエクスポートします。';
+
+  @override
+  String get settingsAreYouSure => '本当によろしいですか？';
+
+  @override
+  String get settingsEmptyTrashQuestion => 'ゴミ箱を空にしますか？';
+
+  @override
+  String get settingsTrashIsEmpty => 'ゴミ箱は空です。';
+
+  @override
+  String settingsTrashDeleteSubtitleReady(int days) {
+    return '削除済み（$days日後に自動削除）';
+  }
+
+  @override
+  String get settingsTrashDeleteSubtitleSoon => '削除済み（まもなく自動削除されます）';
+
+  @override
+  String get settingsUntitled => '無題';
+
+  @override
+  String get settingsImportXiaomiNotesBulk => 'Xiaomiノートのインポート（一括）';
+
+  @override
+  String settingsImportFailed(String error) {
+    return 'インポート失敗: $error';
+  }
+
+  @override
+  String get settingsImportSuccessful => 'インポートが成功しました！';
+
+  @override
+  String get settingsImportXiaomiNotesFolder => 'Xiaomiノートのインポート（フォルダ）';
+
+  @override
+  String get settingsTrashDeleteDescription => 'ゴミ箱内のすべてのノートは完全に削除されます。';
+
+  @override
+  String get settingsImportAnotherRunning => '別のインポートがバックグラウンドで実行中です';
+
+  @override
+  String settingsFolderImportFailed(String error) {
+    return 'フォルダのインポートに失敗しました: $error';
+  }
+
+  @override
+  String settingsImportFolderProgress(int processed, int total) {
+    return '$processed / $total がインポートされました';
+  }
+
+  @override
+  String get settingsManualBackup => '手動バックアップ';
+
+  @override
+  String get settingsExportBackup => 'バックアップをエクスポート';
+
+  @override
+  String get settingsRestoreBackupTitle => 'バックアップを復元';
+
+  @override
+  String get settingsRestoreDescription =>
+      'zipファイルからメモをインポートします。これにより現在のデータが置き換えられます。';
+
+  @override
+  String get settingsImportBackupBtn => 'バックアップをインポート';
+
+  @override
+  String get settingsAutoBackupTitle => '自動バックアップ';
+
+  @override
+  String settingsLastAutoBackup(Object date) {
+    return '最終自動バックアップ: $date';
+  }
+
+  @override
+  String get settingsNoAutoBackup => '利用可能な自動バックアップはありません。';
+
+  @override
+  String get settingsRestoreFromAutoBackup => '自動バックアップから復元';
+
+  @override
+  String get settingsBackupExportSuccess => 'バックアップが正常にエクスポートされました';
+
+  @override
+  String get settingsBackupExportFailed => 'バックアップのエクスポートがキャンセルまたは失敗しました';
+
+  @override
+  String get settingsRestoreSuccess => '復元が成功しました、アプリを再起動しています...';
+
+  @override
+  String get settingsRestoreFailed => '復元に失敗しました';
+
+  @override
+  String get settingsOverwriteWarning => 'これにより現在のすべてのメモが上書きされます。この操作は元に戻せません。';
 
   @override
   String get tasksTitle => 'タスク';

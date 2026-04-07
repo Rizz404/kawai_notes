@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_setup_riverpod/shared/widgets/app_text.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
@@ -31,7 +32,7 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: AppText(
           widget.taskId == null
               ? context.l10n.tasksNew
               : context.l10n.tasksEdit,
@@ -96,7 +97,7 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
         },
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) =>
-            Center(child: Text(context.l10n.tasksError(e.toString()))),
+            Center(child: AppText(context.l10n.tasksError(e.toString()))),
       ),
     );
   }

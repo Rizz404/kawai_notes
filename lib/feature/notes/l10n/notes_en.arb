@@ -63,5 +63,17 @@
   "notesImportingNotes": "Importing Notes",
   "@notesImportingNotes": {
     "description": "Notes importing notes"
+  },
+  "notesTitleOptional": "Title (Optional)",
+  "@notesTitleOptional": {
+    "description": "Notes title optional"
+  },
+  "notesSearchNotes": "Search notes...",
+  "@notesSearchNotes": {
+    "description": "Notes search notes"
+  },
+  "notesSearchHiddenNotes": "Search hidden notes...",
+  "@notesSearchHiddenNotes": {
+    "description": "Notes search hidden notes"
   }
 }

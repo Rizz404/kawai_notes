@@ -27,7 +27,7 @@ Proyek ini menggunakan arsitektur *Feature-First* yang ketat dengan pemisahan di
 - Buat `NoteEditorScreen` yang memiliki dua mode: mode *editor* teks biasa untuk menulis Markdown, dan mode *preview* yang me-render Markdown tersebut menjadi tampilan yang terbaca.
 - Implementasikan *Bidirectional Navigation*: Ketika pengguna mengetuk sebuah tautan `[[Judul Catatan]]` pada mode *preview*, gunakan sistem router di `lib/core/router/` untuk menavigasi ke catatan yang dituju.
 - Buat `HomeScreen` yang menampilkan daftar catatan dengan kemampuan beralih tampilan antara mode *list* dan mode *grid*.
-- Implementasikan fitur *Full-Text Search* lokal di beranda dengan memanfaatkan kemampuan *query* dari database.
+- Implementasikan fitur *Full-AppText Search* lokal di beranda dengan memanfaatkan kemampuan *query* dari database.
 
 ---
 

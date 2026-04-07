@@ -634,6 +634,15 @@ class L10nEn extends L10n {
   String get notesImportingNotes => 'Importing Notes';
 
   @override
+  String get notesTitleOptional => 'Title (Optional)';
+
+  @override
+  String get notesSearchNotes => 'Search notes...';
+
+  @override
+  String get notesSearchHiddenNotes => 'Search hidden notes...';
+
+  @override
   String get settingsTitle => 'Settings';
 
   @override
@@ -687,6 +696,112 @@ class L10nEn extends L10n {
 
   @override
   String get settingsContinue => 'Continue';
+
+  @override
+  String get settingsBackupAndRestore => 'Backup & Restore';
+
+  @override
+  String get settingsExportYourNotesToAZipFile =>
+      'Export your notes to a zip file.';
+
+  @override
+  String get settingsAreYouSure => 'Are you sure?';
+
+  @override
+  String get settingsEmptyTrashQuestion => 'Empty Trash?';
+
+  @override
+  String get settingsTrashIsEmpty => 'Trash is empty.';
+
+  @override
+  String settingsTrashDeleteSubtitleReady(int days) {
+    return 'Deleted (auto-delete in $days days)';
+  }
+
+  @override
+  String get settingsTrashDeleteSubtitleSoon =>
+      'Deleted (auto-delete very soon)';
+
+  @override
+  String get settingsUntitled => 'Untitled';
+
+  @override
+  String get settingsImportXiaomiNotesBulk => 'Import Xiaomi Notes (Bulk)';
+
+  @override
+  String settingsImportFailed(String error) {
+    return 'Import failed: $error';
+  }
+
+  @override
+  String get settingsImportSuccessful => 'Import successful!';
+
+  @override
+  String get settingsImportXiaomiNotesFolder => 'Import Xiaomi Notes (Folder)';
+
+  @override
+  String get settingsTrashDeleteDescription =>
+      'All notes in the trash will be permanently deleted.';
+
+  @override
+  String get settingsImportAnotherRunning =>
+      'Another import is running in the background';
+
+  @override
+  String settingsFolderImportFailed(String error) {
+    return 'Folder import failed: $error';
+  }
+
+  @override
+  String settingsImportFolderProgress(int processed, int total) {
+    return '$processed / $total imported';
+  }
+
+  @override
+  String get settingsManualBackup => 'Manual Backup';
+
+  @override
+  String get settingsExportBackup => 'Export Backup';
+
+  @override
+  String get settingsRestoreBackupTitle => 'Restore Backup';
+
+  @override
+  String get settingsRestoreDescription =>
+      'Import notes from a zip file. This will replace your current data.';
+
+  @override
+  String get settingsImportBackupBtn => 'Import Backup';
+
+  @override
+  String get settingsAutoBackupTitle => 'Auto Backup';
+
+  @override
+  String settingsLastAutoBackup(Object date) {
+    return 'Last auto backup: $date';
+  }
+
+  @override
+  String get settingsNoAutoBackup => 'No auto backup available.';
+
+  @override
+  String get settingsRestoreFromAutoBackup => 'Restore from Auto Backup';
+
+  @override
+  String get settingsBackupExportSuccess => 'Backup exported successfully';
+
+  @override
+  String get settingsBackupExportFailed => 'Backup export cancelled or failed';
+
+  @override
+  String get settingsRestoreSuccess => 'Restore successful, restarting app...';
+
+  @override
+  String get settingsRestoreFailed => 'Restore failed';
+
+  @override
+  String get settingsOverwriteWarning =>
+      'This will overwrite all your current notes. This action cannot be undone.';
 
   @override
   String get tasksTitle => 'Tasks';

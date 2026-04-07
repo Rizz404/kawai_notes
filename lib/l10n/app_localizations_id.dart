@@ -634,6 +634,15 @@ class L10nId extends L10n {
   String get notesImportingNotes => 'Mengimpor Catatan';
 
   @override
+  String get notesTitleOptional => 'Judul (Opsional)';
+
+  @override
+  String get notesSearchNotes => 'Cari catatan...';
+
+  @override
+  String get notesSearchHiddenNotes => 'Cari catatan tersembunyi...';
+
+  @override
   String get settingsTitle => 'Pengaturan';
 
   @override
@@ -687,6 +696,115 @@ class L10nId extends L10n {
 
   @override
   String get settingsContinue => 'Lanjutkan';
+
+  @override
+  String get settingsBackupAndRestore => 'Cadangkan & Pulihkan';
+
+  @override
+  String get settingsExportYourNotesToAZipFile =>
+      'Ekspor catatan Anda ke file zip.';
+
+  @override
+  String get settingsAreYouSure => 'Apakah Anda yakin?';
+
+  @override
+  String get settingsEmptyTrashQuestion => 'Kosongkan Tempat Sampah?';
+
+  @override
+  String get settingsTrashIsEmpty => 'Tempat sampah kosong.';
+
+  @override
+  String settingsTrashDeleteSubtitleReady(int days) {
+    return 'Dihapus (hapus otomatis dalam $days hari)';
+  }
+
+  @override
+  String get settingsTrashDeleteSubtitleSoon =>
+      'Dihapus (segera dihapus otomatis)';
+
+  @override
+  String get settingsUntitled => 'Tanpa Judul';
+
+  @override
+  String get settingsImportXiaomiNotesBulk => 'Impor Catatan Xiaomi (Massal)';
+
+  @override
+  String settingsImportFailed(String error) {
+    return 'Impor gagal: $error';
+  }
+
+  @override
+  String get settingsImportSuccessful => 'Impor berhasil!';
+
+  @override
+  String get settingsImportXiaomiNotesFolder => 'Impor Catatan Xiaomi (Folder)';
+
+  @override
+  String get settingsTrashDeleteDescription =>
+      'Semua catatan di tempat sampah akan dihapus secara permanen.';
+
+  @override
+  String get settingsImportAnotherRunning =>
+      'Impor lain sedang berjalan di latar belakang';
+
+  @override
+  String settingsFolderImportFailed(String error) {
+    return 'Impor folder gagal: $error';
+  }
+
+  @override
+  String settingsImportFolderProgress(int processed, int total) {
+    return '$processed / $total diimpor';
+  }
+
+  @override
+  String get settingsManualBackup => 'Cadangan Manual';
+
+  @override
+  String get settingsExportBackup => 'Ekspor Cadangan';
+
+  @override
+  String get settingsRestoreBackupTitle => 'Pulihkan Cadangan';
+
+  @override
+  String get settingsRestoreDescription =>
+      'Impor catatan dari file zip. Ini akan menimpa data Anda saat ini.';
+
+  @override
+  String get settingsImportBackupBtn => 'Impor Cadangan';
+
+  @override
+  String get settingsAutoBackupTitle => 'Cadangan Otomatis';
+
+  @override
+  String settingsLastAutoBackup(Object date) {
+    return 'Cadangan otomatis terakhir: $date';
+  }
+
+  @override
+  String get settingsNoAutoBackup =>
+      'Tidak ada cadangan otomatis yang tersedia.';
+
+  @override
+  String get settingsRestoreFromAutoBackup => 'Pulihkan dari Cadangan Otomatis';
+
+  @override
+  String get settingsBackupExportSuccess => 'Cadangan berhasil diekspor';
+
+  @override
+  String get settingsBackupExportFailed =>
+      'Ekspor cadangan dibatalkan atau gagal';
+
+  @override
+  String get settingsRestoreSuccess =>
+      'Pemulihan berhasil, memulai ulang aplikasi...';
+
+  @override
+  String get settingsRestoreFailed => 'Pemulihan gagal';
+
+  @override
+  String get settingsOverwriteWarning =>
+      'Ini akan menimpa semua catatan Anda saat ini. Tindakan ini tidak dapat dibatalkan.';
 
   @override
   String get tasksTitle => 'Tugas';

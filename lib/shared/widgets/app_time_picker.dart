@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_setup_riverpod/shared/widgets/app_text.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/theme_extension.dart';
@@ -56,11 +57,11 @@ class AppTimePicker extends StatelessWidget {
                     )
                   : null,
             ),
-            child: Text(
+            child: AppText(
               field.value != null
                   ? field.value!.format(context)
                   : context.l10n.sharedTimePlaceholder,
-              style: TextStyle(
+              customStyle: TextStyle(
                 color: enabled
                     ? null
                     : context.colorScheme.onSurface.withValues(alpha: 0.5),

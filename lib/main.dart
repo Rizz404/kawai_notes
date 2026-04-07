@@ -1,6 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_setup_riverpod/shared/widgets/app_text.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -18,6 +19,7 @@ import 'package:flutter_setup_riverpod/di/common_providers.dart';
 import 'package:flutter_setup_riverpod/di/service_providers.dart';
 import 'package:flutter_setup_riverpod/core/services/encryption_service.dart';
 import 'package:flutter_setup_riverpod/core/services/note_file_service.dart';
+import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
 import 'package:flutter_setup_riverpod/feature/notes/repositories/note_repository.dart';
 import 'package:flutter_setup_riverpod/l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -86,9 +88,9 @@ Future<void> main() async {
     AppLogger.instance.error('Error initializing app', e);
 
     runApp(
-      const ProviderScope(
+      ProviderScope(
         child: MaterialApp(
-          localizationsDelegates: [
+          localizationsDelegates: const [
             L10n.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
@@ -96,7 +98,13 @@ Future<void> main() async {
             FlutterQuillLocalizations.delegate,
           ],
           supportedLocales: L10n.supportedLocales,
-          home: Scaffold(body: Center(child: Text('Error initializing app'))),
+          home: Builder(
+            builder: (context) => Scaffold(
+              body: Center(
+                child: AppText(context.l10n.sharedErrorInitializingApp),
+              ),
+            ),
+          ),
         ),
       ),
     );

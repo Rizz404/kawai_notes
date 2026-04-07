@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_setup_riverpod/shared/widgets/app_text.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
@@ -90,7 +91,9 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
               (previous?.value?.mutationError != next.value!.mutationError)) {
             if (mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(next.value!.mutationError.toString())),
+                SnackBar(
+                  content: AppText(next.value!.mutationError.toString()),
+                ),
               );
             }
           }
@@ -107,7 +110,7 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
+          title: AppText(
             widget.noteId == null
                 ? context.l10n.notesNew
                 : context.l10n.notesEdit,
@@ -136,7 +139,7 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
                       children: [
                         AppTextField(
                           name: 'title',
-                          label: 'Title (Optional)',
+                          label: context.l10n.notesTitleOptional,
                           initialValue:
                               state.note?.title ?? widget.initialTitle ?? '',
                           isBorderless: true,
@@ -169,7 +172,7 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
           },
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (error, stackTrace) =>
-              Center(child: Text(context.l10n.notesError(error.toString()))),
+              Center(child: AppText(context.l10n.notesError(error.toString()))),
         ),
       ),
     );

@@ -1233,6 +1233,24 @@ abstract class L10n {
   /// **'Importing Notes'**
   String get notesImportingNotes;
 
+  /// Notes title optional
+  ///
+  /// In en, this message translates to:
+  /// **'Title (Optional)'**
+  String get notesTitleOptional;
+
+  /// Notes search notes
+  ///
+  /// In en, this message translates to:
+  /// **'Search notes...'**
+  String get notesSearchNotes;
+
+  /// Notes search hidden notes
+  ///
+  /// In en, this message translates to:
+  /// **'Search hidden notes...'**
+  String get notesSearchHiddenNotes;
+
   /// Settings title
   ///
   /// In en, this message translates to:
@@ -1340,6 +1358,186 @@ abstract class L10n {
   /// In en, this message translates to:
   /// **'Continue'**
   String get settingsContinue;
+
+  /// Settings backup and restore
+  ///
+  /// In en, this message translates to:
+  /// **'Backup & Restore'**
+  String get settingsBackupAndRestore;
+
+  /// Settings export your notes
+  ///
+  /// In en, this message translates to:
+  /// **'Export your notes to a zip file.'**
+  String get settingsExportYourNotesToAZipFile;
+
+  /// Settings are you sure
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure?'**
+  String get settingsAreYouSure;
+
+  /// Settings empty trash question
+  ///
+  /// In en, this message translates to:
+  /// **'Empty Trash?'**
+  String get settingsEmptyTrashQuestion;
+
+  /// Settings trash is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Trash is empty.'**
+  String get settingsTrashIsEmpty;
+
+  /// Trash delete subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted (auto-delete in {days} days)'**
+  String settingsTrashDeleteSubtitleReady(int days);
+
+  /// Trash delete subtitle soon
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted (auto-delete very soon)'**
+  String get settingsTrashDeleteSubtitleSoon;
+
+  /// Untitled fallback
+  ///
+  /// In en, this message translates to:
+  /// **'Untitled'**
+  String get settingsUntitled;
+
+  /// Settings import bulk
+  ///
+  /// In en, this message translates to:
+  /// **'Import Xiaomi Notes (Bulk)'**
+  String get settingsImportXiaomiNotesBulk;
+
+  /// Settings import failed
+  ///
+  /// In en, this message translates to:
+  /// **'Import failed: {error}'**
+  String settingsImportFailed(String error);
+
+  /// Settings import successful
+  ///
+  /// In en, this message translates to:
+  /// **'Import successful!'**
+  String get settingsImportSuccessful;
+
+  /// Settings import folder
+  ///
+  /// In en, this message translates to:
+  /// **'Import Xiaomi Notes (Folder)'**
+  String get settingsImportXiaomiNotesFolder;
+
+  /// Settings trash delete description
+  ///
+  /// In en, this message translates to:
+  /// **'All notes in the trash will be permanently deleted.'**
+  String get settingsTrashDeleteDescription;
+
+  /// Settings import another running
+  ///
+  /// In en, this message translates to:
+  /// **'Another import is running in the background'**
+  String get settingsImportAnotherRunning;
+
+  /// Settings folder import failed
+  ///
+  /// In en, this message translates to:
+  /// **'Folder import failed: {error}'**
+  String settingsFolderImportFailed(String error);
+
+  /// Settings import folder progress
+  ///
+  /// In en, this message translates to:
+  /// **'{processed} / {total} imported'**
+  String settingsImportFolderProgress(int processed, int total);
+
+  /// No description provided for @settingsManualBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual Backup'**
+  String get settingsManualBackup;
+
+  /// No description provided for @settingsExportBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Backup'**
+  String get settingsExportBackup;
+
+  /// No description provided for @settingsRestoreBackupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore Backup'**
+  String get settingsRestoreBackupTitle;
+
+  /// No description provided for @settingsRestoreDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Import notes from a zip file. This will replace your current data.'**
+  String get settingsRestoreDescription;
+
+  /// No description provided for @settingsImportBackupBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Import Backup'**
+  String get settingsImportBackupBtn;
+
+  /// No description provided for @settingsAutoBackupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto Backup'**
+  String get settingsAutoBackupTitle;
+
+  /// No description provided for @settingsLastAutoBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Last auto backup: {date}'**
+  String settingsLastAutoBackup(Object date);
+
+  /// No description provided for @settingsNoAutoBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'No auto backup available.'**
+  String get settingsNoAutoBackup;
+
+  /// No description provided for @settingsRestoreFromAutoBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore from Auto Backup'**
+  String get settingsRestoreFromAutoBackup;
+
+  /// No description provided for @settingsBackupExportSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup exported successfully'**
+  String get settingsBackupExportSuccess;
+
+  /// No description provided for @settingsBackupExportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup export cancelled or failed'**
+  String get settingsBackupExportFailed;
+
+  /// No description provided for @settingsRestoreSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore successful, restarting app...'**
+  String get settingsRestoreSuccess;
+
+  /// No description provided for @settingsRestoreFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore failed'**
+  String get settingsRestoreFailed;
+
+  /// No description provided for @settingsOverwriteWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'This will overwrite all your current notes. This action cannot be undone.'**
+  String get settingsOverwriteWarning;
 
   /// Tasks title
   ///

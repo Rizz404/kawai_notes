@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_setup_riverpod/shared/widgets/app_text.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/navigator_extension.dart';
@@ -16,7 +17,7 @@ class GraphViewScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.l10n.notesGraphTitle),
+        title: AppText(context.l10n.notesGraphTitle),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => context.pop(),
@@ -25,7 +26,7 @@ class GraphViewScreen extends ConsumerWidget {
       body: listStateAsync.when(
         data: (state) {
           if (state.items.isEmpty) {
-            return Center(child: Text(context.l10n.notesGraphEmpty));
+            return Center(child: AppText(context.l10n.notesGraphEmpty));
           }
           return InteractiveViewer(
             constrained: false,
@@ -40,7 +41,7 @@ class GraphViewScreen extends ConsumerWidget {
         },
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) =>
-            Center(child: Text(context.l10n.notesError(e.toString()))),
+            Center(child: AppText(context.l10n.notesError(e.toString()))),
       ),
     );
   }

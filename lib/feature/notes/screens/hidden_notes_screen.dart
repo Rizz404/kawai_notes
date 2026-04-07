@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_setup_riverpod/shared/widgets/app_text.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/navigator_extension.dart';
@@ -62,7 +63,9 @@ class _HiddenNotesScreenState extends ConsumerState<HiddenNotesScreen> {
                 icon: const Icon(Icons.close),
                 onPressed: _clearSelection,
               ),
-              title: Text(context.l10n.notesSelectedCount(_selectedIds.length)),
+              title: AppText(
+                context.l10n.notesSelectedCount(_selectedIds.length),
+              ),
               actions: [
                 IconButton(
                   icon: const Icon(Icons.visibility),
@@ -75,7 +78,7 @@ class _HiddenNotesScreenState extends ConsumerState<HiddenNotesScreen> {
               ],
             )
           : AppBar(
-              title: Text(context.l10n.notesHiddenTitle),
+              title: AppText(context.l10n.notesHiddenTitle),
               actions: [
                 Builder(
                   builder: (context) => IconButton(
@@ -104,7 +107,7 @@ class _HiddenNotesScreenState extends ConsumerState<HiddenNotesScreen> {
           children: [
             AppSearchField<dynamic>(
               name: 'search',
-              hintText: 'Search hidden notes...',
+              hintText: context.l10n.notesSearchHiddenNotes,
               onChanged: (value) {
                 ref.read(hiddenNoteListNotifierProvider.notifier).search(value);
               },
@@ -118,7 +121,7 @@ class _HiddenNotesScreenState extends ConsumerState<HiddenNotesScreen> {
                     return ListView(
                       children: [
                         const SizedBox(height: 100),
-                        Center(child: Text(context.l10n.notesNotFound)),
+                        Center(child: AppText(context.l10n.notesNotFound)),
                       ],
                     );
                   }
@@ -126,7 +129,7 @@ class _HiddenNotesScreenState extends ConsumerState<HiddenNotesScreen> {
                 },
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (error, stack) => Center(
-                  child: Text(context.l10n.notesError(error.toString())),
+                  child: AppText(context.l10n.notesError(error.toString())),
                 ),
               ),
             ),
@@ -156,9 +159,9 @@ class _HiddenNotesScreenState extends ConsumerState<HiddenNotesScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (!isUntitled)
-                Text(
+                AppText(
                   note.title,
-                  style: context.textTheme.titleMedium,
+                  style: AppTextStyle.titleMedium,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -168,20 +171,19 @@ class _HiddenNotesScreenState extends ConsumerState<HiddenNotesScreen> {
                   return previewAsync.when(
                     data: (content) {
                       if (content.trim().isEmpty && isUntitled) {
-                        return Text(
+                        return AppText(
                           context.l10n.notesNoContent,
-                          style: context.textTheme.bodyMedium?.copyWith(
-                            fontStyle: FontStyle.italic,
-                          ),
+                          style: AppTextStyle.bodyMedium,
+                          fontStyle: FontStyle.italic,
                         );
                       }
-                      return Text(
+                      return AppText(
                         content.trim(),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: isUntitled
-                            ? context.textTheme.bodyMedium
-                            : context.textTheme.bodySmall,
+                            ? AppTextStyle.bodyMedium
+                            : AppTextStyle.bodySmall,
                       );
                     },
                     loading: () => const SizedBox.shrink(),
@@ -194,9 +196,9 @@ class _HiddenNotesScreenState extends ConsumerState<HiddenNotesScreen> {
           subtitle: note.tags.isNotEmpty
               ? Padding(
                   padding: const EdgeInsets.only(top: 4.0),
-                  child: Text(
+                  child: AppText(
                     context.l10n.notesTags(note.tags.join(', ')),
-                    style: context.textTheme.labelSmall,
+                    style: AppTextStyle.labelSmall,
                   ),
                 )
               : null,
@@ -256,9 +258,9 @@ class _HiddenNotesScreenState extends ConsumerState<HiddenNotesScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if (!isUntitled) ...[
-                      Text(
+                      AppText(
                         note.title,
-                        style: context.textTheme.titleMedium,
+                        style: AppTextStyle.titleMedium,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -273,16 +275,15 @@ class _HiddenNotesScreenState extends ConsumerState<HiddenNotesScreen> {
                           return previewAsync.when(
                             data: (content) {
                               if (content.trim().isEmpty && isUntitled) {
-                                return Text(
+                                return AppText(
                                   context.l10n.notesNoContent,
-                                  style: context.textTheme.bodyMedium?.copyWith(
-                                    fontStyle: FontStyle.italic,
-                                  ),
+                                  style: AppTextStyle.bodyMedium,
+                                  fontStyle: FontStyle.italic,
                                 );
                               }
-                              return Text(
+                              return AppText(
                                 content.trim(),
-                                style: context.textTheme.bodyMedium,
+                                style: AppTextStyle.bodyMedium,
                                 maxLines: isUntitled ? 8 : 4,
                                 overflow: TextOverflow.ellipsis,
                               );
@@ -295,9 +296,9 @@ class _HiddenNotesScreenState extends ConsumerState<HiddenNotesScreen> {
                     ),
                     if (note.tags.isNotEmpty) ...[
                       const SizedBox(height: 8),
-                      Text(
+                      AppText(
                         context.l10n.notesTags(note.tags.join(', ')),
-                        style: context.textTheme.labelSmall,
+                        style: AppTextStyle.labelSmall,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),

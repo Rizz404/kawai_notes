@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_setup_riverpod/shared/widgets/app_text.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/navigator_extension.dart';
@@ -17,15 +18,15 @@ class OtherScreen extends ConsumerWidget {
     final isMaterialYouEnabled = ref.watch(materialYouProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text(context.l10n.settingsTitle)),
+      appBar: AppBar(title: AppText(context.l10n.settingsTitle)),
       drawer: const AppDrawer(),
       body: ScreenWrapper(
         child: ListView(
           children: [
             SwitchListTile(
               secondary: const Icon(Icons.color_lens_outlined),
-              title: Text(context.l10n.settingsMaterialYou),
-              subtitle: Text(context.l10n.settingsMaterialYouSubtitle),
+              title: AppText(context.l10n.settingsMaterialYou),
+              subtitle: AppText(context.l10n.settingsMaterialYouSubtitle),
               value: isMaterialYouEnabled,
               onChanged: (bool value) {
                 ref.read(materialYouProvider.notifier).toggle();
@@ -34,7 +35,7 @@ class OtherScreen extends ConsumerWidget {
             const Divider(),
             ListTile(
               leading: const Icon(Icons.palette_outlined),
-              title: Text(context.l10n.settingsTheme),
+              title: AppText(context.l10n.settingsTheme),
               trailing: DropdownButton<ThemeMode>(
                 value: themeMode,
                 onChanged: (ThemeMode? newTheme) {
@@ -45,15 +46,15 @@ class OtherScreen extends ConsumerWidget {
                 items: [
                   DropdownMenuItem(
                     value: ThemeMode.system,
-                    child: Text(context.l10n.settingsThemeSystem),
+                    child: AppText(context.l10n.settingsThemeSystem),
                   ),
                   DropdownMenuItem(
                     value: ThemeMode.light,
-                    child: Text(context.l10n.settingsThemeLight),
+                    child: AppText(context.l10n.settingsThemeLight),
                   ),
                   DropdownMenuItem(
                     value: ThemeMode.dark,
-                    child: Text(context.l10n.settingsThemeDark),
+                    child: AppText(context.l10n.settingsThemeDark),
                   ),
                 ],
               ),
@@ -61,7 +62,7 @@ class OtherScreen extends ConsumerWidget {
             const Divider(),
             ListTile(
               leading: const Icon(Icons.language_outlined),
-              title: Text(context.l10n.settingsLanguage),
+              title: AppText(context.l10n.settingsLanguage),
               trailing: DropdownButton<String>(
                 value: locale.languageCode,
                 onChanged: (String? newLang) {
@@ -74,15 +75,15 @@ class OtherScreen extends ConsumerWidget {
                 items: [
                   DropdownMenuItem(
                     value: 'en',
-                    child: Text(context.l10n.settingsLanguageEnglish),
+                    child: AppText(context.l10n.settingsLanguageEnglish),
                   ),
                   DropdownMenuItem(
                     value: 'ja',
-                    child: Text(context.l10n.settingsLanguageJapanese),
+                    child: AppText(context.l10n.settingsLanguageJapanese),
                   ),
                   DropdownMenuItem(
                     value: 'id',
-                    child: Text(context.l10n.settingsLanguageIndonesian),
+                    child: AppText(context.l10n.settingsLanguageIndonesian),
                   ),
                 ],
               ),
@@ -90,7 +91,7 @@ class OtherScreen extends ConsumerWidget {
             const Divider(),
             ListTile(
               leading: const Icon(Icons.backup_outlined),
-              title: const Text('Backup & Restore'), // TODO: Localization
+              title: AppText(context.l10n.settingsBackupAndRestore),
               trailing: const Icon(Icons.chevron_right),
               onTap: () {
                 context.push('/backup');
@@ -99,7 +100,7 @@ class OtherScreen extends ConsumerWidget {
             const Divider(),
             ListTile(
               leading: const Icon(Icons.delete_outlined),
-              title: Text(context.l10n.settingsTrash),
+              title: AppText(context.l10n.settingsTrash),
               trailing: const Icon(Icons.chevron_right),
               onTap: () {
                 context.push('/trash');
@@ -113,7 +114,7 @@ class OtherScreen extends ConsumerWidget {
                   children: [
                     ListTile(
                       leading: const Icon(Icons.note_add_outlined),
-                      title: const Text('Import Xiaomi Notes (Bulk)'),
+                      title: AppText(context.l10n.settingsImportXiaomiNotesBulk),
                       trailing:
                           importState.isMutating &&
                               !importState.isImportingFolder
@@ -134,12 +135,14 @@ class OtherScreen extends ConsumerWidget {
                               .mutationError;
                           if (error != null) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Import failed: $error')),
+                              SnackBar(
+                                content: AppText(context.l10n.settingsImportFailed(error.toString())),
+                              ),
                             );
                           } else if (didImport) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Import successful!'),
+                              SnackBar(
+                                content: AppText(context.l10n.settingsImportSuccessful),
                               ),
                             );
                           }
@@ -149,10 +152,10 @@ class OtherScreen extends ConsumerWidget {
                     const Divider(),
                     ListTile(
                       leading: const Icon(Icons.folder_shared_outlined),
-                      title: const Text('Import Xiaomi Notes (Folder)'),
+                      title: AppText(context.l10n.settingsImportXiaomiNotesFolder),
                       subtitle: importState.isImportingFolder
-                          ? Text(
-                              '${importState.processedFiles} / ${importState.totalFiles} imported',
+                          ? AppText(
+                              context.l10n.settingsImportFolderProgress(importState.processedFiles, importState.totalFiles),
                             )
                           : null,
                       trailing: importState.isImportingFolder
@@ -165,9 +168,9 @@ class OtherScreen extends ConsumerWidget {
                       onTap: () async {
                         if (importState.isMutating) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                'Another import is running in the background',
+                            SnackBar(
+                              content: AppText(
+                                context.l10n.settingsImportAnotherRunning,
                               ),
                             ),
                           );
@@ -185,7 +188,9 @@ class OtherScreen extends ConsumerWidget {
                           if (error != null) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text('Folder import failed: $error'),
+                                content: AppText(
+                                  context.l10n.settingsFolderImportFailed(error.toString()),
+                                ),
                               ),
                             );
                           }

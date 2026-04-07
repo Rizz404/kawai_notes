@@ -1,5 +1,6 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_setup_riverpod/shared/widgets/app_text.dart';
 import 'package:flutter_setup_riverpod/core/extensions/theme_extension.dart';
 
 class AppToast {
@@ -144,12 +145,11 @@ class _ToastCard extends StatelessWidget {
             Icon(_getIcon(), color: _getTextColor(context), size: 24),
             const SizedBox(width: 12),
             Flexible(
-              child: Text(
+              child: AppText(
                 message,
-                style: context.textTheme.bodyMedium?.copyWith(
-                  color: _getTextColor(context),
-                  fontWeight: FontWeight.w500,
-                ),
+                style: AppTextStyle.bodyMedium,
+                color: _getTextColor(context),
+                fontWeight: FontWeight.w500,
               ),
             ),
           ],

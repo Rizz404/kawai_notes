@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_setup_riverpod/shared/widgets/app_text.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/theme_extension.dart';
@@ -14,7 +15,7 @@ class TrashScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.l10n.settingsTrash),
+        title: AppText(context.l10n.settingsTrash),
         actions: [
           IconButton(
             icon: const Icon(Icons.delete_forever),
@@ -23,21 +24,21 @@ class TrashScreen extends ConsumerWidget {
                 context: context,
                 builder: (context) {
                   return AlertDialog(
-                    title: const Text('Empty Trash?'),
-                    content: const Text(
-                      'All notes in the trash will be permanently deleted.',
+                    title: AppText(context.l10n.settingsEmptyTrashQuestion),
+                    content: AppText(
+                      context.l10n.settingsTrashDeleteDescription,
                     ),
                     actions: [
                       TextButton(
                         onPressed: () => Navigator.of(context).pop(false),
-                        child: Text(context.l10n.settingsCancel),
+                        child: AppText(context.l10n.settingsCancel),
                       ),
                       TextButton(
                         onPressed: () => Navigator.of(context).pop(true),
                         style: TextButton.styleFrom(
                           foregroundColor: context.colorScheme.error,
                         ),
-                        child: Text(context.l10n.settingsDelete),
+                        child: AppText(context.l10n.settingsDelete),
                       ),
                     ],
                   );
@@ -55,7 +56,7 @@ class TrashScreen extends ConsumerWidget {
         child: stateAsync.when(
           data: (notes) {
             if (notes.isEmpty) {
-              return const Center(child: Text('Trash is empty.'));
+              return Center(child: AppText(context.l10n.settingsTrashIsEmpty));
             }
 
             return ListView.separated(
@@ -70,12 +71,12 @@ class TrashScreen extends ConsumerWidget {
                     .difference(DateTime.now())
                     .inDays;
                 final subtitleText = daysLeft > 0
-                    ? 'Deleted (auto-delete in $daysLeft days)'
-                    : 'Deleted (auto-delete very soon)';
+                    ? context.l10n.settingsTrashDeleteSubtitleReady(daysLeft)
+                    : context.l10n.settingsTrashDeleteSubtitleSoon;
 
                 return ListTile(
-                  title: Text(note.title.isEmpty ? 'Untitled' : note.title),
-                  subtitle: Text(subtitleText),
+                  title: AppText(note.title.isEmpty ? context.l10n.settingsUntitled : note.title),
+                  subtitle: AppText(subtitleText),
                   trailing: PopupMenuButton<String>(
                     onSelected: (value) {
                       if (value == 'restore') {
@@ -91,11 +92,11 @@ class TrashScreen extends ConsumerWidget {
                     itemBuilder: (context) => [
                       PopupMenuItem(
                         value: 'restore',
-                        child: Text(context.l10n.settingsRestore),
+                        child: AppText(context.l10n.settingsRestore),
                       ),
                       PopupMenuItem(
                         value: 'delete',
-                        child: Text(context.l10n.settingsDeletePermanently),
+                        child: AppText(context.l10n.settingsDeletePermanently),
                       ),
                     ],
                   ),
@@ -104,7 +105,7 @@ class TrashScreen extends ConsumerWidget {
             );
           },
           loading: () => const Center(child: CircularProgressIndicator()),
-          error: (err, _) => Center(child: Text(err.toString())),
+          error: (err, _) => Center(child: AppText(err.toString())),
         ),
       ),
     );

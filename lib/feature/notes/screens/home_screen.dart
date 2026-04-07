@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_setup_riverpod/shared/widgets/app_text.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_setup_riverpod/core/extensions/localization_extension.dart';
 import 'package:flutter_setup_riverpod/core/extensions/navigator_extension.dart';
@@ -73,7 +74,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 icon: const Icon(Icons.close),
                 onPressed: _clearSelection,
               ),
-              title: Text(context.l10n.notesSelectedCount(_selectedIds.length)),
+              title: AppText(
+                context.l10n.notesSelectedCount(_selectedIds.length),
+              ),
               actions: [
                 IconButton(
                   icon: const Icon(Icons.visibility_off),
@@ -86,7 +89,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ],
             )
           : AppBar(
-              title: Text(context.l10n.notesMyTitle),
+              title: AppText(context.l10n.notesMyTitle),
               actions: [
                 IconButton(
                   icon: const Icon(Icons.hub_outlined),
@@ -122,7 +125,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             children: [
               AppSearchField<dynamic>(
                 name: 'search',
-                hintText: 'Search notes...',
+                hintText: context.l10n.notesSearchNotes,
                 onChanged: (value) {
                   ref.read(noteListNotifierProvider.notifier).search(value);
                 },
@@ -136,7 +139,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       return ListView(
                         children: [
                           const SizedBox(height: 100),
-                          Center(child: Text(context.l10n.notesNotFound)),
+                          Center(child: AppText(context.l10n.notesNotFound)),
                         ],
                       );
                     }
@@ -145,7 +148,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   loading: () =>
                       const Center(child: CircularProgressIndicator()),
                   error: (error, stack) => Center(
-                    child: Text(context.l10n.notesError(error.toString())),
+                    child: AppText(context.l10n.notesError(error.toString())),
                   ),
                 ),
               ),
@@ -176,9 +179,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (!isUntitled)
-                Text(
+                AppText(
                   note.title,
-                  style: context.textTheme.titleMedium,
+                  style: AppTextStyle.titleMedium,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -188,20 +191,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   return previewAsync.when(
                     data: (content) {
                       if (content.trim().isEmpty && isUntitled) {
-                        return Text(
+                        return AppText(
                           context.l10n.notesNoContent,
-                          style: context.textTheme.bodyMedium?.copyWith(
+                          style: AppTextStyle.bodyMedium,
                             fontStyle: FontStyle.italic,
-                          ),
                         );
                       }
-                      return Text(
+                      return AppText(
                         content.trim(),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: isUntitled
-                            ? context.textTheme.bodyMedium
-                            : context.textTheme.bodySmall,
+                        style: isUntitled ? AppTextStyle.bodyMedium : AppTextStyle.bodySmall,
                       );
                     },
                     loading: () => const SizedBox.shrink(),
@@ -214,9 +214,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           subtitle: note.tags.isNotEmpty
               ? Padding(
                   padding: const EdgeInsets.only(top: 4.0),
-                  child: Text(
+                  child: AppText(
                     context.l10n.notesTags(note.tags.join(', ')),
-                    style: context.textTheme.labelSmall,
+                    style: AppTextStyle.labelSmall,
                   ),
                 )
               : null,
@@ -283,9 +283,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if (!isUntitled) ...[
-                      Text(
+                      AppText(
                         note.title,
-                        style: context.textTheme.titleMedium,
+                        style: AppTextStyle.titleMedium,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -300,16 +300,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           return previewAsync.when(
                             data: (content) {
                               if (content.trim().isEmpty && isUntitled) {
-                                return Text(
+                                return AppText(
                                   context.l10n.notesNoContent,
-                                  style: context.textTheme.bodyMedium?.copyWith(
-                                    fontStyle: FontStyle.italic,
-                                  ),
+                                  style: AppTextStyle.bodyMedium,
+                            fontStyle: FontStyle.italic,
                                 );
                               }
-                              return Text(
+                              return AppText(
                                 content.trim(),
-                                style: context.textTheme.bodyMedium,
+                                style: AppTextStyle.bodyMedium,
                                 maxLines: isUntitled ? 8 : 4,
                                 overflow: TextOverflow.ellipsis,
                               );
@@ -322,9 +321,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                     if (note.tags.isNotEmpty) ...[
                       const SizedBox(height: 8),
-                      Text(
+                      AppText(
                         context.l10n.notesTags(note.tags.join(', ')),
-                        style: context.textTheme.labelSmall,
+                        style: AppTextStyle.labelSmall,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),

@@ -47,7 +47,7 @@ class AppDrawer extends ConsumerWidget {
           ),
           ListTile(
             leading: const Icon(Icons.note_outlined),
-            title: Text(context.l10n.sharedMyNotes),
+            title: AppText(context.l10n.sharedMyNotes),
             onTap: () {
               Navigator.pop(context);
               context.replace('/');
@@ -55,7 +55,7 @@ class AppDrawer extends ConsumerWidget {
           ),
           ListTile(
             leading: const Icon(Icons.check_box_outlined),
-            title: Text(context.l10n.sharedTasks),
+            title: AppText(context.l10n.sharedTasks),
             onTap: () {
               Navigator.pop(context);
               context.replace('/tasks');
@@ -67,7 +67,7 @@ class AppDrawer extends ConsumerWidget {
               final isMaterialYouEnabled = ref.watch(materialYouProvider);
               return SwitchListTile(
                 secondary: const Icon(Icons.color_lens_outlined),
-                title: Text(context.l10n.sharedMaterialYou),
+                title: AppText(context.l10n.sharedMaterialYou),
                 value: isMaterialYouEnabled,
                 onChanged: (bool value) {
                   ref.read(materialYouProvider.notifier).toggle();
@@ -78,7 +78,7 @@ class AppDrawer extends ConsumerWidget {
           const Divider(),
           ListTile(
             leading: const Icon(Icons.settings_outlined),
-            title: Text(context.l10n.sharedSettings),
+            title: AppText(context.l10n.sharedSettings),
             onTap: () {
               Navigator.pop(context);
               context.replace('/other');

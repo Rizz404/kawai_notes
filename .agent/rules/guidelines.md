@@ -42,22 +42,22 @@ If a shared widget covers the use case → use it. Do not create a new one.
 
 Available shared widgets (import from `package:flutter_setup_riverpod/shared/widgets/...`):
 
-| Widget | Purpose |
-|---|---|
-| `AppButton` | Primary / secondary / text buttons |
-| `AppTextField` | Standard text input |
-| `AppSearchField` | Search input with icon |
-| `AppDropdown` | Dropdown selector |
-| `AppCheckbox` | Checkbox input |
-| `AppRadioGroup` | Radio button group |
-| `AppDateTimePicker` | Date + time picker |
-| `AppTimePicker` | Time-only picker |
-| `AppText` | Themed text (replaces raw `Text()`) |
-| `CustomAppBar` | App bar (replaces raw `AppBar()`) |
-| `ScreenWrapper` | Screen-level layout wrapper |
-| `AdminShell` | Admin navigation shell |
-| `UserShell` | User navigation shell |
-| `AppEndDrawer` | End drawer |
+| Widget              | Purpose                                |
+| ------------------- | -------------------------------------- |
+| `AppButton`         | Primary / secondary / text buttons     |
+| `AppTextField`      | Standard text input                    |
+| `AppSearchField`    | Search input with icon                 |
+| `AppDropdown`       | Dropdown selector                      |
+| `AppCheckbox`       | Checkbox input                         |
+| `AppRadioGroup`     | Radio button group                     |
+| `AppDateTimePicker` | Date + time picker                     |
+| `AppTimePicker`     | Time-only picker                       |
+| `AppText`           | Themed text (replaces raw `AppText()`) |
+| `CustomAppBar`      | App bar (replaces raw `AppBar()`)      |
+| `ScreenWrapper`     | Screen-level layout wrapper            |
+| `AdminShell`        | Admin navigation shell                 |
+| `UserShell`         | User navigation shell                  |
+| `AppEndDrawer`      | End drawer                             |
 
 Decision rule:
 1. Shared widget exists? → **Use it**
@@ -67,7 +67,7 @@ Decision rule:
 ```dart
 // Avoid
 TextField(decoration: InputDecoration(...))
-ElevatedButton(onPressed: ..., child: Text('Submit'))
+ElevatedButton(onPressed: ..., child: AppText('Submit'))
 
 // Prefer
 AppTextField(...)
@@ -96,15 +96,15 @@ If a color token does not exist, ask before introducing a new one.
 
 Never import all extensions by default. Only import what the file actually uses.
 
-| When you need | Import | Access via |
-|---|---|---|
-| Theme, colors, dark mode | `theme_extension.dart` | `context.theme`, `context.colors`, `context.colorScheme`, `context.isDarkMode` |
-| Translations, locale change | `localization_extension.dart`, `locale_extension.dart` | `context.l10n`, `context.currentSupportedLocale`, `context.changeLocale()` |
-| Format or convert money | `currency_extension.dart` | `context.formatMoney()`, `context.currencySymbol`, `amount.convertTo()` |
-| Navigate between screens | `navigator_extension.dart` | `context.pushToX()`, `context.goToX()` |
-| Logs in BLoC / Service / Repo | `logger_extension.dart` | `logInfo()`, `logError()`, `logService()` |
-| Filter dropdowns | `dropdown_extension.dart` | `AppDropdownExtensions.createFilterItems()` |
-| Backup frequency labels | `backup_frequency_extension.dart` | `frequency.label`, `frequency.labelId` |
+| When you need                 | Import                                                 | Access via                                                                     |
+| ----------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------ |
+| Theme, colors, dark mode      | `theme_extension.dart`                                 | `context.theme`, `context.colors`, `context.colorScheme`, `context.isDarkMode` |
+| Translations, locale change   | `localization_extension.dart`, `locale_extension.dart` | `context.l10n`, `context.currentSupportedLocale`, `context.changeLocale()`     |
+| Format or convert money       | `currency_extension.dart`                              | `context.formatMoney()`, `context.currencySymbol`, `amount.convertTo()`        |
+| Navigate between screens      | `navigator_extension.dart`                             | `context.pushToX()`, `context.goToX()`                                         |
+| Logs in BLoC / Service / Repo | `logger_extension.dart`                                | `logInfo()`, `logError()`, `logService()`                                      |
+| Filter dropdowns              | `dropdown_extension.dart`                              | `AppDropdownExtensions.createFilterItems()`                                    |
+| Backup frequency labels       | `backup_frequency_extension.dart`                      | `frequency.label`, `frequency.labelId`                                         |
 
 All extensions are in `package:flutter_setup_riverpod/core/extensions/`.
 
@@ -208,7 +208,7 @@ void initState() {
 
 ---
 
-## 8) Text & Localization
+## 8) AppText & Localization
 
 - Use static strings by default: `'Submit'`, `'Cancel'`, `'Save'`
 - Never use `context.l10n` or edit `.arb` files unless explicitly asked
@@ -304,16 +304,16 @@ Never run Linux/bash-only commands (e.g. `rm -rf`, `ls`, `export`, `&&` chaining
 Never open interactive or pager tools that cannot be closed by the AI: `bat`, `less`, `neovim`, `micro`, `broot`, `jid`, `glow` (without flags).
 To read file content, use `Get-Content` (PowerShell native) or `rg` for search-based reading.
 
-| Task | Tool |
-|---|---|
-| List files | `eza` |
-| Find files | `fd` |
-| Search content | `rg` |
-| Read files | `Get-Content` (PowerShell native) |
-| Replace text | `sd` |
-| JSON processing | `jq` |
-| Git UI | `lazygit`, `gh`, `delta` |
-| Navigate | `z` (zoxide), `fzf`, `yazi` |
-| Monitor | `btm`, `procs`, `dust`, `duf` |
+| Task            | Tool                              |
+| --------------- | --------------------------------- |
+| List files      | `eza`                             |
+| Find files      | `fd`                              |
+| Search content  | `rg`                              |
+| Read files      | `Get-Content` (PowerShell native) |
+| Replace text    | `sd`                              |
+| JSON processing | `jq`                              |
+| Git UI          | `lazygit`, `gh`, `delta`          |
+| Navigate        | `z` (zoxide), `fzf`, `yazi`       |
+| Monitor         | `btm`, `procs`, `dust`, `duf`     |
 
 Avoid: `bat`, `less`, `neovim`, `micro`, `broot`, `jid`, `glow`, `vi`, `vim`, `nano`, `cat`, `dir`, `findstr`, `find`, `grep`, manual `cd`
