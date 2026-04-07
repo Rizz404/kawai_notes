@@ -25,11 +25,11 @@ import 'package:kawai_notes/l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  // * Uncomment setelah ada splash screen
-  // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   TalkerConfig.initialize();
 
@@ -65,6 +65,8 @@ Future<void> main() async {
     final notificationService = NotificationService();
     await notificationService.init();
 
+    FlutterNativeSplash.remove();
+
     runApp(
       Phoenix(
         child: ProviderScope(
@@ -83,8 +85,7 @@ Future<void> main() async {
       ),
     );
   } catch (e) {
-    // * Uncomment setelah ada splash screen
-    // FlutterNativeSplash.remove();
+    FlutterNativeSplash.remove();
     AppLogger.instance.error('Error initializing app', e);
 
     runApp(
