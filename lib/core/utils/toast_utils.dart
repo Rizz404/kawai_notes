@@ -84,18 +84,18 @@ class _ToastCard extends StatelessWidget {
   final VoidCallback? onTap;
 
   Color _getBackgroundColor(BuildContext context) {
-    final semantic = context.semantic;
+    final cs = context.colorScheme;
     switch (type) {
       case _ToastType.success:
-        return semantic.success;
+        return cs.primaryContainer;
       case _ToastType.error:
-        return semantic.error;
+        return cs.errorContainer;
       case _ToastType.warning:
-        return semantic.warning;
+        return cs.tertiaryContainer;
       case _ToastType.info:
-        return semantic.info;
+        return cs.secondaryContainer;
       case _ToastType.serverError:
-        return context.colorScheme.tertiaryContainer;
+        return cs.tertiaryContainer;
     }
   }
 
@@ -115,14 +115,19 @@ class _ToastCard extends StatelessWidget {
   }
 
   Color _getTextColor(BuildContext context) {
-    if (type == _ToastType.serverError) {
-      return context.colorScheme.onTertiaryContainer;
+    final cs = context.colorScheme;
+    switch (type) {
+      case _ToastType.success:
+        return cs.onPrimaryContainer;
+      case _ToastType.error:
+        return cs.onErrorContainer;
+      case _ToastType.warning:
+        return cs.onTertiaryContainer;
+      case _ToastType.info:
+        return cs.onSecondaryContainer;
+      case _ToastType.serverError:
+        return cs.onTertiaryContainer;
     }
-    final backgroundColor = _getBackgroundColor(context);
-    return ThemeData.estimateBrightnessForColor(backgroundColor) ==
-            Brightness.light
-        ? Colors.black
-        : Colors.white;
   }
 
   @override

@@ -45,13 +45,16 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused ||
-        state == AppLifecycleState.inactive) {
+    // ! hanya simpan saat benar-benar paused agar updatedAt tidak berubah saat buka note
+    if (state == AppLifecycleState.paused) {
       _saveNoteBackground();
     }
   }
 
   void _saveNoteBackground() {
+    // ! jangan simpan sebelum state pin diinisialisasi agar isPinned tidak ter-reset
+    if (!_isPinnedInitialized) return;
+
     _formKey.currentState?.save(); // save data without validating
     final values = _formKey.currentState?.value;
     if (values == null) return;

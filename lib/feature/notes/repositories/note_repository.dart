@@ -115,6 +115,14 @@ class NoteRepository {
     }
   }
 
+  Future<void> updateNotePin(int id, bool isPinned) async {
+    final note = getNote(id);
+    if (note != null) {
+      note.isPinned = isPinned;
+      _objectBoxService.store.box<Note>().put(note);
+    }
+  }
+
   Future<void> hardDeleteNote(int id) async {
     final note = getNote(id);
     if (note != null) {

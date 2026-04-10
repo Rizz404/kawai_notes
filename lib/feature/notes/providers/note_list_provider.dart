@@ -151,4 +151,11 @@ class NoteListNotifier extends AsyncNotifier<NoteListState> {
     }
     ref.invalidateSelf();
   }
+
+  Future<void> pinNotes(List<int> ids, {required bool isPinned}) async {
+    for (final id in ids) {
+      await _noteRepository.updateNotePin(id, isPinned);
+    }
+    ref.invalidateSelf();
+  }
 }
