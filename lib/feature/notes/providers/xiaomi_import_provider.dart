@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kawai_notes/core/extensions/logger_extension.dart';
 import 'package:kawai_notes/di/repository_providers.dart';
 import 'package:kawai_notes/di/service_providers.dart';
+import 'package:kawai_notes/feature/notes/services/xiaomi_import_service.dart';
 import 'package:kawai_notes/feature/notes/providers/note_list_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -67,72 +68,24 @@ class XiaomiImportNotifier extends Notifier<XiaomiImportState> {
         return false;
       }
 
-      final files = result.files.take(50).toList(); // Limit to 50
+      final files = result.files
+          .where((f) => f.path != null)
+          .take(50)
+          .map((f) => File(f.path!))
+          .toList(); // Limit to 50
+      final xiaomiImportService = ref.read(xiaomiImportServiceProvider);
       final noteRepository = ref.read(noteRepositoryProvider);
 
       for (var file in files) {
-        if (file.path == null) continue;
-
-        final fileObj = File(file.path!);
-        String content = await fileObj.readAsString();
-
-        // Extract title
-        String title = 'Untitled';
-        final titleRegex = RegExp(r'^## Title:\s*(.*)$', multiLine: true);
-        final titleMatch = titleRegex.firstMatch(content);
-        if (titleMatch != null) {
-          title = titleMatch.group(1)?.trim() ?? 'Untitled';
-          if (title.toLowerCase() == 'untitled note') {
-            title = 'Untitled';
-          }
-          // Remove title line
-          content = content.replaceFirst(titleMatch.group(0)!, '');
+        final parsedNote = await xiaomiImportService.parseFile(file);
+        if (parsedNote != null) {
+          await noteRepository.saveNote(
+            title: parsedNote.title,
+            content: parsedNote.content,
+            createdAt: parsedNote.createdAt,
+            updatedAt: parsedNote.createdAt,
+          );
         }
-
-        // Clean up leading **** or spaces
-        content = content.replaceFirst(
-          RegExp(r'^\*+\s*', multiLine: false),
-          '',
-        );
-        // Clean up Created At text
-        content = content.replaceAll(
-          RegExp(
-            r'\**(Created at:\s*)?\d{2}/\d{2}/\d{4}\s+\d{2}:\d{2}\**',
-            multiLine: true,
-          ),
-          '',
-        );
-        // Clean up trailing and leading newlines
-        content = content.trim();
-
-        // Extract Date from filename
-        // e.g. note_08-12-2024_12-19-00_0178.md
-        DateTime? createdAt;
-        final filename = file.name;
-        final dateRegex = RegExp(
-          r'note_(\d{2})-(\d{2})-(\d{4})_(\d{2})-(\d{2})-(\d{2})',
-        );
-        final dateMatch = dateRegex.firstMatch(filename);
-        if (dateMatch != null) {
-          final day = int.parse(dateMatch.group(1)!);
-          final month = int.parse(dateMatch.group(2)!);
-          final year = int.parse(dateMatch.group(3)!);
-          final hour = int.parse(dateMatch.group(4)!);
-          final minute = int.parse(dateMatch.group(5)!);
-          final second = int.parse(dateMatch.group(6)!);
-          try {
-            createdAt = DateTime(year, month, day, hour, minute, second);
-          } catch (e) {
-            logError('Failed to parse date from filename: $filename', e);
-          }
-        }
-
-        await noteRepository.saveNote(
-          title: title,
-          content: content,
-          createdAt: createdAt,
-          updatedAt: createdAt,
-        );
       }
 
       ref.invalidate(noteListNotifierProvider);
@@ -215,79 +168,31 @@ class XiaomiImportNotifier extends Notifier<XiaomiImportState> {
         progress: 0,
       );
 
+      final xiaomiImportService = ref.read(xiaomiImportServiceProvider);
       final noteRepository = ref.read(noteRepositoryProvider);
+
       int processed = 0;
 
       for (var file in mdFiles) {
-        String content = await file.readAsString();
-
-        // Extract title
-        String title = 'Untitled';
-        final titleRegex = RegExp(r'^## Title:\s*(.*)$', multiLine: true);
-        final titleMatch = titleRegex.firstMatch(content);
-        if (titleMatch != null) {
-          title = titleMatch.group(1)?.trim() ?? 'Untitled';
-          if (title.toLowerCase() == 'untitled note') {
-            title = 'Untitled';
-          }
-          // Remove title line
-          content = content.replaceFirst(titleMatch.group(0)!, '');
+        final parsedNote = await xiaomiImportService.parseFile(file);
+        if (parsedNote != null) {
+          await noteRepository.saveNote(
+            title: parsedNote.title,
+            content: parsedNote.content,
+            createdAt: parsedNote.createdAt,
+            updatedAt: parsedNote.createdAt,
+          );
         }
-
-        // Clean up leading **** or spaces
-        content = content.replaceFirst(
-          RegExp(r'^\*+\s*', multiLine: false),
-          '',
-        );
-        // Clean up Created At text
-        content = content.replaceAll(
-          RegExp(
-            r'\**(Created at:\s*)?\d{2}/\d{2}/\d{4}\s+\d{2}:\d{2}\**',
-            multiLine: true,
-          ),
-          '',
-        );
-        // Clean up trailing and leading newlines
-        content = content.trim();
-
-        // Extract Date from filename
-        // e.g. note_08-12-2024_12-19-00_0178.md
-        DateTime? createdAt;
-        final filename = file.uri.pathSegments.last;
-        final dateRegex = RegExp(
-          r'note_(\d{2})-(\d{2})-(\d{4})_(\d{2})-(\d{2})-(\d{2})',
-        );
-        final dateMatch = dateRegex.firstMatch(filename);
-        if (dateMatch != null) {
-          final day = int.parse(dateMatch.group(1)!);
-          final month = int.parse(dateMatch.group(2)!);
-          final year = int.parse(dateMatch.group(3)!);
-          final hour = int.parse(dateMatch.group(4)!);
-          final minute = int.parse(dateMatch.group(5)!);
-          final second = int.parse(dateMatch.group(6)!);
-          try {
-            createdAt = DateTime(year, month, day, hour, minute, second);
-          } catch (e) {
-            logError('Failed to parse date from filename: $filename', e);
-          }
-        }
-
-        await noteRepository.saveNote(
-          title: title,
-          content: content,
-          createdAt: createdAt,
-          updatedAt: createdAt,
-        );
 
         processed++;
+        String currentTitle = parsedNote?.title ?? 'Skipped';
 
-        // Update UI state less frequently to avoid ui lag, but keep it updated
         if (processed % 10 == 0 || processed == total) {
           state = state.copyWith(processedFiles: processed);
           await notificationService.showProgressNotification(
             id: notificationId,
             title: importingNotesTitle,
-            body: '$processed / $total - $title',
+            body: '$processed / $total - $currentTitle',
             maxProgress: total,
             progress: processed,
           );
