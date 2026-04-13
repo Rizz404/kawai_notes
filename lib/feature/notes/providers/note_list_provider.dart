@@ -158,4 +158,39 @@ class NoteListNotifier extends AsyncNotifier<NoteListState> {
     }
     ref.invalidateSelf();
   }
+
+  Future<void> batchUpdateBackground(
+    List<int> ids, {
+    int? colorValue,
+    String? customBackgroundImage,
+  }) async {
+    // Mutually exclusive check
+    int? finalColorValue = colorValue;
+    String? finalBgImage = customBackgroundImage;
+
+    if (colorValue != null) finalBgImage = null;
+    if (customBackgroundImage != null) finalColorValue = null;
+
+    for (final id in ids) {
+      final note = _noteRepository.getNote(id);
+      if (note != null) {
+        final content = await _noteRepository.readNoteContent(
+          note.contentPath,
+          isHidden: note.isHidden,
+        );
+        await _noteRepository.saveNote(
+          id: note.id,
+          ulid: note.ulid,
+          title: note.title,
+          content: content,
+          folderId: note.folder.targetId,
+          isHidden: note.isHidden,
+          isPinned: note.isPinned,
+          colorValue: finalColorValue,
+          customBackgroundImage: finalBgImage,
+        );
+      }
+    }
+    ref.invalidateSelf();
+  }
 }

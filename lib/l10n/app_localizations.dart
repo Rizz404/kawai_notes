@@ -1257,6 +1257,12 @@ abstract class L10n {
   /// **'Untitled Note'**
   String get notesUntitledNote;
 
+  /// Notes pick color
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a Color'**
+  String get notesPickColor;
+
   /// Settings title
   ///
   /// In en, this message translates to:

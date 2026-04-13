@@ -646,6 +646,9 @@ class L10nEn extends L10n {
   String get notesUntitledNote => 'Untitled Note';
 
   @override
+  String get notesPickColor => 'Pick a Color';
+
+  @override
   String get settingsTitle => 'Settings';
 
   @override

@@ -78,6 +78,8 @@ class NoteDetailNotifier extends AsyncNotifier<NoteDetailState> {
     int? folderId,
     bool? isHidden,
     bool? isPinned,
+    int? colorValue,
+    String? customBackgroundImage,
   }) async {
     final current = state.value;
     if (current == null) return;
@@ -85,6 +87,14 @@ class NoteDetailNotifier extends AsyncNotifier<NoteDetailState> {
     final hiddenStatus = isHidden ?? current.note?.isHidden ?? false;
     final pinnedStatus = isPinned ?? current.note?.isPinned ?? false;
     final folderTargetId = folderId ?? current.note?.folder.targetId ?? 0;
+    final color = colorValue ?? current.note?.colorValue;
+    final bgImage = customBackgroundImage ?? current.note?.customBackgroundImage;
+
+    // Mutually exclusive check
+    int? finalColorValue = color;
+    String? finalBgImage = bgImage;
+    if (colorValue != null) finalBgImage = null;
+    if (customBackgroundImage != null) finalColorValue = null;
 
     // Check if anything actually changed
     final bool hasChanged =
@@ -93,7 +103,9 @@ class NoteDetailNotifier extends AsyncNotifier<NoteDetailState> {
         current.content != content ||
         current.note!.isHidden != hiddenStatus ||
         current.note!.isPinned != pinnedStatus ||
-        current.note!.folder.targetId != folderTargetId;
+        current.note!.folder.targetId != folderTargetId ||
+        current.note!.colorValue != finalColorValue ||
+        current.note!.customBackgroundImage != finalBgImage;
 
     if (!hasChanged) {
       return; // Skip saving to avoid updating `updatedAt`
@@ -112,6 +124,8 @@ class NoteDetailNotifier extends AsyncNotifier<NoteDetailState> {
         folderId: folderTargetId == 0 ? null : folderTargetId,
         isHidden: hiddenStatus,
         isPinned: pinnedStatus,
+        colorValue: finalColorValue,
+        customBackgroundImage: finalBgImage,
         createdAt: current.note?.createdAt,
       );
 

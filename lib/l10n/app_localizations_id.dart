@@ -646,6 +646,9 @@ class L10nId extends L10n {
   String get notesUntitledNote => 'Catatan Tanpa Judul';
 
   @override
+  String get notesPickColor => 'Pilih Warna';
+
+  @override
   String get settingsTitle => 'Pengaturan';
 
   @override

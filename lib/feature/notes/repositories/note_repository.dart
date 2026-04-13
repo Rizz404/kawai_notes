@@ -25,6 +25,8 @@ class NoteRepository {
     int? folderId,
     bool isHidden = false,
     bool isPinned = false,
+    int? colorValue,
+    String? customBackgroundImage,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) async {
@@ -60,6 +62,8 @@ class NoteRepository {
       links: links,
       isHidden: isHidden,
       isPinned: isPinned,
+      colorValue: customBackgroundImage == null ? colorValue : null,
+      customBackgroundImage: colorValue == null ? customBackgroundImage : null,
       createdAt: createdAt,
       updatedAt: updatedAt,
     );

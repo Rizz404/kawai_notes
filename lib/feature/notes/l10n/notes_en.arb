@@ -79,5 +79,9 @@
   "notesUntitledNote": "Untitled Note",
   "@notesUntitledNote": {
     "description": "Untitled note default title"
+  },
+  "notesPickColor": "Pick a Color",
+  "@notesPickColor": {
+    "description": "Notes pick color"
   }
 }

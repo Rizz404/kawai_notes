@@ -777,6 +777,7 @@
   "notesSearchNotes": "Cari catatan...",
   "notesSearchHiddenNotes": "Cari catatan tersembunyi...",
   "notesUntitledNote": "Catatan Tanpa Judul",
+  "notesPickColor": "Pilih Warna",
   "settingsTitle": "Pengaturan",
   "@settingsTitle": {
     "description": "Settings title"

@@ -1,3 +1,8 @@
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as path;
+import 'package:image_picker/image_picker.dart';
+import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,6 +32,9 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
   bool _isPinned = false;
   bool _isPinnedInitialized = false;
 
+  int? _colorValue;
+  String? _customBackgroundImage;
+
   @override
   void initState() {
     super.initState();
@@ -51,6 +59,55 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
     }
   }
 
+  Future<void> _pickColor() async {
+    final Color newColor = await showColorPickerDialog(
+      context,
+      _colorValue != null ? Color(_colorValue!) : Colors.white,
+      title: AppText(context.l10n.notesPickColor, fontSize: 20),
+      width: 40,
+      height: 40,
+      spacing: 0,
+      runSpacing: 0,
+      borderRadius: 0,
+      wheelDiameter: 165,
+      enableOpacity: true,
+      showColorCode: true,
+      colorCodeHasColor: true,
+      pickersEnabled: const <ColorPickerType, bool>{
+        ColorPickerType.both: false,
+        ColorPickerType.primary: true,
+        ColorPickerType.accent: true,
+        ColorPickerType.bw: false,
+        ColorPickerType.custom: true,
+        ColorPickerType.wheel: true,
+      },
+    );
+
+    setState(() {
+      _colorValue = newColor.value;
+      _customBackgroundImage = null;
+    });
+  }
+
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      final appDir = await getApplicationDocumentsDirectory();
+      final extension = path.extension(pickedFile.path);
+      final newPath = path.join(
+        appDir.path,
+        'note_bg_${DateTime.now().millisecondsSinceEpoch}$extension',
+      );
+      await File(pickedFile.path).copy(newPath);
+
+      setState(() {
+        _customBackgroundImage = newPath;
+        _colorValue = null;
+      });
+    }
+  }
+
   void _saveNoteBackground() {
     // ! jangan simpan sebelum state pin diinisialisasi agar isPinned tidak ter-reset
     if (!_isPinnedInitialized) return;
@@ -70,7 +127,13 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
       if (mounted) {
         ref
             .read(noteDetailNotifierProvider(widget.noteId).notifier)
-            .saveNote(title: title, content: content, isPinned: _isPinned);
+            .saveNote(
+              title: title,
+              content: content,
+              isPinned: _isPinned,
+              colorValue: _colorValue,
+              customBackgroundImage: _customBackgroundImage,
+            );
       }
     });
   }
@@ -86,6 +149,8 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
           if (!_isPinnedInitialized) {
             setState(() {
               _isPinned = next.value!.note?.isPinned ?? false;
+              _colorValue = next.value!.note?.colorValue;
+              _customBackgroundImage = next.value!.note?.customBackgroundImage;
               _isPinnedInitialized = true;
             });
           }
@@ -111,78 +176,116 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
           _saveNoteBackground();
         }
       },
-      child: Scaffold(
-        appBar: AppBar(
-          title: AppText(
-            widget.noteId == null
-                ? context.l10n.notesNew
-                : context.l10n.notesEdit,
+      child: Container(
+        decoration: _customBackgroundImage != null
+            ? BoxDecoration(
+                image: DecorationImage(
+                  image: FileImage(File(_customBackgroundImage!)),
+                  fit: BoxFit.cover,
+                ),
+              )
+            : null,
+        child: Scaffold(
+          backgroundColor: _colorValue != null
+              ? Color(_colorValue!)
+              : (_customBackgroundImage != null ? Colors.transparent : null),
+          appBar: AppBar(
+            backgroundColor:
+                _colorValue != null || _customBackgroundImage != null
+                ? Colors.transparent
+                : null,
+            title: AppText(
+              widget.noteId == null
+                  ? context.l10n.notesNew
+                  : context.l10n.notesEdit,
+            ),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.palette_outlined),
+                onPressed: _pickColor,
+              ),
+              IconButton(
+                icon: const Icon(Icons.image_outlined),
+                onPressed: _pickImage,
+              ),
+              if (_colorValue != null || _customBackgroundImage != null)
+                IconButton(
+                  icon: const Icon(Icons.format_color_reset),
+                  onPressed: () => setState(() {
+                    _colorValue = null;
+                    _customBackgroundImage = null;
+                  }),
+                ),
+              IconButton(
+                icon: Icon(
+                  _isPinned ? Icons.push_pin : Icons.push_pin_outlined,
+                ),
+                onPressed: () => setState(() => _isPinned = !_isPinned),
+              ),
+              IconButton(
+                icon: const Icon(Icons.check),
+                onPressed: () {
+                  context.pop();
+                },
+              ),
+            ],
           ),
-          actions: [
-            IconButton(
-              icon: Icon(_isPinned ? Icons.push_pin : Icons.push_pin_outlined),
-              onPressed: () => setState(() => _isPinned = !_isPinned),
-            ),
-            IconButton(
-              icon: const Icon(Icons.check),
-              onPressed: () {
-                context.pop();
-              },
-            ),
-          ],
-        ),
-        body: stateAsync.when(
-          data: (state) {
-            return ScreenWrapper(
-              child: Stack(
-                children: [
-                  FormBuilder(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        AppTextField(
-                          name: 'title',
-                          label: context.l10n.notesTitleOptional,
-                          placeHolder: context.l10n.notesUntitledNote,
-                          initialValue:
-                              (state.note?.title == 'Untitled' ||
-                                  state.note?.title ==
-                                      context.l10n.notesUntitledNote)
-                              ? ''
-                              : (state.note?.title ??
-                                    widget.initialTitle ??
-                                    ''),
-                          isBorderless: true,
-                          textStyle: const TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 8,
-                          ),
-                        ),
-                        Expanded(
-                          child: AppRichTextEditor(
-                            name: 'content',
-                            initialValue: state.content,
-                            showToolbar: true,
-                            focusNode: _contentFocusNode,
+          body: stateAsync.when(
+            data: (state) {
+              Widget contentWrapper = ScreenWrapper(
+                child: Stack(
+                  children: [
+                    FormBuilder(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          AppTextField(
+                            name: 'title',
+                            label: context.l10n.notesTitleOptional,
+                            placeHolder: context.l10n.notesUntitledNote,
+                            initialValue:
+                                (state.note?.title == 'Untitled' ||
+                                    state.note?.title ==
+                                        context.l10n.notesUntitledNote)
+                                ? ''
+                                : (state.note?.title ??
+                                      widget.initialTitle ??
+                                      ''),
+                            isBorderless: true,
                             textStyle: const TextStyle(
-                              fontSize: 16,
-                              height: 1.5,
+                              fontSize: 22,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 8,
                             ),
                           ),
-                        ),
-                      ],
+                          Expanded(
+                            child: AppRichTextEditor(
+                              name: 'content',
+                              initialValue: state.content,
+                              showToolbar: true,
+                              focusNode: _contentFocusNode,
+                              textStyle: const TextStyle(
+                                fontSize: 16,
+                                height: 1.5,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          },
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, stackTrace) =>
-              Center(child: AppText(context.l10n.notesError(error.toString()))),
+                  ],
+                ),
+              );
+
+              return contentWrapper;
+            },
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (error, stackTrace) => Center(
+              child: AppText(context.l10n.notesError(error.toString())),
+            ),
+          ),
         ),
       ),
     );

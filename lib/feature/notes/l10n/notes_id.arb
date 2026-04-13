@@ -52,5 +52,6 @@
   "notesTitleOptional": "Judul (Opsional)",
   "notesSearchNotes": "Cari catatan...",
   "notesSearchHiddenNotes": "Cari catatan tersembunyi...",
-  "notesUntitledNote": "Catatan Tanpa Judul"
+  "notesUntitledNote": "Catatan Tanpa Judul",
+  "notesPickColor": "Pilih Warna"
 }

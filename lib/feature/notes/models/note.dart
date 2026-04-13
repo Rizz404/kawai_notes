@@ -18,6 +18,9 @@ class Note {
   bool isPinned;
   bool isDeleted;
 
+  int? colorValue;
+  String? customBackgroundImage;
+
   final folder = ToOne<Folder>();
 
   @Property(type: PropertyType.date)
@@ -36,6 +39,8 @@ class Note {
     this.isHidden = false,
     this.isPinned = false,
     this.isDeleted = false,
+    this.colorValue,
+    this.customBackgroundImage,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) : createdAt = createdAt ?? DateTime.now(),

@@ -1,3 +1,8 @@
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as path;
+import 'package:image_picker/image_picker.dart';
+import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -75,6 +80,65 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     _clearSelection();
   }
 
+  Future<void> _onBatchPickColor() async {
+    final Color newColor = await showColorPickerDialog(
+      context,
+      Colors.white,
+      title: AppText(context.l10n.notesPickColor, fontSize: 20),
+      width: 40,
+      height: 40,
+      spacing: 0,
+      runSpacing: 0,
+      borderRadius: 0,
+      wheelDiameter: 165,
+      enableOpacity: true,
+      showColorCode: true,
+      colorCodeHasColor: true,
+      pickersEnabled: const <ColorPickerType, bool>{
+        ColorPickerType.both: false,
+        ColorPickerType.primary: true,
+        ColorPickerType.accent: true,
+        ColorPickerType.bw: false,
+        ColorPickerType.custom: true,
+        ColorPickerType.wheel: true,
+      },
+    );
+
+    ref.read(noteListNotifierProvider.notifier).batchUpdateBackground(
+      _selectedIds.toList(),
+      colorValue: newColor.value,
+      customBackgroundImage: null,
+    );
+    _clearSelection();
+  }
+
+  Future<void> _onBatchPickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      final appDir = await getApplicationDocumentsDirectory();
+      final extension = path.extension(pickedFile.path);
+      final newPath = path.join(appDir.path, 'note_bg_batch_${DateTime.now().millisecondsSinceEpoch}$extension');
+      await File(pickedFile.path).copy(newPath);
+
+      ref.read(noteListNotifierProvider.notifier).batchUpdateBackground(
+        _selectedIds.toList(),
+        colorValue: null,
+        customBackgroundImage: newPath,
+      );
+      _clearSelection();
+    }
+  }
+
+  void _onBatchResetBackground() {
+    ref.read(noteListNotifierProvider.notifier).batchUpdateBackground(
+      _selectedIds.toList(),
+      colorValue: null,
+      customBackgroundImage: null,
+    );
+    _clearSelection();
+  }
+
   @override
   Widget build(BuildContext context) {
     final listStateAsync = ref.watch(noteListNotifierProvider);
@@ -91,6 +155,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 context.l10n.notesSelectedCount(_selectedIds.length),
               ),
               actions: [
+                IconButton(
+                  icon: const Icon(Icons.palette_outlined),
+                  onPressed: _onBatchPickColor,
+                ),
+                IconButton(
+                  icon: const Icon(Icons.image_outlined),
+                  onPressed: _onBatchPickImage,
+                ),
+                IconButton(
+                  icon: const Icon(Icons.format_color_reset),
+                  onPressed: _onBatchResetBackground,
+                ),
                 IconButton(
                   icon: const Icon(Icons.push_pin_outlined),
                   onPressed: _onBatchPin,
@@ -208,7 +284,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         note.title == 'Untitled' ||
         note.title == context.l10n.notesUntitledNote;
     final isSelected = _selectedIds.contains(note.id);
-    return ListTile(
+    final hasBackground = note.colorValue != null || note.customBackgroundImage != null;
+
+    final childTile = ListTile(
       selected: isSelected,
       onLongPress: () => _toggleSelection(note.id),
       leading: _isSelectionMode
@@ -272,6 +350,36 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         context.push('/note-editor', extra: {'id': note.id});
       },
     );
+
+    if (hasBackground) {
+      return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        decoration: BoxDecoration(
+          color: note.colorValue != null ? Color(note.colorValue!) : null,
+          image: note.customBackgroundImage != null
+              ? DecorationImage(
+                  image: FileImage(File(note.customBackgroundImage!)),
+                  fit: BoxFit.cover,
+                  colorFilter: ColorFilter.mode(
+                    Colors.black.withValues(alpha: 0.3),
+                    BlendMode.darken,
+                  ),
+                )
+              : null,
+          border: (hasBackground && !isSelected)
+              ? const Border()
+              : Border.all(
+                  color: isSelected
+                      ? context.colorScheme.primary
+                      : context.colorScheme.outlineVariant,
+                  width: isSelected ? 2 : 1,
+                ),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: childTile,
+      );
+    }
+    return childTile;
   }
 
   Widget _buildGrid(List<Note> pinned, List<Note> unpinned) {
@@ -328,15 +436,29 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         constraints: const BoxConstraints(minHeight: 100, maxHeight: 250),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: isSelected
-              ? context.colorScheme.primary.withValues(alpha: 0.1)
+          color: note.colorValue != null
+              ? Color(note.colorValue!)
+              : (isSelected
+                  ? context.colorScheme.primary.withValues(alpha: 0.1)
+                  : context.colors.surface),
+          image: note.customBackgroundImage != null
+              ? DecorationImage(
+                  image: FileImage(File(note.customBackgroundImage!)),
+                  fit: BoxFit.cover,
+                  colorFilter: ColorFilter.mode(
+                    Colors.black.withValues(alpha: 0.3),
+                    BlendMode.darken,
+                  ),
+                )
               : null,
-          border: Border.all(
-            color: isSelected
-                ? context.colorScheme.primary
-                : context.colorScheme.outlineVariant,
-            width: isSelected ? 2 : 1,
-          ),
+          border: ((note.colorValue != null || note.customBackgroundImage != null) && !isSelected)
+              ? const Border()
+              : Border.all(
+                  color: isSelected
+                      ? context.colorScheme.primary
+                      : context.colorScheme.outlineVariant,
+                  width: isSelected ? 2 : 1,
+                ),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Stack(

@@ -645,6 +645,9 @@ class L10nJa extends L10n {
   String get notesUntitledNote => '無題のメモ';
 
   @override
+  String get notesPickColor => '色を選択';
+
+  @override
   String get settingsTitle => '設定';
 
   @override

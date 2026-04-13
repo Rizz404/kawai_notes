@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:6860182552042913652",
-      "lastPropertyId": "12:4827311702158349030",
+      "lastPropertyId": "14:7046493774248128268",
       "name": "Note",
       "properties": [
         {
@@ -73,6 +73,16 @@
           "id": "12:4827311702158349030",
           "name": "isDeleted",
           "type": 1
+        },
+        {
+          "id": "13:6235253627829770802",
+          "name": "colorValue",
+          "type": 6
+        },
+        {
+          "id": "14:7046493774248128268",
+          "name": "customBackgroundImage",
+          "type": 9
         }
       ],
       "relations": []

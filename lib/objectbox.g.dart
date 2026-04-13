@@ -24,7 +24,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(1, 6860182552042913652),
     name: 'Note',
-    lastPropertyId: const obx_int.IdUid(12, 4827311702158349030),
+    lastPropertyId: const obx_int.IdUid(14, 7046493774248128268),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -101,6 +101,18 @@ final _entities = <obx_int.ModelEntity>[
         id: const obx_int.IdUid(12, 4827311702158349030),
         name: 'isDeleted',
         type: 1,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(13, 6235253627829770802),
+        name: 'colorValue',
+        type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(14, 7046493774248128268),
+        name: 'customBackgroundImage',
+        type: 9,
         flags: 0,
       ),
     ],
@@ -271,7 +283,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final linksOffset = fbb.writeList(
           object.links.map(fbb.writeString).toList(growable: false),
         );
-        fbb.startTable(13);
+        final customBackgroundImageOffset = object.customBackgroundImage == null
+            ? null
+            : fbb.writeString(object.customBackgroundImage!);
+        fbb.startTable(15);
         fbb.addInt64(0, object.id);
         fbb.addOffset(1, ulidOffset);
         fbb.addOffset(2, titleOffset);
@@ -284,6 +299,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addBool(9, object.isHidden);
         fbb.addBool(10, object.isPinned);
         fbb.addBool(11, object.isDeleted);
+        fbb.addInt64(12, object.colorValue);
+        fbb.addOffset(13, customBackgroundImageOffset);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -331,6 +348,14 @@ obx_int.ModelDefinition getObjectBoxModel() {
           26,
           false,
         );
+        final colorValueParam = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          28,
+        );
+        final customBackgroundImageParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 30);
         final createdAtParam = DateTime.fromMillisecondsSinceEpoch(
           const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0),
         );
@@ -347,6 +372,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
           isHidden: isHiddenParam,
           isPinned: isPinnedParam,
           isDeleted: isDeletedParam,
+          colorValue: colorValueParam,
+          customBackgroundImage: customBackgroundImageParam,
           createdAt: createdAtParam,
           updatedAt: updatedAtParam,
         );
@@ -539,6 +566,16 @@ class Note_ {
   /// See [Note.isDeleted].
   static final isDeleted = obx.QueryBooleanProperty<Note>(
     _entities[0].properties[11],
+  );
+
+  /// See [Note.colorValue].
+  static final colorValue = obx.QueryIntegerProperty<Note>(
+    _entities[0].properties[12],
+  );
+
+  /// See [Note.customBackgroundImage].
+  static final customBackgroundImage = obx.QueryStringProperty<Note>(
+    _entities[0].properties[13],
   );
 }
 

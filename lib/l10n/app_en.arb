@@ -808,6 +808,10 @@
   "@notesUntitledNote": {
     "description": "Untitled note default title"
   },
+  "notesPickColor": "Pick a Color",
+  "@notesPickColor": {
+    "description": "Notes pick color"
+  },
   "settingsTitle": "Settings",
   "@settingsTitle": {
     "description": "Settings title"
