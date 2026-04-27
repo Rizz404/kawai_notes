@@ -1,6 +1,6 @@
-// TODO: Pindahkan atau isi API Key Anda di bawah ini
-// Sangat disarankan untuk memindahkan konfigurasi seperti ini ke dalam format .env pada saat build Production.
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class ApiConstants {
-  static const String supabaseUrl = 'ISI_DENGAN_PROJECT_URL_SUPABASE';
-  static const String supabaseAnonKey = 'ISI_DENGAN_ANON_KEY_SUPABASE';
+  static String get supabaseUrl => dotenv.env['SUPABASE_URL'] ?? '';
+  static String get supabaseAnonKey => dotenv.env['SUPABASE_ANON_KEY'] ?? '';
 }

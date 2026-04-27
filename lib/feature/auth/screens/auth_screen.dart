@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:kawai_notes/core/extensions/theme_extension.dart';
+import 'package:kawai_notes/feature/auth/providers/auth_provider.dart';
 import 'package:kawai_notes/shared/widgets/app_button.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:kawai_notes/shared/widgets/app_text.dart';
 import 'package:kawai_notes/shared/widgets/app_text_field.dart';
 import 'package:kawai_notes/shared/widgets/screen_wrapper.dart';
@@ -22,25 +24,88 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
   void _submit() async {
     if (_formKey.currentState?.saveAndValidate() ?? false) {
-      final data = _formKey.currentState!.value;
+      final email = _formKey.currentState!.value['email'] as String;
+      final password = _formKey.currentState!.value['password'] as String;
+
       setState(() => _isLoading = true);
 
-      // TODO: Implement Supabase Auth
-      await Future.delayed(const Duration(seconds: 1));
+      try {
+        final client = ref.read(supabaseClientProvider);
+        if (client == null) throw Exception('Supabase belum terkonfigurasi');
 
+        if (_isLogin) {
+          await client.auth.signInWithPassword(
+            email: email,
+            password: password,
+          );
+        } else {
+          await client.auth.signUp(email: email, password: password);
+        }
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: AppText('Error: $e')));
+        }
+      } finally {
+        if (mounted) {
+          setState(() => _isLoading = false);
+        }
+      }
+    }
+  }
+
+  Future<void> _signInWithOAuth(OAuthProvider provider) async {
+    try {
+      final client = ref.read(supabaseClientProvider);
+      if (client == null) throw Exception('Supabase belum terkonfigurasi');
+
+      await client.auth.signInWithOAuth(provider);
+    } catch (e) {
       if (mounted) {
-        setState(() => _isLoading = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: AppText('Autentikasi belum dihubungkan dengan Supabase!'),
-          ),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: AppText('Error login: $e')));
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final client = ref.watch(supabaseClientProvider);
+    final user = ref.watch(currentUserProvider);
+
+    if (user != null) {
+      return Scaffold(
+        appBar: AppBar(title: const AppText('Cloud Account')),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.check_circle_outline,
+                size: 80,
+                color: context.colorScheme.primary,
+              ),
+              const SizedBox(height: 16),
+              AppText(
+                'Anda sudah login sebagai:',
+                style: AppTextStyle.titleMedium,
+              ),
+              AppText(user.email ?? 'User', style: AppTextStyle.bodyLarge),
+              const SizedBox(height: 32),
+              AppButton(
+                text: 'Keluar (Logout)',
+                onPressed: () async {
+                  await client?.auth.signOut();
+                },
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(title: AppText('Cloud Sync / Cloud Backup')),
       body: ScreenWrapper(
@@ -96,6 +161,29 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                       text: _isLogin ? 'Masuk' : 'Daftar',
                       onPressed: _submit,
                       isLoading: _isLoading,
+                      isFullWidth: true,
+                    ),
+                    const SizedBox(height: 16),
+                    const Row(
+                      children: [
+                        Expanded(child: Divider()),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          child: AppText('ATAU'),
+                        ),
+                        Expanded(child: Divider()),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    AppButton(
+                      text: 'Tautan Akun Google',
+                      onPressed: () => _signInWithOAuth(OAuthProvider.google),
+                      isFullWidth: true,
+                    ),
+                    const SizedBox(height: 8),
+                    AppButton(
+                      text: 'Tautan Akun GitHub',
+                      onPressed: () => _signInWithOAuth(OAuthProvider.github),
                       isFullWidth: true,
                     ),
                   ],
