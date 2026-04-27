@@ -1,4 +1,4 @@
-import 'package:bot_toast/bot_toast.dart';
+import 'package:kawai_notes/core/utils/toast_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -47,13 +47,9 @@ class BackupScreen extends ConsumerWidget {
                           .read(backupProvider.notifier)
                           .exportBackup();
                       if (success) {
-                        BotToast.showText(
-                          text: context.l10n.settingsBackupExportSuccess,
-                        );
+                        AppToast.success(context.l10n.settingsBackupExportSuccess);
                       } else {
-                        BotToast.showText(
-                          text: context.l10n.settingsBackupExportFailed,
-                        );
+                        AppToast.error(context.l10n.settingsBackupExportFailed);
                       }
                     },
                   ),
@@ -80,16 +76,12 @@ class BackupScreen extends ConsumerWidget {
                           .read(backupProvider.notifier)
                           .importBackup();
                       if (success) {
-                        BotToast.showText(
-                          text: context.l10n.settingsRestoreSuccess,
-                        );
+                        AppToast.success(context.l10n.settingsRestoreSuccess);
                         if (context.mounted) {
                           Phoenix.rebirth(context);
                         }
                       } else {
-                        BotToast.showText(
-                          text: context.l10n.settingsRestoreFailed,
-                        );
+                        AppToast.error(context.l10n.settingsRestoreFailed);
                       }
                     },
                   ),
@@ -117,13 +109,9 @@ class BackupScreen extends ConsumerWidget {
                                   .read(backupProvider.notifier)
                                   .runAutoBackupNow();
                               if (success) {
-                                BotToast.showText(
-                                  text: context.l10n.settingsCloudUploadSuccess,
-                                );
+                                AppToast.success(context.l10n.settingsCloudUploadSuccess);
                               } else {
-                                BotToast.showText(
-                                  text: context.l10n.settingsCloudUploadFailed,
-                                );
+                                AppToast.error(context.l10n.settingsCloudUploadFailed);
                               }
                             },
                           ),
@@ -144,19 +132,15 @@ class BackupScreen extends ConsumerWidget {
                                           .read(backupProvider.notifier)
                                           .restoreCloudBackup();
                                       if (success) {
-                                        BotToast.showText(
-                                          text: context
-                                              .l10n
-                                              .settingsRestoreSuccess,
+                                        AppToast.success(
+                                          context.l10n.settingsRestoreSuccess,
                                         );
                                         if (context.mounted) {
                                           Phoenix.rebirth(context);
                                         }
                                       } else {
-                                        BotToast.showText(
-                                          text: context
-                                              .l10n
-                                              .settingsRestoreFailed,
+                                        AppToast.error(
+                                          context.l10n.settingsRestoreFailed,
                                         );
                                       }
                                     }
@@ -224,16 +208,12 @@ class BackupScreen extends ConsumerWidget {
                                 .read(backupProvider.notifier)
                                 .restoreAutoBackup();
                             if (success) {
-                              BotToast.showText(
-                                text: context.l10n.settingsRestoreSuccess,
-                              );
+                              AppToast.success(context.l10n.settingsRestoreSuccess);
                               if (context.mounted) {
                                 Phoenix.rebirth(context);
                               }
                             } else {
-                              BotToast.showText(
-                                text: context.l10n.settingsRestoreFailed,
-                              );
+                              AppToast.error(context.l10n.settingsRestoreFailed);
                             }
                           },
                   ),
@@ -331,11 +311,11 @@ class BackupScreen extends ConsumerWidget {
                       final success = await ref
                           .read(backupProvider.notifier)
                           .runAutoBackupNow();
-                      BotToast.showText(
-                        text: success
-                            ? context.l10n.settingsAutoBackupRunSuccess
-                            : context.l10n.settingsAutoBackupRunFailed,
-                      );
+                      if (success) {
+                        AppToast.success(context.l10n.settingsAutoBackupRunSuccess);
+                      } else {
+                        AppToast.error(context.l10n.settingsAutoBackupRunFailed);
+                      }
                     },
                   ),
                 ],

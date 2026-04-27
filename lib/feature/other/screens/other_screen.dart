@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kawai_notes/core/extensions/localization_extension.dart';
 import 'package:kawai_notes/core/extensions/navigator_extension.dart';
+import 'package:kawai_notes/core/utils/toast_utils.dart';
 import 'package:kawai_notes/di/common_providers.dart';
 import 'package:kawai_notes/feature/notes/providers/xiaomi_import_provider.dart';
 import 'package:kawai_notes/shared/widgets/app_drawer.dart';
@@ -145,23 +146,13 @@ class OtherScreen extends ConsumerWidget {
                               .read(xiaomiImportProvider)
                               .mutationError;
                           if (error != null) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: AppText(
-                                  context.l10n.settingsImportFailed(
-                                    error.toString(),
-                                  ),
-                                ),
+                            AppToast.error(
+                              context.l10n.settingsImportFailed(
+                                error.toString(),
                               ),
                             );
                           } else if (didImport) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: AppText(
-                                  context.l10n.settingsImportSuccessful,
-                                ),
-                              ),
-                            );
+                            AppToast.success(context.l10n.settingsImportSuccessful);
                           }
                         }
                       },
@@ -189,12 +180,9 @@ class OtherScreen extends ConsumerWidget {
                           : const Icon(Icons.chevron_right),
                       onTap: () async {
                         if (importState.isMutating) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: AppText(
-                                context.l10n.settingsImportAnotherRunning,
-                              ),
-                            ),
+                          ScaffoldMessenger.of(context).clearSnackBars();
+                          AppToast.warning(
+                            context.l10n.settingsImportAnotherRunning,
                           );
                           return;
                         }
@@ -211,23 +199,13 @@ class OtherScreen extends ConsumerWidget {
                               .read(xiaomiImportProvider)
                               .mutationError;
                           if (error != null) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: AppText(
-                                  context.l10n.settingsFolderImportFailed(
-                                    error.toString(),
-                                  ),
-                                ),
+                            AppToast.error(
+                              context.l10n.settingsFolderImportFailed(
+                                error.toString(),
                               ),
                             );
                           } else if (didImport) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: AppText(
-                                  context.l10n.settingsImportSuccessful,
-                                ),
-                              ),
-                            );
+                            AppToast.success(context.l10n.settingsImportSuccessful);
                           }
                         }
                       },
