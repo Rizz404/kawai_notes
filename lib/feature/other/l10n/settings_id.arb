@@ -90,5 +90,13 @@
   "settingsAutoBackupSetTime": "Atur Waktu",
   "settingsAutoBackupRunNow": "Jalankan Cadangan Otomatis Sekarang",
   "settingsAutoBackupRunSuccess": "Cadangan otomatis berhasil",
-  "settingsAutoBackupRunFailed": "Cadangan otomatis gagal"
+  "settingsAutoBackupRunFailed": "Cadangan otomatis gagal",
+  "settingsCloudBackupTitle": "Cloud Backup (Supabase)",
+  "settingsCloudBackupDescription": "Backup catatan secara manual atau otomatis ke Cloud Server dengan akun Anda.",
+  "settingsCloudUpload": "Upload ke Cloud",
+  "settingsCloudUploadSuccess": "Berhasil upload ke Cloud",
+  "settingsCloudUploadFailed": "Gagal upload ke Cloud",
+  "settingsCloudRestore": "Restore dari Cloud",
+  "settingsCloudError": "Cloud Error",
+  "settingsCloudLoginRequired": "Harap login terlebih dahulu untuk menggunakan fitur Cloud Backup."
 }

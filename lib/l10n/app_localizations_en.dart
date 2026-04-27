@@ -560,6 +560,62 @@ class L10nEn extends L10n {
   String get pressBackAgainToExit => 'Press back again to exit';
 
   @override
+  String get authCloudAccount => 'Cloud Account';
+
+  @override
+  String get authLoggedInAs => 'You are logged in as:';
+
+  @override
+  String get authLogout => 'Logout';
+
+  @override
+  String get authCloudSyncTitle => 'Cloud Sync / Cloud Backup';
+
+  @override
+  String get authLoginTitle => 'Login to Cloud';
+
+  @override
+  String get authRegisterTitle => 'Register Cloud';
+
+  @override
+  String get authSubtitle =>
+      'Secure your notes in Cloud Storage.\nSign in to continue.';
+
+  @override
+  String get authEmailPlaceholder => 'Enter your email';
+
+  @override
+  String get authPasswordPlaceholder => 'Enter your password';
+
+  @override
+  String get authSignIn => 'Sign In';
+
+  @override
+  String get authRegister => 'Register';
+
+  @override
+  String get authOr => 'OR';
+
+  @override
+  String get authLinkGitHub => 'Link GitHub Account';
+
+  @override
+  String get authNoAccount => 'Don\'t have an account? Register';
+
+  @override
+  String get authHasAccount => 'Already have an account? Sign In';
+
+  @override
+  String authError(String error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String authLoginError(String error) {
+    return 'Login error: $error';
+  }
+
+  @override
   String get foldersTitle => 'Folders';
 
   @override
@@ -839,6 +895,32 @@ class L10nEn extends L10n {
 
   @override
   String get settingsAutoBackupRunFailed => 'Auto backup failed';
+
+  @override
+  String get settingsCloudBackupTitle => 'Cloud Backup (Supabase)';
+
+  @override
+  String get settingsCloudBackupDescription =>
+      'Back up your notes manually or automatically to Cloud Server with your account.';
+
+  @override
+  String get settingsCloudUpload => 'Upload to Cloud';
+
+  @override
+  String get settingsCloudUploadSuccess => 'Uploaded to Cloud successfully';
+
+  @override
+  String get settingsCloudUploadFailed => 'Failed to upload to Cloud';
+
+  @override
+  String get settingsCloudRestore => 'Restore from Cloud';
+
+  @override
+  String get settingsCloudError => 'Cloud Error';
+
+  @override
+  String get settingsCloudLoginRequired =>
+      'Please log in first to use the Cloud Backup feature.';
 
   @override
   String get tasksTitle => 'Tasks';

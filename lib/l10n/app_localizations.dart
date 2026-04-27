@@ -1101,6 +1101,108 @@ abstract class L10n {
   /// **'Press back again to exit'**
   String get pressBackAgainToExit;
 
+  /// Auth cloud account title
+  ///
+  /// In en, this message translates to:
+  /// **'Cloud Account'**
+  String get authCloudAccount;
+
+  /// Auth logged in as label
+  ///
+  /// In en, this message translates to:
+  /// **'You are logged in as:'**
+  String get authLoggedInAs;
+
+  /// Auth logout button
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get authLogout;
+
+  /// Auth cloud sync screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Cloud Sync / Cloud Backup'**
+  String get authCloudSyncTitle;
+
+  /// Auth login title
+  ///
+  /// In en, this message translates to:
+  /// **'Login to Cloud'**
+  String get authLoginTitle;
+
+  /// Auth register title
+  ///
+  /// In en, this message translates to:
+  /// **'Register Cloud'**
+  String get authRegisterTitle;
+
+  /// Auth subtitle description
+  ///
+  /// In en, this message translates to:
+  /// **'Secure your notes in Cloud Storage.\nSign in to continue.'**
+  String get authSubtitle;
+
+  /// Auth email placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email'**
+  String get authEmailPlaceholder;
+
+  /// Auth password placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your password'**
+  String get authPasswordPlaceholder;
+
+  /// Auth sign in button
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get authSignIn;
+
+  /// Auth register button
+  ///
+  /// In en, this message translates to:
+  /// **'Register'**
+  String get authRegister;
+
+  /// Auth or divider
+  ///
+  /// In en, this message translates to:
+  /// **'OR'**
+  String get authOr;
+
+  /// Auth link GitHub account button
+  ///
+  /// In en, this message translates to:
+  /// **'Link GitHub Account'**
+  String get authLinkGitHub;
+
+  /// Auth no account prompt
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account? Register'**
+  String get authNoAccount;
+
+  /// Auth has account prompt
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account? Sign In'**
+  String get authHasAccount;
+
+  /// No description provided for @authError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String authError(String error);
+
+  /// No description provided for @authLoginError.
+  ///
+  /// In en, this message translates to:
+  /// **'Login error: {error}'**
+  String authLoginError(String error);
+
   /// Folders title
   ///
   /// In en, this message translates to:
@@ -1610,6 +1712,54 @@ abstract class L10n {
   /// In en, this message translates to:
   /// **'Auto backup failed'**
   String get settingsAutoBackupRunFailed;
+
+  /// No description provided for @settingsCloudBackupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloud Backup (Supabase)'**
+  String get settingsCloudBackupTitle;
+
+  /// No description provided for @settingsCloudBackupDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Back up your notes manually or automatically to Cloud Server with your account.'**
+  String get settingsCloudBackupDescription;
+
+  /// No description provided for @settingsCloudUpload.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload to Cloud'**
+  String get settingsCloudUpload;
+
+  /// No description provided for @settingsCloudUploadSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploaded to Cloud successfully'**
+  String get settingsCloudUploadSuccess;
+
+  /// No description provided for @settingsCloudUploadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to upload to Cloud'**
+  String get settingsCloudUploadFailed;
+
+  /// No description provided for @settingsCloudRestore.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore from Cloud'**
+  String get settingsCloudRestore;
+
+  /// No description provided for @settingsCloudError.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloud Error'**
+  String get settingsCloudError;
+
+  /// No description provided for @settingsCloudLoginRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please log in first to use the Cloud Backup feature.'**
+  String get settingsCloudLoginRequired;
 
   /// Tasks title
   ///

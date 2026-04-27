@@ -1,3 +1,4 @@
+import 'package:app_links/app_links.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:kawai_notes/core/constants/api_constant.dart';
 import 'package:kawai_notes/core/constants/storage_key_constant.dart';
 import 'package:kawai_notes/core/extensions/localization_extension.dart';
+import 'package:kawai_notes/core/extensions/logger_extension.dart';
 import 'package:kawai_notes/core/router/app_router_provider.dart';
 import 'package:kawai_notes/core/services/backup_service.dart';
 import 'package:kawai_notes/core/services/encryption_service.dart';
@@ -45,6 +47,11 @@ Future<void> main() async {
       await Supabase.initialize(
         url: ApiConstant.supabaseUrl,
         anonKey: ApiConstant.supabaseAnonKey,
+        // * Nonaktifkan deteksi URI otomatis — kita handle manual via app_links
+        authOptions: const FlutterAuthClientOptions(
+          authFlowType: AuthFlowType.pkce,
+          detectSessionInUri: false,
+        ),
       );
     }
 
@@ -82,6 +89,14 @@ Future<void> main() async {
     await noteRepo.migrateToSingleStorage();
     await noteRepo.cleanUpTrashNotes(days: 30);
 
+    // * Tangkap initial deep link SEBELUM runApp agar session sudah ada saat widget tree build
+    final appLinks = AppLinks();
+    final initialUri = await appLinks.getInitialLink();
+    if (initialUri != null) {
+      AppLogger.instance.logInfo('Initial deep link (cold start): $initialUri');
+      await _handleDeepLink(initialUri);
+    }
+
     FlutterNativeSplash.remove();
 
     runApp(
@@ -101,6 +116,12 @@ Future<void> main() async {
         ),
       ),
     );
+
+    // * Pasang listener foreground SETELAH runApp — tidak ada race condition di sini
+    appLinks.uriLinkStream.listen((uri) {
+      AppLogger.instance.logInfo('Deep link diterima (foreground): $uri');
+      _handleDeepLink(uri);
+    });
   } catch (e) {
     FlutterNativeSplash.remove();
     AppLogger.instance.error('Error initializing app', e);
@@ -126,6 +147,18 @@ Future<void> main() async {
         ),
       ),
     );
+  }
+}
+
+
+
+Future<void> _handleDeepLink(Uri uri) async {
+  try {
+    final client = Supabase.instance.client;
+    // * Supabase akan parse token dari URI dan set session secara otomatis
+    await client.auth.getSessionFromUrl(uri);
+  } catch (e) {
+    AppLogger.instance.error('Gagal handle deep link', e);
   }
 }
 

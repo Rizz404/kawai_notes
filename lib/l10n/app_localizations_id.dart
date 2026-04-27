@@ -560,6 +560,62 @@ class L10nId extends L10n {
   String get pressBackAgainToExit => 'Tekan kembali sekali lagi untuk keluar';
 
   @override
+  String get authCloudAccount => 'Akun Cloud';
+
+  @override
+  String get authLoggedInAs => 'Anda sudah login sebagai:';
+
+  @override
+  String get authLogout => 'Keluar (Logout)';
+
+  @override
+  String get authCloudSyncTitle => 'Cloud Sync / Cloud Backup';
+
+  @override
+  String get authLoginTitle => 'Login ke Cloud';
+
+  @override
+  String get authRegisterTitle => 'Daftar Cloud';
+
+  @override
+  String get authSubtitle =>
+      'Amankan catatan Anda di Cloud Storage.\nMasuk untuk melanjutkan.';
+
+  @override
+  String get authEmailPlaceholder => 'Masukkan alamat email';
+
+  @override
+  String get authPasswordPlaceholder => 'Masukkan kata sandi';
+
+  @override
+  String get authSignIn => 'Masuk';
+
+  @override
+  String get authRegister => 'Daftar';
+
+  @override
+  String get authOr => 'ATAU';
+
+  @override
+  String get authLinkGitHub => 'Tautan Akun GitHub';
+
+  @override
+  String get authNoAccount => 'Belum punya akun? Daftar';
+
+  @override
+  String get authHasAccount => 'Sudah punya akun? Masuk';
+
+  @override
+  String authError(String error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String authLoginError(String error) {
+    return 'Error login: $error';
+  }
+
+  @override
   String get foldersTitle => 'Folder';
 
   @override
@@ -841,6 +897,32 @@ class L10nId extends L10n {
 
   @override
   String get settingsAutoBackupRunFailed => 'Cadangan otomatis gagal';
+
+  @override
+  String get settingsCloudBackupTitle => 'Cloud Backup (Supabase)';
+
+  @override
+  String get settingsCloudBackupDescription =>
+      'Backup catatan secara manual atau otomatis ke Cloud Server dengan akun Anda.';
+
+  @override
+  String get settingsCloudUpload => 'Upload ke Cloud';
+
+  @override
+  String get settingsCloudUploadSuccess => 'Berhasil upload ke Cloud';
+
+  @override
+  String get settingsCloudUploadFailed => 'Gagal upload ke Cloud';
+
+  @override
+  String get settingsCloudRestore => 'Restore dari Cloud';
+
+  @override
+  String get settingsCloudError => 'Cloud Error';
+
+  @override
+  String get settingsCloudLoginRequired =>
+      'Harap login terlebih dahulu untuk menggunakan fitur Cloud Backup.';
 
   @override
   String get tasksTitle => 'Tugas';

@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:kawai_notes/core/extensions/localization_extension.dart';
 import 'package:kawai_notes/core/extensions/theme_extension.dart';
 import 'package:kawai_notes/feature/auth/providers/auth_provider.dart';
 import 'package:kawai_notes/shared/widgets/app_button.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:kawai_notes/shared/widgets/app_text.dart';
 import 'package:kawai_notes/shared/widgets/app_text_field.dart';
 import 'package:kawai_notes/shared/widgets/screen_wrapper.dart';
@@ -46,7 +48,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         if (mounted) {
           ScaffoldMessenger.of(
             context,
-          ).showSnackBar(SnackBar(content: AppText('Error: $e')));
+          ).showSnackBar(SnackBar(content: AppText(context.l10n.authError(e.toString()))));
         }
       } finally {
         if (mounted) {
@@ -61,15 +63,17 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       final client = ref.read(supabaseClientProvider);
       if (client == null) throw Exception('Supabase belum terkonfigurasi');
 
+      // ! Wajib pakai externalBrowser agar Android bisa intercept deep link callback
       await client.auth.signInWithOAuth(
         provider,
-        redirectTo: 'com.rizz.kawai_notes://login-callback',
+        redirectTo: 'com.rizz.kawainotes://login-callback',
+        authScreenLaunchMode: LaunchMode.externalApplication,
       );
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: AppText('Error login: $e')));
+        ).showSnackBar(SnackBar(content: AppText(context.l10n.authLoginError(e.toString()))));
       }
     }
   }
@@ -81,37 +85,39 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
     if (user != null) {
       return Scaffold(
-        appBar: AppBar(title: const AppText('Cloud Account')),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.check_circle_outline,
-                size: 80,
-                color: context.colorScheme.primary,
-              ),
-              const SizedBox(height: 16),
-              AppText(
-                'Anda sudah login sebagai:',
-                style: AppTextStyle.titleMedium,
-              ),
-              AppText(user.email ?? 'User', style: AppTextStyle.bodyLarge),
-              const SizedBox(height: 32),
-              AppButton(
-                text: 'Keluar (Logout)',
-                onPressed: () async {
-                  await client?.auth.signOut();
-                },
-              ),
-            ],
+        appBar: AppBar(title: AppText(context.l10n.authCloudAccount)),
+        body: ScreenWrapper(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.check_circle_outline,
+                  size: 80,
+                  color: context.colorScheme.primary,
+                ),
+                const SizedBox(height: 16),
+                AppText(
+                  context.l10n.authLoggedInAs,
+                  style: AppTextStyle.titleMedium,
+                ),
+                AppText(user.email ?? 'User', style: AppTextStyle.bodyLarge),
+                const SizedBox(height: 32),
+                AppButton(
+                  text: context.l10n.authLogout,
+                  onPressed: () async {
+                    await client?.auth.signOut();
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       );
     }
 
     return Scaffold(
-      appBar: AppBar(title: AppText('Cloud Sync / Cloud Backup')),
+      appBar: AppBar(title: AppText(context.l10n.authCloudSyncTitle)),
       body: ScreenWrapper(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -126,13 +132,13 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
               ),
               const SizedBox(height: 16),
               AppText(
-                _isLogin ? 'Login ke Cloud' : 'Daftar Cloud',
+                _isLogin ? context.l10n.authLoginTitle : context.l10n.authRegisterTitle,
                 style: AppTextStyle.headlineSmall,
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 8),
-              const AppText(
-                'Amankan catatan Anda di Cloud Storage.\nMasuk untuk melanjutkan.',
+              AppText(
+                context.l10n.authSubtitle,
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 32),
@@ -143,7 +149,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                     AppTextField(
                       name: 'email',
                       label: 'Email',
-                      placeHolder: 'Masukkan alamat email',
+                      placeHolder: context.l10n.authEmailPlaceholder,
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(),
                         FormBuilderValidators.email(),
@@ -153,7 +159,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                     AppTextField(
                       name: 'password',
                       label: 'Password',
-                      placeHolder: 'Masukkan kata sandi',
+                      placeHolder: context.l10n.authPasswordPlaceholder,
                       type: AppTextFieldType.password,
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(),
@@ -162,20 +168,20 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                     ),
                     const SizedBox(height: 24),
                     AppButton(
-                      text: _isLogin ? 'Masuk' : 'Daftar',
+                      text: _isLogin ? context.l10n.authSignIn : context.l10n.authRegister,
                       onPressed: _submit,
                       isLoading: _isLoading,
                       isFullWidth: true,
                     ),
                     const SizedBox(height: 16),
-                    const Row(
+                    Row(
                       children: [
-                        Expanded(child: Divider()),
+                        const Expanded(child: Divider()),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16.0),
-                          child: AppText('ATAU'),
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: AppText(context.l10n.authOr),
                         ),
-                        Expanded(child: Divider()),
+                        const Expanded(child: Divider()),
                       ],
                     ),
                     const SizedBox(height: 16),
@@ -187,12 +193,10 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                     // ),
                     // const SizedBox(height: 8),
                     AppButton(
-                      text: 'Tautan Akun GitHub',
+                      text: context.l10n.authLinkGitHub,
                       onPressed: () => _signInWithOAuth(OAuthProvider.github),
                       isFullWidth: true,
-                      leadingIcon: const FaIcon(
-                        FontAwesomeIcons.github,
-                      ),
+                      leadingIcon: const FaIcon(FontAwesomeIcons.github),
                     ),
                   ],
                 ),
@@ -206,8 +210,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                 },
                 child: AppText(
                   _isLogin
-                      ? 'Belum punya akun? Daftar'
-                      : 'Sudah punya akun? Masuk',
+                      ? context.l10n.authNoAccount
+                      : context.l10n.authHasAccount,
                 ),
               ),
             ],

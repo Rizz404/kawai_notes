@@ -688,6 +688,82 @@
   "@pressBackAgainToExit": {
     "description": "Message shown when pressing back button at home root"
   },
+  "authCloudAccount": "クラウドアカウント",
+  "@authCloudAccount": {
+    "description": "Auth cloud account title"
+  },
+  "authLoggedInAs": "ログイン中:",
+  "@authLoggedInAs": {
+    "description": "Auth logged in as label"
+  },
+  "authLogout": "ログアウト",
+  "@authLogout": {
+    "description": "Auth logout button"
+  },
+  "authCloudSyncTitle": "クラウド同期／バックアップ",
+  "@authCloudSyncTitle": {
+    "description": "Auth cloud sync screen title"
+  },
+  "authLoginTitle": "クラウドにログイン",
+  "@authLoginTitle": {
+    "description": "Auth login title"
+  },
+  "authRegisterTitle": "クラウド登録",
+  "@authRegisterTitle": {
+    "description": "Auth register title"
+  },
+  "authSubtitle": "クラウドストレージにメモを保存しましょう。\nサインインして続行。",
+  "@authSubtitle": {
+    "description": "Auth subtitle description"
+  },
+  "authEmailPlaceholder": "メールアドレスを入力",
+  "@authEmailPlaceholder": {
+    "description": "Auth email placeholder"
+  },
+  "authPasswordPlaceholder": "パスワードを入力",
+  "@authPasswordPlaceholder": {
+    "description": "Auth password placeholder"
+  },
+  "authSignIn": "サインイン",
+  "@authSignIn": {
+    "description": "Auth sign in button"
+  },
+  "authRegister": "登録",
+  "@authRegister": {
+    "description": "Auth register button"
+  },
+  "authOr": "または",
+  "@authOr": {
+    "description": "Auth or divider"
+  },
+  "authLinkGitHub": "GitHubアカウントを連携",
+  "@authLinkGitHub": {
+    "description": "Auth link GitHub account button"
+  },
+  "authNoAccount": "アカウントをお持ちでないですか？登録",
+  "@authNoAccount": {
+    "description": "Auth no account prompt"
+  },
+  "authHasAccount": "アカウントをお持ちですか？サインイン",
+  "@authHasAccount": {
+    "description": "Auth has account prompt"
+  },
+  "authError": "エラー: {error}",
+  "@authError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "authLoginError": "ログインエラー: {error}",
+  "@authLoginError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
   "foldersTitle": "フォルダ",
   "@foldersTitle": {
     "description": "Folders title"
@@ -869,6 +945,14 @@
   "settingsAutoBackupRunNow": "今すぐ自動バックアップを実行",
   "settingsAutoBackupRunSuccess": "自動バックアップが完了しました",
   "settingsAutoBackupRunFailed": "自動バックアップに失敗しました",
+  "settingsCloudBackupTitle": "クラウドバックアップ（Supabase）",
+  "settingsCloudBackupDescription": "アカウントを使ってメモをクラウドサーバーに手動または自動でバックアップ。",
+  "settingsCloudUpload": "クラウドにアップロード",
+  "settingsCloudUploadSuccess": "クラウドへのアップロードが完了しました",
+  "settingsCloudUploadFailed": "クラウドへのアップロードに失敗しました",
+  "settingsCloudRestore": "クラウドから復元",
+  "settingsCloudError": "クラウドエラー",
+  "settingsCloudLoginRequired": "Cloud Backup機能を使用するには、先にログインしてください。",
   "tasksTitle": "タスク",
   "@tasksTitle": {
     "description": "Tasks title"

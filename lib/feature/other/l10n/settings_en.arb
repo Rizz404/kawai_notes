@@ -182,5 +182,13 @@
   "settingsAutoBackupSetTime": "Set Time",
   "settingsAutoBackupRunNow": "Run Auto Backup Now",
   "settingsAutoBackupRunSuccess": "Auto backup completed successfully",
-  "settingsAutoBackupRunFailed": "Auto backup failed"
+  "settingsAutoBackupRunFailed": "Auto backup failed",
+  "settingsCloudBackupTitle": "Cloud Backup (Supabase)",
+  "settingsCloudBackupDescription": "Back up your notes manually or automatically to Cloud Server with your account.",
+  "settingsCloudUpload": "Upload to Cloud",
+  "settingsCloudUploadSuccess": "Uploaded to Cloud successfully",
+  "settingsCloudUploadFailed": "Failed to upload to Cloud",
+  "settingsCloudRestore": "Restore from Cloud",
+  "settingsCloudError": "Cloud Error",
+  "settingsCloudLoginRequired": "Please log in first to use the Cloud Backup feature."
 }

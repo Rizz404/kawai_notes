@@ -1,0 +1,79 @@
+{
+  "@@locale": "id",
+  "authCloudAccount": "Akun Cloud",
+  "@authCloudAccount": {
+    "description": "Auth cloud account title"
+  },
+  "authLoggedInAs": "Anda sudah login sebagai:",
+  "@authLoggedInAs": {
+    "description": "Auth logged in as label"
+  },
+  "authLogout": "Keluar (Logout)",
+  "@authLogout": {
+    "description": "Auth logout button"
+  },
+  "authCloudSyncTitle": "Cloud Sync / Cloud Backup",
+  "@authCloudSyncTitle": {
+    "description": "Auth cloud sync screen title"
+  },
+  "authLoginTitle": "Login ke Cloud",
+  "@authLoginTitle": {
+    "description": "Auth login title"
+  },
+  "authRegisterTitle": "Daftar Cloud",
+  "@authRegisterTitle": {
+    "description": "Auth register title"
+  },
+  "authSubtitle": "Amankan catatan Anda di Cloud Storage.\nMasuk untuk melanjutkan.",
+  "@authSubtitle": {
+    "description": "Auth subtitle description"
+  },
+  "authEmailPlaceholder": "Masukkan alamat email",
+  "@authEmailPlaceholder": {
+    "description": "Auth email placeholder"
+  },
+  "authPasswordPlaceholder": "Masukkan kata sandi",
+  "@authPasswordPlaceholder": {
+    "description": "Auth password placeholder"
+  },
+  "authSignIn": "Masuk",
+  "@authSignIn": {
+    "description": "Auth sign in button"
+  },
+  "authRegister": "Daftar",
+  "@authRegister": {
+    "description": "Auth register button"
+  },
+  "authOr": "ATAU",
+  "@authOr": {
+    "description": "Auth or divider"
+  },
+  "authLinkGitHub": "Tautan Akun GitHub",
+  "@authLinkGitHub": {
+    "description": "Auth link GitHub account button"
+  },
+  "authNoAccount": "Belum punya akun? Daftar",
+  "@authNoAccount": {
+    "description": "Auth no account prompt"
+  },
+  "authHasAccount": "Sudah punya akun? Masuk",
+  "@authHasAccount": {
+    "description": "Auth has account prompt"
+  },
+  "authError": "Error: {error}",
+  "@authError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "authLoginError": "Error login: {error}",
+  "@authLoginError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  }
+}

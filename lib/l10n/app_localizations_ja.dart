@@ -559,6 +559,61 @@ class L10nJa extends L10n {
   String get pressBackAgainToExit => 'もう一度戻るボタンを押して終了';
 
   @override
+  String get authCloudAccount => 'クラウドアカウント';
+
+  @override
+  String get authLoggedInAs => 'ログイン中:';
+
+  @override
+  String get authLogout => 'ログアウト';
+
+  @override
+  String get authCloudSyncTitle => 'クラウド同期／バックアップ';
+
+  @override
+  String get authLoginTitle => 'クラウドにログイン';
+
+  @override
+  String get authRegisterTitle => 'クラウド登録';
+
+  @override
+  String get authSubtitle => 'クラウドストレージにメモを保存しましょう。\nサインインして続行。';
+
+  @override
+  String get authEmailPlaceholder => 'メールアドレスを入力';
+
+  @override
+  String get authPasswordPlaceholder => 'パスワードを入力';
+
+  @override
+  String get authSignIn => 'サインイン';
+
+  @override
+  String get authRegister => '登録';
+
+  @override
+  String get authOr => 'または';
+
+  @override
+  String get authLinkGitHub => 'GitHubアカウントを連携';
+
+  @override
+  String get authNoAccount => 'アカウントをお持ちでないですか？登録';
+
+  @override
+  String get authHasAccount => 'アカウントをお持ちですか？サインイン';
+
+  @override
+  String authError(String error) {
+    return 'エラー: $error';
+  }
+
+  @override
+  String authLoginError(String error) {
+    return 'ログインエラー: $error';
+  }
+
+  @override
   String get foldersTitle => 'フォルダ';
 
   @override
@@ -831,6 +886,32 @@ class L10nJa extends L10n {
 
   @override
   String get settingsAutoBackupRunFailed => '自動バックアップに失敗しました';
+
+  @override
+  String get settingsCloudBackupTitle => 'クラウドバックアップ（Supabase）';
+
+  @override
+  String get settingsCloudBackupDescription =>
+      'アカウントを使ってメモをクラウドサーバーに手動または自動でバックアップ。';
+
+  @override
+  String get settingsCloudUpload => 'クラウドにアップロード';
+
+  @override
+  String get settingsCloudUploadSuccess => 'クラウドへのアップロードが完了しました';
+
+  @override
+  String get settingsCloudUploadFailed => 'クラウドへのアップロードに失敗しました';
+
+  @override
+  String get settingsCloudRestore => 'クラウドから復元';
+
+  @override
+  String get settingsCloudError => 'クラウドエラー';
+
+  @override
+  String get settingsCloudLoginRequired =>
+      'Cloud Backup機能を使用するには、先にログインしてください。';
 
   @override
   String get tasksTitle => 'タスク';

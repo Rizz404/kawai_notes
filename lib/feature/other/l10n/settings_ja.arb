@@ -90,5 +90,13 @@
   "settingsAutoBackupSetTime": "時刻を設定",
   "settingsAutoBackupRunNow": "今すぐ自動バックアップを実行",
   "settingsAutoBackupRunSuccess": "自動バックアップが完了しました",
-  "settingsAutoBackupRunFailed": "自動バックアップに失敗しました"
+  "settingsAutoBackupRunFailed": "自動バックアップに失敗しました",
+  "settingsCloudBackupTitle": "クラウドバックアップ（Supabase）",
+  "settingsCloudBackupDescription": "アカウントを使ってメモをクラウドサーバーに手動または自動でバックアップ。",
+  "settingsCloudUpload": "クラウドにアップロード",
+  "settingsCloudUploadSuccess": "クラウドへのアップロードが完了しました",
+  "settingsCloudUploadFailed": "クラウドへのアップロードに失敗しました",
+  "settingsCloudRestore": "クラウドから復元",
+  "settingsCloudError": "クラウドエラー",
+  "settingsCloudLoginRequired": "Cloud Backup機能を使用するには、先にログインしてください。"
 }

@@ -94,6 +94,7 @@ dependencies:
   supabase_flutter: ^2.12.4
   flutter_dotenv: ^6.0.1
   font_awesome_flutter: ^11.0.0
+  app_links: ^7.0.0
 
 dev_dependencies:
   flutter_test:

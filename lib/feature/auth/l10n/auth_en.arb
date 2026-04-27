@@ -1,0 +1,79 @@
+{
+  "@@locale": "en",
+  "authCloudAccount": "Cloud Account",
+  "@authCloudAccount": {
+    "description": "Auth cloud account title"
+  },
+  "authLoggedInAs": "You are logged in as:",
+  "@authLoggedInAs": {
+    "description": "Auth logged in as label"
+  },
+  "authLogout": "Logout",
+  "@authLogout": {
+    "description": "Auth logout button"
+  },
+  "authCloudSyncTitle": "Cloud Sync / Cloud Backup",
+  "@authCloudSyncTitle": {
+    "description": "Auth cloud sync screen title"
+  },
+  "authLoginTitle": "Login to Cloud",
+  "@authLoginTitle": {
+    "description": "Auth login title"
+  },
+  "authRegisterTitle": "Register Cloud",
+  "@authRegisterTitle": {
+    "description": "Auth register title"
+  },
+  "authSubtitle": "Secure your notes in Cloud Storage.\nSign in to continue.",
+  "@authSubtitle": {
+    "description": "Auth subtitle description"
+  },
+  "authEmailPlaceholder": "Enter your email",
+  "@authEmailPlaceholder": {
+    "description": "Auth email placeholder"
+  },
+  "authPasswordPlaceholder": "Enter your password",
+  "@authPasswordPlaceholder": {
+    "description": "Auth password placeholder"
+  },
+  "authSignIn": "Sign In",
+  "@authSignIn": {
+    "description": "Auth sign in button"
+  },
+  "authRegister": "Register",
+  "@authRegister": {
+    "description": "Auth register button"
+  },
+  "authOr": "OR",
+  "@authOr": {
+    "description": "Auth or divider"
+  },
+  "authLinkGitHub": "Link GitHub Account",
+  "@authLinkGitHub": {
+    "description": "Auth link GitHub account button"
+  },
+  "authNoAccount": "Don't have an account? Register",
+  "@authNoAccount": {
+    "description": "Auth no account prompt"
+  },
+  "authHasAccount": "Already have an account? Sign In",
+  "@authHasAccount": {
+    "description": "Auth has account prompt"
+  },
+  "authError": "Error: {error}",
+  "@authError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "authLoginError": "Login error: {error}",
+  "@authLoginError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  }
+}

@@ -149,7 +149,7 @@ logError('Something failed', e, stackTrace);
 **If localization is explicitly requested:**
 
 1. Add the new key to **all** `.arb` files in the feature's `l10n/` folder
-2. Run: `dart run tools/combine_arb.dart`
+2. Run: `dart run tools/combine_arb.dart && flutter gen-l10n`
 
 ---
 

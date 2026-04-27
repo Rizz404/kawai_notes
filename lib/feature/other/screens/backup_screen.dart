@@ -99,32 +99,30 @@ class BackupScreen extends ConsumerWidget {
 
                   // ─── Cloud Backup ────────────────────────────────
                   if (currentUser != null) ...[
-                    const AppText(
-                      'Cloud Backup (Supabase)',
+                    AppText(
+                      context.l10n.settingsCloudBackupTitle,
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
                     ),
                     const SizedBox(height: 8),
-                    const AppText(
-                      'Backup catatan secara manual atau otomatis ke Cloud Server dengan akun Anda.',
-                    ),
+                    AppText(context.l10n.settingsCloudBackupDescription),
                     const SizedBox(height: 16),
                     Row(
                       children: [
                         Expanded(
                           child: AppButton(
-                            text: 'Upload ke Cloud',
+                            text: context.l10n.settingsCloudUpload,
                             onPressed: () async {
                               final success = await ref
                                   .read(backupProvider.notifier)
                                   .runAutoBackupNow();
                               if (success) {
                                 BotToast.showText(
-                                  text: 'Berhasil upload ke Cloud',
+                                  text: context.l10n.settingsCloudUploadSuccess,
                                 );
                               } else {
                                 BotToast.showText(
-                                  text: 'Gagal upload ke Cloud',
+                                  text: context.l10n.settingsCloudUploadFailed,
                                 );
                               }
                             },
@@ -134,7 +132,7 @@ class BackupScreen extends ConsumerWidget {
                         Expanded(
                           child: cloudExistsAsync.when(
                             data: (exists) => AppButton(
-                              text: 'Restore dari Cloud',
+                              text: context.l10n.settingsCloudRestore,
                               onPressed: exists
                                   ? () async {
                                       final confirm = await _showConfirmDialog(
@@ -167,8 +165,8 @@ class BackupScreen extends ConsumerWidget {
                             loading: () => const Center(
                               child: CircularProgressIndicator(),
                             ),
-                            error: (_, __) => const AppButton(
-                              text: 'Cloud Error',
+                            error: (_, __) => AppButton(
+                              text: context.l10n.settingsCloudError,
                               onPressed: null,
                             ),
                           ),
@@ -179,14 +177,14 @@ class BackupScreen extends ConsumerWidget {
                     const Divider(),
                     const SizedBox(height: 32),
                   ] else ...[
-                    const AppText(
-                      'Cloud Backup (Supabase)',
+                    AppText(
+                      context.l10n.settingsCloudBackupTitle,
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
                     ),
                     const SizedBox(height: 8),
                     AppText(
-                      'Harap login terlebih dahulu untuk menggunakan fitur Cloud Backup.',
+                      context.l10n.settingsCloudLoginRequired,
                       color: context.colorScheme.onSurfaceVariant,
                     ),
                     const SizedBox(height: 32),
