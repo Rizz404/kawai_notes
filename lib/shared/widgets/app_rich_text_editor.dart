@@ -117,6 +117,9 @@ class _AppRichTextEditorState
   late QuillController _quillController;
   final ImagePicker _picker = ImagePicker();
 
+  // * baseline content setelah roundtrip md→delta→md, untuk deteksi perubahan user
+  String _baselineContent = '';
+
   @override
   void initState() {
     super.initState();
@@ -151,12 +154,19 @@ class _AppRichTextEditorState
       selection: const TextSelection.collapsed(offset: 0),
     );
 
+    // * simpan baseline setelah roundtrip agar bisa deteksi perubahan user
+    _baselineContent = DeltaToMarkdown().convert(
+      _quillController.document.toDelta(),
+    );
+
     _quillController.document.changes.listen((event) {
       final currentDelta = _quillController.document.toDelta();
       final markdown = DeltaToMarkdown().convert(currentDelta);
 
-      // Update form builder value
-      didChange(markdown);
+      // * hanya report change jika user benar-benar mengubah content
+      if (markdown != _baselineContent) {
+        didChange(markdown);
+      }
     });
   }
 

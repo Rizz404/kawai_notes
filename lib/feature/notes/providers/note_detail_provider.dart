@@ -64,10 +64,7 @@ class NoteDetailNotifier extends AsyncNotifier<NoteDetailState> {
     final note = _noteRepository.getNote(_id);
     if (note == null) throw Exception('Note not found');
 
-    final content = await _noteRepository.readNoteContent(
-      note.contentPath,
-      isHidden: note.isHidden,
-    );
+    final content = await _noteRepository.getNoteContent(note);
 
     return NoteDetailState(note: note, content: content);
   }

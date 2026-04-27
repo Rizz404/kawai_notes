@@ -79,10 +79,7 @@ class NoteListNotifier extends AsyncNotifier<NoteListState> {
 
         if (!isMatch) {
           try {
-            final content = await _noteRepository.readNoteContent(
-              note.contentPath,
-              isHidden: note.isHidden,
-            );
+            final content = await _noteRepository.getNoteContent(note);
             if (content.toLowerCase().contains(q)) {
               isMatch = true;
             }
@@ -128,10 +125,7 @@ class NoteListNotifier extends AsyncNotifier<NoteListState> {
     for (final id in ids) {
       final note = _noteRepository.getNote(id);
       if (note != null) {
-        final content = await _noteRepository.readNoteContent(
-          note.contentPath,
-          isHidden: note.isHidden,
-        );
+        final content = await _noteRepository.getNoteContent(note);
         await _noteRepository.saveNote(
           id: note.id,
           ulid: note.ulid,
@@ -174,10 +168,7 @@ class NoteListNotifier extends AsyncNotifier<NoteListState> {
     for (final id in ids) {
       final note = _noteRepository.getNote(id);
       if (note != null) {
-        final content = await _noteRepository.readNoteContent(
-          note.contentPath,
-          isHidden: note.isHidden,
-        );
+        final content = await _noteRepository.getNoteContent(note);
         await _noteRepository.saveNote(
           id: note.id,
           ulid: note.ulid,

@@ -89,6 +89,7 @@ class NoteRepository {
     return note;
   }
 
+  // ! Legacy — fallback ke file system, gunakan [getNoteContent] untuk akses langsung
   Future<String> readNoteContent(
     String contentPath, {
     bool isHidden = false,
@@ -110,6 +111,21 @@ class NoteRepository {
     }
 
     if (isHidden && content.isNotEmpty) {
+      try {
+        return await _encryptionService.decrypt(content);
+      } catch (e) {
+        return 'Error decrypting content: $e';
+      }
+    }
+    return content;
+  }
+
+  /// Ambil content note langsung dari ObjectBox, decrypt jika hidden
+  Future<String> getNoteContent(Note note) async {
+    final content = note.content ?? '';
+    if (content.isEmpty) return '';
+
+    if (note.isHidden) {
       try {
         return await _encryptionService.decrypt(content);
       } catch (e) {

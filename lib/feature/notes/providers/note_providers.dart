@@ -28,10 +28,7 @@ class NotePreviewNotifier extends AsyncNotifier<String> {
     final repo = ref.read(noteRepositoryProvider);
     final note = repo.getNote(_noteId);
     if (note == null) return '';
-    final content = await repo.readNoteContent(
-      note.contentPath,
-      isHidden: note.isHidden,
-    );
+    final content = await repo.getNoteContent(note);
     return content.toPlainText();
   }
 }

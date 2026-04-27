@@ -41,9 +41,6 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _contentFocusNode.requestFocus();
-    });
   }
 
   @override
