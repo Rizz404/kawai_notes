@@ -3,6 +3,7 @@ import 'package:kawai_notes/core/services/encryption_service.dart';
 import 'package:kawai_notes/core/services/note_file_service.dart';
 import 'package:kawai_notes/core/services/objectbox_service.dart';
 import 'package:kawai_notes/feature/notes/models/note.dart';
+import 'package:kawai_notes/objectbox.g.dart';
 import 'package:slugify/slugify.dart';
 import 'package:ulid/ulid.dart';
 
@@ -48,25 +49,18 @@ class NoteRepository {
   }) async {
     final noteUlid = ulid ?? Ulid().toString();
     final slug = slugify(title);
-    final fileName = '$slug-$noteUlid.md';
+    final fileName =
+        '$slug-$noteUlid.md'; // Tetap simpan sebagai legacy reference
 
     // Parse markdown for tags & links from raw content BEFORE encryption
     final tags = content.extractTags();
     final links = content.extractLinks();
 
     // Encrypt if hidden
-    String fileContent = content;
+    String finalContent = content;
     if (isHidden) {
-      fileContent = await _encryptionService.encrypt(content);
+      finalContent = await _encryptionService.encrypt(content);
     }
-
-    // Save actual file
-    await _noteFileService.saveNoteFile(
-      fileName,
-      fileContent,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
-    );
 
     // Save to ObjectBox
     final note = Note(
@@ -74,6 +68,7 @@ class NoteRepository {
       ulid: noteUlid,
       title: title,
       contentPath: fileName,
+      content: finalContent,
       tags: tags,
       links: links,
       isHidden: isHidden,
@@ -98,7 +93,22 @@ class NoteRepository {
     String contentPath, {
     bool isHidden = false,
   }) async {
-    final content = await _noteFileService.readNoteFile(contentPath);
+    // Ambil note berdasarkan contentPath dari DB
+    final query = _objectBoxService.store
+        .box<Note>()
+        .query(Note_.contentPath.equals(contentPath))
+        .build();
+    final note = query.findFirst();
+    query.close();
+
+    String content = '';
+    if (note != null && note.content != null) {
+      content = note.content!;
+    } else {
+      // Fallback ke file system jika di DB kosong
+      content = await _noteFileService.readNoteFile(contentPath);
+    }
+
     if (isHidden && content.isNotEmpty) {
       try {
         return await _encryptionService.decrypt(content);
@@ -146,7 +156,10 @@ class NoteRepository {
   Future<void> hardDeleteNote(int id) async {
     final note = getNote(id);
     if (note != null) {
-      await _noteFileService.deleteNoteFile(note.contentPath);
+      if (note.content == null) {
+        // Hapus file legacy jika belum ter-migrate sepenuhnya
+        await _noteFileService.deleteNoteFile(note.contentPath);
+      }
       _objectBoxService.store.box<Note>().remove(id);
     }
   }
