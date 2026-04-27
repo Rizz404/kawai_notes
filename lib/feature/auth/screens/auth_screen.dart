@@ -1,3 +1,4 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -60,7 +61,10 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       final client = ref.read(supabaseClientProvider);
       if (client == null) throw Exception('Supabase belum terkonfigurasi');
 
-      await client.auth.signInWithOAuth(provider);
+      await client.auth.signInWithOAuth(
+        provider,
+        redirectTo: 'com.rizz.kawai_notes://login-callback',
+      );
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(
@@ -175,16 +179,20 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                       ],
                     ),
                     const SizedBox(height: 16),
-                    AppButton(
-                      text: 'Tautan Akun Google',
-                      onPressed: () => _signInWithOAuth(OAuthProvider.google),
-                      isFullWidth: true,
-                    ),
-                    const SizedBox(height: 8),
+                    // TODO: Aktifkan kembali ketika configurasi Google sudah selesai
+                    // AppButton(
+                    //   text: 'Tautan Akun Google',
+                    //   onPressed: () => _signInWithOAuth(OAuthProvider.google),
+                    //   isFullWidth: true,
+                    // ),
+                    // const SizedBox(height: 8),
                     AppButton(
                       text: 'Tautan Akun GitHub',
                       onPressed: () => _signInWithOAuth(OAuthProvider.github),
                       isFullWidth: true,
+                      leadingIcon: const FaIcon(
+                        FontAwesomeIcons.github,
+                      ),
                     ),
                   ],
                 ),

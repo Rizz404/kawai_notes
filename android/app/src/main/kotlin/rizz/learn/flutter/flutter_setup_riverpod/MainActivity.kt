@@ -1,4 +1,4 @@
-package rizz.learn.kawai_notes
+package com.rizz.kawai_notes
 
 import io.flutter.embedding.android.FlutterActivity
 

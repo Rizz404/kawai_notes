@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "rizz.learn.kawai_notes"
+    namespace = "com.rizz.kawai_notes"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -20,7 +20,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "rizz.learn.kawai_notes"
+        applicationId = "com.rizz.kawai_notes"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
