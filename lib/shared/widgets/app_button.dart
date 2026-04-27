@@ -137,8 +137,13 @@ class AppButton extends StatelessWidget {
     final colorProps = _getColorProps();
     final sizingProps = _getSizingProps();
 
+    final isDisabled = onPressed == null && !isLoading;
+    final resolvedForeground = isDisabled
+        ? theme.colorScheme.onSurface.withValues(alpha: 0.38)
+        : colorProps.foregroundColor;
+
     final progressIndicatorColor = variant == AppButtonVariant.filled
-        ? colorProps.foregroundColor
+        ? resolvedForeground
         : colorProps.backgroundColor;
 
     final buttonContent = isLoading
@@ -157,23 +162,27 @@ class AppButton extends StatelessWidget {
               if (leadingIcon != null) ...[
                 IconTheme(
                   data: IconThemeData(
-                    color: colorProps.foregroundColor,
+                    color: resolvedForeground,
                     size: 20,
                   ),
                   child: leadingIcon!,
                 ),
                 const SizedBox(width: 8),
               ],
-              AppText(
-                text,
-                color: colorProps.foregroundColor,
-                fontWeight: FontWeight.w600,
+              Flexible(
+                child: AppText(
+                  text,
+                  color: resolvedForeground,
+                  fontWeight: FontWeight.w600,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
               ),
               if (trailingIcon != null) ...[
                 const SizedBox(width: 8),
                 IconTheme(
                   data: IconThemeData(
-                    color: colorProps.foregroundColor,
+                    color: resolvedForeground,
                     size: 20,
                   ),
                   child: trailingIcon!,
@@ -207,10 +216,10 @@ class AppButton extends StatelessWidget {
         return colorProps.side;
       }),
       minimumSize: isFullWidth
-          ? WidgetStateProperty.all(Size.fromHeight(sizingProps.height))
+          ? WidgetStateProperty.all(Size(0, sizingProps.height))
           : WidgetStateProperty.all(Size(88, sizingProps.height)),
       maximumSize: isFullWidth
-          ? WidgetStateProperty.all(Size.fromHeight(sizingProps.height))
+          ? WidgetStateProperty.all(Size(double.infinity, sizingProps.height))
           : null,
       elevation: WidgetStateProperty.resolveWith((states) {
         if (variant == AppButtonVariant.filled &&
