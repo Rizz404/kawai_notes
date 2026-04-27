@@ -90,6 +90,15 @@ class OtherScreen extends ConsumerWidget {
             ),
             const Divider(),
             ListTile(
+              leading: const Icon(Icons.cloud_sync_outlined),
+              title: AppText('Cloud Sync / Login'),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () {
+                context.push('/auth');
+              },
+            ),
+            const Divider(),
+            ListTile(
               leading: const Icon(Icons.backup_outlined),
               title: AppText(context.l10n.settingsBackupAndRestore),
               trailing: const Icon(Icons.chevron_right),

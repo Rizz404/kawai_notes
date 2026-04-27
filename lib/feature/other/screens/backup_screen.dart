@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:kawai_notes/core/extensions/localization_extension.dart';
 import 'package:kawai_notes/core/extensions/theme_extension.dart';
-import 'package:kawai_notes/feature/settings/providers/backup_provider.dart';
+import 'package:kawai_notes/feature/other/providers/backup_provider.dart';
 import 'package:kawai_notes/shared/widgets/app_button.dart';
 import 'package:kawai_notes/shared/widgets/app_text.dart';
 import 'package:kawai_notes/shared/widgets/screen_wrapper.dart';
@@ -156,7 +156,9 @@ class BackupScreen extends ConsumerWidget {
                     context: context,
                     label: context.l10n.settingsAutoBackupFolder,
                     value: folderAsync.when(
-                      data: (folder) => folder ?? context.l10n.settingsAutoBackupFolderDefault,
+                      data: (folder) =>
+                          folder ??
+                          context.l10n.settingsAutoBackupFolderDefault,
                       loading: () => '...',
                       error: (_, __) => '-',
                     ),
@@ -200,15 +202,14 @@ class BackupScreen extends ConsumerWidget {
                           final current = timeAsync.value;
                           final picked = await showTimePicker(
                             context: context,
-                            initialTime: current ??
-                                const TimeOfDay(hour: 2, minute: 0),
-                            builder: (context, child) =>
-                                MediaQuery(
-                                  data: MediaQuery.of(context).copyWith(
-                                    alwaysUse24HourFormat: true,
-                                  ),
-                                  child: child!,
-                                ),
+                            initialTime:
+                                current ?? const TimeOfDay(hour: 2, minute: 0),
+                            builder: (context, child) => MediaQuery(
+                              data: MediaQuery.of(
+                                context,
+                              ).copyWith(alwaysUse24HourFormat: true),
+                              child: child!,
+                            ),
                           );
                           if (picked != null && context.mounted) {
                             await ref
