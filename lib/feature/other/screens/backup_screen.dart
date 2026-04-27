@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:kawai_notes/core/extensions/localization_extension.dart';
 import 'package:kawai_notes/core/extensions/theme_extension.dart';
+import 'package:kawai_notes/feature/auth/providers/auth_provider.dart';
 import 'package:kawai_notes/feature/other/providers/backup_provider.dart';
 import 'package:kawai_notes/shared/widgets/app_button.dart';
 import 'package:kawai_notes/shared/widgets/app_text.dart';
@@ -19,6 +20,8 @@ class BackupScreen extends ConsumerWidget {
     final backupState = ref.watch(backupProvider);
     final folderAsync = ref.watch(autoBackupFolderProvider);
     final timeAsync = ref.watch(autoBackupTimeProvider);
+    final currentUser = ref.watch(currentUserProvider);
+    final cloudExistsAsync = ref.watch(cloudBackupExistsProvider);
 
     return Scaffold(
       appBar: AppBar(title: AppText(context.l10n.settingsBackupAndRestore)),
@@ -93,6 +96,101 @@ class BackupScreen extends ConsumerWidget {
                   const SizedBox(height: 32),
                   const Divider(),
                   const SizedBox(height: 32),
+
+                  // ─── Cloud Backup ────────────────────────────────
+                  if (currentUser != null) ...[
+                    const AppText(
+                      'Cloud Backup (Supabase)',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                    const SizedBox(height: 8),
+                    const AppText(
+                      'Backup catatan secara manual atau otomatis ke Cloud Server dengan akun Anda.',
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: AppButton(
+                            text: 'Upload ke Cloud',
+                            onPressed: () async {
+                              final success = await ref
+                                  .read(backupProvider.notifier)
+                                  .runAutoBackupNow();
+                              if (success) {
+                                BotToast.showText(
+                                  text: 'Berhasil upload ke Cloud',
+                                );
+                              } else {
+                                BotToast.showText(
+                                  text: 'Gagal upload ke Cloud',
+                                );
+                              }
+                            },
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: cloudExistsAsync.when(
+                            data: (exists) => AppButton(
+                              text: 'Restore dari Cloud',
+                              onPressed: exists
+                                  ? () async {
+                                      final confirm = await _showConfirmDialog(
+                                        context,
+                                      );
+                                      if (confirm != true) return;
+
+                                      final success = await ref
+                                          .read(backupProvider.notifier)
+                                          .restoreCloudBackup();
+                                      if (success) {
+                                        BotToast.showText(
+                                          text: context
+                                              .l10n
+                                              .settingsRestoreSuccess,
+                                        );
+                                        if (context.mounted) {
+                                          Phoenix.rebirth(context);
+                                        }
+                                      } else {
+                                        BotToast.showText(
+                                          text: context
+                                              .l10n
+                                              .settingsRestoreFailed,
+                                        );
+                                      }
+                                    }
+                                  : null,
+                            ),
+                            loading: () => const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                            error: (_, __) =>
+                                const AppButton(text: 'Cloud Error', onPressed: null),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 32),
+                    const Divider(),
+                    const SizedBox(height: 32),
+                  ] else ...[
+                    const AppText(
+                      'Cloud Backup (Supabase)',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                    const SizedBox(height: 8),
+                    AppText(
+                      'Harap login terlebih dahulu untuk menggunakan fitur Cloud Backup.',
+                      color: context.colorScheme.onSurfaceVariant,
+                    ),
+                    const SizedBox(height: 32),
+                    const Divider(),
+                    const SizedBox(height: 32),
+                  ],
 
                   // ─── Auto Backup ─────────────────────────────────
                   AppText(

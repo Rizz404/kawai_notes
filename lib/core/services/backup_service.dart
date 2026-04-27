@@ -10,17 +10,14 @@ import 'package:kawai_notes/core/utils/logger.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class BackupService {
   final ObjectBoxService _objectBoxService;
   final SharedPreferences _prefs;
   final NotificationService _notificationService;
 
-  BackupService(
-    this._objectBoxService,
-    this._prefs,
-    this._notificationService,
-  );
+  BackupService(this._objectBoxService, this._prefs, this._notificationService);
 
   static const String _lastBackupKey = 'last_auto_backup_date';
   static const String _autoBackupFolderKey = 'auto_backup_folder';
@@ -95,7 +92,6 @@ class BackupService {
 
       final docsDir = await _getDocsDir();
       final dbDir = Directory(p.join(docsDir.path, 'notes_db'));
-      final notesDir = Directory(p.join(docsDir.path, 'notes'));
 
       final zipPath = await _getAutoBackupZipPath();
       final encoder = ZipFileEncoder();
@@ -104,13 +100,36 @@ class BackupService {
       if (await dbDir.exists()) {
         await encoder.addDirectory(dbDir);
       }
-      if (await notesDir.exists()) {
-        await encoder.addDirectory(notesDir);
-      }
       await encoder.close();
 
       await _prefs.setString(_lastBackupKey, todayStr);
-      AppLogger.instance.info('Auto backup successful for $todayStr → $zipPath');
+      AppLogger.instance.info(
+        'Auto backup successful for $todayStr → $zipPath',
+      );
+
+      // * Cloud Upload to Supabase Storage
+      try {
+        final client = Supabase.instance.client;
+        final user = client.auth.currentUser;
+        if (user != null) {
+          final file = File(zipPath);
+          final bytes = await file.readAsBytes();
+
+          final cloudPath = '${user.id}/kawai_notes_backup.zip';
+          await client.storage
+              .from('backups')
+              .uploadBinary(
+                cloudPath,
+                bytes,
+                fileOptions: const FileOptions(upsert: true),
+              );
+          AppLogger.instance.info(
+            'Cloud backup uploaded successfully to $cloudPath',
+          );
+        }
+      } catch (e, stack) {
+        AppLogger.instance.error('Cloud backup upload error', e, stack);
+      }
 
       // * Kirim notifikasi
       await _notificationService.showBackupSuccessNotification(
@@ -152,12 +171,8 @@ class BackupService {
       // 2. Clear old directories
       final docsDir = await _getDocsDir();
       final dbDir = Directory(p.join(docsDir.path, 'notes_db'));
-      final notesDir = Directory(p.join(docsDir.path, 'notes'));
       if (await dbDir.exists()) {
         await dbDir.delete(recursive: true);
-      }
-      if (await notesDir.exists()) {
-        await notesDir.delete(recursive: true);
       }
 
       // 3. Extract new
@@ -173,13 +188,52 @@ class BackupService {
     }
   }
 
+  // --- Cloud Backup Utils ---
+
+  Future<bool> hasCloudBackup() async {
+    try {
+      final client = Supabase.instance.client;
+      final user = client.auth.currentUser;
+      if (user == null) return false;
+
+      final cloudPath = '${user.id}/';
+      final list = await client.storage.from('backups').list(path: cloudPath);
+      return list.any((item) => item.name == 'kawai_notes_backup.zip');
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> downloadRestoreCloudBackup() async {
+    try {
+      final client = Supabase.instance.client;
+      final user = client.auth.currentUser;
+      if (user == null) return false;
+
+      final cloudPath = '${user.id}/kawai_notes_backup.zip';
+      final bytes = await client.storage.from('backups').download(cloudPath);
+
+      final zipPath = await _getAutoBackupZipPath();
+      final file = File(zipPath);
+      await file.writeAsBytes(bytes);
+
+      return await restoreFromAutoBackup();
+    } catch (e, stack) {
+      AppLogger.instance.error(
+        'Download & Restore cloud backup error',
+        e,
+        stack,
+      );
+      return false;
+    }
+  }
+
   // --- Manual Backup ---
 
   Future<bool> exportBackupManual() async {
     try {
       final docsDir = await _getDocsDir();
       final dbDir = Directory(p.join(docsDir.path, 'notes_db'));
-      final notesDir = Directory(p.join(docsDir.path, 'notes'));
 
       final zipPath = p.join(docsDir.path, 'temp_export.zip');
       final encoder = ZipFileEncoder();
@@ -187,9 +241,6 @@ class BackupService {
 
       if (await dbDir.exists()) {
         await encoder.addDirectory(dbDir);
-      }
-      if (await notesDir.exists()) {
-        await encoder.addDirectory(notesDir);
       }
       await encoder.close();
 

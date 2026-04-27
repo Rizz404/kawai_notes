@@ -91,7 +91,7 @@ class OtherScreen extends ConsumerWidget {
             const Divider(),
             ListTile(
               leading: const Icon(Icons.cloud_sync_outlined),
-              title: AppText('Cloud Sync / Login'),
+              title: const AppText('Cloud Sync / Login'),
               trailing: const Icon(Icons.chevron_right),
               onTap: () {
                 context.push('/auth');

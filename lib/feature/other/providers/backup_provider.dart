@@ -29,6 +29,11 @@ final autoBackupTimeProvider = FutureProvider.autoDispose<TimeOfDay>((
   return backupService.getAutoBackupTime();
 });
 
+final cloudBackupExistsProvider = FutureProvider.autoDispose<bool>((ref) async {
+  final backupService = ref.watch(backupServiceProvider);
+  return await backupService.hasCloudBackup();
+});
+
 class BackupNotifier extends AsyncNotifier<void> {
   @override
   FutureOr<void> build() {
@@ -82,9 +87,23 @@ class BackupNotifier extends AsyncNotifier<void> {
       final success = await _backupService.runAutoBackup(forceRun: true);
       state = const AsyncData(null);
       ref.invalidate(backupAutoDateProvider);
+      ref.invalidate(cloudBackupExistsProvider);
       return success;
     } catch (e, stack) {
       AppLogger.instance.error('Run auto backup now failed', e, stack);
+      state = AsyncError(e, stack);
+      return false;
+    }
+  }
+
+  Future<bool> restoreCloudBackup() async {
+    state = const AsyncLoading();
+    try {
+      final success = await _backupService.downloadRestoreCloudBackup();
+      state = const AsyncData(null);
+      return success;
+    } catch (e, stack) {
+      AppLogger.instance.error('Restore cloud backup failed', e, stack);
       state = AsyncError(e, stack);
       return false;
     }
