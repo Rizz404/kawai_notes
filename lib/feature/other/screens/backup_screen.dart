@@ -167,8 +167,10 @@ class BackupScreen extends ConsumerWidget {
                             loading: () => const Center(
                               child: CircularProgressIndicator(),
                             ),
-                            error: (_, __) =>
-                                const AppButton(text: 'Cloud Error', onPressed: null),
+                            error: (_, __) => const AppButton(
+                              text: 'Cloud Error',
+                              onPressed: null,
+                            ),
                           ),
                         ),
                       ],
