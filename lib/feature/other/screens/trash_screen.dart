@@ -61,7 +61,7 @@ class TrashScreen extends ConsumerWidget {
 
             return ListView.separated(
               itemCount: notes.length,
-              separatorBuilder: (_, __) => const Divider(height: 1),
+              separatorBuilder: (e, _) => const Divider(height: 1),
               itemBuilder: (context, index) {
                 final note = notes[index];
                 final expirationDate = note.updatedAt.add(

@@ -86,7 +86,7 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
     );
 
     setState(() {
-      _colorValue = newColor.value;
+      _colorValue = newColor.toARGB32();
       _customBackgroundImage = null;
     });
   }

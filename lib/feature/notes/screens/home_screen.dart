@@ -105,9 +105,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       },
     );
 
-    ref.read(noteListNotifierProvider.notifier).batchUpdateBackground(
+    await ref.read(noteListNotifierProvider.notifier).batchUpdateBackground(
       _selectedIds.toList(),
-      colorValue: newColor.value,
+      colorValue: newColor.toARGB32(),
       customBackgroundImage: null,
     );
     _clearSelection();
@@ -122,7 +122,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       final newPath = path.join(appDir.path, 'note_bg_batch_${DateTime.now().millisecondsSinceEpoch}$extension');
       await File(pickedFile.path).copy(newPath);
 
-      ref.read(noteListNotifierProvider.notifier).batchUpdateBackground(
+      await ref.read(noteListNotifierProvider.notifier).batchUpdateBackground(
         _selectedIds.toList(),
         colorValue: null,
         customBackgroundImage: newPath,

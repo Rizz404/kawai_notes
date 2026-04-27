@@ -1,10 +1,10 @@
-import 'package:kawai_notes/core/utils/toast_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:kawai_notes/core/extensions/localization_extension.dart';
 import 'package:kawai_notes/core/extensions/theme_extension.dart';
+import 'package:kawai_notes/core/utils/toast_utils.dart';
 import 'package:kawai_notes/feature/auth/providers/auth_provider.dart';
 import 'package:kawai_notes/feature/other/providers/backup_provider.dart';
 import 'package:kawai_notes/shared/widgets/app_button.dart';
@@ -46,6 +46,7 @@ class BackupScreen extends ConsumerWidget {
                       final success = await ref
                           .read(backupProvider.notifier)
                           .exportBackup();
+                      if (!context.mounted) return;
                       if (success) {
                         AppToast.success(context.l10n.settingsBackupExportSuccess);
                       } else {
@@ -75,11 +76,10 @@ class BackupScreen extends ConsumerWidget {
                       final success = await ref
                           .read(backupProvider.notifier)
                           .importBackup();
+                      if (!context.mounted) return;
                       if (success) {
                         AppToast.success(context.l10n.settingsRestoreSuccess);
-                        if (context.mounted) {
-                          Phoenix.rebirth(context);
-                        }
+                        Phoenix.rebirth(context);
                       } else {
                         AppToast.error(context.l10n.settingsRestoreFailed);
                       }
@@ -108,6 +108,7 @@ class BackupScreen extends ConsumerWidget {
                               final success = await ref
                                   .read(backupProvider.notifier)
                                   .runAutoBackupNow();
+                              if (!context.mounted) return;
                               if (success) {
                                 AppToast.success(context.l10n.settingsCloudUploadSuccess);
                               } else {
@@ -131,13 +132,12 @@ class BackupScreen extends ConsumerWidget {
                                       final success = await ref
                                           .read(backupProvider.notifier)
                                           .restoreCloudBackup();
+                                      if (!context.mounted) return;
                                       if (success) {
                                         AppToast.success(
                                           context.l10n.settingsRestoreSuccess,
                                         );
-                                        if (context.mounted) {
-                                          Phoenix.rebirth(context);
-                                        }
+                                        Phoenix.rebirth(context);
                                       } else {
                                         AppToast.error(
                                           context.l10n.settingsRestoreFailed,
@@ -149,7 +149,7 @@ class BackupScreen extends ConsumerWidget {
                             loading: () => const Center(
                               child: CircularProgressIndicator(),
                             ),
-                            error: (_, __) => AppButton(
+                            error: (e, _) => AppButton(
                               text: context.l10n.settingsCloudError,
                               onPressed: null,
                             ),
@@ -192,7 +192,7 @@ class BackupScreen extends ConsumerWidget {
                           : context.l10n.settingsNoAutoBackup,
                     ),
                     loading: () => const CircularProgressIndicator(),
-                    error: (_, __) =>
+                    error: (e, _) =>
                         AppText(context.l10n.settingsErrorLoadingAutoBackup),
                   ),
                   const SizedBox(height: 16),
@@ -207,11 +207,10 @@ class BackupScreen extends ConsumerWidget {
                             final success = await ref
                                 .read(backupProvider.notifier)
                                 .restoreAutoBackup();
+                            if (!context.mounted) return;
                             if (success) {
                               AppToast.success(context.l10n.settingsRestoreSuccess);
-                              if (context.mounted) {
-                                Phoenix.rebirth(context);
-                              }
+                              Phoenix.rebirth(context);
                             } else {
                               AppToast.error(context.l10n.settingsRestoreFailed);
                             }
@@ -238,7 +237,7 @@ class BackupScreen extends ConsumerWidget {
                           folder ??
                           context.l10n.settingsAutoBackupFolderDefault,
                       loading: () => '...',
-                      error: (_, __) => '-',
+                      error: (e, _) => '-',
                     ),
                     actions: [
                       TextButton(
@@ -272,7 +271,7 @@ class BackupScreen extends ConsumerWidget {
                       data: (time) =>
                           '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}',
                       loading: () => '...',
-                      error: (_, __) => '-',
+                      error: (e, _) => '-',
                     ),
                     actions: [
                       TextButton(
@@ -311,6 +310,7 @@ class BackupScreen extends ConsumerWidget {
                       final success = await ref
                           .read(backupProvider.notifier)
                           .runAutoBackupNow();
+                      if (!context.mounted) return;
                       if (success) {
                         AppToast.success(context.l10n.settingsAutoBackupRunSuccess);
                       } else {

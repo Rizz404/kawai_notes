@@ -60,8 +60,10 @@ class AppStatefulShellRoute extends AppRouteBase {
 }
 
 class AppRoute extends AppRouteBase {
+  // ignore: overridden_fields
   @override
   final String path;
+  // ignore: overridden_fields
   @override
   final String? name;
 
