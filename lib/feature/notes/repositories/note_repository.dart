@@ -17,6 +17,22 @@ class NoteRepository {
     this._encryptionService,
   );
 
+  Future<void> migrateToSingleStorage() async {
+    final box = _objectBoxService.store.box<Note>();
+    final notes = box.getAll();
+
+    for (final note in notes) {
+      if (note.content == null) {
+        final content = await readNoteContent(
+          note.contentPath,
+          isHidden: note.isHidden,
+        );
+        note.content = content;
+        box.put(note);
+      }
+    }
+  }
+
   Future<Note> saveNote({
     int id = 0,
     String? ulid,

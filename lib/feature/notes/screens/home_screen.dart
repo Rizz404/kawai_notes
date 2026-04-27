@@ -1,11 +1,10 @@
 import 'dart:io';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart' as path;
-import 'package:image_picker/image_picker.dart';
+
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:kawai_notes/core/extensions/localization_extension.dart';
 import 'package:kawai_notes/core/extensions/navigator_extension.dart';
 import 'package:kawai_notes/core/extensions/theme_extension.dart';
@@ -17,6 +16,8 @@ import 'package:kawai_notes/shared/widgets/app_drawer.dart';
 import 'package:kawai_notes/shared/widgets/app_search_field.dart';
 import 'package:kawai_notes/shared/widgets/app_text.dart';
 import 'package:kawai_notes/shared/widgets/screen_wrapper.dart';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -261,9 +262,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     return ListView(
       children: [
         if (hasPinned) ..._buildSectionHeader('Pinned'),
-        if (hasPinned) ...pinned.map((note) => _buildListTile(note)),
+        if (hasPinned) ...pinned.map(_buildListTile),
         if (hasPinned && unpinned.isNotEmpty) ..._buildSectionHeader('Notes'),
-        ...unpinned.map((note) => _buildListTile(note)),
+        ...unpinned.map(_buildListTile),
       ],
     );
   }

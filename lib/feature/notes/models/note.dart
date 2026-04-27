@@ -11,6 +11,7 @@ class Note {
 
   String title;
   String contentPath;
+  String? content;
   List<String> tags;
   List<String> links;
 
@@ -34,6 +35,7 @@ class Note {
     required this.ulid,
     required this.title,
     required this.contentPath,
+    this.content,
     this.tags = const [],
     this.links = const [],
     this.isHidden = false,

@@ -8,7 +8,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kawai_notes/core/extensions/logger_extension.dart';
 import 'package:kawai_notes/di/repository_providers.dart';
 import 'package:kawai_notes/di/service_providers.dart';
-import 'package:kawai_notes/feature/notes/services/xiaomi_import_service.dart';
 import 'package:kawai_notes/feature/notes/providers/note_list_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 

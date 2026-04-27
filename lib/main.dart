@@ -67,6 +67,7 @@ Future<void> main() async {
       NoteFileService(),
       EncryptionService(),
     );
+    await noteRepo.migrateToSingleStorage();
     await noteRepo.cleanUpTrashNotes(days: 30);
 
     FlutterNativeSplash.remove();

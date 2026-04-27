@@ -1,11 +1,10 @@
 import 'dart:io';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart' as path;
-import 'package:image_picker/image_picker.dart';
+
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:kawai_notes/core/extensions/localization_extension.dart';
 import 'package:kawai_notes/core/extensions/navigator_extension.dart';
 import 'package:kawai_notes/feature/notes/providers/note_providers.dart';
@@ -13,6 +12,8 @@ import 'package:kawai_notes/shared/widgets/app_rich_text_editor.dart';
 import 'package:kawai_notes/shared/widgets/app_text.dart';
 import 'package:kawai_notes/shared/widgets/app_text_field.dart';
 import 'package:kawai_notes/shared/widgets/screen_wrapper.dart';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 
 class NoteEditorScreen extends ConsumerStatefulWidget {
   final int? noteId;
