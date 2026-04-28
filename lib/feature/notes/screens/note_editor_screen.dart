@@ -33,6 +33,7 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
 
   bool _isPinned = false;
   bool _isPinnedInitialized = false;
+  bool _isDirty = false;
 
   int? _colorValue;
   String? _customBackgroundImage;
@@ -85,6 +86,7 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
     setState(() {
       _colorValue = newColor.toARGB32();
       _customBackgroundImage = null;
+      _isDirty = true;
     });
   }
 
@@ -103,6 +105,7 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
       setState(() {
         _customBackgroundImage = newPath;
         _colorValue = null;
+        _isDirty = true;
       });
     }
   }
@@ -110,6 +113,7 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
   void _saveNoteBackground() {
     // ! jangan simpan sebelum state pin diinisialisasi agar isPinned tidak ter-reset
     if (!_isPinnedInitialized) return;
+    if (!_isDirty) return;
 
     _formKey.currentState?.save(); // save data without validating
     final values = _formKey.currentState?.value;
@@ -209,13 +213,17 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
                   onPressed: () => setState(() {
                     _colorValue = null;
                     _customBackgroundImage = null;
+                    _isDirty = true;
                   }),
                 ),
               IconButton(
                 icon: Icon(
                   _isPinned ? Icons.push_pin : Icons.push_pin_outlined,
                 ),
-                onPressed: () => setState(() => _isPinned = !_isPinned),
+                onPressed: () => setState(() {
+                  _isPinned = !_isPinned;
+                  _isDirty = true;
+                }),
               ),
               IconButton(
                 icon: const Icon(Icons.check),
@@ -254,6 +262,7 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
                             contentPadding: const EdgeInsets.symmetric(
                               vertical: 8,
                             ),
+                            onChanged: (_) => _isDirty = true,
                           ),
                           Expanded(
                             child: AppRichTextEditor(
@@ -265,6 +274,7 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
                                 fontSize: 16,
                                 height: 1.5,
                               ),
+                              onChanged: (_) => _isDirty = true,
                             ),
                           ),
                         ],
