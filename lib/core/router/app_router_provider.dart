@@ -11,6 +11,7 @@ import 'package:kawai_notes/feature/notes/screens/graph_view_screen.dart';
 import 'package:kawai_notes/feature/notes/screens/hidden_notes_screen.dart';
 import 'package:kawai_notes/feature/notes/screens/home_screen.dart';
 import 'package:kawai_notes/feature/notes/screens/note_editor_screen.dart';
+import 'package:kawai_notes/feature/notes/screens/widget_config_screen.dart';
 import 'package:kawai_notes/feature/other/screens/backup_screen.dart';
 import 'package:kawai_notes/feature/other/screens/other_screen.dart';
 import 'package:kawai_notes/feature/other/screens/trash_screen.dart';
@@ -99,6 +100,18 @@ final routerRoutesProvider = Provider<List<AppRouteBase>>((ref) {
       transitionDuration: const Duration(milliseconds: 300),
     ),
     AppRoute(path: '/auth', builder: (context, state) => const AuthScreen()),
+    AppRoute(
+      path: '/widget-config',
+      name: 'widget_config',
+      builder: (context, state) {
+        final extra = state.extra as Map<String, dynamic>?;
+        return NoteWidgetConfigScreen(
+          widgetId: extra?['widgetId'] as int? ?? 0,
+        );
+      },
+      transitionsBuilder: AppTransitions.slideFromRight,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
     AppRoute(
       path: '/backup',
       name: 'backup',

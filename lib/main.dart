@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_links/app_links.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:dynamic_color/dynamic_color.dart';
@@ -20,6 +22,7 @@ import 'package:kawai_notes/core/services/encryption_service.dart';
 import 'package:kawai_notes/core/services/note_file_service.dart';
 import 'package:kawai_notes/core/services/notification_service.dart';
 import 'package:kawai_notes/core/services/objectbox_service.dart';
+import 'package:kawai_notes/core/services/widget_deep_link_service.dart';
 import 'package:kawai_notes/core/themes/app_theme.dart';
 import 'package:kawai_notes/core/utils/logger.dart';
 import 'package:kawai_notes/core/utils/talker_config.dart';
@@ -89,12 +92,19 @@ Future<void> main() async {
     await noteRepo.migrateToSingleStorage();
     await noteRepo.cleanUpTrashNotes(days: 30);
 
-    // * Tangkap initial deep link SEBELUM runApp agar session sudah ada saat widget tree build
+    // * Tangkap initial deep link SEBELUM runApp
     final appLinks = AppLinks();
     final initialUri = await appLinks.getInitialLink();
+    Uri? initialWidgetUri;
+
     if (initialUri != null) {
       AppLogger.instance.logInfo('Initial deep link (cold start): $initialUri');
-      await _handleDeepLink(initialUri);
+      if (WidgetDeepLinkService.isWidgetUri(initialUri)) {
+        // URI dari klik widget — tunda navigasi sampai Flutter tree siap
+        initialWidgetUri = initialUri;
+      } else {
+        await _handleDeepLink(initialUri);
+      }
     }
 
     FlutterNativeSplash.remove();
@@ -112,7 +122,7 @@ Future<void> main() async {
             notificationServiceProvider.overrideWithValue(notificationService),
           ],
           observers: [TalkerConfig.riverpodObserver],
-          child: const MyApp(),
+          child: MyApp(initialWidgetUri: initialWidgetUri),
         ),
       ),
     );
@@ -120,7 +130,11 @@ Future<void> main() async {
     // * Pasang listener foreground SETELAH runApp — tidak ada race condition di sini
     appLinks.uriLinkStream.listen((uri) {
       AppLogger.instance.logInfo('Deep link diterima (foreground): $uri');
-      _handleDeepLink(uri);
+      if (WidgetDeepLinkService.isWidgetUri(uri)) {
+        WidgetDeepLinkService.instance.handle(uri);
+      } else {
+        _handleDeepLink(uri);
+      }
     });
   } catch (e) {
     FlutterNativeSplash.remove();
@@ -150,8 +164,6 @@ Future<void> main() async {
   }
 }
 
-
-
 Future<void> _handleDeepLink(Uri uri) async {
   try {
     final client = Supabase.instance.client;
@@ -162,11 +174,58 @@ Future<void> _handleDeepLink(Uri uri) async {
   }
 }
 
-class MyApp extends ConsumerWidget {
-  const MyApp({super.key});
+class MyApp extends ConsumerStatefulWidget {
+  final Uri? initialWidgetUri;
+
+  const MyApp({super.key, this.initialWidgetUri});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> {
+  StreamSubscription<Uri>? _widgetUriSub;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Handle URI dari cold start (app dibuka pertama kali dari klik widget)
+    if (widget.initialWidgetUri != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _navigateFromWidgetUri(widget.initialWidgetUri!);
+      });
+    }
+
+    // Handle URI dari foreground (app sudah berjalan, user klik widget)
+    _widgetUriSub = WidgetDeepLinkService.instance.stream.listen(
+      _navigateFromWidgetUri,
+    );
+  }
+
+  @override
+  void dispose() {
+    _widgetUriSub?.cancel();
+    super.dispose();
+  }
+
+  void _navigateFromWidgetUri(Uri uri) {
+    final router = ref.read(routerDelegateProvider);
+    if (uri.host == 'widget-note') {
+      final noteId = int.tryParse(uri.queryParameters['noteId'] ?? '');
+      if (noteId != null) {
+        router.push('/note-editor', extra: {'id': noteId});
+      }
+    } else if (uri.host == 'widget-config') {
+      final widgetId = int.tryParse(uri.queryParameters['widgetId'] ?? '');
+      if (widgetId != null) {
+        router.push('/widget-config', extra: {'widgetId': widgetId});
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final currentLocale = ref.watch(localeProvider);
     final themeMode = ref.watch(themeProvider);
     final isMaterialYouEnabled = ref.watch(materialYouProvider);
@@ -215,7 +274,6 @@ class MyApp extends ConsumerWidget {
 
           // * Locale Resolution Strategy
           localeResolutionCallback: (locale, supportedLocales) {
-            // * If device locale is supported, use it
             if (locale != null) {
               for (var supportedLocale in supportedLocales) {
                 if (supportedLocale.languageCode == locale.languageCode &&
@@ -223,16 +281,12 @@ class MyApp extends ConsumerWidget {
                   return supportedLocale;
                 }
               }
-
-              // * If exact match not found, try language code only
               for (var supportedLocale in supportedLocales) {
                 if (supportedLocale.languageCode == locale.languageCode) {
                   return supportedLocale;
                 }
               }
             }
-
-            // * Fallback to first supported locale (should be 'en')
             return supportedLocales.first;
           },
         );
