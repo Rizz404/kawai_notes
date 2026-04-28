@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kawai_notes/core/extensions/localization_extension.dart';
 import 'package:kawai_notes/core/extensions/navigator_extension.dart';
 import 'package:kawai_notes/core/extensions/theme_extension.dart';
+import 'package:kawai_notes/di/service_providers.dart';
 import 'package:kawai_notes/feature/folders/widgets/folder_drawer.dart';
 import 'package:kawai_notes/feature/notes/models/note.dart';
 import 'package:kawai_notes/feature/notes/providers/hidden_note_list_provider.dart';
@@ -18,10 +19,40 @@ class HiddenNotesScreen extends ConsumerStatefulWidget {
   ConsumerState<HiddenNotesScreen> createState() => _HiddenNotesScreenState();
 }
 
-class _HiddenNotesScreenState extends ConsumerState<HiddenNotesScreen> {
+class _HiddenNotesScreenState extends ConsumerState<HiddenNotesScreen>
+    with WidgetsBindingObserver {
   final Set<int> _selectedIds = {};
 
   bool get _isSelectionMode => _selectedIds.isNotEmpty;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _reAuthenticate();
+    }
+  }
+
+  Future<void> _reAuthenticate() async {
+    final auth = ref.read(authServiceProvider);
+    final isAuth = await auth.authenticate(
+      reason: 'Verify identity to view hidden notes',
+    );
+    if (!isAuth && mounted) {
+      context.pop();
+    }
+  }
 
   void _toggleSelection(int id) {
     setState(() {

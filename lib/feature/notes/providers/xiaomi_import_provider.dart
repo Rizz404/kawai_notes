@@ -94,6 +94,8 @@ class XiaomiImportNotifier extends Notifier<XiaomiImportState> {
     } catch (e, st) {
       logError('Failed to import Xiaomi notes', e, st);
       state = XiaomiImportState(mutationError: e);
+      // * ensure partial imports are visible even if loop failed midway
+      ref.invalidate(noteListNotifierProvider);
       return false;
     }
   }
@@ -209,6 +211,8 @@ class XiaomiImportNotifier extends Notifier<XiaomiImportState> {
     } catch (e, st) {
       logError('Failed to import Xiaomi notes from folder', e, st);
       state = XiaomiImportState(mutationError: e);
+      // * ensure partial imports are visible even if loop failed midway
+      ref.invalidate(noteListNotifierProvider);
       await ref.read(notificationServiceProvider).cancelNotification(888);
       return false;
     }

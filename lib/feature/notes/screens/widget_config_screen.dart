@@ -101,7 +101,8 @@ class _NoteWidgetConfigScreenState
                     .where(
                       (n) =>
                           n.title.toLowerCase().contains(_query) ||
-                          n.tags.any((t) => t.toLowerCase().contains(_query)),
+                          n.tags.any((t) => t.toLowerCase().contains(_query)) ||
+                          (n.content?.toLowerCase().contains(_query) ?? false),
                     )
                     .toList();
 

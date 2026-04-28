@@ -48,6 +48,7 @@ final noteListNotifierProvider =
 
 class NoteListNotifier extends AsyncNotifier<NoteListState> {
   late NoteRepository _noteRepository;
+  int _searchGeneration = 0;
 
   @override
   FutureOr<NoteListState> build() async {
@@ -71,36 +72,24 @@ class NoteListNotifier extends AsyncNotifier<NoteListState> {
     List<Note> filtered = allNotes;
     if (query.isNotEmpty) {
       final q = query.toLowerCase();
-      final List<Note> matchedNotes = [];
-      for (final note in allNotes) {
-        bool isMatch =
-            note.title.toLowerCase().contains(q) ||
-            note.tags.any((tag) => tag.toLowerCase().contains(q));
-
-        if (!isMatch) {
-          try {
-            final content = await _noteRepository.getNoteContent(note);
-            if (content.toLowerCase().contains(q)) {
-              isMatch = true;
-            }
-          } catch (_) {
-            // Ignore error and skip content matching if file read fails
-          }
-        }
-
-        if (isMatch) {
-          matchedNotes.add(note);
-        }
-      }
-      filtered = matchedNotes;
+      filtered = allNotes.where((note) {
+        if (note.title.toLowerCase().contains(q)) return true;
+        if (note.tags.any((tag) => tag.toLowerCase().contains(q))) return true;
+        // Notes here are non-hidden, so content field is plaintext — no decrypt needed
+        return note.content?.toLowerCase().contains(q) ?? false;
+      }).toList();
     }
 
     return NoteListState(items: filtered, query: query);
   }
 
   Future<void> search(String query) async {
+    final generation = ++_searchGeneration;
     state = const AsyncLoading<NoteListState>();
-    state = AsyncData(await _fetch(query: query));
+    final result = await _fetch(query: query);
+    if (generation == _searchGeneration) {
+      state = AsyncData(result);
+    }
   }
 
   Future<void> deleteNote(int id) async {
@@ -122,21 +111,30 @@ class NoteListNotifier extends AsyncNotifier<NoteListState> {
   }
 
   Future<void> hideNotes(List<int> ids) async {
-    for (final id in ids) {
-      final note = _noteRepository.getNote(id);
-      if (note != null) {
-        final content = await _noteRepository.getNoteContent(note);
-        await _noteRepository.saveNote(
-          id: note.id,
-          ulid: note.ulid,
-          title: note.title,
-          content: content,
-          folderId: note.folder.targetId,
-          isHidden: true,
-        );
+    final current = state.value;
+    if (current == null) return;
+
+    state = AsyncData(current.copyWith(isMutating: true, mutationError: () => null));
+
+    try {
+      for (final id in ids) {
+        final note = _noteRepository.getNote(id);
+        if (note != null) {
+          final content = await _noteRepository.getNoteContent(note);
+          await _noteRepository.saveNote(
+            id: note.id,
+            ulid: note.ulid,
+            title: note.title,
+            content: content,
+            folderId: note.folder.targetId,
+            isHidden: true,
+          );
+        }
       }
+      ref.invalidateSelf();
+    } catch (e) {
+      state = AsyncData(current.copyWith(isMutating: false, mutationError: () => e));
     }
-    ref.invalidateSelf();
   }
 
   Future<void> deleteNotes(List<int> ids) async {

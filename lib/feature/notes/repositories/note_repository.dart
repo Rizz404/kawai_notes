@@ -22,6 +22,8 @@ class NoteRepository {
     final box = _objectBoxService.store.box<Note>();
     final notes = box.getAll();
 
+    // Read all content async BEFORE opening transaction (transactions are synchronous)
+    final List<Note> toUpdate = [];
     for (final note in notes) {
       if (note.content == null) {
         final content = await readNoteContent(
@@ -29,8 +31,14 @@ class NoteRepository {
           isHidden: note.isHidden,
         );
         note.content = content;
-        box.put(note);
+        toUpdate.add(note);
       }
+    }
+
+    if (toUpdate.isNotEmpty) {
+      _objectBoxService.store.runInTransaction(TxMode.write, () {
+        box.putMany(toUpdate);
+      });
     }
   }
 

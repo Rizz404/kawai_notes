@@ -47,12 +47,23 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
 
-    // * create note baru: tidak perlu tunggu listener, langsung initialized
     if (widget.noteId == null) {
+      // * create note baru: tidak perlu tunggu listener, langsung initialized
       _isPinnedInitialized = true;
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) _contentFocusNode.requestFocus();
       });
+    } else {
+      // * edit note: init dari cache agar save tidak terlewat saat lifecycle pause
+      // * sebelum listener sempat fire
+      final cachedState =
+          ref.read(noteDetailNotifierProvider(widget.noteId)).value;
+      if (cachedState != null) {
+        _isPinned = cachedState.note?.isPinned ?? false;
+        _colorValue = cachedState.note?.colorValue;
+        _customBackgroundImage = cachedState.note?.customBackgroundImage;
+        _isPinnedInitialized = true;
+      }
     }
   }
 
@@ -114,6 +125,19 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
         'note_bg_${DateTime.now().millisecondsSinceEpoch}$extension',
       );
       await File(pickedFile.path).copy(newPath);
+
+      // Delete previous unsaved picked image to avoid orphaned files
+      final oldPath = _customBackgroundImage;
+      final savedPath = ref
+          .read(noteDetailNotifierProvider(widget.noteId))
+          .value
+          ?.note
+          ?.customBackgroundImage;
+      if (oldPath != null && oldPath != savedPath) {
+        try {
+          await File(oldPath).delete();
+        } catch (_) {}
+      }
 
       setState(() {
         _customBackgroundImage = newPath;

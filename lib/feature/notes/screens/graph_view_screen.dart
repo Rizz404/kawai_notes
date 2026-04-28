@@ -35,6 +35,8 @@ class GraphViewScreen extends ConsumerWidget {
             maxScale: 4.0,
             child: CustomPaint(
               size: const Size(2000, 2000),
+              isComplex: true,
+              willChange: false,
               painter: _GraphPainter(notes: state.items, context: context),
             ),
           );

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kawai_notes/core/extensions/logger_extension.dart';
 import 'package:kawai_notes/di/repository_providers.dart';
 import 'package:kawai_notes/feature/notes/models/note.dart';
 import 'package:kawai_notes/feature/notes/providers/note_list_provider.dart';
@@ -13,6 +14,7 @@ final hiddenNoteListNotifierProvider =
 
 class HiddenNoteListNotifier extends AsyncNotifier<NoteListState> {
   late NoteRepository _noteRepository;
+  int _searchGeneration = 0;
 
   @override
   FutureOr<NoteListState> build() async {
@@ -41,8 +43,8 @@ class HiddenNoteListNotifier extends AsyncNotifier<NoteListState> {
             if (content.toLowerCase().contains(q)) {
               isMatch = true;
             }
-          } catch (_) {
-            // Ignore error and skip content matching if file read fails
+          } catch (e) {
+            logError('Failed to read note content for search: ${note.id}', e);
           }
         }
 
@@ -57,27 +59,40 @@ class HiddenNoteListNotifier extends AsyncNotifier<NoteListState> {
   }
 
   Future<void> search(String query) async {
+    final generation = ++_searchGeneration;
     state = const AsyncLoading<NoteListState>();
-    state = AsyncData(await _fetch(query: query));
+    final result = await _fetch(query: query);
+    if (generation == _searchGeneration) {
+      state = AsyncData(result);
+    }
   }
 
   Future<void> unhideNotes(List<int> ids) async {
-    for (final id in ids) {
-      final note = _noteRepository.getNote(id);
-      if (note != null) {
-        final content = await _noteRepository.getNoteContent(note);
-        await _noteRepository.saveNote(
-          id: note.id,
-          ulid: note.ulid,
-          title: note.title,
-          content: content,
-          folderId: note.folder.targetId,
-          isHidden: false,
-        );
+    final current = state.value;
+    if (current == null) return;
+
+    state = AsyncData(current.copyWith(isMutating: true, mutationError: () => null));
+
+    try {
+      for (final id in ids) {
+        final note = _noteRepository.getNote(id);
+        if (note != null) {
+          final content = await _noteRepository.getNoteContent(note);
+          await _noteRepository.saveNote(
+            id: note.id,
+            ulid: note.ulid,
+            title: note.title,
+            content: content,
+            folderId: note.folder.targetId,
+            isHidden: false,
+          );
+        }
       }
+      ref.invalidate(noteListNotifierProvider);
+      ref.invalidateSelf();
+    } catch (e) {
+      state = AsyncData(current.copyWith(isMutating: false, mutationError: () => e));
     }
-    ref.invalidate(noteListNotifierProvider);
-    ref.invalidateSelf();
   }
 
   Future<void> deleteNotes(List<int> ids) async {
