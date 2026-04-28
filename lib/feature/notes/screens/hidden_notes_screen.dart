@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kawai_notes/core/extensions/localization_extension.dart';
 import 'package:kawai_notes/core/extensions/navigator_extension.dart';
 import 'package:kawai_notes/core/extensions/theme_extension.dart';
-import 'package:kawai_notes/di/service_providers.dart';
 import 'package:kawai_notes/feature/folders/widgets/folder_drawer.dart';
+import 'package:kawai_notes/feature/notes/widgets/hidden_notes_auth_body.dart';
 import 'package:kawai_notes/feature/notes/models/note.dart';
 import 'package:kawai_notes/feature/notes/providers/hidden_note_list_provider.dart';
 import 'package:kawai_notes/feature/notes/providers/note_providers.dart';
@@ -45,11 +45,22 @@ class _HiddenNotesScreenState extends ConsumerState<HiddenNotesScreen>
   }
 
   Future<void> _reAuthenticate() async {
-    final auth = ref.read(authServiceProvider);
-    final isAuth = await auth.authenticate(
-      reason: 'Verify identity to view hidden notes',
+    final result = await showModalBottomSheet<bool>(
+      context: context,
+      isDismissible: false,
+      enableDrag: false,
+      isScrollControlled: true,
+      builder: (sheetCtx) => Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(sheetCtx).viewInsets.bottom,
+        ),
+        child: HiddenNotesAuthBody(
+          onSuccess: () => Navigator.of(sheetCtx).pop(true),
+          onCancel: () => Navigator.of(sheetCtx).pop(false),
+        ),
+      ),
     );
-    if (!isAuth && mounted) {
+    if ((result == null || !result) && mounted) {
       context.pop();
     }
   }

@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kawai_notes/core/services/auth_service.dart';
 import 'package:kawai_notes/core/services/backup_service.dart';
 import 'package:kawai_notes/core/services/encryption_service.dart';
+import 'package:kawai_notes/core/services/hidden_notes_auth_service.dart';
 import 'package:kawai_notes/core/services/language_storage_service.dart';
 import 'package:kawai_notes/core/services/note_file_service.dart';
 import 'package:kawai_notes/core/services/notification_service.dart';
@@ -35,6 +36,10 @@ final encryptionServiceProvider = Provider<EncryptionService>((ref) {
 
 final authServiceProvider = Provider<AuthService>((ref) {
   return AuthService();
+});
+
+final hiddenNotesAuthServiceProvider = Provider<HiddenNotesAuthService>((ref) {
+  return HiddenNotesAuthService();
 });
 
 final backupServiceProvider = Provider<BackupService>((ref) {

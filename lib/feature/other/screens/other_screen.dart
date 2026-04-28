@@ -117,6 +117,14 @@ class OtherScreen extends ConsumerWidget {
               },
             ),
             const Divider(),
+            ListTile(
+              leading: const Icon(Icons.lock_outline),
+              title: const AppText('Hidden Notes Lock'),
+              subtitle: const AppText('PIN, pattern, password, biometric'),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => context.push('/hidden-notes-lock'),
+            ),
+            const Divider(),
             Consumer(
               builder: (context, ref, child) {
                 final importState = ref.watch(xiaomiImportProvider);

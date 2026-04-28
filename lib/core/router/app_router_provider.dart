@@ -12,7 +12,9 @@ import 'package:kawai_notes/feature/notes/screens/hidden_notes_screen.dart';
 import 'package:kawai_notes/feature/notes/screens/home_screen.dart';
 import 'package:kawai_notes/feature/notes/screens/note_editor_screen.dart';
 import 'package:kawai_notes/feature/notes/screens/widget_config_screen.dart';
+import 'package:kawai_notes/feature/notes/screens/hidden_notes_auth_challenge_screen.dart';
 import 'package:kawai_notes/feature/other/screens/backup_screen.dart';
+import 'package:kawai_notes/feature/other/screens/hidden_notes_auth_screen.dart';
 import 'package:kawai_notes/feature/other/screens/other_screen.dart';
 import 'package:kawai_notes/feature/other/screens/trash_screen.dart';
 import 'package:kawai_notes/feature/tasks/screens/task_editor_screen.dart';
@@ -109,6 +111,20 @@ final routerRoutesProvider = Provider<List<AppRouteBase>>((ref) {
           widgetId: extra?['widgetId'] as int? ?? 0,
         );
       },
+      transitionsBuilder: AppTransitions.slideFromRight,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+    AppRoute(
+      path: '/hidden-notes-challenge',
+      name: 'hidden_notes_challenge',
+      builder: (context, state) => const HiddenNotesAuthChallengeScreen(),
+      transitionsBuilder: AppTransitions.slideFromRight,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+    AppRoute(
+      path: '/hidden-notes-lock',
+      name: 'hidden_notes_lock',
+      builder: (context, state) => const HiddenNotesAuthScreen(),
       transitionsBuilder: AppTransitions.slideFromRight,
       transitionDuration: const Duration(milliseconds: 300),
     ),

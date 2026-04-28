@@ -8,7 +8,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:kawai_notes/core/extensions/localization_extension.dart';
 import 'package:kawai_notes/core/extensions/navigator_extension.dart';
 import 'package:kawai_notes/core/extensions/theme_extension.dart';
-import 'package:kawai_notes/di/service_providers.dart';
 import 'package:kawai_notes/feature/folders/widgets/folder_drawer.dart';
 import 'package:kawai_notes/feature/notes/models/note.dart';
 import 'package:kawai_notes/feature/notes/providers/note_providers.dart';
@@ -43,16 +42,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   void _clearSelection() {
     setState(_selectedIds.clear);
-  }
-
-  Future<void> _handleRefresh() async {
-    final auth = ref.read(authServiceProvider);
-    final isAuth = await auth.authenticate(
-      reason: 'Verify identity to view hidden notes',
-    );
-    if (isAuth && mounted) {
-      context.push('/hidden-notes');
-    }
   }
 
   void _onBatchHide() {
@@ -193,6 +182,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               title: AppText(context.l10n.notesMyTitle),
               actions: [
                 IconButton(
+                  icon: const Icon(Icons.lock_outline),
+                  onPressed: () => context.push('/hidden-notes-challenge'),
+                ),
+                IconButton(
                   icon: const Icon(Icons.hub_outlined),
                   onPressed: () => context.push('/graph-view'),
                 ),
@@ -219,9 +212,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               backgroundColor: context.colorScheme.primary,
               child: Icon(Icons.add, color: context.colorScheme.onPrimary),
             ),
-      body: RefreshIndicator(
-        onRefresh: _handleRefresh,
-        child: ScreenWrapper(
+      body: ScreenWrapper(
           child: Column(
             children: [
               AppSearchField<dynamic>(
@@ -260,7 +251,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ],
           ),
         ),
-      ),
     );
   }
 
