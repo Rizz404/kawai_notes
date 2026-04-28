@@ -6,6 +6,7 @@ import 'package:kawai_notes/core/extensions/riverpod_extension.dart';
 import 'package:kawai_notes/di/repository_providers.dart';
 import 'package:kawai_notes/feature/notes/models/note.dart';
 import 'package:kawai_notes/feature/notes/providers/note_list_provider.dart';
+import 'package:kawai_notes/feature/notes/providers/note_providers.dart';
 import 'package:kawai_notes/feature/notes/repositories/note_repository.dart';
 
 class NoteDetailState extends Equatable {
@@ -53,7 +54,11 @@ class NoteDetailNotifier extends AsyncNotifier<NoteDetailState> {
 
   @override
   FutureOr<NoteDetailState> build() async {
-    ref.cacheFor(const Duration(minutes: 5));
+    // * hanya cache saat edit note yang sudah ada; create baru tidak di-cache
+    // * agar setiap buka create screen selalu fresh (tanpa data note sebelumnya)
+    if (_id != null) {
+      ref.cacheFor(const Duration(minutes: 5));
+    }
 
     _noteRepository = ref.read(noteRepositoryProvider);
 
@@ -76,7 +81,9 @@ class NoteDetailNotifier extends AsyncNotifier<NoteDetailState> {
     bool? isHidden,
     bool? isPinned,
     int? colorValue,
+    bool clearColor = false,
     String? customBackgroundImage,
+    bool clearBackground = false,
   }) async {
     final current = state.value;
     if (current == null) return;
@@ -84,14 +91,14 @@ class NoteDetailNotifier extends AsyncNotifier<NoteDetailState> {
     final hiddenStatus = isHidden ?? current.note?.isHidden ?? false;
     final pinnedStatus = isPinned ?? current.note?.isPinned ?? false;
     final folderTargetId = folderId ?? current.note?.folder.targetId ?? 0;
-    final color = colorValue ?? current.note?.colorValue;
-    final bgImage = customBackgroundImage ?? current.note?.customBackgroundImage;
 
-    // Mutually exclusive check
-    int? finalColorValue = color;
-    String? finalBgImage = bgImage;
-    if (colorValue != null) finalBgImage = null;
-    if (customBackgroundImage != null) finalColorValue = null;
+    // * clear flags untuk reset eksplisit ke null
+    final int? finalColorValue = clearColor
+        ? null
+        : (colorValue ?? current.note?.colorValue);
+    final String? finalBgImage = clearBackground
+        ? null
+        : (customBackgroundImage ?? current.note?.customBackgroundImage);
 
     // Check if anything actually changed
     final bool hasChanged =
@@ -113,7 +120,7 @@ class NoteDetailNotifier extends AsyncNotifier<NoteDetailState> {
     );
 
     try {
-      await _noteRepository.saveNote(
+      final savedNote = await _noteRepository.saveNote(
         id: current.note?.id ?? 0,
         ulid: current.note?.ulid,
         title: title,
@@ -126,8 +133,16 @@ class NoteDetailNotifier extends AsyncNotifier<NoteDetailState> {
         createdAt: current.note?.createdAt,
       );
 
+      // * update state dengan note terbaru agar ID tersimpan
+      // * dan hasChanged akurat di save berikutnya (create → update, bukan create ulang)
+      state = AsyncData(
+        NoteDetailState(note: savedNote, content: content, isMutating: false),
+      );
+
+      // * invalidate list agar urutan/data terbaru muncul
       ref.invalidate(noteListNotifierProvider);
-      ref.invalidateSelf();
+      // * invalidate preview agar home screen menampilkan konten terbaru
+      ref.invalidate(notePreviewProvider(savedNote.id));
     } catch (e) {
       state = AsyncData(
         current.copyWith(isMutating: false, mutationError: () => e),

@@ -38,10 +38,22 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
   int? _colorValue;
   String? _customBackgroundImage;
 
+  // * flag eksplisit untuk reset background/color ke null
+  bool _clearColor = false;
+  bool _clearBackground = false;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+
+    // * create note baru: tidak perlu tunggu listener, langsung initialized
+    if (widget.noteId == null) {
+      _isPinnedInitialized = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _contentFocusNode.requestFocus();
+      });
+    }
   }
 
   @override
@@ -86,6 +98,7 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
     setState(() {
       _colorValue = newColor.toARGB32();
       _customBackgroundImage = null;
+      _clearBackground = true;
       _isDirty = true;
     });
   }
@@ -105,6 +118,7 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
       setState(() {
         _customBackgroundImage = newPath;
         _colorValue = null;
+        _clearColor = true;
         _isDirty = true;
       });
     }
@@ -135,7 +149,9 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
               content: content,
               isPinned: _isPinned,
               colorValue: _colorValue,
+              clearColor: _clearColor,
               customBackgroundImage: _customBackgroundImage,
+              clearBackground: _clearBackground,
             );
       }
     });
@@ -149,6 +165,7 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
       noteDetailNotifierProvider(widget.noteId),
       (previous, next) {
         if (next.hasValue && next.value != null) {
+          // * inisialisasi pin/bg dari note yang di-load (edit mode)
           if (!_isPinnedInitialized) {
             setState(() {
               _isPinned = next.value!.note?.isPinned ?? false;
@@ -156,6 +173,23 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
               _customBackgroundImage = next.value!.note?.customBackgroundImage;
               _isPinnedInitialized = true;
             });
+          }
+
+          final prevNote = previous?.value?.note;
+          final nextNote = next.value!.note;
+
+          if (nextNote != null) {
+            // * invalidate preview agar home screen menampilkan konten terbaru
+            ref.invalidate(notePreviewProvider(nextNote.id));
+
+            if (prevNote == null) {
+              // * create → berhasil disimpan, reset dirty
+              setState(() {
+                _isDirty = false;
+                _clearColor = false;
+                _clearBackground = false;
+              });
+            }
           }
 
           if (next.value!.mutationError != null &&
@@ -213,6 +247,8 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
                   onPressed: () => setState(() {
                     _colorValue = null;
                     _customBackgroundImage = null;
+                    _clearColor = true;
+                    _clearBackground = true;
                     _isDirty = true;
                   }),
                 ),
