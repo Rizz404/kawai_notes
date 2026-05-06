@@ -45,3 +45,6 @@ app.*.map.json
 /android/app/release
 
 .env
+
+# Claude Code local settings (may contain tokens/secrets)
+.claude/settings.local.json

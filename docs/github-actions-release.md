@@ -112,15 +112,102 @@ Trigger (push tag / manual)
 
 ---
 
+## Memahami Alur Commit → Release
+
+Kamu tidak perlu langsung buat tag setiap commit. Alur normalnya:
+
+```
+commit feat: tambah fitur A  ──┐
+commit fix: perbaiki bug B     │  semua ini sudah di main
+commit feat: tambah fitur C    │  (git push origin main biasa)
+commit fix: crash di screen D ─┘
+                                │
+         git tag -a v1.1.0      │ ← penanda: "sampai sini = versi 1.1.0"
+         git push origin v1.1.0 │ ← ini yang trigger workflow
+                                ▼
+     Changelog release v1.1.0 otomatis berisi
+     semua commit di atas (sejak v1.0.0)
+```
+
+**Jadi:** push ke `main` itu bebas kapan saja. Tag baru dibuat hanya saat kamu siap rilis — workflow lalu menarik semua commit antara tag lama dan tag baru sebagai changelog.
+
+---
+
 ## Format Version di pubspec.yaml
 
 ```yaml
 version: 1.2.3+4
-#        ^^^^^ versionName (ditampilkan di app dan release title)
-#              ^ versionCode (integer, naik setiap build)
+#        ^ ^ ^ ^
+#        │ │ │ └── versionCode: integer, naik setiap build (dipakai Android)
+#        │ │ └──── patch
+#        │ └────── minor
+#        └──────── major
 ```
 
 Workflow mengambil `versionCode` langsung dari `pubspec.yaml` — tidak pakai `GITHUB_RUN_NUMBER`.
+
+### Kapan Naik Apa?
+
+| Tipe | Kapan | Contoh |
+|------|-------|--------|
+| **patch** | Bug fix, typo, crash fix — tidak ada fitur baru | `1.0.0` → `1.0.1` |
+| **minor** | Fitur baru yang tidak merusak fitur lama | `1.0.1` → `1.1.0` |
+| **major** | Perubahan besar / breaking (misal: auth ulang, format data berubah) | `1.1.0` → `2.0.0` |
+
+### Contoh Lengkap
+
+**Skenario patch** — ada 2 bug fix setelah v1.0.0:
+
+```yaml
+# pubspec.yaml
+version: 1.0.1+2   # patch naik 0→1, versionCode naik 1→2
+```
+
+```powershell
+git add pubspec.yaml
+git commit -m "chore: bump version to 1.0.1"
+git tag -a v1.0.1 -m "Release v1.0.1"
+git push origin main
+git push origin v1.0.1
+```
+
+Changelog otomatis: hanya commit antara `v1.0.0` dan `v1.0.1`.
+
+---
+
+**Skenario minor** — sprint baru dengan beberapa fitur:
+
+```yaml
+# pubspec.yaml
+version: 1.1.0+3   # minor naik 0→1, patch reset ke 0, versionCode naik 2→3
+```
+
+```powershell
+git add pubspec.yaml
+git commit -m "chore: bump version to 1.1.0"
+git tag -a v1.1.0 -m "Release v1.1.0"
+git push origin main
+git push origin v1.1.0
+```
+
+---
+
+**Skenario major** — redesign / perubahan besar:
+
+```yaml
+# pubspec.yaml
+version: 2.0.0+4   # major naik 1→2, minor+patch reset ke 0, versionCode naik 3→4
+```
+
+```powershell
+git add pubspec.yaml
+git commit -m "chore: bump version to 2.0.0"
+git tag -a v2.0.0 -m "Release v2.0.0"
+git push origin main
+git push origin v2.0.0
+```
+
+> **Aturan versionCode:** selalu naik +1 dari sebelumnya, tidak pernah turun atau reset. Android menolak install APK dengan versionCode lebih rendah dari yang sudah terpasang.
 
 ---
 
