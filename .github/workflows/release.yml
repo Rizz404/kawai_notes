@@ -1,0 +1,201 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag (e.g. v1.2.0)'
+        required: true
+        type: string
+      pre_release:
+        description: 'Mark as pre-release?'
+        required: false
+        type: boolean
+        default: false
+
+env:
+  FLUTTER_VERSION: '3.38.8'
+
+jobs:
+  build:
+    name: Build APKs
+    runs-on: ubuntu-latest
+
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            VERSION="${{ github.ref_name }}"
+          else
+            VERSION="${{ inputs.version }}"
+          fi
+          BUILD_NAME="${VERSION#v}"
+          BUILD_NUMBER=$(grep '^version:' pubspec.yaml | sed 's/.*+//')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "build_name=$BUILD_NAME" >> $GITHUB_OUTPUT
+          echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
+          echo "Resolved: version=$VERSION build_name=$BUILD_NAME build_number=$BUILD_NUMBER"
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: '17'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.pub-cache
+          key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: pub-${{ runner.os }}-
+
+      - name: Create .env
+        run: |
+          echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" > .env
+          echo "SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}" >> .env
+
+      - name: Flutter pub get
+        run: flutter pub get
+
+      - name: Build universal APK
+        run: |
+          flutter build apk --release \
+            --build-name=${{ steps.version.outputs.build_name }} \
+            --build-number=${{ steps.version.outputs.build_number }}
+
+      - name: Build ABI-split APKs
+        run: |
+          flutter build apk --release --split-per-abi \
+            --build-name=${{ steps.version.outputs.build_name }} \
+            --build-number=${{ steps.version.outputs.build_number }}
+
+      - name: Rename APKs
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          cd build/app/outputs/flutter-apk
+          mv app-release.apk             "kawai-notes-${VERSION}-universal.apk"
+          mv app-arm64-v8a-release.apk   "kawai-notes-${VERSION}-arm64-v8a.apk"
+          mv app-armeabi-v7a-release.apk "kawai-notes-${VERSION}-armeabi-v7a.apk"
+          mv app-x86_64-release.apk      "kawai-notes-${VERSION}-x86_64.apk"
+
+      - name: Upload APK artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: apks-${{ steps.version.outputs.version }}
+          path: build/app/outputs/flutter-apk/kawai-notes-*.apk
+          retention-days: 7
+
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download APK artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: apks-${{ needs.build.outputs.version }}
+          path: apks/
+
+      - name: Generate release notes
+        run: |
+          VERSION="${{ needs.build.outputs.version }}"
+          PREV_TAG=$(git tag --sort=-version:refname | grep -v "^${VERSION}$" | head -1)
+
+          if [ -z "$PREV_TAG" ]; then
+            LOG_RANGE="HEAD"
+          else
+            LOG_RANGE="${PREV_TAG}..HEAD"
+          fi
+
+          FEATURES=$(git log "$LOG_RANGE" --pretty=format:"- %s (\`%h\`)" --grep="^feat")
+          FIXES=$(git log "$LOG_RANGE" --pretty=format:"- %s (\`%h\`)" --grep="^fix")
+          PERF=$(git log "$LOG_RANGE" --pretty=format:"- %s (\`%h\`)" --grep="^perf")
+          REFACTOR=$(git log "$LOG_RANGE" --pretty=format:"- %s (\`%h\`)" --grep="^refactor")
+
+          {
+            echo "## What's Changed"
+            echo ""
+            if [ -n "$FEATURES" ]; then
+              echo "### ✨ Features"
+              echo "$FEATURES"
+              echo ""
+            fi
+            if [ -n "$FIXES" ]; then
+              echo "### 🐛 Bug Fixes"
+              echo "$FIXES"
+              echo ""
+            fi
+            if [ -n "$PERF" ]; then
+              echo "### ⚡ Performance"
+              echo "$PERF"
+              echo ""
+            fi
+            if [ -n "$REFACTOR" ]; then
+              echo "### ♻️ Refactoring"
+              echo "$REFACTOR"
+              echo ""
+            fi
+            echo "---"
+            echo ""
+            echo "## 📥 Download"
+            echo ""
+            echo "| APK | Architecture | Recommended For |"
+            echo "|-----|-------------|-----------------|"
+            echo "| \`kawai-notes-${VERSION}-universal.apk\` | Universal | All devices (larger file) |"
+            echo "| \`kawai-notes-${VERSION}-arm64-v8a.apk\` | arm64-v8a | Most modern Android (2017+) |"
+            echo "| \`kawai-notes-${VERSION}-armeabi-v7a.apk\` | armeabi-v7a | Older Android phones |"
+            echo "| \`kawai-notes-${VERSION}-x86_64.apk\` | x86_64 | Emulators / x86 devices |"
+            echo ""
+            echo "## 📋 Requirements"
+            echo ""
+            echo "- Android 6.0 (API 23) or higher"
+            echo "- ~80 MB storage (universal) or ~30 MB (ABI-specific)"
+          } > release-notes.md
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="${{ needs.build.outputs.version }}"
+
+          ARGS="--latest"
+          if [ "${{ inputs.pre_release }}" = "true" ]; then
+            ARGS="$ARGS --prerelease"
+          fi
+
+          gh release create "${VERSION}" \
+            --title "Kawai Notes ${VERSION}" \
+            --notes-file release-notes.md \
+            --clobber \
+            $ARGS \
+            "apks/kawai-notes-${VERSION}-universal.apk" \
+            "apks/kawai-notes-${VERSION}-arm64-v8a.apk" \
+            "apks/kawai-notes-${VERSION}-armeabi-v7a.apk" \
+            "apks/kawai-notes-${VERSION}-x86_64.apk"
