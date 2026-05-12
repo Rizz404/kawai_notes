@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//d/kodingan/personal/ikuyo_finance/.github/workflows/**)"
+    ],
+    "additionalDirectories": [
+      "d:\\kodingan\\personal\\ikuyo_finance\\.github\\workflows"
+    ]
+  }
+}
