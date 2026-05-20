@@ -47,15 +47,21 @@ Future<void> main() async {
 
     if (ApiConstant.supabaseUrl.isNotEmpty &&
         ApiConstant.supabaseAnonKey.isNotEmpty) {
-      await Supabase.initialize(
-        url: ApiConstant.supabaseUrl,
-        anonKey: ApiConstant.supabaseAnonKey,
-        // * Nonaktifkan deteksi URI otomatis — kita handle manual via app_links
-        authOptions: const FlutterAuthClientOptions(
-          authFlowType: AuthFlowType.pkce,
-          detectSessionInUri: false,
-        ),
-      );
+      try {
+        await Supabase.initialize(
+          url: ApiConstant.supabaseUrl,
+          anonKey: ApiConstant.supabaseAnonKey,
+          // * Nonaktifkan deteksi URI otomatis — kita handle manual via app_links
+          authOptions: const FlutterAuthClientOptions(
+            authFlowType: AuthFlowType.pkce,
+            detectSessionInUri: false,
+          ),
+        );
+      } catch (e) {
+        // ! Supabase init failed (project deleted / invalid keys) — app continues
+        // ! in offline-only mode. supabaseClientProvider will return null.
+        AppLogger.instance.error('Supabase initialization failed — offline mode', e);
+      }
     }
 
     // * Pre-cache main font selagi splash screen
