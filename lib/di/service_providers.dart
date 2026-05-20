@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kawai_notes/core/services/auth_service.dart';
 import 'package:kawai_notes/core/services/backup_service.dart';
+import 'package:kawai_notes/feature/auth/providers/auth_provider.dart';
+
 import 'package:kawai_notes/core/services/encryption_service.dart';
 import 'package:kawai_notes/core/services/hidden_notes_auth_service.dart';
 import 'package:kawai_notes/core/services/language_storage_service.dart';
@@ -46,7 +48,13 @@ final backupServiceProvider = Provider<BackupService>((ref) {
   final objectBoxService = ref.watch(objectBoxServiceProvider);
   final prefs = ref.watch(sharedPreferencesProvider);
   final notificationService = ref.watch(notificationServiceProvider);
-  return BackupService(objectBoxService, prefs, notificationService);
+  final supabaseClient = ref.watch(supabaseClientProvider);
+  return BackupService(
+    objectBoxService,
+    prefs,
+    notificationService,
+    supabaseClient: supabaseClient,
+  );
 });
 
 final xiaomiImportServiceProvider = Provider<XiaomiImportService>((ref) {

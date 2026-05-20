@@ -1,6 +1,3 @@
-Berikut versi copilot-instructions.md yang diselaraskan dengan guidelines.md:
-
-````markdown
 # Flutter Setup Riverpod — Copilot Instructions
 
 ## Purpose

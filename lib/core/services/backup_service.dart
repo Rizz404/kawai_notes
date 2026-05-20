@@ -16,8 +16,14 @@ class BackupService {
   final ObjectBoxService _objectBoxService;
   final SharedPreferences _prefs;
   final NotificationService _notificationService;
+  final SupabaseClient? _supabaseClient;
 
-  BackupService(this._objectBoxService, this._prefs, this._notificationService);
+  BackupService(
+    this._objectBoxService,
+    this._prefs,
+    this._notificationService, {
+    SupabaseClient? supabaseClient,
+  }) : _supabaseClient = supabaseClient;
 
   static const String _lastBackupKey = 'last_auto_backup_date';
   static const String _autoBackupFolderKey = 'auto_backup_folder';
@@ -109,9 +115,9 @@ class BackupService {
 
       // * Cloud Upload to Supabase Storage
       try {
-        final client = Supabase.instance.client;
-        final user = client.auth.currentUser;
-        if (user != null) {
+        final client = _supabaseClient;
+        final user = client?.auth.currentUser;
+        if (client != null && user != null) {
           final file = File(zipPath);
           final bytes = await file.readAsBytes();
 
@@ -192,9 +198,9 @@ class BackupService {
 
   Future<bool> hasCloudBackup() async {
     try {
-      final client = Supabase.instance.client;
-      final user = client.auth.currentUser;
-      if (user == null) return false;
+      final client = _supabaseClient;
+      final user = client?.auth.currentUser;
+      if (client == null || user == null) return false;
 
       final cloudPath = '${user.id}/';
       final list = await client.storage.from('backups').list(path: cloudPath);
@@ -206,9 +212,9 @@ class BackupService {
 
   Future<bool> downloadRestoreCloudBackup() async {
     try {
-      final client = Supabase.instance.client;
-      final user = client.auth.currentUser;
-      if (user == null) return false;
+      final client = _supabaseClient;
+      final user = client?.auth.currentUser;
+      if (client == null || user == null) return false;
 
       final cloudPath = '${user.id}/kawai_notes_backup.zip';
       final bytes = await client.storage.from('backups').download(cloudPath);

@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Read(//d/kodingan/personal/ikuyo_finance/.github/workflows/**)"
+      "Read(//d/kodingan/personal/ikuyo_finance/.github/workflows/**)",
+      "Bash(Select-Object -First 80)",
+      "mcp__plugin_claude-mem_mcp-search__smart_search",
+      "WebFetch(domain:supabase.com)",
+      "WebFetch(domain:pub.dev)"
     ],
     "additionalDirectories": [
       "d:\\kodingan\\personal\\ikuyo_finance\\.github\\workflows"

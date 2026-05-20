@@ -7,6 +7,7 @@ import 'package:kawai_notes/core/extensions/localization_extension.dart';
 import 'package:kawai_notes/core/extensions/theme_extension.dart';
 import 'package:kawai_notes/core/utils/toast_utils.dart';
 import 'package:kawai_notes/feature/auth/providers/auth_provider.dart';
+import 'package:kawai_notes/feature/auth/providers/supabase_status_provider.dart';
 import 'package:kawai_notes/shared/widgets/app_button.dart';
 import 'package:kawai_notes/shared/widgets/app_text.dart';
 import 'package:kawai_notes/shared/widgets/app_text_field.dart';
@@ -44,14 +45,19 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         } else {
           await client.auth.signUp(email: email, password: password);
         }
+      } on AuthException catch (e) {
+        if (!mounted) return;
+        // statusCode == null means no response received — network/server down
+        if (e.statusCode == null) {
+          ref.read(supabaseStatusProvider.notifier).markUnavailable();
+          AppToast.error('Tidak dapat terhubung ke server. Periksa koneksi internet.');
+        } else {
+          AppToast.error(context.l10n.authError(e.message));
+        }
       } catch (e) {
-        if (mounted) {
-          AppToast.error(context.l10n.authError(e.toString()));
-        }
+        if (mounted) AppToast.error(context.l10n.authError(e.toString()));
       } finally {
-        if (mounted) {
-          setState(() => _isLoading = false);
-        }
+        if (mounted) setState(() => _isLoading = false);
       }
     }
   }
@@ -67,10 +73,16 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         redirectTo: 'com.rizz.kawainotes://login-callback',
         authScreenLaunchMode: LaunchMode.externalApplication,
       );
-    } catch (e) {
-      if (mounted) {
-        AppToast.error(context.l10n.authLoginError(e.toString()));
+    } on AuthException catch (e) {
+      if (!mounted) return;
+      if (e.statusCode == null) {
+        ref.read(supabaseStatusProvider.notifier).markUnavailable();
+        AppToast.error('Tidak dapat terhubung ke server. Periksa koneksi internet.');
+      } else {
+        AppToast.error(context.l10n.authLoginError(e.message));
       }
+    } catch (e) {
+      if (mounted) AppToast.error(context.l10n.authLoginError(e.toString()));
     }
   }
 
