@@ -12,8 +12,11 @@ class FolderDrawer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final folderStateAsync = ref.watch(folderListNotifierProvider);
 
+    // * ListView (not a fixed Column) so the drawer scrolls instead of
+    // * overflowing when available height shrinks (e.g. keyboard insets
+    // * still animating shut right after the create-folder dialog closes).
     return Drawer(
-      child: Column(
+      child: ListView(
         children: [
           DrawerHeader(
             decoration: BoxDecoration(
@@ -45,44 +48,53 @@ class FolderDrawer extends ConsumerWidget {
             },
           ),
           const Divider(),
-          Expanded(
-            child: folderStateAsync.when(
-              data: (state) {
-                final folders = state.items;
-                if (folders.isEmpty) {
-                  return Center(child: AppText(context.l10n.foldersEmpty));
-                }
-                return ListView.builder(
-                  itemCount: folders.length,
-                  itemBuilder: (context, index) {
-                    final folder = folders[index];
-                    return ListTile(
-                      leading: const Icon(Icons.folder_outlined),
-                      title: AppText(folder.name),
-                      trailing: IconButton(
-                        icon: Icon(
-                          Icons.delete_outline,
-                          color: context.colorScheme.error,
-                        ),
-                        onPressed: () {
-                          ref
-                              .read(folderListNotifierProvider.notifier)
-                              .deleteFolder(folder.id);
-                        },
-                      ),
-                      onTap: () {
-                        // TODO: filter by this folder
-                        Navigator.pop(context);
-                      },
-                    );
+          ...folderStateAsync.when(
+            data: (state) {
+              final folders = state.items;
+              if (folders.isEmpty) {
+                return [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 24),
+                    child: Center(child: AppText(context.l10n.foldersEmpty)),
+                  ),
+                ];
+              }
+              return folders.map((folder) {
+                return ListTile(
+                  leading: const Icon(Icons.folder_outlined),
+                  title: AppText(folder.name),
+                  trailing: IconButton(
+                    icon: Icon(
+                      Icons.delete_outline,
+                      color: context.colorScheme.error,
+                    ),
+                    onPressed: () {
+                      ref
+                          .read(folderListNotifierProvider.notifier)
+                          .deleteFolder(folder.id);
+                    },
+                  ),
+                  onTap: () {
+                    // TODO: filter by this folder
+                    Navigator.pop(context);
                   },
                 );
-              },
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (e, _) => Center(
-                child: AppText(context.l10n.foldersError(e.toString())),
+              }).toList();
+            },
+            loading: () => [
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 24),
+                child: Center(child: CircularProgressIndicator()),
               ),
-            ),
+            ],
+            error: (e, _) => [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 24),
+                child: Center(
+                  child: AppText(context.l10n.foldersError(e.toString())),
+                ),
+              ),
+            ],
           ),
           const Divider(),
           ListTile(
