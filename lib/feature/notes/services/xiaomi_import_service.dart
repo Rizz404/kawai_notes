@@ -33,8 +33,10 @@ class XiaomiImportService {
       content = content.replaceFirst(titleMatch.group(0)!, '');
     }
 
-    // Clean up leading **** or spaces
-    content = content.replaceFirst(RegExp(r'^\*+\s*', multiLine: false), '');
+    // Clean up leading **** or spaces. Allow leading whitespace before the
+    // asterisks — title removal above leaves a leading newline in front of
+    // them, which `^\*+` alone would never match.
+    content = content.replaceFirst(RegExp(r'^\s*\*+\s*', multiLine: false), '');
     // Clean up Created At text
     content = content.replaceAll(
       RegExp(
