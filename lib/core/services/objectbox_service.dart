@@ -7,6 +7,9 @@ class ObjectBoxService {
 
   ObjectBoxService._init(this.store);
 
+  /// Wraps an already-open [Store] (e.g. a temp test store) without touching disk.
+  ObjectBoxService.forTesting(this.store);
+
   static Future<ObjectBoxService> create() async {
     final docsDir = await getApplicationDocumentsDirectory();
     final storePath = p.join(docsDir.path, 'notes_db');
