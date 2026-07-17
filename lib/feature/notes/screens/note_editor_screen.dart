@@ -164,20 +164,24 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
     // if new note and completely empty, skip saving
     if (widget.noteId == null && rawTitle.isEmpty && content.isEmpty) return;
 
+    // * Capture the notifier now, while the widget is definitely still
+    // * mounted — reading `ref` inside the microtask below would silently
+    // * no-op (guarded by `mounted`) if this screen finishes disposing
+    // * (e.g. mid pop-transition) before the microtask runs, dropping the
+    // * save entirely.
+    final notifier = ref.read(
+      noteDetailNotifierProvider(widget.noteId).notifier,
+    );
     Future.microtask(() {
-      if (mounted) {
-        ref
-            .read(noteDetailNotifierProvider(widget.noteId).notifier)
-            .saveNote(
-              title: title,
-              content: content,
-              isPinned: _isPinned,
-              colorValue: _colorValue,
-              clearColor: _clearColor,
-              customBackgroundImage: _customBackgroundImage,
-              clearBackground: _clearBackground,
-            );
-      }
+      notifier.saveNote(
+        title: title,
+        content: content,
+        isPinned: _isPinned,
+        colorValue: _colorValue,
+        clearColor: _clearColor,
+        customBackgroundImage: _customBackgroundImage,
+        clearBackground: _clearBackground,
+      );
     });
   }
 
