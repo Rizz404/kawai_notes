@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -11,6 +10,7 @@ import 'package:kawai_notes/core/extensions/theme_extension.dart';
 import 'package:kawai_notes/feature/folders/widgets/folder_drawer.dart';
 import 'package:kawai_notes/feature/notes/models/note.dart';
 import 'package:kawai_notes/feature/notes/providers/note_providers.dart';
+import 'package:kawai_notes/feature/notes/widgets/note_color_picker.dart';
 import 'package:kawai_notes/shared/widgets/app_drawer.dart';
 import 'package:kawai_notes/shared/widgets/app_search_field.dart';
 import 'package:kawai_notes/shared/widgets/app_text.dart';
@@ -71,28 +71,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Future<void> _onBatchPickColor() async {
-    final Color newColor = await showColorPickerDialog(
+    final newColor = await showNoteColorPicker(
       context,
       Colors.white,
-      title: AppText(context.l10n.notesPickColor, fontSize: 20),
-      width: 40,
-      height: 40,
-      spacing: 0,
-      runSpacing: 0,
-      borderRadius: 0,
-      wheelDiameter: 165,
-      enableOpacity: true,
-      showColorCode: true,
-      colorCodeHasColor: true,
-      pickersEnabled: const <ColorPickerType, bool>{
-        ColorPickerType.both: false,
-        ColorPickerType.primary: true,
-        ColorPickerType.accent: true,
-        ColorPickerType.bw: false,
-        ColorPickerType.custom: true,
-        ColorPickerType.wheel: true,
-      },
     );
+    if (newColor == null || !mounted) return;
 
     await ref.read(noteListNotifierProvider.notifier).batchUpdateBackground(
       _selectedIds.toList(),
