@@ -138,6 +138,9 @@ class NoteDetailNotifier extends AsyncNotifier<NoteDetailState> {
       current.copyWith(isMutating: true, mutationError: () => null),
     );
 
+    // * the editor pops before this finishes; without a keep-alive the
+    // * autoDispose (create) provider is disposed mid-save and `state =` throws
+    final keepAliveLink = ref.keepAlive();
     try {
       final savedNote = await _noteRepository.saveNote(
         id: current.note?.id ?? 0,
@@ -169,6 +172,8 @@ class NoteDetailNotifier extends AsyncNotifier<NoteDetailState> {
       state = AsyncData(
         current.copyWith(isMutating: false, mutationError: () => e),
       );
+    } finally {
+      keepAliveLink.close();
     }
   }
 }
