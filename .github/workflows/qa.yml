@@ -1,0 +1,206 @@
+# QA-only workflow: verifies a qa/herguri-* branch and builds ONE universal APK
+# signed with the existing release key, to check the signer certificate and
+# provenance. It never tags, releases, deploys or pushes, and talks to no real
+# backend (the APK is built with a synthetic loopback .env).
+name: QA (qa/herguri-*, no release)
+
+on:
+  push:
+    branches:
+      - 'qa/herguri-*'
+
+permissions:
+  contents: read
+
+env:
+  FLUTTER_VERSION: '3.44.5'
+  # * same objectbox-c release and GitHub-published digest as release.yml
+  OBX_C_VERSION: '5.3.1'
+  OBX_C_SHA256: 'd1a22f5a43e8aa438c987524c2ef97f5d179acb991b0f63ab03a30c33b882368'
+  # * SHA-256 of the certificate that signs the published v1.0.2 APKs
+  QA_EXPECTED_CERT_SHA256: 'c48112390477dbbdae99e54068eddccdc547ca7b8e18a7f2cea4a84fd98b6ccf'
+
+jobs:
+  verify:
+    name: QA analyze & test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - name: Check Flutter version
+        run: |
+          set -euo pipefail
+          flutter --version | sed -n 1p | grep -F "Flutter $FLUTTER_VERSION "
+
+      - name: Cache pub dependencies
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: ~/.pub-cache
+          key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: pub-${{ runner.os }}-
+
+      - name: Synthetic loopback .env
+        run: |
+          set -euo pipefail
+          printf 'SUPABASE_URL=%s\n' 'http://127.0.0.1:54321' > .env
+          printf 'SUPABASE_ANON_KEY=%s\n' 'qa-synthetic-not-a-real-key' >> .env
+
+      - name: Flutter pub get
+        run: flutter pub get --enforce-lockfile
+
+      - name: Install ObjectBox native library (host tests)
+        run: |
+          set -euo pipefail
+          archive="objectbox-linux-x64.tar.gz"
+          curl -fsSL -o "$RUNNER_TEMP/$archive" \
+            "https://github.com/objectbox/objectbox-c/releases/download/v5.3.1/objectbox-linux-x64.tar.gz"
+          test "$OBX_C_VERSION" = "5.3.1"
+          echo "$OBX_C_SHA256  $RUNNER_TEMP/$archive" | sha256sum -c -
+          mkdir -p "$RUNNER_TEMP/objectbox" lib
+          tar -xzf "$RUNNER_TEMP/$archive" -C "$RUNNER_TEMP/objectbox"
+          cp "$RUNNER_TEMP/objectbox/lib/libobjectbox.so" lib/
+
+      - name: Analyze
+        run: flutter analyze --no-pub --no-fatal-infos
+
+      - name: Test
+        run: flutter test --no-pub
+
+  signed-apk:
+    name: QA signed universal APK (certificate check)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    needs: [verify]
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+
+      - name: Setup Java
+        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        with:
+          distribution: zulu
+          java-version: '21'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: false
+
+      - name: Check Flutter version
+        run: |
+          set -euo pipefail
+          flutter --version | sed -n 1p | grep -F "Flutter $FLUTTER_VERSION "
+
+      - name: Synthetic loopback .env
+        run: |
+          set -euo pipefail
+          printf 'SUPABASE_URL=%s\n' 'http://127.0.0.1:54321' > .env
+          printf 'SUPABASE_ANON_KEY=%s\n' 'qa-synthetic-not-a-real-key' >> .env
+
+      - name: Flutter pub get
+        run: flutter pub get --enforce-lockfile
+
+      - name: Setup release signing (temporary)
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+        run: |
+          set -euo pipefail
+          missing=0
+          [ -n "$KEYSTORE_BASE64" ] || { echo "::error::KEYSTORE_BASE64 secret is missing"; missing=1; }
+          [ -n "$KEYSTORE_PASSWORD" ] || { echo "::error::KEYSTORE_PASSWORD secret is missing"; missing=1; }
+          [ -n "$KEY_PASSWORD" ] || { echo "::error::KEY_PASSWORD secret is missing"; missing=1; }
+          [ -n "$KEY_ALIAS" ] || { echo "::error::KEY_ALIAS secret is missing"; missing=1; }
+          [ "$missing" = 0 ] || exit 1
+          umask 077
+          printf '%s' "$KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/kawai-qa-release.jks"
+          {
+            printf 'storePassword=%s\n' "$KEYSTORE_PASSWORD"
+            printf 'keyPassword=%s\n' "$KEY_PASSWORD"
+            printf 'keyAlias=%s\n' "$KEY_ALIAS"
+            printf 'storeFile=%s\n' "$RUNNER_TEMP/kawai-qa-release.jks"
+          } > android/key.properties
+
+      - name: Build universal release APK (pubspec version)
+        run: flutter build apk --release --no-pub
+
+      - name: Remove signing material
+        if: always()
+        run: rm -f android/key.properties "$RUNNER_TEMP/kawai-qa-release.jks"
+
+      - name: Verify signer certificate (fail closed)
+        run: |
+          set -euo pipefail
+          sdk="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-}}"
+          [ -n "$sdk" ] || { echo "::error::Android SDK not found"; exit 1; }
+          bt="$(ls -1 "$sdk/build-tools" | sort -V | tail -n 1)"
+          apksigner="$sdk/build-tools/$bt/apksigner"
+          [ -x "$apksigner" ] || { echo "::error::apksigner not found in build-tools $bt"; exit 1; }
+          apk="build/app/outputs/flutter-apk/app-release.apk"
+          out="$RUNNER_TEMP/qa-out"
+          mkdir -p "$out"
+          certs="$out/apksigner-print-certs.txt"
+          "$apksigner" verify --verbose --print-certs "$apk" > "$certs"
+          mapfile -t digests < <(sed -nE 's/^Signer #[0-9]+ certificate SHA-256 digest: ([0-9a-fA-F:]+)$/\1/p' "$certs" | tr -d ':' | tr 'A-F' 'a-f')
+          if [ "${#digests[@]}" -ne 1 ]; then
+            echo "::error::expected exactly one signer certificate, got ${#digests[@]}"
+            exit 1
+          fi
+          if [ "${digests[0]}" != "$QA_EXPECTED_CERT_SHA256" ]; then
+            echo "::error::signer certificate ${digests[0]} does not match the released certificate"
+            exit 1
+          fi
+          name="kawai-notes-qa-${GITHUB_SHA}-universal.apk"
+          cp "$apk" "$out/$name"
+          {
+            printf 'purpose=QA-only signing/provenance validation; NOT a release\n'
+            printf 'repository=%s\n' "$GITHUB_REPOSITORY"
+            printf 'commit=%s\n' "$GITHUB_SHA"
+            printf 'ref=%s\n' "$GITHUB_REF_NAME"
+            printf 'run_id=%s\n' "$GITHUB_RUN_ID"
+            printf 'run_attempt=%s\n' "$GITHUB_RUN_ATTEMPT"
+            printf 'workflow_ref=%s\n' "$GITHUB_WORKFLOW_REF"
+            printf 'flutter=%s\n' "$FLUTTER_VERSION"
+            printf 'pubspec_version=%s\n' "$(grep '^version:' pubspec.yaml | sed 's/^version: *//')"
+            printf 'apk=%s\n' "$name"
+            printf 'apk_sha256=%s\n' "$(sha256sum "$out/$name" | cut -d ' ' -f 1)"
+            printf 'signer_cert_sha256=%s\n' "${digests[0]}"
+            printf 'expected_cert_sha256=%s\n' "$QA_EXPECTED_CERT_SHA256"
+            printf 'apksigner_build_tools=%s\n' "$bt"
+            printf 'backend=synthetic loopback .env (no real backend)\n'
+          } > "$out/qa-manifest.txt"
+          cat "$out/qa-manifest.txt"
+
+      - name: Upload QA artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: qa-only-kawai-signed-apk-${{ github.sha }}-run${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/qa-out/kawai-notes-qa-*-universal.apk
+            ${{ runner.temp }}/qa-out/apksigner-print-certs.txt
+            ${{ runner.temp }}/qa-out/qa-manifest.txt
+          if-no-files-found: error
+          retention-days: 3
