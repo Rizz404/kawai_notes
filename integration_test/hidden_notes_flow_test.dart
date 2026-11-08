@@ -159,6 +159,13 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.byIcon(Icons.check));
       await tester.pumpAndSettle();
+      // The pop-triggered save (encrypting a hidden note) runs in a microtask
+      // outside frame tracking and can outlast pumpAndSettle; poll the DB.
+      final saveDeadline = DateTime.now().add(const Duration(seconds: 10));
+      while (!repository.getAllNotes().any((n) => n.title == 'Vault note') &&
+          DateTime.now().isBefore(saveDeadline)) {
+        await tester.pump(const Duration(milliseconds: 100));
+      }
       final vault = repository.getAllNotes().where(
         (n) => n.title == 'Vault note',
       );

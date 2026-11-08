@@ -19,6 +19,13 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   Future<ObjectBoxTestStore> boot(WidgetTester tester) async {
+    // integration_test keeps the real IME attached (registerTestTextInput is
+    // false), but `enterText` injects text into the framework only. The IME
+    // still holds the connection-open text and can send it back later,
+    // reverting the field. Route text input through the test stub instead.
+    tester.testTextInput.register();
+    addTearDown(tester.testTextInput.unregister);
+
     final testStore = await ObjectBoxTestStore.open();
     final prefs = await SharedPreferences.getInstance();
 
@@ -113,6 +120,10 @@ void main() {
 
     await tester.enterText(find.byType(TextField).first, 'Edited title');
     await tester.pumpAndSettle();
+    expect(
+      tester.widget<TextField>(find.byType(TextField).first).controller!.text,
+      'Edited title',
+    );
     await tester.tap(find.byIcon(Icons.check));
     await tester.pumpAndSettle();
 
