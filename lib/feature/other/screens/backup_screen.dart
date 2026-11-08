@@ -6,6 +6,7 @@ import 'package:kawai_notes/core/extensions/localization_extension.dart';
 import 'package:kawai_notes/core/extensions/theme_extension.dart';
 import 'package:kawai_notes/core/utils/toast_utils.dart';
 import 'package:kawai_notes/feature/auth/providers/auth_provider.dart';
+import 'package:kawai_notes/feature/notes/widgets/hidden_notes_auth_body.dart';
 import 'package:kawai_notes/feature/other/providers/backup_provider.dart';
 import 'package:kawai_notes/shared/widgets/app_button.dart';
 import 'package:kawai_notes/shared/widgets/app_text.dart';
@@ -220,6 +221,34 @@ class BackupScreen extends ConsumerWidget {
                   const Divider(),
                   const SizedBox(height: 32),
 
+                  // ─── Hidden Notes Key ────────────────────────────
+                  const AppText(
+                    'Hidden Notes Key',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                  const SizedBox(height: 8),
+                  const AppText(
+                    'Backups never contain the hidden notes key. To read '
+                    'hidden notes on another device, export the key with a '
+                    'passphrase and import it there before restoring.',
+                  ),
+                  const SizedBox(height: 16),
+                  AppButton(
+                    key: const Key('export_hidden_key'),
+                    text: 'Export Hidden Notes Key',
+                    onPressed: () => _exportKey(context, ref),
+                  ),
+                  const SizedBox(height: 8),
+                  AppButton(
+                    key: const Key('import_hidden_key'),
+                    text: 'Import Hidden Notes Key',
+                    onPressed: () => _importKey(context, ref),
+                  ),
+                  const SizedBox(height: 32),
+                  const Divider(),
+                  const SizedBox(height: 32),
+
                   // ─── Auto Backup Settings ─────────────────────────
                   AppText(
                     context.l10n.settingsAutoBackupSettings,
@@ -351,6 +380,61 @@ class BackupScreen extends ConsumerWidget {
     );
   }
 
+  Future<void> _exportKey(BuildContext context, WidgetRef ref) async {
+    // * exporting the key requires the hidden-notes credential
+    final verified = await showModalBottomSheet<bool>(
+      context: context,
+      isDismissible: false,
+      enableDrag: false,
+      isScrollControlled: true,
+      builder: (sheetCtx) => Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(sheetCtx).viewInsets.bottom,
+        ),
+        child: HiddenNotesAuthBody(
+          onSuccess: () => Navigator.of(sheetCtx).pop(true),
+          onCancel: () => Navigator.of(sheetCtx).pop(false),
+        ),
+      ),
+    );
+    if (verified != true || !context.mounted) return;
+    final passphrase = await _askPassphrase(context, confirm: true);
+    if (passphrase == null) return;
+    final ok = await ref
+        .read(backupProvider.notifier)
+        .exportEncryptionKey(passphrase);
+    if (ok) {
+      AppToast.success('Hidden notes key exported');
+    } else {
+      AppToast.error('Key export failed');
+    }
+  }
+
+  Future<void> _importKey(BuildContext context, WidgetRef ref) async {
+    final passphrase = await _askPassphrase(context, confirm: false);
+    if (passphrase == null) return;
+    final ok = await ref
+        .read(backupProvider.notifier)
+        .importEncryptionKey(passphrase);
+    if (ok) {
+      AppToast.success('Hidden notes key imported');
+    } else {
+      AppToast.error(
+        'Key import failed: wrong passphrase or invalid key file',
+      );
+    }
+  }
+
+  Future<String?> _askPassphrase(
+    BuildContext context, {
+    required bool confirm,
+  }) {
+    return showDialog<String>(
+      context: context,
+      builder: (_) => _PassphraseDialog(confirm: confirm),
+    );
+  }
+
   Future<bool?> _showConfirmDialog(BuildContext context) {
     return showDialog<bool>(
       context: context,
@@ -368,6 +452,88 @@ class BackupScreen extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _PassphraseDialog extends StatefulWidget {
+  final bool confirm;
+
+  const _PassphraseDialog({required this.confirm});
+
+  @override
+  State<_PassphraseDialog> createState() => _PassphraseDialogState();
+}
+
+class _PassphraseDialogState extends State<_PassphraseDialog> {
+  static const _minLength = 8;
+  final _pass = TextEditingController();
+  final _again = TextEditingController();
+  String? _error;
+
+  @override
+  void dispose() {
+    _pass.dispose();
+    _again.dispose();
+    super.dispose();
+  }
+
+  void _submit() {
+    final pass = _pass.text;
+    if (widget.confirm && pass.length < _minLength) {
+      setState(() => _error = 'Use at least $_minLength characters');
+      return;
+    }
+    if (pass.isEmpty) {
+      setState(() => _error = 'Passphrase cannot be empty');
+      return;
+    }
+    if (widget.confirm && pass != _again.text) {
+      setState(() => _error = "Passphrases don't match");
+      return;
+    }
+    Navigator.pop(context, pass);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const AppText('Key passphrase'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextField(
+            key: const Key('key_passphrase'),
+            controller: _pass,
+            obscureText: true,
+            autofocus: true,
+            decoration: InputDecoration(
+              labelText: 'Passphrase',
+              errorText: widget.confirm ? null : _error,
+            ),
+          ),
+          if (widget.confirm)
+            TextField(
+              key: const Key('key_passphrase_confirm'),
+              controller: _again,
+              obscureText: true,
+              decoration: InputDecoration(
+                labelText: 'Confirm passphrase',
+                errorText: _error,
+              ),
+            ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: AppText(context.l10n.settingsCancel),
+        ),
+        TextButton(
+          onPressed: _submit,
+          child: AppText(context.l10n.settingsContinue),
+        ),
+      ],
     );
   }
 }

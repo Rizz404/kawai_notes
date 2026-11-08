@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -105,6 +107,48 @@ class BackupNotifier extends AsyncNotifier<void> {
     } catch (e, stack) {
       AppLogger.instance.error('Restore cloud backup failed', e, stack);
       state = AsyncError(e, stack);
+      return false;
+    }
+  }
+
+  /// Saves the hidden-notes key, wrapped with [passphrase], to a file the
+  /// user picks. Backups never contain the key itself.
+  Future<bool> exportEncryptionKey(String passphrase) async {
+    try {
+      final wrapped = await ref
+          .read(encryptionServiceProvider)
+          .exportWrappedKey(passphrase);
+      final path = await FilePicker.platform.saveFile(
+        dialogTitle: 'Save Hidden Notes Key',
+        fileName: 'kawai_notes_hidden_key.json',
+        type: FileType.custom,
+        allowedExtensions: ['json'],
+        bytes: Uint8List.fromList(utf8.encode(wrapped)),
+      );
+      return path != null;
+    } catch (e, stack) {
+      AppLogger.instance.error('Key export failed', e, stack);
+      return false;
+    }
+  }
+
+  /// Installs a key file created by [exportEncryptionKey]. Fails closed:
+  /// a wrong passphrase or invalid file stores nothing, and existing keys
+  /// are always kept alongside the imported ones.
+  Future<bool> importEncryptionKey(String passphrase) async {
+    try {
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['json'],
+      );
+      final path = result?.files.single.path;
+      if (path == null) return false;
+      await ref
+          .read(encryptionServiceProvider)
+          .importWrappedKey(await File(path).readAsString(), passphrase);
+      return true;
+    } catch (e, stack) {
+      AppLogger.instance.error('Key import failed', e, stack);
       return false;
     }
   }
