@@ -60,12 +60,8 @@ class AppStatefulShellRoute extends AppRouteBase {
 }
 
 class AppRoute extends AppRouteBase {
-  // ignore: overridden_fields
   @override
-  final String path;
-  // ignore: overridden_fields
-  @override
-  final String? name;
+  String get path => super.path!;
 
   /// The widget builder for the route.
   final RouteBuilder? builder;
@@ -86,8 +82,8 @@ class AppRoute extends AppRouteBase {
   final GlobalKey<NavigatorState>? parentNavigatorKey;
 
   const AppRoute({
-    required this.path,
-    this.name,
+    required String super.path,
+    super.name,
     this.builder,
     this.pageBuilder,
     this.redirect,
