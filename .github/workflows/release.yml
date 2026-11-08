@@ -16,13 +16,68 @@ on:
         type: boolean
         default: false
 
+permissions:
+  contents: read
+
 env:
-  FLUTTER_VERSION: '3.38.8'
+  FLUTTER_VERSION: '3.44.5'
+  # * objectbox-c release matching `objectbox` in pubspec.lock; the sha256 is
+  # * the digest GitHub publishes for this release asset.
+  OBX_C_VERSION: '5.3.1'
+  OBX_C_SHA256: 'd1a22f5a43e8aa438c987524c2ef97f5d179acb991b0f63ab03a30c33b882368'
 
 jobs:
+  verify:
+    name: Analyze & test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.pub-cache
+          key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: pub-${{ runner.os }}-
+
+      - name: Flutter pub get
+        run: flutter pub get --enforce-lockfile
+
+      - name: Install ObjectBox native library (host tests)
+        run: |
+          set -euo pipefail
+          archive="objectbox-linux-x64.tar.gz"
+          curl -fsSL -o "$RUNNER_TEMP/$archive" \
+            "https://github.com/objectbox/objectbox-c/releases/download/v5.3.1/objectbox-linux-x64.tar.gz"
+          test "$OBX_C_VERSION" = "5.3.1"
+          echo "$OBX_C_SHA256  $RUNNER_TEMP/$archive" | sha256sum -c -
+          mkdir -p "$RUNNER_TEMP/objectbox" lib
+          tar -xzf "$RUNNER_TEMP/$archive" -C "$RUNNER_TEMP/objectbox"
+          cp "$RUNNER_TEMP/objectbox/lib/libobjectbox.so" lib/
+
+      - name: Analyze
+        run: flutter analyze --no-fatal-infos
+
+      - name: Test
+        run: flutter test
+
   build:
     name: Build APKs
     runs-on: ubuntu-latest
+    needs: [verify]
+    permissions:
+      contents: read
     outputs:
       version: ${{ steps.version.outputs.version }}
 
@@ -34,17 +89,26 @@ jobs:
 
       - name: Resolve version
         id: version
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REF_NAME: ${{ github.ref_name }}
+          INPUT_VERSION: ${{ inputs.version }}
         run: |
-          if [ "${{ github.event_name }}" = "push" ]; then
-            VERSION="${{ github.ref_name }}"
+          set -euo pipefail
+          if [ "$EVENT_NAME" = "push" ]; then
+            VERSION="$REF_NAME"
           else
-            VERSION="${{ inputs.version }}"
+            VERSION="$INPUT_VERSION"
+          fi
+          if ! printf '%s' "$VERSION" | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+([-+][0-9A-Za-z.-]+)?$'; then
+            echo "::error::Invalid version tag: $VERSION"
+            exit 1
           fi
           BUILD_NAME="${VERSION#v}"
           BUILD_NUMBER=$(grep '^version:' pubspec.yaml | sed 's/.*+//')
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "build_name=$BUILD_NAME" >> $GITHUB_OUTPUT
-          echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "build_name=$BUILD_NAME" >> "$GITHUB_OUTPUT"
+          echo "build_number=$BUILD_NUMBER" >> "$GITHUB_OUTPUT"
           echo "Resolved: version=$VERSION build_name=$BUILD_NAME build_number=$BUILD_NUMBER"
 
       - name: Setup Java
@@ -68,43 +132,67 @@ jobs:
           restore-keys: pub-${{ runner.os }}-
 
       - name: Create .env
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
-          echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" > .env
-          echo "SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}" >> .env
+          printf 'SUPABASE_URL=%s\n' "$SUPABASE_URL" > .env
+          printf 'SUPABASE_ANON_KEY=%s\n' "$SUPABASE_ANON_KEY" >> .env
 
       - name: Setup release signing
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
         run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/kawai-release.jks
-          cat > android/key.properties <<EOF
-          storePassword=${{ secrets.KEYSTORE_PASSWORD }}
-          keyPassword=${{ secrets.KEY_PASSWORD }}
-          keyAlias=${{ secrets.KEY_ALIAS }}
-          storeFile=kawai-release.jks
-          EOF
+          set -euo pipefail
+          if [ -z "$KEYSTORE_BASE64" ]; then
+            echo "::error::KEYSTORE_BASE64 secret is missing; refusing to build a debug-signed release"
+            exit 1
+          fi
+          printf '%s' "$KEYSTORE_BASE64" | base64 --decode > android/kawai-release.jks
+          {
+            printf 'storePassword=%s\n' "$KEYSTORE_PASSWORD"
+            printf 'keyPassword=%s\n' "$KEY_PASSWORD"
+            printf 'keyAlias=%s\n' "$KEY_ALIAS"
+            printf 'storeFile=kawai-release.jks\n'
+          } > android/key.properties
 
       - name: Flutter pub get
-        run: flutter pub get
+        run: flutter pub get --enforce-lockfile
 
       - name: Build universal APK
+        env:
+          BUILD_NAME: ${{ steps.version.outputs.build_name }}
+          BUILD_NUMBER: ${{ steps.version.outputs.build_number }}
         run: |
           flutter build apk --release \
-            --build-name=${{ steps.version.outputs.build_name }} \
-            --build-number=${{ steps.version.outputs.build_number }}
+            --build-name="$BUILD_NAME" \
+            --build-number="$BUILD_NUMBER"
 
       - name: Build ABI-split APKs
+        env:
+          BUILD_NAME: ${{ steps.version.outputs.build_name }}
+          BUILD_NUMBER: ${{ steps.version.outputs.build_number }}
         run: |
           flutter build apk --release --split-per-abi \
-            --build-name=${{ steps.version.outputs.build_name }} \
-            --build-number=${{ steps.version.outputs.build_number }}
+            --build-name="$BUILD_NAME" \
+            --build-number="$BUILD_NUMBER"
 
       - name: Rename APKs
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
         run: |
-          VERSION="${{ steps.version.outputs.version }}"
           cd build/app/outputs/flutter-apk
           mv app-release.apk             "kawai-notes-${VERSION}-universal.apk"
           mv app-arm64-v8a-release.apk   "kawai-notes-${VERSION}-arm64-v8a.apk"
           mv app-armeabi-v7a-release.apk "kawai-notes-${VERSION}-armeabi-v7a.apk"
           mv app-x86_64-release.apk      "kawai-notes-${VERSION}-x86_64.apk"
+
+      - name: Remove signing material
+        if: always()
+        run: rm -f android/kawai-release.jks android/key.properties .env
 
       - name: Upload APK artifacts
         uses: actions/upload-artifact@v4
@@ -133,8 +221,9 @@ jobs:
           path: apks/
 
       - name: Generate release notes
+        env:
+          VERSION: ${{ needs.build.outputs.version }}
         run: |
-          VERSION="${{ needs.build.outputs.version }}"
           PREV_TAG=$(git tag --sort=-version:refname | grep -v "^${VERSION}$" | head -1)
 
           if [ -z "$PREV_TAG" ]; then
@@ -191,15 +280,18 @@ jobs:
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ needs.build.outputs.version }}
+          PRE_RELEASE: ${{ inputs.pre_release }}
         run: |
-          VERSION="${{ needs.build.outputs.version }}"
-
           ARGS="--latest"
-          if [ "${{ inputs.pre_release }}" = "true" ]; then
+          if [ "$PRE_RELEASE" = "true" ]; then
             ARGS="$ARGS --prerelease"
           fi
 
-          gh release delete "${VERSION}" --yes 2>/dev/null || true
+          if gh release view "${VERSION}" >/dev/null 2>&1; then
+            echo "::error::Release ${VERSION} already exists; refusing to replace it"
+            exit 1
+          fi
 
           gh release create "${VERSION}" \
             --title "Kawai Notes ${VERSION}" \
