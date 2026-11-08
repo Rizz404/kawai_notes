@@ -1,13 +1,16 @@
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kawai_notes/core/extensions/localization_extension.dart';
+import 'package:kawai_notes/core/extensions/logger_extension.dart';
 import 'package:kawai_notes/core/extensions/riverpod_extension.dart';
 import 'package:kawai_notes/di/repository_providers.dart';
 import 'package:kawai_notes/di/service_providers.dart';
 import 'package:kawai_notes/feature/tasks/models/task.dart';
 import 'package:kawai_notes/feature/tasks/repositories/task_repository.dart';
+import 'package:kawai_notes/l10n/app_localizations.dart';
 
 class TaskDetailState extends Equatable {
   final Task? data;
@@ -50,13 +53,22 @@ class TaskDetailNotifier extends AsyncNotifier<TaskDetailState> {
 
   @override
   FutureOr<TaskDetailState> build() async {
-    ref.cacheFor(const Duration(minutes: 5));
     _taskRepository = ref.read(taskRepositoryProvider);
+    // * a cached "new task" state would make the next create edit this task
+    if (_id != null) ref.cacheFor(const Duration(minutes: 5));
     if (_id == null) {
       return const TaskDetailState();
     }
     final task = _taskRepository.getTask(_id);
     return TaskDetailState(data: task);
+  }
+
+  String _reminderTitle() {
+    try {
+      return LocalizationExtension.current.tasksTaskReminder;
+    } catch (_) {
+      return lookupL10n(const Locale('en')).tasksTaskReminder;
+    }
   }
 
   Future<bool> saveTask({required String title, DateTime? dueDate}) async {
@@ -73,17 +85,25 @@ class TaskDetailNotifier extends AsyncNotifier<TaskDetailState> {
         isCompleted: current.data?.isCompleted ?? false,
       );
 
-      if (dueDate != null && !task.isCompleted) {
-        final notifications = ref.read(notificationServiceProvider);
-        await notifications.scheduleNotification(
-          id: task.id,
-          title: LocalizationExtension.current.tasksTaskReminder,
-          body: title,
-          scheduledDate: dueDate,
-        );
-      }
-
+      // * keep the persisted id before scheduling so a retry updates, not duplicates
       state = AsyncData(current.copyWith(data: task, isMutating: false));
+
+      final notifications = ref.read(notificationServiceProvider);
+      try {
+        if (dueDate != null && !task.isCompleted) {
+          await notifications.scheduleNotification(
+            id: task.id,
+            title: _reminderTitle(),
+            body: title,
+            scheduledDate: dueDate,
+          );
+        } else {
+          await notifications.cancelNotification(task.id);
+        }
+      } catch (e, stack) {
+        // * the task is saved; a reminder failure must not fail the save
+        logError('Failed to update task reminder', e, stack);
+      }
       return true;
     } catch (e) {
       state = AsyncData(

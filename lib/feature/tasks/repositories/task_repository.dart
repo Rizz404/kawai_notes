@@ -16,14 +16,22 @@ class TaskRepository {
   }) {
     final taskUlid = ulid ?? Ulid().toString();
 
-    final task = Task(
-      id: id,
-      ulid: taskUlid,
-      title: title,
-      isCompleted: isCompleted,
-      dueDate: dueDate,
-      updatedAt: DateTime.now(),
-    );
+    // * update in place so createdAt survives edits
+    final existing = id != 0 ? getTask(id) : null;
+    final task = existing != null
+        ? (existing
+            ..title = title
+            ..isCompleted = isCompleted
+            ..dueDate = dueDate
+            ..updatedAt = DateTime.now())
+        : Task(
+            id: id,
+            ulid: taskUlid,
+            title: title,
+            isCompleted: isCompleted,
+            dueDate: dueDate,
+            updatedAt: DateTime.now(),
+          );
 
     _objectBoxService.store.box<Task>().put(task);
     return task;

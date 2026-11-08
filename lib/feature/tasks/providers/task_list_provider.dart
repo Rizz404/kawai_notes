@@ -1,10 +1,15 @@
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kawai_notes/core/extensions/localization_extension.dart';
+import 'package:kawai_notes/core/extensions/logger_extension.dart';
 import 'package:kawai_notes/di/repository_providers.dart';
+import 'package:kawai_notes/di/service_providers.dart';
 import 'package:kawai_notes/feature/tasks/models/task.dart';
 import 'package:kawai_notes/feature/tasks/repositories/task_repository.dart';
+import 'package:kawai_notes/l10n/app_localizations.dart';
 
 class TaskListState extends Equatable {
   final List<Task> items;
@@ -81,10 +86,48 @@ class TaskListNotifier extends AsyncNotifier<TaskListState> {
           isCompleted: task.isCompleted,
           dueDate: task.dueDate,
         );
+        if (task.isCompleted) {
+          await _cancelReminder(id);
+        } else {
+          await _rescheduleReminder(task);
+        }
         state = AsyncData(await _fetch());
       }
     } catch (e) {
       state = AsyncData(current.copyWith(mutationError: () => e));
+    }
+  }
+
+  Future<void> _cancelReminder(int id) async {
+    try {
+      await ref.read(notificationServiceProvider).cancelNotification(id);
+    } catch (e, stack) {
+      logError('Failed to cancel task reminder', e, stack);
+    }
+  }
+
+  Future<void> _rescheduleReminder(Task task) async {
+    final due = task.dueDate;
+    if (due == null || !due.isAfter(DateTime.now())) return;
+    try {
+      await ref
+          .read(notificationServiceProvider)
+          .scheduleNotification(
+            id: task.id,
+            title: _reminderTitle(),
+            body: task.title,
+            scheduledDate: due,
+          );
+    } catch (e, stack) {
+      logError('Failed to reschedule task reminder', e, stack);
+    }
+  }
+
+  String _reminderTitle() {
+    try {
+      return LocalizationExtension.current.tasksTaskReminder;
+    } catch (_) {
+      return lookupL10n(const Locale('en')).tasksTaskReminder;
     }
   }
 
@@ -95,6 +138,7 @@ class TaskListNotifier extends AsyncNotifier<TaskListState> {
     state = AsyncData(current.copyWith(isMutating: true));
     try {
       _taskRepository.deleteTask(id);
+      await _cancelReminder(id);
       state = AsyncData(await _fetch());
     } catch (e) {
       state = AsyncData(
