@@ -57,6 +57,114 @@ void main() {
     expect(qa['OBX_C_VERSION'], obx!.group(1));
   });
 
+  group('the signer certificate parser', () {
+    late RegExp leaf;
+    setUpAll(() {
+      final m = RegExp(r"^ *leaf='([^']*)'$", multiLine: true).firstMatch(read(path));
+      expect(m, isNotNull, reason: 'no leaf digest pattern in $path');
+      leaf = RegExp(m!.group(1)!);
+    });
+
+    // * the shell step: exit code, CR, `Number of signers: 1`, one digest line, one leaf digest, exact match
+    String? verdict(String out, {int rc = 0}) {
+      if (rc != 0) return 'apksigner exited $rc';
+      if (out.contains('\r')) return 'CR line endings';
+      final ls = out.split('\n');
+      if (!ls.contains('Number of signers: 1')) return 'not one signer';
+      final lines = ls.where(
+        (l) => l.contains(' certificate SHA-256 digest: ') && !l.startsWith('Source Stamp Signer'),
+      );
+      if (lines.length != 1) return '${lines.length} digest lines';
+      final digests = ls.map(leaf.firstMatch).whereType<RegExpMatch>().map((m) => m.group(5)!).toList();
+      if (digests.length != 1) return '${digests.length} leaf digests';
+      return digests.single == _expectedCert ? null : 'mismatch ${digests.single}';
+    }
+
+    String v2(String s) => s.replaceAll('Signer #1 ', 'V2 Signer: ');
+    String two(String s, String second) {
+      final blk = s.split('\n').where((l) => l.startsWith('Signer #1 ')).toList();
+      final extra = blk.map((l) => l.replaceFirst('Signer #1 ', 'Signer #2 ')).join('\n').replaceAll(_expectedCert, second);
+      return s
+          .replaceFirst('Number of signers: 1', 'Number of signers: 2')
+          .replaceFirst('${blk.last}\n', '${blk.last}\n$extra\n');
+    }
+
+    const other = '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef';
+    String noLeaf(String s) =>
+        s.split('\n').where((l) => !l.contains('certificate SHA-256 digest')).join('\n');
+
+    test('real apksigner 0.9 (build-tools 36.0.0) output of the released APK passes', () {
+      expect(verdict(_realPrintCerts), isNull);
+    });
+
+    test('the apksig android17 `V2 Signer:` grammar passes', () {
+      expect(verdict(v2(_realPrintCerts)), isNull);
+      expect(verdict(_realPrintCerts.replaceAll('Signer #1 ', 'V3.0 Signer: ')), isNull);
+      expect(verdict(_realPrintCerts.replaceAll('Signer #1 ', 'Signer: ')), isNull);
+      expect(verdict(v2(_realPrintCerts).trimRight()), isNull);
+      expect(
+        verdict(
+          '${v2(_realPrintCerts)}Source Stamp Signer: certificate SHA-256 digest: ${'ab' * 32}\n',
+        ),
+        isNull,
+      );
+    });
+
+    test('a wrong certificate fails', () {
+      expect(verdict(_realPrintCerts.replaceAll(_expectedCert, other)), startsWith('mismatch'));
+      expect(verdict(v2(_realPrintCerts).replaceAll(_expectedCert, other)), startsWith('mismatch'));
+    });
+
+    test('zero, multiple and repeated signers fail', () {
+      expect(verdict(noLeaf(v2(_realPrintCerts))), isNotNull);
+      for (final second in [other, _expectedCert]) {
+        final t = two(_realPrintCerts, second);
+        expect(verdict(t), isNotNull);
+        expect(verdict(t.replaceAll('Number of signers: 2', 'Number of signers: 1')), '2 digest lines');
+        final n = t.replaceAll('Signer #1 ', 'V2 Signer #1: ').replaceAll('Signer #2 ', 'V2 Signer #2: ');
+        expect(verdict(n.replaceAll('Number of signers: 2', 'Number of signers: 1')), '2 digest lines');
+      }
+      final rot = v2(_realPrintCerts).replaceAll(
+        'V2 Signer: ',
+        'V3.1 Signer: (minSdkVersion=33, maxSdkVersion=2147483647): ',
+      );
+      expect(verdict(rot), isNotNull);
+    });
+
+    test('malformed digests and non-leaf hashes fail', () {
+      final n = v2(_realPrintCerts);
+      for (final bad in [
+        _expectedCert.substring(1),
+        '${_expectedCert}0',
+        '${_expectedCert.substring(1)}g',
+        _expectedCert.toUpperCase(),
+        [for (var i = 0; i < 64; i += 2) _expectedCert.substring(i, i + 2)].join(':'),
+        '\x1b[1m$_expectedCert\x1b[0m',
+        '$_expectedCert ',
+      ]) {
+        expect(verdict(n.replaceAll('digest: $_expectedCert', 'digest: $bad')), isNotNull, reason: bad);
+      }
+      expect(verdict(n.replaceAll('V2 Signer: certificate SHA-256', ' V2 Signer: certificate SHA-256')), isNotNull);
+      expect(
+        verdict(noLeaf(n).replaceFirst('public key SHA-256 digest: ', 'public key SHA-256 digest: $_expectedCert x')),
+        isNotNull,
+      );
+      expect(
+        verdict(
+          noLeaf(n).replaceFirst('certificate DN: CN=', 'certificate DN: CN=x certificate SHA-256 digest: $_expectedCert, CN='),
+        ),
+        isNotNull,
+      );
+      expect(verdict('Number of signers: 1\n\ufeffV2 Signer: certificate SHA-256 digest: $_expectedCert\n'), isNotNull);
+    });
+
+    test('a nonzero apksigner exit or CRLF output fails', () {
+      expect(verdict(v2(_realPrintCerts), rc: 1), 'apksigner exited 1');
+      expect(verdict('', rc: 2), 'apksigner exited 2');
+      expect(verdict(v2(_realPrintCerts).replaceAll('\n', '\r\n')), 'CR line endings');
+    });
+  });
+
   group('unsafe mutants are rejected', () {
     late String valid;
     setUpAll(() => valid = read(path));
@@ -149,6 +257,19 @@ void main() {
         mutate('if [ "\${digests[0]}" != "\$QA_EXPECTED_CERT_SHA256" ]; then', 'if false; then'),
         'certificate',
       );
+    });
+
+    test('a weakened signer certificate parser', () {
+      const leafLine =
+          r"leaf='^(Signer #[0-9]+|((V1|V2|V3\.0) )?Signer( #[0-9]+)?:) certificate SHA-256 digest: ([0-9a-f]{64})$'";
+      rejects(mutate(leafLine, r"leaf='certificate SHA-256 digest: ([0-9a-fA-F:]+)'"), 'certificate');
+      rejects(mutate('([0-9a-f]{64})\$', '([0-9a-fA-F:]+)\$'), 'certificate');
+      rejects(mutate('> "\$certs" || rc=\$?', '> "\$certs" || true'), 'certificate');
+      rejects(mutate('[ "\$rc" -eq 0 ] || {', 'true || {'), 'certificate');
+      rejects(mutate("grep -qx 'Number of signers: 1' \"\$certs\" || {", 'true || {'), 'certificate');
+      rejects(mutate('if [ "\${#lines[@]}" -ne 1 ]; then', 'if false; then'), 'certificate');
+      rejects(mutate("[ \"\$(tr -dc '\\r' < \"\$certs\" | wc -c)\" -eq 0 ] || {", 'true || {'), 'certificate');
+      rejects(mutate('          cat "\$certs"\n', ''), 'certificate');
     });
 
     test('missing fail-closed signing config check', () {
@@ -262,6 +383,28 @@ void main() {
 
 const _expectedCert =
     'c48112390477dbbdae99e54068eddccdc547ca7b8e18a7f2cea4a84fd98b6ccf';
+// * leaf signer digest in the apksigner 0.9 `Signer #N` and apksig android17 `V2 Signer:` grammar
+const _leafDigest =
+    r"leaf='^(Signer #[0-9]+|((V1|V2|V3\.0) )?Signer( #[0-9]+)?:) certificate SHA-256 digest: ([0-9a-f]{64})$'";
+// * real `apksigner verify --verbose --print-certs` stdout (build-tools 36.0.0) of the public v1.0.2 APK
+const _realPrintCerts =
+  'Verifies\n'
+  'Verified using v1 scheme (JAR signing): false\n'
+  'Verified using v2 scheme (APK Signature Scheme v2): true\n'
+  'Verified using v3 scheme (APK Signature Scheme v3): false\n'
+  'Verified using v3.1 scheme (APK Signature Scheme v3.1): false\n'
+  'Verified using v4 scheme (APK Signature Scheme v4): false\n'
+  'Verified for SourceStamp: false\n'
+  'Number of signers: 1\n'
+  'Signer #1 certificate DN: CN=Ikuyo Finance, OU=, O=, L=, ST=, C=ID\n'
+  'Signer #1 certificate SHA-256 digest: c48112390477dbbdae99e54068eddccdc547ca7b8e18a7f2cea4a84fd98b6ccf\n'
+  'Signer #1 certificate SHA-1 digest: 54b098748ca230cfad8b2a88ff77896e2331fd2f\n'
+  'Signer #1 certificate MD5 digest: b2d70ea165bd8b4d4466774eb4394968\n'
+  'Signer #1 key algorithm: RSA\n'
+  'Signer #1 key size (bits): 2048\n'
+  'Signer #1 public key SHA-256 digest: 6ebdd479c339e80196cfb19becb25bb6b05aa23b9a5fe22c8ee3a38e9c1b9d84\n'
+  'Signer #1 public key SHA-1 digest: f3aa2595c99f0590a06d18625f756b0c54023559\n'
+  'Signer #1 public key MD5 digest: 72e2051e529e5e4797f45144614302e2\n';
 const _allowedActions = {
   'actions/checkout',
   'subosito/flutter-action',
@@ -521,14 +664,32 @@ List<String> _signedJobViolations(Map<String, Object?> job) {
     v.add('certificate: no apksigner verification after the build');
   } else {
     final r = steps[certs]['run']! as String;
+    final ls = r.split('\n').map((l) => l.trim()).toList();
     for (final need in [
-      'verify --verbose --print-certs',
+      'set -euo pipefail',
+      'rc=0',
+      '"\$apksigner" verify --verbose --print-certs "\$apk" > "\$certs" || rc=\$?',
+      'cat "\$certs"',
+      '[ "\$rc" -eq 0 ] || { echo "::error::apksigner verify exited \$rc"; exit 1; }',
+      "[ \"\$(tr -dc '\\r' < \"\$certs\" | wc -c)\" -eq 0 ] || "
+          '{ echo "::error::apksigner output has CR line endings"; exit 1; }',
+      "grep -qx 'Number of signers: 1' \"\$certs\" || "
+          '{ echo "::error::apksigner did not report exactly one signer"; exit 1; }',
+      _leafDigest,
+      "mapfile -t lines < <(grep -F ' certificate SHA-256 digest: ' \"\$certs\" | grep -v '^Source Stamp Signer')",
+      'mapfile -t digests < <(sed -nE "s/\$leaf/\\5/p" "\$certs")',
+      'if [ "\${#lines[@]}" -ne 1 ]; then',
       'if [ "\${#digests[@]}" -ne 1 ]; then',
       'if [ "\${digests[0]}" != "\$QA_EXPECTED_CERT_SHA256" ]; then',
     ]) {
-      if (!r.contains(need)) v.add('certificate: missing `$need`');
+      if (!ls.contains(need)) v.add('certificate: missing `$need`');
     }
-    if (RegExp(r'exit 1').allMatches(r).length < 4) {
+    final cat = ls.indexOf('cat "\$certs"');
+    final firstCheck = ls.indexWhere((l) => l.startsWith('[ "\$rc" -eq 0 ]'));
+    if (cat < 0 || firstCheck < 0 || cat > firstCheck) {
+      v.add('certificate: the public apksigner output must be printed before any check');
+    }
+    if (RegExp(r'exit 1').allMatches(r).length < 8) {
       v.add('certificate: every check must exit 1');
     }
   }

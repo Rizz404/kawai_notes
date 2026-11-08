@@ -174,8 +174,23 @@ jobs:
           out="$RUNNER_TEMP/qa-out"
           mkdir -p "$out"
           certs="$out/apksigner-print-certs.txt"
-          "$apksigner" verify --verbose --print-certs "$apk" > "$certs"
-          mapfile -t digests < <(sed -nE 's/^Signer #[0-9]+ certificate SHA-256 digest: ([0-9a-fA-F:]+)$/\1/p' "$certs" | tr -d ':' | tr 'A-F' 'a-f')
+          rc=0
+          "$apksigner" verify --verbose --print-certs "$apk" > "$certs" || rc=$?
+          # * public certificate data only, printed before any check so a failure is not opaque
+          echo "apksigner $("$apksigner" version) from build-tools $bt exited $rc"
+          cat "$certs"
+          [ "$rc" -eq 0 ] || { echo "::error::apksigner verify exited $rc"; exit 1; }
+          [ "$(tr -dc '\r' < "$certs" | wc -c)" -eq 0 ] || { echo "::error::apksigner output has CR line endings"; exit 1; }
+          grep -qx 'Number of signers: 1' "$certs" || { echo "::error::apksigner did not report exactly one signer"; exit 1; }
+          # * leaf signer only, in the old (`Signer #1 `) and the apksig android17 (`V2 Signer: `) grammar;
+          # * source stamp, public key, malformed and v3.1 rotation lines never match
+          leaf='^(Signer #[0-9]+|((V1|V2|V3\.0) )?Signer( #[0-9]+)?:) certificate SHA-256 digest: ([0-9a-f]{64})$'
+          mapfile -t lines < <(grep -F ' certificate SHA-256 digest: ' "$certs" | grep -v '^Source Stamp Signer')
+          mapfile -t digests < <(sed -nE "s/$leaf/\5/p" "$certs")
+          if [ "${#lines[@]}" -ne 1 ]; then
+            echo "::error::expected exactly one signer certificate digest line, got ${#lines[@]}"
+            exit 1
+          fi
           if [ "${#digests[@]}" -ne 1 ]; then
             echo "::error::expected exactly one signer certificate, got ${#digests[@]}"
             exit 1
