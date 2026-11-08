@@ -58,6 +58,22 @@ android {
     }
 }
 
+// Release builds must be signed with the release key. A debug-signed
+// release is only allowed for local testing with -PallowDebugSignedRelease=true.
+val allowDebugSignedRelease =
+    (project.findProperty("allowDebugSignedRelease") as String?)?.toBoolean() == true
+gradle.taskGraph.whenReady {
+    val buildsRelease = allTasks.any {
+        it.project == project && it.name.matches(Regex("(assemble|bundle|package)Release"))
+    }
+    if (buildsRelease && !keyPropertiesFile.exists() && !allowDebugSignedRelease) {
+        throw GradleException(
+            "android/key.properties is missing: refusing to sign a release build " +
+                "with the debug key. Pass -PallowDebugSignedRelease=true for local tests only.",
+        )
+    }
+}
+
 flutter {
     source = "../.."
 }
