@@ -49,6 +49,35 @@ class GraphViewScreen extends ConsumerWidget {
   }
 }
 
+typedef GraphLayout = ({Map<int, Offset> positions, List<(int, int)> edges});
+
+/// Lays notes out on a circle keyed by note id, so notes that share a
+/// title stay distinct. A title link connects to every note with that title.
+GraphLayout computeGraphLayout(List<Note> notes, Size size) {
+  final center = Offset(size.width / 2, size.height / 2);
+  final radius = min(size.width, size.height) * 0.3;
+  final positions = <int, Offset>{};
+  final idsByTitle = <String, List<int>>{};
+  final angleStep = notes.isEmpty ? 0.0 : 2 * pi / notes.length;
+  for (int i = 0; i < notes.length; i++) {
+    final note = notes[i];
+    positions[note.id] = Offset(
+      center.dx + radius * cos(i * angleStep),
+      center.dy + radius * sin(i * angleStep),
+    );
+    (idsByTitle[note.title] ??= []).add(note.id);
+  }
+  final edges = <(int, int)>[];
+  for (final note in notes) {
+    for (final link in note.links) {
+      for (final to in idsByTitle[link] ?? const <int>[]) {
+        if (to != note.id) edges.add((note.id, to));
+      }
+    }
+  }
+  return (positions: positions, edges: edges);
+}
+
 class _GraphPainter extends CustomPainter {
   final List<Note> notes;
   final BuildContext context;
@@ -60,22 +89,8 @@ class _GraphPainter extends CustomPainter {
     // Basic force-directed / circle layout
     if (notes.isEmpty) return;
 
-    final center = Offset(size.width / 2, size.height / 2);
-    final radius =
-        min(size.width, size.height) * 0.3; // 30% of canvas as placement radius
-
-    final nodePositions = <String, Offset>{};
-
-    // Calculate node positions around a circle
-    final angleStep = 2 * pi / notes.length;
-    for (int i = 0; i < notes.length; i++) {
-      final note = notes[i];
-      final angle = i * angleStep;
-      nodePositions[note.title] = Offset(
-        center.dx + radius * cos(angle),
-        center.dy + radius * sin(angle),
-      );
-    }
+    final layout = computeGraphLayout(notes, size);
+    final nodePositions = layout.positions;
 
     final edgePaint = Paint()
       ..color = context.colorScheme.outlineVariant
@@ -86,23 +101,14 @@ class _GraphPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     // Draw edges for explicit links
-    for (final note in notes) {
-      final fromPos = nodePositions[note.title];
-      if (fromPos == null) continue;
-
-      for (final link in note.links) {
-        // Link string matches another note's title
-        final toPos = nodePositions[link];
-        if (toPos != null) {
-          canvas.drawLine(fromPos, toPos, edgePaint);
-        }
-      }
+    for (final (from, to) in layout.edges) {
+      canvas.drawLine(nodePositions[from]!, nodePositions[to]!, edgePaint);
     }
 
     // Draw nodes and text
     final textPainter = TextPainter(textDirection: TextDirection.ltr);
     for (final note in notes) {
-      final pos = nodePositions[note.title];
+      final pos = nodePositions[note.id];
       if (pos == null) continue;
 
       canvas.drawCircle(pos, 10, nodePaint);
