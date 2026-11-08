@@ -6,9 +6,11 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kawai_notes/core/extensions/logger_extension.dart';
+import 'package:kawai_notes/core/services/notification_service.dart';
 import 'package:kawai_notes/di/repository_providers.dart';
 import 'package:kawai_notes/di/service_providers.dart';
 import 'package:kawai_notes/feature/notes/providers/note_list_provider.dart';
+import 'package:kawai_notes/feature/notes/services/xiaomi_import_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class XiaomiImportState extends Equatable {
@@ -69,21 +71,15 @@ class XiaomiImportNotifier extends Notifier<XiaomiImportState> {
 
       final files = result.files
           .where((f) => f.path != null)
-          .take(50)
           .map((f) => File(f.path!))
-          .toList(); // Limit to 50
+          .toList();
       final xiaomiImportService = ref.read(xiaomiImportServiceProvider);
-      final noteRepository = ref.read(noteRepositoryProvider);
+      final existing = _existingImportKeys();
 
       for (var file in files) {
         final parsedNote = await xiaomiImportService.parseFile(file);
         if (parsedNote != null) {
-          await noteRepository.saveNote(
-            title: parsedNote.title,
-            content: parsedNote.content,
-            createdAt: parsedNote.createdAt,
-            updatedAt: parsedNote.createdAt,
-          );
+          await _saveIfNew(parsedNote, existing);
         }
       }
 
@@ -159,7 +155,7 @@ class XiaomiImportNotifier extends Notifier<XiaomiImportState> {
       state = state.copyWith(totalFiles: total, processedFiles: 0);
 
       final notificationService = ref.read(notificationServiceProvider);
-      const notificationId = 888; // arbitrary fixed ID
+      const notificationId = NotificationService.importProgressId;
 
       await notificationService.showProgressNotification(
         id: notificationId,
@@ -170,19 +166,14 @@ class XiaomiImportNotifier extends Notifier<XiaomiImportState> {
       );
 
       final xiaomiImportService = ref.read(xiaomiImportServiceProvider);
-      final noteRepository = ref.read(noteRepositoryProvider);
+      final existing = _existingImportKeys();
 
       int processed = 0;
 
       for (var file in mdFiles) {
         final parsedNote = await xiaomiImportService.parseFile(file);
         if (parsedNote != null) {
-          await noteRepository.saveNote(
-            title: parsedNote.title,
-            content: parsedNote.content,
-            createdAt: parsedNote.createdAt,
-            updatedAt: parsedNote.createdAt,
-          );
+          await _saveIfNew(parsedNote, existing);
         }
 
         processed++;
@@ -213,9 +204,47 @@ class XiaomiImportNotifier extends Notifier<XiaomiImportState> {
       state = XiaomiImportState(mutationError: e);
       // * ensure partial imports are visible even if loop failed midway
       ref.invalidate(noteListNotifierProvider);
-      await ref.read(notificationServiceProvider).cancelNotification(888);
+      await ref
+          .read(notificationServiceProvider)
+          .cancelNotification(NotificationService.importProgressId);
       return false;
     }
+  }
+
+  // * Re-importing the same export must not duplicate notes: a dated note is
+  // * already imported when title, content and createdAt match; an undated
+  // * one (createdAt is assigned at save time) when title and content match.
+  static String _importKey(String title, String content, DateTime? createdAt) =>
+      '${createdAt?.millisecondsSinceEpoch}|$title|$content';
+
+  static String _undatedKey(String title, String content) =>
+      'undated|$title|$content';
+
+  Set<String> _existingImportKeys() {
+    final keys = <String>{};
+    for (final n in ref.read(noteRepositoryProvider).getAllNotes()) {
+      if (n.isHidden || n.isDeleted) continue;
+      keys
+        ..add(_importKey(n.title, n.content ?? '', n.createdAt))
+        ..add(_undatedKey(n.title, n.content ?? ''));
+    }
+    return keys;
+  }
+
+  Future<void> _saveIfNew(ParsedXiaomiNote parsed, Set<String> existing) async {
+    final key = parsed.createdAt == null
+        ? _undatedKey(parsed.title, parsed.content)
+        : _importKey(parsed.title, parsed.content, parsed.createdAt);
+    if (existing.contains(key)) return;
+    await ref
+        .read(noteRepositoryProvider)
+        .saveNote(
+          title: parsed.title,
+          content: parsed.content,
+          createdAt: parsed.createdAt,
+          updatedAt: parsed.createdAt,
+        );
+    existing.add(key);
   }
 }
 
