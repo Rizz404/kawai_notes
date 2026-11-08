@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:kawai_notes/core/extensions/localization_extension.dart';
 import 'package:kawai_notes/core/extensions/navigator_extension.dart';
+import 'package:kawai_notes/core/utils/toast_utils.dart';
 import 'package:kawai_notes/feature/tasks/providers/task_detail_provider.dart';
 import 'package:kawai_notes/feature/tasks/providers/task_list_provider.dart';
 import 'package:kawai_notes/shared/widgets/app_button.dart';
@@ -28,6 +29,17 @@ class _TaskEditorScreenState extends ConsumerState<TaskEditorScreen> {
   Widget build(BuildContext context) {
     final detailStateAsync = ref.watch(
       taskDetailNotifierProvider(widget.taskId),
+    );
+
+    ref.listen<AsyncValue<TaskDetailState>>(
+      taskDetailNotifierProvider(widget.taskId),
+      (previous, next) {
+        if (next.hasValue &&
+            next.value!.mutationError != null &&
+            previous?.value?.mutationError != next.value!.mutationError) {
+          if (mounted) AppToast.error(next.value!.mutationError.toString());
+        }
+      },
     );
 
     return Scaffold(
