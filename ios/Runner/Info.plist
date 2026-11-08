@@ -5,7 +5,7 @@
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>CFBundleDisplayName</key>
-		<string>Flutter Setup Riverpod</string>
+		<string>Kawai Notes</string>
 		<key>CFBundleExecutable</key>
 		<string>$(EXECUTABLE_NAME)</string>
 		<key>CFBundleIdentifier</key>
@@ -41,6 +41,21 @@
 			<string>UIInterfaceOrientationLandscapeLeft</string>
 			<string>UIInterfaceOrientationLandscapeRight</string>
 		</array>
+		<key>CFBundleURLTypes</key>
+		<array>
+			<dict>
+				<key>CFBundleURLName</key>
+				<string>com.rizz.kawainotes</string>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>com.rizz.kawainotes</string>
+				</array>
+			</dict>
+		</array>
+		<key>NSFaceIDUsageDescription</key>
+		<string>Face ID is used to unlock your hidden notes.</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>Photos are used for note images and backgrounds.</string>
 		<key>CADisableMinimumFrameDurationOnPhone</key>
 		<true/>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
