@@ -4,9 +4,9 @@ import 'package:kawai_notes/core/extensions/localization_extension.dart';
 import 'package:kawai_notes/core/extensions/navigator_extension.dart';
 import 'package:kawai_notes/core/extensions/theme_extension.dart';
 import 'package:kawai_notes/feature/folders/widgets/folder_drawer.dart';
-import 'package:kawai_notes/feature/notes/widgets/hidden_notes_auth_body.dart';
 import 'package:kawai_notes/feature/notes/models/note.dart';
 import 'package:kawai_notes/feature/notes/providers/hidden_note_list_provider.dart';
+import 'package:kawai_notes/feature/notes/providers/hidden_notes_session_provider.dart';
 import 'package:kawai_notes/feature/notes/providers/note_providers.dart';
 import 'package:kawai_notes/shared/widgets/app_search_field.dart';
 import 'package:kawai_notes/shared/widgets/app_text.dart';
@@ -19,50 +19,24 @@ class HiddenNotesScreen extends ConsumerStatefulWidget {
   ConsumerState<HiddenNotesScreen> createState() => _HiddenNotesScreenState();
 }
 
-class _HiddenNotesScreenState extends ConsumerState<HiddenNotesScreen>
-    with WidgetsBindingObserver {
+class _HiddenNotesScreenState extends ConsumerState<HiddenNotesScreen> {
   final Set<int> _selectedIds = {};
 
   bool get _isSelectionMode => _selectedIds.isNotEmpty;
+  late final HiddenNotesSessionNotifier _session;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    _session = ref.read(hiddenNotesSessionProvider.notifier);
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    // * leaving the vault relocks it; lifecycle locking is owned by the
+    // * session notifier and the router closes vault pages on lock
+    Future.microtask(_session.lock);
     super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      _reAuthenticate();
-    }
-  }
-
-  Future<void> _reAuthenticate() async {
-    final result = await showModalBottomSheet<bool>(
-      context: context,
-      isDismissible: false,
-      enableDrag: false,
-      isScrollControlled: true,
-      builder: (sheetCtx) => Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(sheetCtx).viewInsets.bottom,
-        ),
-        child: HiddenNotesAuthBody(
-          onSuccess: () => Navigator.of(sheetCtx).pop(true),
-          onCancel: () => Navigator.of(sheetCtx).pop(false),
-        ),
-      ),
-    );
-    if ((result == null || !result) && mounted) {
-      context.pop();
-    }
   }
 
   void _toggleSelection(int id) {
@@ -140,7 +114,8 @@ class _HiddenNotesScreenState extends ConsumerState<HiddenNotesScreen>
       floatingActionButton: _isSelectionMode
           ? null
           : FloatingActionButton(
-              onPressed: () => context.push('/note-editor'),
+              onPressed: () =>
+                  context.push('/note-editor', extra: {'isHidden': true}),
               backgroundColor: context.colorScheme.primary,
               child: Icon(Icons.add, color: context.colorScheme.onPrimary),
             ),

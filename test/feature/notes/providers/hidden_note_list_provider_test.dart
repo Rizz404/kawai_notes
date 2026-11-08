@@ -36,6 +36,7 @@ void main() {
       testStore.service,
       MockNoteFileService(),
       encryptionService,
+      isHiddenUnlocked: () => true,
     );
     container = ProviderContainer(
       overrides: [noteRepositoryProvider.overrideWithValue(repository)],

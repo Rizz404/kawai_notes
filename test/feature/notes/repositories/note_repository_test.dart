@@ -25,6 +25,7 @@ void main() {
       testStore.service,
       noteFileService,
       encryptionService,
+      isHiddenUnlocked: () => true,
     );
 
     when(() => encryptionService.encrypt(any())).thenAnswer(

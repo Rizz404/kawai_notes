@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kawai_notes/core/extensions/theme_extension.dart';
 import 'package:kawai_notes/core/utils/toast_utils.dart';
 import 'package:kawai_notes/di/service_providers.dart';
+import 'package:kawai_notes/feature/notes/providers/hidden_notes_session_provider.dart';
+import 'package:kawai_notes/feature/notes/widgets/hidden_notes_auth_body.dart';
 import 'package:kawai_notes/feature/notes/widgets/pattern_entry_widget.dart';
 import 'package:kawai_notes/feature/notes/widgets/pin_entry_widget.dart';
 import 'package:kawai_notes/shared/widgets/app_text.dart';
@@ -45,14 +47,19 @@ class _HiddenNotesAuthScreenState extends ConsumerState<HiddenNotesAuthScreen> {
   bool _pwdObscure = true;
   bool _pwdConfirmObscure = true;
 
+  late final HiddenNotesSessionNotifier _session;
+
   @override
   void initState() {
     super.initState();
+    _session = ref.read(hiddenNotesSessionProvider.notifier);
     _loadState();
   }
 
   @override
   void dispose() {
+    // * leaving the lock settings relocks the vault
+    Future.microtask(_session.lock);
     _pwdController.dispose();
     _pwdConfirmController.dispose();
     super.dispose();
@@ -90,6 +97,12 @@ class _HiddenNotesAuthScreenState extends ConsumerState<HiddenNotesAuthScreen> {
     });
   }
 
+  /// Changing an existing method requires the current credential.
+  Future<void> _changeMethod(_TargetMethod method) async {
+    if (!await _reauthenticate()) return;
+    if (mounted) _startSetup(method);
+  }
+
   void _startSetup(_TargetMethod method) {
     setState(() {
       _target = method;
@@ -101,7 +114,9 @@ class _HiddenNotesAuthScreenState extends ConsumerState<HiddenNotesAuthScreen> {
   // --- Biometric ---
 
   Future<void> _toggleBiometric(bool enabled) async {
+    if (!await _reauthenticate()) return;
     await ref.read(hiddenNotesAuthServiceProvider).setBiometricEnabled(enabled);
+    if (!mounted) return;
     setState(() => _biometricEnabled = enabled);
   }
 
@@ -131,6 +146,7 @@ class _HiddenNotesAuthScreenState extends ConsumerState<HiddenNotesAuthScreen> {
   }
 
   Future<void> _removePin() async {
+    if (!await _reauthenticate()) return;
     if (!await _confirmRemove('Remove PIN?')) return;
     await ref.read(hiddenNotesAuthServiceProvider).removePin();
     await _loadState();
@@ -163,6 +179,7 @@ class _HiddenNotesAuthScreenState extends ConsumerState<HiddenNotesAuthScreen> {
   }
 
   Future<void> _removePattern() async {
+    if (!await _reauthenticate()) return;
     if (!await _confirmRemove('Remove pattern?')) return;
     await ref.read(hiddenNotesAuthServiceProvider).removePattern();
     await _loadState();
@@ -190,6 +207,7 @@ class _HiddenNotesAuthScreenState extends ConsumerState<HiddenNotesAuthScreen> {
   }
 
   Future<void> _removePassword() async {
+    if (!await _reauthenticate()) return;
     if (!await _confirmRemove('Remove password?')) return;
     await ref.read(hiddenNotesAuthServiceProvider).removePassword();
     await _loadState();
@@ -197,6 +215,34 @@ class _HiddenNotesAuthScreenState extends ConsumerState<HiddenNotesAuthScreen> {
   }
 
   // --- Helpers ---
+
+  /// Verifies the current hidden-notes credential. Succeeds immediately when
+  /// no method is configured yet, so first-time setup is never locked out.
+  Future<bool> _reauthenticate() async {
+    // * this screen is only reachable through the vault challenge, so with
+    // * nothing configured there is no credential left to re-check
+    final methods = await ref
+        .read(hiddenNotesAuthServiceProvider)
+        .getEnabledMethods();
+    if (methods.isEmpty) return true;
+    if (!mounted) return false;
+    final result = await showModalBottomSheet<bool>(
+      context: context,
+      isDismissible: false,
+      enableDrag: false,
+      isScrollControlled: true,
+      builder: (sheetCtx) => Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(sheetCtx).viewInsets.bottom,
+        ),
+        child: HiddenNotesAuthBody(
+          onSuccess: () => Navigator.of(sheetCtx).pop(true),
+          onCancel: () => Navigator.of(sheetCtx).pop(false),
+        ),
+      ),
+    );
+    return result == true;
+  }
 
   Future<bool> _confirmRemove(String title) async {
     final result = await showDialog<bool>(
@@ -278,7 +324,7 @@ class _HiddenNotesAuthScreenState extends ConsumerState<HiddenNotesAuthScreen> {
             subtitle: AppText(_pinEnabled ? 'Enabled' : 'Not set up'),
             trailing: _pinEnabled
                 ? _MethodActions(
-                    onChange: () => _startSetup(_TargetMethod.pin),
+                    onChange: () => _changeMethod(_TargetMethod.pin),
                     onRemove: _removePin,
                   )
                 : TextButton(
@@ -293,7 +339,7 @@ class _HiddenNotesAuthScreenState extends ConsumerState<HiddenNotesAuthScreen> {
             subtitle: AppText(_patternEnabled ? 'Enabled' : 'Not set up'),
             trailing: _patternEnabled
                 ? _MethodActions(
-                    onChange: () => _startSetup(_TargetMethod.pattern),
+                    onChange: () => _changeMethod(_TargetMethod.pattern),
                     onRemove: _removePattern,
                   )
                 : TextButton(
@@ -308,7 +354,7 @@ class _HiddenNotesAuthScreenState extends ConsumerState<HiddenNotesAuthScreen> {
             subtitle: AppText(_passwordEnabled ? 'Enabled' : 'Not set up'),
             trailing: _passwordEnabled
                 ? _MethodActions(
-                    onChange: () => _startSetup(_TargetMethod.password),
+                    onChange: () => _changeMethod(_TargetMethod.password),
                     onRemove: _removePassword,
                   )
                 : TextButton(

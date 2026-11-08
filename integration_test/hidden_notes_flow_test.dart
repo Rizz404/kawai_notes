@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:kawai_notes/core/services/encryption_service.dart';
 import 'package:kawai_notes/core/services/note_file_service.dart';
+import 'package:kawai_notes/core/services/widget_deep_link_service.dart';
 import 'package:kawai_notes/di/common_providers.dart';
 import 'package:kawai_notes/di/service_providers.dart';
 import 'package:kawai_notes/feature/notes/repositories/note_repository.dart';
@@ -26,6 +27,20 @@ void main() {
     for (final digit in pin.split('')) {
       await tester.tap(find.text(digit));
       await tester.pump();
+    }
+    await tester.pumpAndSettle();
+  }
+
+  /// PINs go through a salted PBKDF2 hash that runs asynchronously and can
+  /// outlast pumpAndSettle on a slow emulator; poll for the expected UI.
+  Future<void> pumpUntil(
+    WidgetTester tester,
+    Finder finder, {
+    Duration timeout = const Duration(seconds: 30),
+  }) async {
+    final end = DateTime.now().add(timeout);
+    while (finder.evaluate().isEmpty && DateTime.now().isBefore(end)) {
+      await tester.pump(const Duration(milliseconds: 100));
     }
     await tester.pumpAndSettle();
   }
@@ -65,17 +80,13 @@ void main() {
       await tester.tap(hiddenNotesLockTile);
       await tester.pumpAndSettle();
 
-      final pinRow = find.ancestor(
-        of: find.text('PIN'),
-        matching: find.byType(ListTile),
-      );
-      await tester.tap(find.descendant(of: pinRow, matching: find.text('Set up')));
-      await tester.pumpAndSettle();
-      expect(find.text('Enter new PIN'), findsOneWidget);
-
+      // F6: with no credential yet, the challenge guarding this screen asks
+      // for a PIN to be set up instead of silently letting the user in.
+      expect(find.text('Set up a PIN to protect hidden notes'), findsOneWidget);
       await enterPin(tester, '1234');
-      expect(find.text('Confirm PIN'), findsOneWidget);
+      await pumpUntil(tester, find.text('Confirm your new PIN'));
       await enterPin(tester, '1234');
+      await pumpUntil(tester, find.text('Enabled'));
 
       // Setup succeeds and returns to the method list with PIN now enabled.
       expect(find.text('Enter new PIN'), findsNothing);
@@ -110,12 +121,24 @@ void main() {
       );
       expect(repository.getAllNotes().single.isHidden, isTrue);
 
+      // --- F4: a widget deep link to the hidden id must hit the challenge ---
+      final hiddenId = repository.getAllNotes().single.id;
+      WidgetDeepLinkService.instance.handle(
+        Uri.parse('com.rizz.kawainotes://widget-note?noteId=$hiddenId'),
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('Verify Identity'), findsOneWidget);
+      expect(find.text('Secret note'), findsNothing);
+      await tester.tap(find.byIcon(Icons.close));
+      await tester.pumpAndSettle();
+
       // --- Unlock the hidden notes vault with the PIN ---
       await tester.tap(find.byIcon(Icons.lock_outline));
       await tester.pumpAndSettle();
       expect(find.text('Hidden Notes'), findsOneWidget);
 
       await enterPin(tester, '1234');
+      await pumpUntil(tester, find.text('Secret note'));
 
       // Landed on the hidden notes screen with the note visible.
       expect(find.text('Secret note'), findsOneWidget);
@@ -128,6 +151,18 @@ void main() {
 
       expect(find.text('Secret note'), findsNothing);
       expect(repository.getAllNotes().single.isHidden, isFalse);
+
+      // --- NEW-7: the hidden-list FAB creates a hidden note ---
+      await tester.tap(find.byType(FloatingActionButton));
+      await tester.pumpAndSettle();
+      await tester.enterText(find.byType(TextField).first, 'Vault note');
+      await tester.pumpAndSettle();
+      await tester.tap(find.byIcon(Icons.check));
+      await tester.pumpAndSettle();
+      final vault = repository.getAllNotes().where(
+        (n) => n.title == 'Vault note',
+      );
+      expect(vault.single.isHidden, isTrue);
     },
   );
 }

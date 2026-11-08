@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kawai_notes/core/extensions/logger_extension.dart';
+import 'package:kawai_notes/core/services/encryption_service.dart';
 import 'package:kawai_notes/di/repository_providers.dart';
 import 'package:kawai_notes/feature/notes/models/note.dart';
 import 'package:kawai_notes/feature/notes/providers/note_list_provider.dart';
+import 'package:kawai_notes/feature/notes/providers/note_widget_sync.dart';
 import 'package:kawai_notes/feature/notes/repositories/note_repository.dart';
 
 final hiddenNoteListNotifierProvider =
@@ -58,6 +60,13 @@ class HiddenNoteListNotifier extends AsyncNotifier<NoteListState> {
     return NoteListState(items: filtered, query: query);
   }
 
+  // * Re-reads the list but keeps the active search query (invalidateSelf
+  // * would rebuild with an empty query and drop the user's filter).
+  Future<void> _reload() async {
+    final query = state.value?.query ?? '';
+    state = AsyncData(await _fetch(query: query));
+  }
+
   Future<void> search(String query) async {
     final generation = ++_searchGeneration;
     state = const AsyncLoading<NoteListState>();
@@ -74,22 +83,26 @@ class HiddenNoteListNotifier extends AsyncNotifier<NoteListState> {
     state = AsyncData(current.copyWith(isMutating: true, mutationError: () => null));
 
     try {
+      Object? firstError;
       for (final id in ids) {
-        final note = _noteRepository.getNote(id);
-        if (note != null) {
-          final content = await _noteRepository.getNoteContent(note);
-          await _noteRepository.saveNote(
-            id: note.id,
-            ulid: note.ulid,
-            title: note.title,
-            content: content,
-            folderId: note.folder.targetId,
-            isHidden: false,
-          );
+        try {
+          await _noteRepository.setNoteHidden(id, isHidden: false);
+        } on DecryptionException catch (e) {
+          // ! undecryptable notes stay hidden with their ciphertext intact
+          logError('Unhide skipped, note cannot be decrypted: $id', e);
+          firstError ??= e;
         }
       }
+      await syncNoteWidgets(ref, ids);
       ref.invalidate(noteListNotifierProvider);
-      ref.invalidateSelf();
+      if (firstError != null) {
+        final refreshed = await _fetch(query: current.query);
+        state = AsyncData(
+          refreshed.copyWith(mutationError: () => firstError),
+        );
+        return;
+      }
+      await _reload();
     } catch (e) {
       state = AsyncData(current.copyWith(isMutating: false, mutationError: () => e));
     }
@@ -99,6 +112,7 @@ class HiddenNoteListNotifier extends AsyncNotifier<NoteListState> {
     for (final id in ids) {
       await _noteRepository.deleteNote(id);
     }
-    ref.invalidateSelf();
+    await syncNoteWidgets(ref, ids);
+    await _reload();
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:kawai_notes/core/services/encryption_service.dart';
 import 'package:kawai_notes/core/services/note_file_service.dart';
 import 'package:kawai_notes/di/repository_providers.dart';
+import 'package:kawai_notes/feature/notes/providers/hidden_note_list_provider.dart';
 import 'package:kawai_notes/feature/notes/providers/note_detail_provider.dart';
 import 'package:kawai_notes/feature/notes/repositories/note_repository.dart';
 import 'package:mocktail/mocktail.dart';
@@ -36,6 +37,7 @@ void main() {
       testStore.service,
       MockNoteFileService(),
       encryptionService,
+      isHiddenUnlocked: () => true,
     );
     container = ProviderContainer(
       overrides: [noteRepositoryProvider.overrideWithValue(repository)],
@@ -112,5 +114,20 @@ void main() {
     final saved = repository.getNote(note.id)!;
     expect(saved.isHidden, isTrue);
     expect(saved.content, 'enc:plain');
+  });
+
+  test('saving a new hidden note refreshes the live hidden list', () async {
+    final sub = container.listen(hiddenNoteListNotifierProvider, (_, _) {});
+    addTearDown(sub.close);
+    final before = await container.read(hiddenNoteListNotifierProvider.future);
+    expect(before.items, isEmpty);
+
+    await container.read(noteDetailNotifierProvider(null).future);
+    await container
+        .read(noteDetailNotifierProvider(null).notifier)
+        .saveNote(title: 'Vault note', content: 'x', isHidden: true);
+
+    final after = await container.read(hiddenNoteListNotifierProvider.future);
+    expect(after.items.map((n) => n.title), ['Vault note']);
   });
 }

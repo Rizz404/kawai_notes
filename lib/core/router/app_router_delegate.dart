@@ -4,6 +4,7 @@ import 'package:kawai_notes/core/extensions/localization_extension.dart';
 import 'package:kawai_notes/core/extensions/logger_extension.dart';
 import 'package:kawai_notes/core/router/app_custom_transition_page.dart';
 import 'package:kawai_notes/core/router/app_route.dart';
+import 'package:kawai_notes/core/router/app_route_parser.dart';
 import 'package:kawai_notes/core/router/app_route_state.dart';
 import 'package:kawai_notes/core/utils/toast_utils.dart';
 import 'package:kawai_notes/shared/widgets/app_text.dart';
@@ -88,6 +89,19 @@ class AppRouterDelegate extends RouterDelegate<AppRouteState>
       _pages.removeLast();
     }
     _setPath(path, extra: extra, replace: false);
+  }
+
+  /// Global (non-shell) pages, bottom first.
+  List<Page<dynamic>> get globalPages => List.unmodifiable(_pages);
+
+  /// Removes every global page matching [test]; returns how many were
+  /// removed.
+  int removeGlobalPagesWhere(bool Function(Page<dynamic> page) test) {
+    final before = _pages.length;
+    _pages.removeWhere(test);
+    final removed = before - _pages.length;
+    if (removed > 0) notifyListeners();
+    return removed;
   }
 
   /// Returns true if the navigator can pop top most route.
@@ -211,6 +225,7 @@ class AppRouterDelegate extends RouterDelegate<AppRouteState>
           page = AppCustomTransitionPage<dynamic>(
             key: pageKey,
             name: uri.toString(),
+            arguments: routeState,
             child: child,
             transitionsBuilder: routeMatch.transitionsBuilder!,
             transitionDuration: routeMatch.transitionDuration,
@@ -219,6 +234,7 @@ class AppRouterDelegate extends RouterDelegate<AppRouteState>
           page = MaterialPage<dynamic>(
             key: pageKey,
             name: uri.toString(),
+            arguments: routeState,
             child: child,
           );
         }
@@ -442,6 +458,10 @@ class AppRouterDelegate extends RouterDelegate<AppRouteState>
 
   @override
   Future<void> setNewRoutePath(AppRouteState configuration) async {
+    if (configuration.extra[widgetLinkMarker] == true) {
+      logInfo('[Router] ignoring engine copy of a widget deep link');
+      return;
+    }
     final uri = Uri.parse(configuration.path);
     if (_pages.isNotEmpty && _pages.last.name == uri.toString()) {
       return;

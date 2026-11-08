@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kawai_notes/di/repository_providers.dart';
 import 'package:kawai_notes/feature/notes/models/note.dart';
 import 'package:kawai_notes/feature/notes/providers/note_providers.dart';
+import 'package:kawai_notes/feature/notes/providers/note_widget_sync.dart';
 
 final trashListNotifierProvider =
     AsyncNotifierProvider.autoDispose<TrashListNotifier, List<Note>>(
@@ -24,6 +25,7 @@ class TrashListNotifier extends AsyncNotifier<List<Note>> {
 
   Future<void> restoreNote(int id) async {
     await ref.read(noteRepositoryProvider).restoreNote(id);
+    await syncNoteWidgets(ref, [id]);
     ref.invalidate(noteListNotifierProvider);
     ref.invalidateSelf();
   }
@@ -33,11 +35,13 @@ class TrashListNotifier extends AsyncNotifier<List<Note>> {
     for (final note in notes) {
       await ref.read(noteRepositoryProvider).hardDeleteNote(note.id);
     }
+    await syncNoteWidgets(ref, notes.map((n) => n.id));
     ref.invalidateSelf();
   }
 
   Future<void> deletePermanently(int id) async {
     await ref.read(noteRepositoryProvider).hardDeleteNote(id);
+    await syncNoteWidgets(ref, [id]);
     ref.invalidateSelf();
   }
 }

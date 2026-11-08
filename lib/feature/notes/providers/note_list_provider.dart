@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kawai_notes/di/repository_providers.dart';
 import 'package:kawai_notes/feature/notes/models/note.dart';
+import 'package:kawai_notes/feature/notes/providers/note_widget_sync.dart';
 import 'package:kawai_notes/feature/notes/repositories/note_repository.dart';
 
 class NoteListState extends Equatable {
@@ -83,6 +84,13 @@ class NoteListNotifier extends AsyncNotifier<NoteListState> {
     return NoteListState(items: filtered, query: query);
   }
 
+  // * Re-reads the list but keeps the active search query (invalidateSelf
+  // * would rebuild with an empty query and drop the user's filter).
+  Future<void> _reload() async {
+    final query = state.value?.query ?? '';
+    state = AsyncData(await _fetch(query: query));
+  }
+
   Future<void> search(String query) async {
     final generation = ++_searchGeneration;
     state = const AsyncLoading<NoteListState>();
@@ -102,7 +110,8 @@ class NoteListNotifier extends AsyncNotifier<NoteListState> {
 
     try {
       await _noteRepository.deleteNote(id);
-      ref.invalidateSelf();
+      await syncNoteWidgets(ref, [id]);
+      await _reload();
     } catch (e) {
       state = AsyncData(
         current.copyWith(isMutating: false, mutationError: () => e),
@@ -118,20 +127,10 @@ class NoteListNotifier extends AsyncNotifier<NoteListState> {
 
     try {
       for (final id in ids) {
-        final note = _noteRepository.getNote(id);
-        if (note != null) {
-          final content = await _noteRepository.getNoteContent(note);
-          await _noteRepository.saveNote(
-            id: note.id,
-            ulid: note.ulid,
-            title: note.title,
-            content: content,
-            folderId: note.folder.targetId,
-            isHidden: true,
-          );
-        }
+        await _noteRepository.setNoteHidden(id, isHidden: true);
       }
-      ref.invalidateSelf();
+      await syncNoteWidgets(ref, ids);
+      await _reload();
     } catch (e) {
       state = AsyncData(current.copyWith(isMutating: false, mutationError: () => e));
     }
@@ -141,14 +140,15 @@ class NoteListNotifier extends AsyncNotifier<NoteListState> {
     for (final id in ids) {
       await _noteRepository.deleteNote(id);
     }
-    ref.invalidateSelf();
+    await syncNoteWidgets(ref, ids);
+    await _reload();
   }
 
   Future<void> pinNotes(List<int> ids, {required bool isPinned}) async {
     for (final id in ids) {
       await _noteRepository.updateNotePin(id, isPinned);
     }
-    ref.invalidateSelf();
+    await _reload();
   }
 
   Future<void> batchUpdateBackground(
@@ -156,30 +156,13 @@ class NoteListNotifier extends AsyncNotifier<NoteListState> {
     int? colorValue,
     String? customBackgroundImage,
   }) async {
-    // Mutually exclusive check
-    int? finalColorValue = colorValue;
-    String? finalBgImage = customBackgroundImage;
-
-    if (colorValue != null) finalBgImage = null;
-    if (customBackgroundImage != null) finalColorValue = null;
-
     for (final id in ids) {
-      final note = _noteRepository.getNote(id);
-      if (note != null) {
-        final content = await _noteRepository.getNoteContent(note);
-        await _noteRepository.saveNote(
-          id: note.id,
-          ulid: note.ulid,
-          title: note.title,
-          content: content,
-          folderId: note.folder.targetId,
-          isHidden: note.isHidden,
-          isPinned: note.isPinned,
-          colorValue: finalColorValue,
-          customBackgroundImage: finalBgImage,
-        );
-      }
+      await _noteRepository.updateNoteBackground(
+        id,
+        colorValue: colorValue,
+        customBackgroundImage: customBackgroundImage,
+      );
     }
-    ref.invalidateSelf();
+    await _reload();
   }
 }

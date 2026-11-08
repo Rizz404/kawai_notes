@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kawai_notes/core/extensions/theme_extension.dart';
 import 'package:kawai_notes/core/services/hidden_notes_auth_service.dart';
 import 'package:kawai_notes/di/service_providers.dart';
+import 'package:kawai_notes/feature/notes/providers/hidden_notes_session_provider.dart';
 import 'package:kawai_notes/feature/notes/widgets/pattern_entry_widget.dart';
 import 'package:kawai_notes/feature/notes/widgets/pin_entry_widget.dart';
 import 'package:kawai_notes/shared/widgets/app_text.dart';
@@ -30,6 +33,10 @@ class _HiddenNotesAuthBodyState extends ConsumerState<HiddenNotesAuthBody> {
   int _pinResetKey = 0;
   int _patternResetKey = 0;
 
+  // * no credential configured: the user must set up a PIN explicitly
+  bool _setupMode = false;
+  String? _pendingSetupPin;
+
   @override
   void initState() {
     super.initState();
@@ -42,7 +49,10 @@ class _HiddenNotesAuthBodyState extends ConsumerState<HiddenNotesAuthBody> {
     if (!mounted) return;
 
     if (methods.isEmpty) {
-      widget.onSuccess();
+      setState(() {
+        _setupMode = true;
+        _loading = false;
+      });
       return;
     }
 
@@ -53,7 +63,7 @@ class _HiddenNotesAuthBodyState extends ConsumerState<HiddenNotesAuthBody> {
 
     if (methods.contains(HiddenNotesAuthMethod.biometric)) {
       setState(() => _currentMethod = HiddenNotesAuthMethod.biometric);
-      _tryBiometric();
+      unawaited(_tryBiometric());
     } else {
       setState(() => _currentMethod = methods.first);
     }
@@ -61,7 +71,11 @@ class _HiddenNotesAuthBodyState extends ConsumerState<HiddenNotesAuthBody> {
 
   Future<void> _tryBiometric() async {
     final service = ref.read(hiddenNotesAuthServiceProvider);
-    final ok = await service.authenticateWithBiometric();
+    // * the biometric prompt can pause the app; that must not count as
+    // * leaving the vault
+    final ok = await ref
+        .read(hiddenNotesSessionProvider.notifier)
+        .runTransient(service.authenticateWithBiometric);
     if (!mounted) return;
     if (ok) {
       widget.onSuccess();
@@ -76,17 +90,61 @@ class _HiddenNotesAuthBodyState extends ConsumerState<HiddenNotesAuthBody> {
     });
   }
 
+  Future<void> _onSetupPinComplete(String pin) async {
+    final pending = _pendingSetupPin;
+    if (pending == null) {
+      setState(() {
+        _pendingSetupPin = pin;
+        _errorMessage = null;
+        _pinResetKey++;
+      });
+      return;
+    }
+    if (pending != pin) {
+      setState(() {
+        _pendingSetupPin = null;
+        _errorMessage = "PINs don't match. Try again.";
+        _pinResetKey++;
+      });
+      return;
+    }
+    try {
+      await ref.read(hiddenNotesAuthServiceProvider).setupPin(pin);
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _pendingSetupPin = null;
+        _errorMessage = 'Could not save the PIN. Try again.';
+        _pinResetKey++;
+      });
+      return;
+    }
+    if (mounted) widget.onSuccess();
+  }
+
+  /// Error text after a failed verify: the lockout, if one is active.
+  Future<String> _failureMessage(String wrong) async {
+    final remaining = await ref
+        .read(hiddenNotesAuthServiceProvider)
+        .lockoutRemaining();
+    if (remaining == Duration.zero) return wrong;
+    final seconds = (remaining.inMilliseconds / 1000).ceil();
+    return 'Too many attempts. Try again in ${seconds}s.';
+  }
+
   Future<void> _onPinComplete(String pin) async {
     final ok = await ref.read(hiddenNotesAuthServiceProvider).verifyPin(pin);
     if (!mounted) return;
     if (ok) {
       widget.onSuccess();
-    } else {
-      setState(() {
-        _errorMessage = 'Wrong PIN. Try again.';
-        _pinResetKey++;
-      });
+      return;
     }
+    final message = await _failureMessage('Wrong PIN. Try again.');
+    if (!mounted) return;
+    setState(() {
+      _errorMessage = message;
+      _pinResetKey++;
+    });
   }
 
   Future<void> _onPatternComplete(List<int> pattern) async {
@@ -95,12 +153,14 @@ class _HiddenNotesAuthBodyState extends ConsumerState<HiddenNotesAuthBody> {
     if (!mounted) return;
     if (ok) {
       widget.onSuccess();
-    } else {
-      setState(() {
-        _errorMessage = 'Wrong pattern. Try again.';
-        _patternResetKey++;
-      });
+      return;
     }
+    final message = await _failureMessage('Wrong pattern. Try again.');
+    if (!mounted) return;
+    setState(() {
+      _errorMessage = message;
+      _patternResetKey++;
+    });
   }
 
   Future<void> _onPasswordSubmit(String password) async {
@@ -110,9 +170,11 @@ class _HiddenNotesAuthBodyState extends ConsumerState<HiddenNotesAuthBody> {
     if (!mounted) return;
     if (ok) {
       widget.onSuccess();
-    } else {
-      setState(() => _errorMessage = 'Wrong password. Try again.');
+      return;
     }
+    final message = await _failureMessage('Wrong password. Try again.');
+    if (!mounted) return;
+    setState(() => _errorMessage = message);
   }
 
   List<HiddenNotesAuthMethod> get _alternatives =>
@@ -138,7 +200,7 @@ class _HiddenNotesAuthBodyState extends ConsumerState<HiddenNotesAuthBody> {
             const SizedBox(height: 12),
             const AppText('Hidden Notes', style: AppTextStyle.titleMedium),
             const SizedBox(height: 32),
-            _buildCurrentMethod(),
+            if (_setupMode) _buildSetup() else _buildCurrentMethod(),
             if (_alternatives.isNotEmpty) ...[
               const SizedBox(height: 24),
               _buildAlternatives(),
@@ -173,6 +235,26 @@ class _HiddenNotesAuthBodyState extends ConsumerState<HiddenNotesAuthBody> {
         ),
       null => const SizedBox.shrink(),
     };
+  }
+
+  Widget _buildSetup() {
+    final confirming = _pendingSetupPin != null;
+    return Column(
+      children: [
+        AppText(
+          confirming
+              ? 'Confirm your new PIN'
+              : 'Set up a PIN to protect hidden notes',
+          style: AppTextStyle.bodyMedium,
+        ),
+        const SizedBox(height: 16),
+        PinEntryWidget(
+          key: ValueKey('setup_$_pinResetKey'),
+          onPinComplete: _onSetupPinComplete,
+          errorMessage: _errorMessage,
+        ),
+      ],
+    );
   }
 
   Widget _buildBiometric() {
@@ -219,7 +301,9 @@ class _HiddenNotesAuthBodyState extends ConsumerState<HiddenNotesAuthBody> {
                       _currentMethod = m;
                       _errorMessage = null;
                     });
-                    if (m == HiddenNotesAuthMethod.biometric) _tryBiometric();
+                    if (m == HiddenNotesAuthMethod.biometric) {
+                      unawaited(_tryBiometric());
+                    }
                   },
                   child: AppText(_label(m)),
                 ),

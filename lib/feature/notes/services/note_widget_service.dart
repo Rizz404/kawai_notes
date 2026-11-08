@@ -14,6 +14,35 @@ class NoteWidgetService {
   // Key prefix di SharedPreferences biasa untuk tracking pemetaan widget→note
   static const String _trackingPrefix = 'kawai_widget_note_id_';
 
+  // Placeholder yang ditampilkan widget untuk catatan tersembunyi/terhapus,
+  // agar isi catatan tidak pernah tersimpan di prefs widget.
+  static const String hiddenTitle = 'Catatan tersembunyi';
+  static const String deletedTitle = 'Catatan dihapus';
+
+  static ({String title, String preview}) _displayFor(
+    Note note,
+    String contentPreview,
+  ) {
+    if (note.isHidden) return (title: hiddenTitle, preview: '');
+    if (note.isDeleted) return (title: deletedTitle, preview: '');
+    final title = note.title.isEmpty ? 'Tanpa judul' : note.title;
+    final preview = contentPreview.length > 300
+        ? '${contentPreview.substring(0, 300)}...'
+        : contentPreview;
+    return (title: title, preview: preview);
+  }
+
+  static List<int> _widgetIdsForNote(SharedPreferences prefs, int noteId) {
+    final ids = <int>[];
+    for (final key in prefs.getKeys()) {
+      if (!key.startsWith(_trackingPrefix)) continue;
+      if (prefs.getInt(key) != noteId) continue;
+      final widgetId = int.tryParse(key.replaceFirst(_trackingPrefix, ''));
+      if (widgetId != null) ids.add(widgetId);
+    }
+    return ids;
+  }
+
   /// Simpan data catatan untuk sebuah widget dan trigger pembaruan tampilan.
   static Future<void> saveWidget({
     required SharedPreferences prefs,
@@ -21,10 +50,7 @@ class NoteWidgetService {
     required Note note,
     required String contentPreview,
   }) async {
-    final title = note.title.isEmpty ? 'Tanpa judul' : note.title;
-    final preview = contentPreview.length > 300
-        ? '${contentPreview.substring(0, 300)}...'
-        : contentPreview;
+    final (:title, :preview) = _displayFor(note, contentPreview);
 
     // Simpan ke HomeWidgetPlugin agar NoteWidgetProvider.kt bisa membacanya
     await HomeWidget.saveWidgetData('widget_note_id_$widgetId', note.id);
@@ -49,38 +75,31 @@ class NoteWidgetService {
     await HomeWidget.updateWidget(androidName: _androidWidgetName);
   }
 
-  /// Update semua widget yang menampilkan [noteId] dengan konten terbaru.
-  /// Dipanggil setelah note disimpan di editor.
+  /// Update semua widget yang menampilkan [note] dengan konten terbaru.
+  /// Catatan tersembunyi atau di tempat sampah ditampilkan sebagai placeholder.
   static Future<void> refreshWidgetsForNote({
     required SharedPreferences prefs,
-    required int noteId,
-    required String title,
+    required Note note,
     required String contentPreview,
   }) async {
-    final displayTitle = title.isEmpty ? 'Tanpa judul' : title;
-    final preview = contentPreview.length > 300
-        ? '${contentPreview.substring(0, 300)}...'
-        : contentPreview;
+    final widgetIds = _widgetIdsForNote(prefs, note.id);
+    if (widgetIds.isEmpty) return;
 
-    bool hasUpdated = false;
-    final keys = prefs.getKeys();
-
-    for (final key in keys) {
-      if (!key.startsWith(_trackingPrefix)) continue;
-      final storedNoteId = prefs.getInt(key);
-      if (storedNoteId != noteId) continue;
-
-      final widgetIdStr = key.replaceFirst(_trackingPrefix, '');
-      final widgetId = int.tryParse(widgetIdStr);
-      if (widgetId == null) continue;
-
-      await HomeWidget.saveWidgetData('widget_note_title_$widgetId', displayTitle);
+    final (:title, :preview) = _displayFor(note, contentPreview);
+    for (final widgetId in widgetIds) {
+      await HomeWidget.saveWidgetData('widget_note_title_$widgetId', title);
       await HomeWidget.saveWidgetData('widget_note_content_$widgetId', preview);
-      hasUpdated = true;
     }
+    await HomeWidget.updateWidget(androidName: _androidWidgetName);
+  }
 
-    if (hasUpdated) {
-      await HomeWidget.updateWidget(androidName: _androidWidgetName);
+  /// Reset semua widget yang menampilkan [noteId] (catatan dihapus permanen).
+  static Future<void> clearWidgetsForNote({
+    required SharedPreferences prefs,
+    required int noteId,
+  }) async {
+    for (final widgetId in _widgetIdsForNote(prefs, noteId)) {
+      await clearWidget(prefs: prefs, widgetId: widgetId);
     }
   }
 

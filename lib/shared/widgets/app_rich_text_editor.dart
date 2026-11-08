@@ -16,12 +16,18 @@ class AppRichTextEditor extends FormBuilderField<String> {
   final Widget? bottomActions;
   final TextStyle? textStyle;
 
+  /// Wraps the system image picker call (e.g. so the hidden vault treats it
+  /// as transient system UI). Defaults to calling it directly.
+  final Future<XFile?> Function(Future<XFile?> Function() pick)?
+  pickImageRunner;
+
   AppRichTextEditor({
     super.key,
     required super.name,
     this.showToolbar = true,
     this.bottomActions,
     this.textStyle,
+    this.pickImageRunner,
     super.focusNode,
     super.validator,
     super.onChanged,
@@ -172,7 +178,9 @@ class _AppRichTextEditorState
 
   Future<void> _pickAndInsertImage() async {
     try {
-      final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+      Future<XFile?> pick() => _picker.pickImage(source: ImageSource.gallery);
+      final runner = widget.pickImageRunner;
+      final XFile? image = runner == null ? await pick() : await runner(pick);
       if (image == null) return;
 
       final docsDir = await getApplicationDocumentsDirectory();

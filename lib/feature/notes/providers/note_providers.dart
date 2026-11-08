@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kawai_notes/core/extensions/markdown_parser_extension.dart';
 import 'package:kawai_notes/core/extensions/riverpod_extension.dart';
+import 'package:kawai_notes/core/services/encryption_service.dart';
 import 'package:kawai_notes/di/repository_providers.dart';
 
 export 'note_detail_provider.dart';
@@ -28,8 +29,12 @@ class NotePreviewNotifier extends AsyncNotifier<String> {
     final repo = ref.read(noteRepositoryProvider);
     final note = repo.getNote(_noteId);
     if (note == null) return '';
-    final content = await repo.getNoteContent(note);
-    return content.toPlainText();
+    try {
+      final content = await repo.getNoteContent(note);
+      return content.toPlainText();
+    } on DecryptionException {
+      return '';
+    }
   }
 }
 

@@ -17,6 +17,7 @@ import 'package:kawai_notes/core/constants/storage_key_constant.dart';
 import 'package:kawai_notes/core/extensions/localization_extension.dart';
 import 'package:kawai_notes/core/extensions/logger_extension.dart';
 import 'package:kawai_notes/core/router/app_router_provider.dart';
+import 'package:kawai_notes/core/router/widget_deep_link_navigator.dart';
 import 'package:kawai_notes/core/services/backup_service.dart';
 import 'package:kawai_notes/core/services/encryption_service.dart';
 import 'package:kawai_notes/core/services/note_file_service.dart';
@@ -24,10 +25,14 @@ import 'package:kawai_notes/core/services/notification_service.dart';
 import 'package:kawai_notes/core/services/objectbox_service.dart';
 import 'package:kawai_notes/core/services/widget_deep_link_service.dart';
 import 'package:kawai_notes/core/themes/app_theme.dart';
+import 'package:kawai_notes/core/utils/log_redaction.dart';
 import 'package:kawai_notes/core/utils/logger.dart';
+import 'package:kawai_notes/core/utils/startup_guard.dart';
 import 'package:kawai_notes/core/utils/talker_config.dart';
 import 'package:kawai_notes/di/common_providers.dart';
+import 'package:kawai_notes/di/repository_providers.dart';
 import 'package:kawai_notes/di/service_providers.dart';
+import 'package:kawai_notes/feature/notes/providers/hidden_notes_session_provider.dart';
 import 'package:kawai_notes/feature/notes/repositories/note_repository.dart';
 import 'package:kawai_notes/l10n/app_localizations.dart';
 import 'package:kawai_notes/shared/widgets/app_text.dart';
@@ -65,7 +70,7 @@ Future<void> main() async {
     }
 
     // * Pre-cache main font selagi splash screen
-    await GoogleFonts.pendingFonts();
+    await precacheWithTimeout(GoogleFonts.pendingFonts);
 
     // * Storage
     const secureStorage = FlutterSecureStorage();
@@ -86,6 +91,7 @@ Future<void> main() async {
       objectBoxService,
       preferences,
       notificationService,
+      supabaseClient: _supabaseClientOrNull(),
     );
     await backupService.runAutoBackup();
 
@@ -104,7 +110,9 @@ Future<void> main() async {
     Uri? initialWidgetUri;
 
     if (initialUri != null) {
-      AppLogger.instance.logInfo('Initial deep link (cold start): $initialUri');
+      AppLogger.instance.logInfo(
+        'Initial deep link (cold start): ${redactUriForLog(initialUri)}',
+      );
       if (WidgetDeepLinkService.isWidgetUri(initialUri)) {
         // URI dari klik widget — tunda navigasi sampai Flutter tree siap
         initialWidgetUri = initialUri;
@@ -135,7 +143,7 @@ Future<void> main() async {
 
     // * Pasang listener foreground SETELAH runApp — tidak ada race condition di sini
     appLinks.uriLinkStream.listen((uri) {
-      AppLogger.instance.logInfo('Deep link diterima (foreground): $uri');
+      AppLogger.instance.logInfo('Deep link diterima (foreground): ${redactUriForLog(uri)}');
       if (WidgetDeepLinkService.isWidgetUri(uri)) {
         WidgetDeepLinkService.instance.handle(uri);
       } else {
@@ -170,6 +178,14 @@ Future<void> main() async {
   }
 }
 
+SupabaseClient? _supabaseClientOrNull() {
+  try {
+    return Supabase.instance.client;
+  } catch (_) {
+    return null;
+  }
+}
+
 Future<void> _handleDeepLink(Uri uri) async {
   try {
     final client = Supabase.instance.client;
@@ -189,12 +205,13 @@ class MyApp extends ConsumerStatefulWidget {
   ConsumerState<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends ConsumerState<MyApp> {
+class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
   StreamSubscription<Uri>? _widgetUriSub;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
 
     // Handle URI dari cold start (app dibuka pertama kali dari klik widget)
     if (widget.initialWidgetUri != null) {
@@ -211,23 +228,25 @@ class _MyAppState extends ConsumerState<MyApp> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _widgetUriSub?.cancel();
     super.dispose();
   }
 
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // * single lock owner: the vault never stays unlocked while the app is
+    // * backgrounded, except briefly for system UI the app opened itself
+    ref.read(hiddenNotesSessionProvider.notifier).handleLifecycle(state);
+  }
+
   void _navigateFromWidgetUri(Uri uri) {
-    final router = ref.read(routerDelegateProvider);
-    if (uri.host == 'widget-note') {
-      final noteId = int.tryParse(uri.queryParameters['noteId'] ?? '');
-      if (noteId != null) {
-        router.push('/note-editor', extra: {'id': noteId});
-      }
-    } else if (uri.host == 'widget-config') {
-      final widgetId = int.tryParse(uri.queryParameters['widgetId'] ?? '');
-      if (widgetId != null) {
-        router.push('/widget-config', extra: {'widgetId': widgetId});
-      }
-    }
+    unawaited(
+      WidgetDeepLinkNavigator(
+        router: ref.read(routerDelegateProvider),
+        findNote: ref.read(noteRepositoryProvider).getNote,
+      ).open(uri),
+    );
   }
 
   @override

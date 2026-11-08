@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,7 +7,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:kawai_notes/core/extensions/localization_extension.dart';
 import 'package:kawai_notes/core/extensions/navigator_extension.dart';
 import 'package:kawai_notes/core/utils/toast_utils.dart';
+import 'package:kawai_notes/feature/notes/providers/hidden_notes_session_provider.dart';
 import 'package:kawai_notes/feature/notes/providers/note_providers.dart';
+import 'package:kawai_notes/feature/notes/widgets/note_color_picker.dart';
 import 'package:kawai_notes/shared/widgets/app_rich_text_editor.dart';
 import 'package:kawai_notes/shared/widgets/app_text.dart';
 import 'package:kawai_notes/shared/widgets/app_text_field.dart';
@@ -20,7 +21,15 @@ class NoteEditorScreen extends ConsumerStatefulWidget {
   final int? noteId;
   final String? initialTitle;
 
-  const NoteEditorScreen({super.key, this.noteId, this.initialTitle});
+  /// Creates the new note directly in the hidden vault (encrypted).
+  final bool isHidden;
+
+  const NoteEditorScreen({
+    super.key,
+    this.noteId,
+    this.initialTitle,
+    this.isHidden = false,
+  });
 
   @override
   ConsumerState<NoteEditorScreen> createState() => _NoteEditorScreenState();
@@ -56,8 +65,9 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
     } else {
       // * edit note: init dari cache agar save tidak terlewat saat lifecycle pause
       // * sebelum listener sempat fire
-      final cachedState =
-          ref.read(noteDetailNotifierProvider(widget.noteId)).value;
+      final cachedState = ref
+          .read(noteDetailNotifierProvider(widget.noteId))
+          .value;
       if (cachedState != null) {
         _isPinned = cachedState.note?.isPinned ?? false;
         _colorValue = cachedState.note?.colorValue;
@@ -83,28 +93,11 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
   }
 
   Future<void> _pickColor() async {
-    final Color newColor = await showColorPickerDialog(
+    final newColor = await showNoteColorPicker(
       context,
       _colorValue != null ? Color(_colorValue!) : Colors.white,
-      title: AppText(context.l10n.notesPickColor, fontSize: 20),
-      width: 40,
-      height: 40,
-      spacing: 0,
-      runSpacing: 0,
-      borderRadius: 0,
-      wheelDiameter: 165,
-      enableOpacity: true,
-      showColorCode: true,
-      colorCodeHasColor: true,
-      pickersEnabled: const <ColorPickerType, bool>{
-        ColorPickerType.both: false,
-        ColorPickerType.primary: true,
-        ColorPickerType.accent: true,
-        ColorPickerType.bw: false,
-        ColorPickerType.custom: true,
-        ColorPickerType.wheel: true,
-      },
     );
+    if (newColor == null || !mounted) return;
 
     setState(() {
       _colorValue = newColor.toARGB32();
@@ -114,9 +107,16 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
     });
   }
 
+  /// System pickers briefly background the app; inside the hidden vault
+  /// that must not lock it (see HiddenNotesSessionNotifier.runTransient).
+  Future<T> _runTransient<T>(Future<T> Function() action) =>
+      ref.read(hiddenNotesSessionProvider.notifier).runTransient(action);
+
   Future<void> _pickImage() async {
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    final pickedFile = await _runTransient(
+      () => picker.pickImage(source: ImageSource.gallery),
+    );
     if (pickedFile != null) {
       final appDir = await getApplicationDocumentsDirectory();
       final extension = path.extension(pickedFile.path);
@@ -176,6 +176,7 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
       notifier.saveNote(
         title: title,
         content: content,
+        isHidden: widget.isHidden ? true : null,
         isPinned: _isPinned,
         colorValue: _colorValue,
         clearColor: _clearColor,
@@ -188,6 +189,7 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
   @override
   Widget build(BuildContext context) {
     final stateAsync = ref.watch(noteDetailNotifierProvider(widget.noteId));
+    final isLocked = stateAsync.value?.decryptFailed ?? false;
 
     ref.listen<AsyncValue<NoteDetailState>>(
       noteDetailNotifierProvider(widget.noteId),
@@ -261,34 +263,36 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
                   : context.l10n.notesEdit,
             ),
             actions: [
-              IconButton(
-                icon: const Icon(Icons.palette_outlined),
-                onPressed: _pickColor,
-              ),
-              IconButton(
-                icon: const Icon(Icons.image_outlined),
-                onPressed: _pickImage,
-              ),
-              if (_colorValue != null || _customBackgroundImage != null)
+              if (!isLocked) ...[
                 IconButton(
-                  icon: const Icon(Icons.format_color_reset),
+                  icon: const Icon(Icons.palette_outlined),
+                  onPressed: _pickColor,
+                ),
+                IconButton(
+                  icon: const Icon(Icons.image_outlined),
+                  onPressed: _pickImage,
+                ),
+                if (_colorValue != null || _customBackgroundImage != null)
+                  IconButton(
+                    icon: const Icon(Icons.format_color_reset),
+                    onPressed: () => setState(() {
+                      _colorValue = null;
+                      _customBackgroundImage = null;
+                      _clearColor = true;
+                      _clearBackground = true;
+                      _isDirty = true;
+                    }),
+                  ),
+                IconButton(
+                  icon: Icon(
+                    _isPinned ? Icons.push_pin : Icons.push_pin_outlined,
+                  ),
                   onPressed: () => setState(() {
-                    _colorValue = null;
-                    _customBackgroundImage = null;
-                    _clearColor = true;
-                    _clearBackground = true;
+                    _isPinned = !_isPinned;
                     _isDirty = true;
                   }),
                 ),
-              IconButton(
-                icon: Icon(
-                  _isPinned ? Icons.push_pin : Icons.push_pin_outlined,
-                ),
-                onPressed: () => setState(() {
-                  _isPinned = !_isPinned;
-                  _isDirty = true;
-                }),
-              ),
+              ],
               IconButton(
                 icon: const Icon(Icons.check),
                 onPressed: () {
@@ -299,6 +303,11 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
           ),
           body: stateAsync.when(
             data: (state) {
+              if (state.decryptFailed) {
+                return const _DecryptFailedView(
+                  key: Key('note_decrypt_failed'),
+                );
+              }
               Widget contentWrapper = ScreenWrapper(
                 child: Stack(
                   children: [
@@ -339,6 +348,7 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
                                 height: 1.5,
                               ),
                               onChanged: (_) => _isDirty = true,
+                              pickImageRunner: _runTransient,
                             ),
                           ),
                         ],
@@ -355,6 +365,38 @@ class _NoteEditorScreenState extends ConsumerState<NoteEditorScreen>
               child: AppText(context.l10n.notesError(error.toString())),
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Shown instead of the editor when a hidden note cannot be decrypted, so
+/// nothing can be typed or saved over the original ciphertext.
+class _DecryptFailedView extends StatelessWidget {
+  const _DecryptFailedView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Padding(
+        padding: EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.lock_outline, size: 48),
+            SizedBox(height: 16),
+            AppText(
+              'This hidden note cannot be decrypted on this device.',
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 8),
+            AppText(
+              'Its encrypted content is kept unchanged. Restore the original '
+              'encryption key to read it.',
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
       ),
     );

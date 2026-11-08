@@ -3,10 +3,12 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kawai_notes/core/extensions/riverpod_extension.dart';
+import 'package:kawai_notes/core/services/encryption_service.dart';
 import 'package:kawai_notes/di/repository_providers.dart';
 import 'package:kawai_notes/feature/notes/models/note.dart';
-import 'package:kawai_notes/feature/notes/providers/note_list_provider.dart';
+import 'package:kawai_notes/feature/notes/providers/hidden_note_list_provider.dart';
 import 'package:kawai_notes/feature/notes/providers/note_providers.dart';
+import 'package:kawai_notes/feature/notes/providers/note_widget_sync.dart';
 import 'package:kawai_notes/feature/notes/repositories/note_repository.dart';
 
 class NoteDetailState extends Equatable {
@@ -15,11 +17,16 @@ class NoteDetailState extends Equatable {
   final bool isMutating;
   final Object? mutationError;
 
+  /// True when a hidden note's content could not be decrypted; the editor
+  /// must stay read-only so the original ciphertext is never overwritten.
+  final bool decryptFailed;
+
   const NoteDetailState({
     this.note,
     this.content = '',
     this.isMutating = false,
     this.mutationError,
+    this.decryptFailed = false,
   });
 
   NoteDetailState copyWith({
@@ -35,11 +42,18 @@ class NoteDetailState extends Equatable {
       mutationError: mutationError != null
           ? mutationError()
           : this.mutationError,
+      decryptFailed: decryptFailed,
     );
   }
 
   @override
-  List<Object?> get props => [note, content, isMutating, mutationError];
+  List<Object?> get props => [
+    note,
+    content,
+    isMutating,
+    mutationError,
+    decryptFailed,
+  ];
 }
 
 final noteDetailNotifierProvider = AsyncNotifierProvider.autoDispose
@@ -69,9 +83,12 @@ class NoteDetailNotifier extends AsyncNotifier<NoteDetailState> {
     final note = _noteRepository.getNote(_id);
     if (note == null) throw Exception('Note not found');
 
-    final content = await _noteRepository.getNoteContent(note);
-
-    return NoteDetailState(note: note, content: content);
+    try {
+      final content = await _noteRepository.getNoteContent(note);
+      return NoteDetailState(note: note, content: content);
+    } on DecryptionException {
+      return NoteDetailState(note: note, decryptFailed: true);
+    }
   }
 
   Future<void> saveNote({
@@ -87,6 +104,8 @@ class NoteDetailNotifier extends AsyncNotifier<NoteDetailState> {
   }) async {
     final current = state.value;
     if (current == null) return;
+    // ! never write over ciphertext we could not decrypt
+    if (current.decryptFailed) return;
 
     final hiddenStatus = isHidden ?? current.note?.isHidden ?? false;
     final pinnedStatus = isPinned ?? current.note?.isPinned ?? false;
@@ -139,8 +158,11 @@ class NoteDetailNotifier extends AsyncNotifier<NoteDetailState> {
         NoteDetailState(note: savedNote, content: content, isMutating: false),
       );
 
+      await syncNoteWidgets(ref, [savedNote.id]);
+
       // * invalidate list agar urutan/data terbaru muncul
       ref.invalidate(noteListNotifierProvider);
+      ref.invalidate(hiddenNoteListNotifierProvider);
       // * invalidate preview agar home screen menampilkan konten terbaru
       ref.invalidate(notePreviewProvider(savedNote.id));
     } catch (e) {
