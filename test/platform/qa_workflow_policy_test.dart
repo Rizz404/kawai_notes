@@ -23,6 +23,12 @@ void main() {
     expect(qaWorkflowViolations(read(path)), isEmpty);
   });
 
+  test('the signed build regenerates a release plugin registrant first', () {
+    expect(File(path).existsSync(), isTrue, reason: '$path is missing');
+    final v = qaWorkflowViolations(read(path));
+    expect(v.where((e) => e.startsWith('registrant:')), isEmpty);
+  });
+
   test('a CRLF checkout of the QA workflow parses the same', () {
     expect(File(path).existsSync(), isTrue, reason: '$path is missing');
     final crlf = read(path).replaceAll('\n', '\r\n');
@@ -220,6 +226,30 @@ void main() {
       );
     });
 
+    test('no release-mode plugin registrant before the --no-pub build', () {
+      const step = '      - name: Generate release plugin registrant\n';
+      final start = valid.indexOf(step);
+      final end = valid.indexOf('      - name: Setup release signing', start);
+      expect(start, greaterThan(0));
+      final text = valid.substring(start, end);
+      rejects(mutate(text, ''), 'registrant');
+      // * the published CI failure: the regeneration step itself skips pub
+      rejects(
+        mutate('flutter build apk --release --config-only\n', 'flutter build apk --release --config-only --no-pub\n'),
+        'registrant',
+      );
+      rejects(
+        mutate('flutter build apk --release --config-only\n', 'flutter build apk --debug --config-only\n'),
+        'registrant',
+      );
+      rejects(mutate('          sha256sum -c "\$RUNNER_TEMP/qa-pub-state.sha256"\n', ''), 'registrant');
+      final moved = valid.replaceFirst(text, '').replaceFirst(
+        '        run: flutter build apk --release --no-pub\n\n',
+        '        run: flutter build apk --release --no-pub\n\n$text',
+      );
+      rejects(moved, 'registrant');
+    });
+
     test('the signed build not gated on verify', () {
       rejects(mutate('    needs: [verify]\n', ''), 'needs');
     });
@@ -239,6 +269,8 @@ const _allowedActions = {
   'actions/setup-java',
   'actions/upload-artifact',
 };
+// * pub-enabled release config regenerates the registrant without dev plugins
+const _releaseRegistrantPrep = 'flutter build apk --release --config-only';
 const _signingSecrets = [
   'KEYSTORE_BASE64',
   'KEYSTORE_PASSWORD',
@@ -363,7 +395,9 @@ List<String> qaWorkflowViolations(String source) {
           }
         }
         final cmd = RegExp(r'^flutter (analyze|test|build)\b').firstMatch(line);
-        if (cmd != null && !line.contains('--no-pub')) {
+        if (cmd != null &&
+            !line.contains('--no-pub') &&
+            line != _releaseRegistrantPrep) {
           v.add('--no-pub: `$line` must not re-resolve dependencies');
         }
         if (line.startsWith('flutter analyze') &&
@@ -426,7 +460,13 @@ List<String> _signedJobViolations(Map<String, Object?> job) {
       );
 
   final signing = at((r) => r.contains('android/key.properties') && r.contains('base64 --decode'));
-  final build = at((r) => r.contains('flutter build apk'));
+  final build = at(
+    (r) => r.contains('flutter build apk') && !r.contains('--config-only'),
+  );
+  final pubGet = at((r) => r.trim() == 'flutter pub get --enforce-lockfile');
+  final prep = at(
+    (r) => r.split('\n').map((l) => l.trim()).contains(_releaseRegistrantPrep),
+  );
   final cleanup = at((r) => r.trim().startsWith('rm -f') && r.contains('android/key.properties'));
   final certs = at((r) => r.contains('apksigner'));
 
@@ -452,6 +492,24 @@ List<String> _signedJobViolations(Map<String, Object?> job) {
     final r = (steps[build]['run']! as String).trim();
     if (r != 'flutter build apk --release --no-pub') {
       v.add('universal: build must be exactly `flutter build apk --release --no-pub`');
+    }
+  }
+  if (prep < 0) {
+    v.add('registrant: no `$_releaseRegistrantPrep` step regenerates the release plugin registrant');
+  } else {
+    final ls = (steps[prep]['run']! as String).split('\n').map((l) => l.trim()).toList();
+    const hash =
+        'sha256sum pubspec.lock .dart_tool/package_config.json > "\$RUNNER_TEMP/qa-pub-state.sha256"';
+    const check = 'sha256sum -c "\$RUNNER_TEMP/qa-pub-state.sha256"';
+    final i = ls.indexOf(_releaseRegistrantPrep);
+    if (ls.first != 'set -euo pipefail' ||
+        !ls.contains(hash) ||
+        ls.indexOf(hash) > i ||
+        ls.indexOf(check) < i) {
+      v.add('registrant: the release registrant step must fail closed if the lock state changes');
+    }
+    if (pubGet < 0 || prep < pubGet || (signing >= 0 && prep > signing) || (build >= 0 && prep > build)) {
+      v.add('registrant: must run after the locked pub get and before signing and the APK build');
     }
   }
   if (cleanup < 0 || steps[cleanup]['if'] != 'always()' || cleanup < build) {

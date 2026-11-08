@@ -121,6 +121,17 @@ jobs:
       - name: Flutter pub get
         run: flutter pub get --enforce-lockfile
 
+      # * `flutter pub get` writes a debug-mode GeneratedPluginRegistrant that also
+      # * registers dev_dependency plugins (integration_test), which release Gradle
+      # * builds leave off the classpath; `flutter build --no-pub` never regenerates
+      # * it, so javac fails. Regenerate it in release mode with the lock unchanged.
+      - name: Generate release plugin registrant
+        run: |
+          set -euo pipefail
+          sha256sum pubspec.lock .dart_tool/package_config.json > "$RUNNER_TEMP/qa-pub-state.sha256"
+          flutter build apk --release --config-only
+          sha256sum -c "$RUNNER_TEMP/qa-pub-state.sha256"
+
       - name: Setup release signing (temporary)
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
