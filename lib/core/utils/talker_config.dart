@@ -28,6 +28,8 @@ class TalkerConfig {
       printProviderAdded: true,
       printProviderDisposed: true,
       printProviderUpdated: true,
+      printStateFullData: false,
+      printFailFullData: false,
     ),
   );
 
