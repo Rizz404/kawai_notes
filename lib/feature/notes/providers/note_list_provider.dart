@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kawai_notes/di/repository_providers.dart';
 import 'package:kawai_notes/feature/notes/models/note.dart';
+import 'package:kawai_notes/feature/notes/providers/note_providers.dart';
 import 'package:kawai_notes/feature/notes/providers/note_widget_sync.dart';
 import 'package:kawai_notes/feature/notes/repositories/note_repository.dart';
 
@@ -126,8 +127,12 @@ class NoteListNotifier extends AsyncNotifier<NoteListState> {
     state = AsyncData(current.copyWith(isMutating: true, mutationError: () => null));
 
     try {
-      for (final id in ids) {
-        await _noteRepository.setNoteHidden(id, isHidden: true);
+      try {
+        for (final id in ids) {
+          await _noteRepository.setNoteHidden(id, isHidden: true);
+        }
+      } finally {
+        invalidateNoteCaches(ref, ids);
       }
       await syncNoteWidgets(ref, ids);
       await _reload();
@@ -148,6 +153,7 @@ class NoteListNotifier extends AsyncNotifier<NoteListState> {
     for (final id in ids) {
       await _noteRepository.updateNotePin(id, isPinned);
     }
+    invalidateNoteCaches(ref, ids);
     await _reload();
   }
 
@@ -163,6 +169,7 @@ class NoteListNotifier extends AsyncNotifier<NoteListState> {
         customBackgroundImage: customBackgroundImage,
       );
     }
+    invalidateNoteCaches(ref, ids);
     await _reload();
   }
 }

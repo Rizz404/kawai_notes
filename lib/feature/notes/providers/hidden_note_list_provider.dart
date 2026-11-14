@@ -5,7 +5,7 @@ import 'package:kawai_notes/core/extensions/logger_extension.dart';
 import 'package:kawai_notes/core/services/encryption_service.dart';
 import 'package:kawai_notes/di/repository_providers.dart';
 import 'package:kawai_notes/feature/notes/models/note.dart';
-import 'package:kawai_notes/feature/notes/providers/note_list_provider.dart';
+import 'package:kawai_notes/feature/notes/providers/note_providers.dart';
 import 'package:kawai_notes/feature/notes/providers/note_widget_sync.dart';
 import 'package:kawai_notes/feature/notes/repositories/note_repository.dart';
 
@@ -93,6 +93,7 @@ class HiddenNoteListNotifier extends AsyncNotifier<NoteListState> {
           firstError ??= e;
         }
       }
+      invalidateNoteCaches(ref, ids);
       await syncNoteWidgets(ref, ids);
       ref.invalidate(noteListNotifierProvider);
       if (firstError != null) {

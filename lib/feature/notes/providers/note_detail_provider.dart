@@ -107,7 +107,13 @@ class NoteDetailNotifier extends AsyncNotifier<NoteDetailState> {
     // ! never write over ciphertext we could not decrypt
     if (current.decryptFailed) return;
 
-    final hiddenStatus = isHidden ?? current.note?.isHidden ?? false;
+    // ! the stored flag is authoritative: a cached snapshot taken before a
+    // ! hide/unhide elsewhere must never move a note out of the vault
+    final stored = current.note == null
+        ? null
+        : _noteRepository.getNote(current.note!.id);
+    final hiddenStatus =
+        isHidden ?? stored?.isHidden ?? current.note?.isHidden ?? false;
     final pinnedStatus = isPinned ?? current.note?.isPinned ?? false;
     final folderTargetId = folderId ?? current.note?.folder.targetId ?? 0;
 
