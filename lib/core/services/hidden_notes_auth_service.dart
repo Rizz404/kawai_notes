@@ -1,8 +1,9 @@
 import 'dart:convert';
+import 'dart:isolate';
 import 'dart:math';
 
 import 'package:crypto/crypto.dart' as crypto;
-import 'package:cryptography/cryptography.dart';
+import 'package:cryptography/dart.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:local_auth/local_auth.dart';
 
@@ -50,15 +51,40 @@ class HiddenNotesAuthService {
        _clock = clock ?? DateTime.now,
        _iterations = iterations;
 
+  // * one credential attempt at a time across the app, so the lockout check,
+  // * the derivation and the failure write of one attempt never interleave
+  // * with another's
+  static Future<void> _attempts = Future<void>.value();
+
+  // * the failure record, once secure storage proved unreliable in this
+  // * process; it stays authoritative so the backoff still expires and grows
+  ({int count, int last, int until})? _memoryFailures;
+
   // --- Credential records ---
 
-  Future<List<int>> _derive(String value, List<int> salt, int iterations) async {
-    final key = await Pbkdf2(
-      macAlgorithm: Hmac.sha256(),
-      iterations: iterations,
-      bits: _hashBytes * 8,
-    ).deriveKeyFromPassword(password: value, nonce: salt);
-    return key.extractBytes();
+  /// PBKDF2 runs on a background isolate so the UI keeps rendering.
+  static Future<List<int>> _derive(
+    String value,
+    List<int> salt,
+    int iterations,
+  ) {
+    final nonce = List<int>.of(salt);
+    return Isolate.run(() async {
+      final key = await DartPbkdf2(
+        macAlgorithm: DartHmac.sha256(),
+        iterations: iterations,
+        bits: _hashBytes * 8,
+        // * no need to yield: this isolate has no frames to render
+        pauseFrequency: 0,
+      ).deriveKeyFromPassword(password: value, nonce: nonce);
+      return key.extractBytes();
+    }, debugName: 'hidden-notes-kdf');
+  }
+
+  static Future<T> _serialized<T>(Future<T> Function() attempt) {
+    final result = _attempts.then((_) => attempt());
+    _attempts = result.then<void>((_) {}, onError: (Object _) {});
+    return result;
   }
 
   Future<String> _newRecord(String value) async {
@@ -122,48 +148,90 @@ class HiddenNotesAuthService {
     }
   }
 
-  Future<bool> _verify(String storageKey, String value) async {
-    if (await lockoutRemaining() > Duration.zero) return false;
-    final stored = await _storage.read(key: storageKey);
-    if (stored == null) return false;
+  Future<bool> _verify(String storageKey, String value) =>
+      _serialized(() async {
+        if (await _lockoutRemaining() > Duration.zero) return false;
+        final stored = await _storage.read(key: storageKey);
+        if (stored == null) return false;
 
-    final result = await _matches(value, stored);
-    if (!result.ok) {
-      await _recordFailure();
-      return false;
-    }
-    if (result.legacy) {
-      // * upgrade only after a successful verify; on a storage failure the
-      // * legacy record stays and is upgraded on a later verify
-      try {
-        await _storage.write(key: storageKey, value: await _newRecord(value));
-      } catch (_) {}
-    }
-    await _resetFailures();
-    return true;
-  }
+        final result = await _matches(value, stored);
+        if (!result.ok) {
+          await _recordFailure();
+          return false;
+        }
+        if (result.legacy) {
+          // * upgrade only after a successful verify; on a storage failure
+          // * the legacy record stays and is upgraded on a later verify
+          try {
+            await _storage.write(
+              key: storageKey,
+              value: await _newRecord(value),
+            );
+          } catch (_) {}
+        }
+        await _resetFailures();
+        return true;
+      });
 
   // --- Backoff ---
 
-  Future<({int count, int last, int until})> _readFailures() async {
+  static ({int count, int last, int until})? _parseFailures(String raw) {
     try {
-      final raw = await _storage.read(key: _failuresKey);
-      if (raw == null) return (count: 0, last: 0, until: 0);
-      final json = jsonDecode(raw) as Map<String, dynamic>;
-      return (
-        count: json['count'] as int,
-        last: json['last'] as int,
-        until: json['until'] as int,
+      final json = jsonDecode(raw);
+      if (json is! Map) return null;
+      final count = json['count'];
+      final last = json['last'];
+      final until = json['until'];
+      if (count is! int || last is! int || until is! int) return null;
+      if (count < 0 || last < 0 || (until != 0 && until < last)) return null;
+      return (count: count, last: last, until: until);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// A fresh lockout used when the stored record cannot be trusted.
+  ({int count, int last, int until}) _failClosedRecord() {
+    final now = _clock().millisecondsSinceEpoch;
+    return (
+      count: freeAttempts,
+      last: now,
+      until: now + baseLockout.inMilliseconds,
+    );
+  }
+
+  Future<void> _writeFailures(({int count, int last, int until}) f) async {
+    // * once in use, the in-memory record must track every update
+    if (_memoryFailures != null) _memoryFailures = f;
+    try {
+      await _storage.write(
+        key: _failuresKey,
+        value: jsonEncode({'count': f.count, 'last': f.last, 'until': f.until}),
       );
     } catch (_) {
-      // * unreadable state fails towards a lockout, not a reset
-      final now = _clock().millisecondsSinceEpoch;
-      return (
-        count: freeAttempts,
-        last: now,
-        until: now + baseLockout.inMilliseconds,
-      );
+      // * storage is unreliable: keep the backoff in memory for this process
+      _memoryFailures = f;
     }
+  }
+
+  /// Unreadable or corrupt state fails towards a lockout, never a reset, and
+  /// that lockout is recorded once so it expires instead of restarting on
+  /// every read.
+  Future<({int count, int last, int until})> _readFailures() async {
+    final memory = _memoryFailures;
+    if (memory != null) return memory;
+    final String? raw;
+    try {
+      raw = await _storage.read(key: _failuresKey);
+    } catch (_) {
+      return _memoryFailures = _failClosedRecord();
+    }
+    if (raw == null) return (count: 0, last: 0, until: 0);
+    final parsed = _parseFailures(raw);
+    if (parsed != null) return parsed;
+    final repaired = _failClosedRecord();
+    await _writeFailures(repaired);
+    return repaired;
   }
 
   static Duration _delayFor(int count) {
@@ -174,14 +242,22 @@ class HiddenNotesAuthService {
   }
 
   /// Time left before another credential attempt is accepted.
-  Future<Duration> lockoutRemaining() async {
+  Future<Duration> lockoutRemaining() => _serialized(_lockoutRemaining);
+
+  Future<Duration> _lockoutRemaining() async {
     final f = await _readFailures();
     if (f.until <= 0) return Duration.zero;
     final now = _clock().millisecondsSinceEpoch;
-    // * a clock moved backwards never shortens the lockout; it restarts it
-    final full = f.until - f.last;
-    final left = now < f.last ? full : f.until - now;
-    return left <= 0 ? Duration.zero : Duration(milliseconds: min(left, full));
+    // * a stored window is never longer than the cap, even if tampered
+    final full = min(f.until - f.last, maxLockout.inMilliseconds);
+    if (now < f.last) {
+      // * a clock moved backwards never shortens the lockout; it restarts
+      // * it, persisted so the restarted window counts down and expires
+      await _writeFailures((count: f.count, last: now, until: now + full));
+      return Duration(milliseconds: full);
+    }
+    final left = min(f.last + full, f.until) - now;
+    return left <= 0 ? Duration.zero : Duration(milliseconds: left);
   }
 
   Future<void> _recordFailure() async {
@@ -189,24 +265,24 @@ class HiddenNotesAuthService {
     final count = f.count + 1;
     final now = _clock().millisecondsSinceEpoch;
     final delay = _delayFor(count);
-    try {
-      await _storage.write(
-        key: _failuresKey,
-        value: jsonEncode({
-          'count': count,
-          'last': now,
-          'until': delay == Duration.zero ? 0 : now + delay.inMilliseconds,
-        }),
-      );
-    } catch (_) {}
+    await _writeFailures((
+      count: count,
+      last: now,
+      until: delay == Duration.zero ? 0 : now + delay.inMilliseconds,
+    ));
   }
 
   Future<void> _resetFailures() async {
+    const cleared = (count: 0, last: 0, until: 0);
+    // * with unreliable storage the in-memory record stays authoritative
+    if (_memoryFailures != null) _memoryFailures = cleared;
     try {
       if (await _storage.containsKey(key: _failuresKey)) {
         await _storage.delete(key: _failuresKey);
       }
-    } catch (_) {}
+    } catch (_) {
+      _memoryFailures = cleared;
+    }
   }
 
   // --- Biometric ---
@@ -229,14 +305,19 @@ class HiddenNotesAuthService {
       _storage.write(key: _biometricEnabledKey, value: enabled.toString());
 
   Future<bool> authenticateWithBiometric() async {
+    final bool ok;
     try {
       if (!await isBiometricAvailable()) return false;
-      return await _localAuth.authenticate(
+      ok = await _localAuth.authenticate(
         localizedReason: 'Verify identity to view hidden notes',
       );
     } catch (_) {
       return false;
     }
+    // * the backoff counts consecutive failures; the owner just proved
+    // * their identity
+    if (ok) await _serialized(_resetFailures);
+    return ok;
   }
 
   // --- PIN ---

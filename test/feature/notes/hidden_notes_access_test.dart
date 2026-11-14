@@ -44,6 +44,21 @@ Future<void> _settle(WidgetTester tester) async {
   await tester.pumpAndSettle();
 }
 
+/// Like [_settle], but keeps letting real async work (the PBKDF2 derivation
+/// runs on a background isolate) finish until [finder] matches or [timeout].
+Future<void> _settleUntil(
+  WidgetTester tester,
+  Finder finder, {
+  Duration timeout = const Duration(seconds: 20),
+}) async {
+  final watch = Stopwatch()..start();
+  while (finder.evaluate().isEmpty && watch.elapsed < timeout) {
+    await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 50)));
+    await tester.pump();
+  }
+  await tester.pumpAndSettle();
+}
+
 AppRoute _route(List<AppRouteBase> routes, String path) =>
     routes.whereType<AppRoute>().firstWhere((r) => r.path == path);
 
@@ -206,7 +221,8 @@ void main() {
         await tester.tap(find.text(d).last);
         await tester.pump();
       }
-      await _settle(tester);
+      await _settleUntil(tester, find.textContaining('Wrong PIN'));
+      expect(find.textContaining('Wrong PIN'), findsOneWidget);
       expect(find.text('Remove PIN?'), findsNothing);
       await tester.tap(find.text('Cancel'));
       await _settle(tester);
@@ -223,7 +239,7 @@ void main() {
         await tester.tap(find.text(d).last);
         await tester.pump();
       }
-      await _settle(tester);
+      await _settleUntil(tester, find.text('Remove PIN?'));
       expect(find.text('Remove PIN?'), findsOneWidget);
       await tester.tap(find.text('Remove').last);
       await _settle(tester);
