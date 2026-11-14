@@ -6,6 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kawai_notes/core/router/app_route.dart';
 import 'package:kawai_notes/core/router/app_route_parser.dart';
+import 'package:kawai_notes/core/router/app_route_state.dart';
 import 'package:kawai_notes/core/router/app_router_delegate.dart';
 import 'package:kawai_notes/core/router/app_router_provider.dart';
 import 'package:kawai_notes/core/router/widget_deep_link_navigator.dart';
@@ -124,8 +125,7 @@ void main() {
     expect(location().path, '/', reason: 'only one editor page was pushed');
   });
 
-  test('invalid, missing, deleted or unknown ids never navigate', () async {
-    final deleted = await note(deleted: true);
+  test('invalid or missing ids never navigate', () async {
     for (final id in [
       null,
       'abc',
@@ -133,12 +133,49 @@ void main() {
       '0',
       '1.5',
       '99999999999999999999999',
-      '424242',
-      deleted,
     ]) {
       expect(await navigator.open(_widgetNote(id)), isFalse, reason: '$id');
       await pumpEventQueue();
       expect(location().path, '/', reason: '$id');
+    }
+  });
+
+  test('a widget whose note was trashed or purged opens its configuration',
+      () async {
+    final deleted = await note(deleted: true);
+    for (final id in [deleted, 424242]) {
+      expect(await navigator.open(_widgetNote(id)), isTrue, reason: '$id');
+      await pumpEventQueue();
+      expect(location().path, '/widget-config', reason: '$id');
+      final state = router.globalPages.last.arguments! as AppRouteState;
+      expect(state.extra['widgetId'], 7, reason: 'reconfigures this widget');
+      router.pop();
+      await pumpEventQueue();
+      expect(location().path, '/');
+    }
+  });
+
+  test('a trashed hidden note opens only the configuration, never the note',
+      () async {
+    final id = await note(hidden: true, deleted: true);
+
+    expect(await navigator.open(_widgetNote(id)), isTrue);
+    await pumpEventQueue();
+
+    expect(location().path, '/widget-config');
+    expect(container.read(hiddenNotesSessionProvider), isFalse);
+  });
+
+  test('a dead note link without a valid widget id does nothing', () async {
+    final deleted = await note(deleted: true);
+    for (final widgetId in [null, 'x', '0']) {
+      final uri = Uri.parse(
+        'com.rizz.kawainotes://widget-note?noteId=$deleted'
+        '${widgetId == null ? '' : '&widgetId=$widgetId'}',
+      );
+      expect(await navigator.open(uri), isFalse, reason: '$widgetId');
+      await pumpEventQueue();
+      expect(location().path, '/');
     }
   });
 

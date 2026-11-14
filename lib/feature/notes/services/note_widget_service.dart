@@ -103,6 +103,16 @@ class NoteWidgetService {
     }
   }
 
+  /// Reset widget untuk setiap catatan di [noteIds] yang dihapus permanen.
+  static Future<void> clearWidgetsForNotes({
+    required SharedPreferences prefs,
+    required Iterable<int> noteIds,
+  }) async {
+    for (final noteId in noteIds) {
+      await clearWidgetsForNote(prefs: prefs, noteId: noteId);
+    }
+  }
+
   /// Ambil noteId yang sedang ditampilkan oleh sebuah widget.
   /// Mengembalikan null jika widget belum dikonfigurasi.
   static Future<int?> getWidgetNoteId(int widgetId) async {

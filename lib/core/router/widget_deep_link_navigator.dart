@@ -6,7 +6,8 @@ import 'package:kawai_notes/feature/notes/models/note.dart';
 /// Opens home-screen widget links (`com.rizz.kawainotes://widget-note` and
 /// `widget-config`) for cold start, background and foreground delivery.
 ///
-/// Ids are validated and must refer to an existing, non-deleted note. The
+/// Ids are validated. A note link opens only an existing, non-deleted note;
+/// a link to a trashed or purged note opens that widget's configuration. The
 /// editor route's own guard sends hidden notes through the vault challenge,
 /// whose `next` resumes this same editor after unlock.
 class WidgetDeepLinkNavigator {
@@ -30,7 +31,11 @@ class WidgetDeepLinkNavigator {
       final id = parseId(uri.queryParameters['noteId']);
       if (id == null) return false;
       final note = findNote(id);
-      if (note == null || note.isDeleted) return false;
+      if (note == null || note.isDeleted) {
+        // * the widget points at a trashed or purged note: let the user pick
+        // * another note for it instead of dropping the tap
+        return _openConfig(uri);
+      }
       final target = Uri(
         path: '/note-editor',
         queryParameters: {'id': '$id'},
@@ -40,6 +45,10 @@ class WidgetDeepLinkNavigator {
       return true;
     }
 
+    return _openConfig(uri);
+  }
+
+  bool _openConfig(Uri uri) {
     final widgetId = parseId(uri.queryParameters['widgetId']);
     if (widgetId == null) return false;
     router.push('/widget-config', extra: {'widgetId': widgetId});

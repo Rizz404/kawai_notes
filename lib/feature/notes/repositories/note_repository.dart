@@ -418,7 +418,9 @@ class NoteRepository {
     return File(path);
   }
 
-  Future<void> cleanUpTrashNotes({int days = 30}) async {
+  /// Permanently deletes notes trashed more than [days] ago and returns
+  /// their ids, so callers can reset widgets that showed them.
+  Future<List<int>> cleanUpTrashNotes({int days = 30}) async {
     final threshold = DateTime.now().subtract(Duration(days: days));
     final trashNotes = _objectBoxService.store
         .box<Note>()
@@ -429,6 +431,7 @@ class NoteRepository {
     for (final note in trashNotes) {
       await hardDeleteNote(note.id);
     }
+    return [for (final note in trashNotes) note.id];
   }
 }
 

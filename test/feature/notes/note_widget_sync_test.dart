@@ -5,6 +5,7 @@ import 'package:kawai_notes/core/services/encryption_service.dart';
 import 'package:kawai_notes/core/services/note_file_service.dart';
 import 'package:kawai_notes/di/common_providers.dart';
 import 'package:kawai_notes/di/repository_providers.dart';
+import 'package:kawai_notes/feature/notes/models/note.dart';
 import 'package:kawai_notes/feature/notes/providers/hidden_note_list_provider.dart';
 import 'package:kawai_notes/feature/notes/providers/note_providers.dart';
 import 'package:kawai_notes/feature/notes/repositories/note_repository.dart';
@@ -144,6 +145,34 @@ void main() {
     expect(widgetData['widget_note_id_$widgetId'], -1);
     expect(widgetData['widget_note_title_$widgetId'], isNull);
     expect(widgetData['widget_note_content_$widgetId'], isNull);
+  });
+
+  test('the startup 30-day trash purge resets widgets of purged notes',
+      () async {
+    final old = await pinToWidget('Old', 'bye');
+    final n = notes.getNote(old)!
+      ..isDeleted = true
+      ..updatedAt = DateTime.now().subtract(const Duration(days: 31));
+    testStore.service.store.box<Note>().put(n);
+    final keep = await notes.saveNote(title: 'Keep', content: 'k');
+    await NoteWidgetService.saveWidget(
+      prefs: container.read(sharedPreferencesProvider),
+      widgetId: 8,
+      note: keep,
+      contentPreview: 'k',
+    );
+
+    final purged = await notes.cleanUpTrashNotes(days: 30);
+    await NoteWidgetService.clearWidgetsForNotes(
+      prefs: container.read(sharedPreferencesProvider),
+      noteIds: purged,
+    );
+
+    expect(purged, [old]);
+    expect(notes.getNote(old), isNull);
+    expect(widgetData['widget_note_id_$widgetId'], -1);
+    expect(widgetData['widget_note_title_$widgetId'], isNull);
+    expect(widgetData['widget_note_title_8'], 'Keep', reason: 'untouched');
   });
 
   test('restoring from trash brings the widget content back', () async {

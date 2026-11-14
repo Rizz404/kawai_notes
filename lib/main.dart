@@ -34,6 +34,7 @@ import 'package:kawai_notes/di/repository_providers.dart';
 import 'package:kawai_notes/di/service_providers.dart';
 import 'package:kawai_notes/feature/notes/providers/hidden_notes_session_provider.dart';
 import 'package:kawai_notes/feature/notes/repositories/note_repository.dart';
+import 'package:kawai_notes/feature/notes/services/note_widget_service.dart';
 import 'package:kawai_notes/l10n/app_localizations.dart';
 import 'package:kawai_notes/shared/widgets/app_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -102,7 +103,16 @@ Future<void> main() async {
       EncryptionService(),
     );
     await noteRepo.migrateToSingleStorage();
-    await noteRepo.cleanUpTrashNotes(days: 30);
+    final purgedNoteIds = await noteRepo.cleanUpTrashNotes(days: 30);
+    try {
+      // * widgets of purged notes go back to the configurable placeholder
+      await NoteWidgetService.clearWidgetsForNotes(
+        prefs: preferences,
+        noteIds: purgedNoteIds,
+      );
+    } catch (e) {
+      AppLogger.instance.error('Widget cleanup after trash purge failed', e);
+    }
 
     // * Tangkap initial deep link SEBELUM runApp
     final appLinks = AppLinks();
