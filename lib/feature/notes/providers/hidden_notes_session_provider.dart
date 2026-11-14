@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,15 +21,21 @@ class HiddenNotesSessionNotifier extends Notifier<bool> {
 
   int _transientDepth = 0;
   DateTime? _transientPausedAt;
+  Timer? _graceTimer;
 
   @override
-  bool build() => false;
+  bool build() {
+    ref.onDispose(() => _graceTimer?.cancel());
+    return false;
+  }
 
   DateTime _now() => ref.read(hiddenNotesClockProvider)();
 
   void unlock() => state = true;
 
   void lock() {
+    _graceTimer?.cancel();
+    _graceTimer = null;
     _transientPausedAt = null;
     if (ref.mounted) state = false;
   }
@@ -36,13 +44,19 @@ class HiddenNotesSessionNotifier extends Notifier<bool> {
     switch (lifecycle) {
       case AppLifecycleState.paused:
         if (_transientDepth > 0) {
-          _transientPausedAt ??= _now();
+          if (_transientPausedAt == null) {
+            _transientPausedAt = _now();
+            // * the grace also expires while the app stays in the background
+            _graceTimer = Timer(transientGrace, lock);
+          }
         } else {
           lock();
         }
       case AppLifecycleState.detached:
         lock();
       case AppLifecycleState.resumed:
+        _graceTimer?.cancel();
+        _graceTimer = null;
         final pausedAt = _transientPausedAt;
         _transientPausedAt = null;
         if (pausedAt == null) return;
@@ -57,16 +71,16 @@ class HiddenNotesSessionNotifier extends Notifier<bool> {
 
   /// Runs [action], which opens system UI that briefly backgrounds the app,
   /// without locking the vault for pauses shorter than [transientGrace].
+  ///
+  /// A pause that started inside [action] is only settled by the real
+  /// `resumed` event (or the grace timer), even if [action] completes while
+  /// the app is still in the background, so the full time away is measured.
   Future<T> runTransient<T>(Future<T> Function() action) async {
     _transientDepth++;
     try {
       return await action();
     } finally {
       _transientDepth--;
-      if (_transientDepth == 0 && _transientPausedAt != null) {
-        // * paused but never resumed inside the action: apply the grace now
-        handleLifecycle(AppLifecycleState.resumed);
-      }
     }
   }
 }

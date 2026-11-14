@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -174,6 +176,103 @@ void main() {
       await pumpEventQueue();
 
       expect(unlocked(), isFalse);
+    });
+
+    test('a transient action that ends while still backgrounded does not '
+        'consume the pause; the real resume measures the full time away',
+        () async {
+      final id = await hiddenNote();
+      await openVaultWithEditor(id);
+
+      // * biometric prompt cancelled by the system because the user left
+      await session().runTransient(() async {
+        session().handleLifecycle(AppLifecycleState.paused);
+        now = now.add(const Duration(seconds: 5));
+        return false;
+      });
+      await pumpEventQueue();
+      expect(unlocked(), isTrue, reason: 'still inside the grace');
+
+      now = now.add(const Duration(hours: 3));
+      session().handleLifecycle(AppLifecycleState.hidden);
+      session().handleLifecycle(AppLifecycleState.inactive);
+      session().handleLifecycle(AppLifecycleState.resumed);
+      await pumpEventQueue();
+
+      expect(unlocked(), isFalse);
+      expect(stack(), isNot(contains('/hidden-notes')));
+      expect(stack(), isNot(contains('/note-editor')));
+    });
+
+    test('a transient action that ends while backgrounded keeps the grace '
+        'for a short real absence', () async {
+      final id = await hiddenNote();
+      await openVaultWithEditor(id);
+
+      await session().runTransient(() async {
+        session().handleLifecycle(AppLifecycleState.paused);
+        now = now.add(const Duration(seconds: 5));
+      });
+      now = now.add(const Duration(seconds: 30));
+      session().handleLifecycle(AppLifecycleState.resumed);
+      await pumpEventQueue();
+
+      expect(unlocked(), isTrue);
+      expect(stack(), ['/hidden-notes', '/note-editor']);
+    });
+
+    test('a transient action ending on the way back (inactive) applies the '
+        'grace on the real resume', () async {
+      final id = await hiddenNote();
+      await openVaultWithEditor(id);
+
+      await session().runTransient(() async {
+        session().handleLifecycle(AppLifecycleState.paused);
+        now = now.add(
+          HiddenNotesSessionNotifier.transientGrace +
+              const Duration(seconds: 1),
+        );
+        session().handleLifecycle(AppLifecycleState.hidden);
+        session().handleLifecycle(AppLifecycleState.inactive);
+      });
+      session().handleLifecycle(AppLifecycleState.resumed);
+      await pumpEventQueue();
+
+      expect(unlocked(), isFalse);
+    });
+
+    testWidgets('a transient pause that outlasts the grace locks even before '
+        'the app resumes', (tester) async {
+      session().unlock();
+      final pending = Completer<void>();
+      unawaited(session().runTransient(() => pending.future));
+      session().handleLifecycle(AppLifecycleState.paused);
+
+      await tester.pump(
+        HiddenNotesSessionNotifier.transientGrace - const Duration(seconds: 1),
+      );
+      expect(unlocked(), isTrue);
+      await tester.pump(const Duration(seconds: 2));
+      expect(unlocked(), isFalse);
+
+      pending.complete();
+      await tester.pump();
+    });
+
+    testWidgets('resuming inside the grace cancels the expiry lock', (
+      tester,
+    ) async {
+      session().unlock();
+      final pending = Completer<void>();
+      unawaited(session().runTransient(() => pending.future));
+      session().handleLifecycle(AppLifecycleState.paused);
+      await tester.pump(const Duration(seconds: 10));
+      now = now.add(const Duration(seconds: 10));
+      session().handleLifecycle(AppLifecycleState.resumed);
+      pending.complete();
+      await tester.pump(HiddenNotesSessionNotifier.transientGrace * 2);
+
+      expect(unlocked(), isTrue);
     });
 
     test('a failing transient action still ends the grace window', () async {
