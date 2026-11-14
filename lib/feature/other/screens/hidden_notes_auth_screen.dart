@@ -219,8 +219,8 @@ class _HiddenNotesAuthScreenState extends ConsumerState<HiddenNotesAuthScreen> {
   /// Verifies the current hidden-notes credential. Succeeds immediately when
   /// no method is configured yet, so first-time setup is never locked out.
   Future<bool> _reauthenticate() async {
-    // * this screen is only reachable through the vault challenge, so with
-    // * nothing configured there is no credential left to re-check
+    // * the route opens without a challenge only while nothing is
+    // * configured; then there is no credential to re-check
     final methods = await ref
         .read(hiddenNotesAuthServiceProvider)
         .getEnabledMethods();

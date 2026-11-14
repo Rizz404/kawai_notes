@@ -9,6 +9,7 @@ import 'package:kawai_notes/core/router/app_transitions.dart';
 import 'package:kawai_notes/core/router/router_observer.dart';
 import 'package:kawai_notes/core/router/router_refresh_listenable.dart';
 import 'package:kawai_notes/di/repository_providers.dart';
+import 'package:kawai_notes/di/service_providers.dart';
 import 'package:kawai_notes/feature/auth/screens/auth_screen.dart';
 import 'package:kawai_notes/feature/notes/providers/hidden_notes_session_provider.dart';
 import 'package:kawai_notes/feature/notes/repositories/note_repository.dart';
@@ -175,7 +176,19 @@ final routerRoutesProvider = Provider<List<AppRouteBase>>((ref) {
     AppRoute(
       path: '/hidden-notes-lock',
       name: 'hidden_notes_lock',
-      redirect: requireHiddenUnlock,
+      redirect: (state) async {
+        if (ref.read(hiddenNotesSessionProvider)) return null;
+        // * with no method configured there is nothing to verify and nothing
+        // * hidden to show: open the settings so the first method can be
+        // * any of PIN, pattern or password. Unreadable state is challenged.
+        try {
+          final methods = await ref
+              .read(hiddenNotesAuthServiceProvider)
+              .getEnabledMethods();
+          if (methods.isEmpty) return null;
+        } catch (_) {}
+        return requireHiddenUnlock(state);
+      },
       builder: (context, state) => const HiddenNotesAuthScreen(),
       transitionsBuilder: AppTransitions.slideFromRight,
       transitionDuration: const Duration(milliseconds: 300),

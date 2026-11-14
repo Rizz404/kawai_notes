@@ -26,6 +26,12 @@ import '../../support/objectbox_test_store.dart';
 
 class MockEncryptionService extends Mock implements EncryptionService {}
 
+class _BrokenAuthService extends HiddenNotesAuthService {
+  @override
+  Future<Set<HiddenNotesAuthMethod>> getEnabledMethods() =>
+      Future.error(StateError('keystore unavailable'));
+}
+
 const _localizations = <LocalizationsDelegate<dynamic>>[
   L10n.delegate,
   GlobalMaterialLocalizations.delegate,
@@ -145,7 +151,65 @@ void main() {
       expect(await redirect(AppRouteState.fromPath('/hidden-notes')), isNull);
     });
 
+    test('/hidden-notes-lock opens directly when no method is configured, so '
+        'the first method can be any of PIN, pattern or password', () async {
+      final routes = container.read(routerRoutesProvider);
+      final redirect = _route(routes, '/hidden-notes-lock').redirect!;
+
+      expect(
+        await redirect(AppRouteState.fromPath('/hidden-notes-lock')),
+        isNull,
+      );
+      expect(container.read(hiddenNotesSessionProvider), isFalse);
+      // * the vault itself stays guarded
+      final vault = _route(routes, '/hidden-notes').redirect!;
+      final target = await vault(AppRouteState.fromPath('/hidden-notes'));
+      expect(Uri.parse(target!).path, '/hidden-notes-challenge');
+    });
+
+    for (final setup in <String, Future<void> Function(HiddenNotesAuthService)>{
+      'PIN': (s) => s.setupPin('1234'),
+      'pattern': (s) => s.setupPattern([0, 1, 2, 5]),
+      'password': (s) => s.setupPassword('pw'),
+      'biometric': (s) => s.setBiometricEnabled(true),
+    }.entries) {
+      test('/hidden-notes-lock is challenged once a ${setup.key} is set',
+          () async {
+        await setup.value(HiddenNotesAuthService());
+        final routes = container.read(routerRoutesProvider);
+        final redirect = _route(routes, '/hidden-notes-lock').redirect!;
+
+        final target = await redirect(
+          AppRouteState.fromPath('/hidden-notes-lock'),
+        );
+        expect(Uri.parse(target!).path, '/hidden-notes-challenge');
+      });
+    }
+
+    test('/hidden-notes-lock fails closed when the methods cannot be read',
+        () async {
+      final broken = _BrokenAuthService();
+      final c = ProviderContainer(
+        overrides: [
+          objectBoxServiceProvider.overrideWithValue(testStore.service),
+          encryptionServiceProvider.overrideWithValue(enc),
+          hiddenNotesAuthServiceProvider.overrideWithValue(broken),
+        ],
+      );
+      addTearDown(c.dispose);
+      final redirect = _route(
+        c.read(routerRoutesProvider),
+        '/hidden-notes-lock',
+      ).redirect!;
+
+      final target = await redirect(
+        AppRouteState.fromPath('/hidden-notes-lock'),
+      );
+      expect(Uri.parse(target!).path, '/hidden-notes-challenge');
+    });
+
     test('/hidden-notes-lock redirects to the challenge while locked', () async {
+      await HiddenNotesAuthService().setupPin('1234');
       final routes = container.read(routerRoutesProvider);
       final redirect = _route(routes, '/hidden-notes-lock').redirect;
 
