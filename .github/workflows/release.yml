@@ -25,31 +25,51 @@ env:
   # * the digest GitHub publishes for this release asset.
   OBX_C_VERSION: '5.3.1'
   OBX_C_SHA256: 'd1a22f5a43e8aa438c987524c2ef97f5d179acb991b0f63ab03a30c33b882368'
+  # * SHA-256 of the certificate that signs the published v1.0.2 APKs (same as qa.yml)
+  RELEASE_EXPECTED_CERT_SHA256: 'c48112390477dbbdae99e54068eddccdc547ca7b8e18a7f2cea4a84fd98b6ccf'
+  RELEASE_PACKAGE: 'com.rizz.kawainotes'
+  RELEASE_MIN_SDK: '24'
 
 jobs:
   verify:
     name: Analyze & test
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: read
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: refs/tags/${{ inputs.version || github.ref_name }}
+          persist-credentials: false
 
       - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: stable
           cache: true
 
+      - name: Check Flutter version
+        run: |
+          set -euo pipefail
+          flutter --version | sed -n 1p | grep -F "Flutter $FLUTTER_VERSION "
+
       - name: Cache pub dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ~/.pub-cache
           key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
           restore-keys: pub-${{ runner.os }}-
+
+      # * host tests never see the real backend config
+      - name: Synthetic loopback .env
+        run: |
+          set -euo pipefail
+          printf 'SUPABASE_URL=%s\n' 'http://127.0.0.1:54321' > .env
+          printf 'SUPABASE_ANON_KEY=%s\n' 'qa-synthetic-not-a-real-key' >> .env
 
       - name: Flutter pub get
         run: flutter pub get --enforce-lockfile
@@ -67,14 +87,15 @@ jobs:
           cp "$RUNNER_TEMP/objectbox/lib/libobjectbox.so" lib/
 
       - name: Analyze
-        run: flutter analyze --no-fatal-infos
+        run: flutter analyze --no-pub --no-fatal-infos
 
       - name: Test
-        run: flutter test
+        run: flutter test --no-pub
 
   build:
     name: Build APKs
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     needs: [verify]
     permissions:
       contents: read
@@ -83,10 +104,14 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
+          ref: refs/tags/${{ inputs.version || github.ref_name }}
           fetch-depth: 0
+          persist-credentials: false
 
+      # * the tag, pubspec.yaml and the APK version must agree exactly, and the
+      # * build number must grow past the previous release (Android refuses downgrades)
       - name: Resolve version
         id: version
         env:
@@ -100,44 +125,92 @@ jobs:
           else
             VERSION="$INPUT_VERSION"
           fi
-          if ! printf '%s' "$VERSION" | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+([-+][0-9A-Za-z.-]+)?$'; then
+          if ! printf '%s' "$VERSION" | grep -Eqx 'v[0-9]+\.[0-9]+\.[0-9]+'; then
             echo "::error::Invalid version tag: $VERSION"
             exit 1
           fi
           BUILD_NAME="${VERSION#v}"
-          BUILD_NUMBER=$(grep '^version:' pubspec.yaml | sed 's/.*+//')
+          HEAD_SHA="$(git rev-parse HEAD)"
+          TAG_SHA="$(git rev-parse "refs/tags/$VERSION^{commit}")"
+          if [ "$HEAD_SHA" != "$TAG_SHA" ]; then
+            echo "::error::checkout $HEAD_SHA is not tag $VERSION ($TAG_SHA)"
+            exit 1
+          fi
+          pubspec_build() {
+            sed -nE 's/^version: ([0-9]+\.[0-9]+\.[0-9]+)\+([1-9][0-9]*)$/\1 \2/p'
+          }
+          read -r PUB_NAME BUILD_NUMBER < <(pubspec_build < pubspec.yaml) || true
+          if [ "$(grep -c '^version:' pubspec.yaml)" != 1 ] || [ "${PUB_NAME:-}" != "$BUILD_NAME" ] || [ -z "${BUILD_NUMBER:-}" ]; then
+            echo "::error::pubspec.yaml version must be exactly $BUILD_NAME+<build number>"
+            exit 1
+          fi
+          PREV_TAG="$(git describe --tags --abbrev=0 --match 'v[0-9]*.[0-9]*.[0-9]*' "$VERSION^" 2>/dev/null || true)"
+          if [ -n "$PREV_TAG" ]; then
+            read -r PREV_NAME PREV_NUMBER < <(git show "$PREV_TAG:pubspec.yaml" | pubspec_build) || true
+            if [ -z "${PREV_NUMBER:-}" ] || [ "$BUILD_NUMBER" -le "$PREV_NUMBER" ]; then
+              echo "::error::build number $BUILD_NUMBER must be greater than $PREV_TAG's ${PREV_NUMBER:-?}"
+              exit 1
+            fi
+            if [ "$PREV_NAME" = "$BUILD_NAME" ] || [ "$(printf '%s\n%s\n' "$PREV_NAME" "$BUILD_NAME" | sort -V | tail -n 1)" != "$BUILD_NAME" ]; then
+              echo "::error::version $BUILD_NAME must be greater than $PREV_TAG"
+              exit 1
+            fi
+          fi
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "build_name=$BUILD_NAME" >> "$GITHUB_OUTPUT"
           echo "build_number=$BUILD_NUMBER" >> "$GITHUB_OUTPUT"
-          echo "Resolved: version=$VERSION build_name=$BUILD_NAME build_number=$BUILD_NUMBER"
+          echo "Resolved: version=$VERSION build_name=$BUILD_NAME build_number=$BUILD_NUMBER commit=$HEAD_SHA previous=${PREV_TAG:-none}"
 
       - name: Setup Java
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
         with:
           distribution: zulu
           java-version: '21'
 
       - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: stable
-          cache: true
+          cache: false
 
-      - name: Cache pub dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.pub-cache
-          key: pub-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
-          restore-keys: pub-${{ runner.os }}-
+      - name: Check Flutter version
+        run: |
+          set -euo pipefail
+          flutter --version | sed -n 1p | grep -F "Flutter $FLUTTER_VERSION "
 
+      # * the real backend config exists only in this build job
       - name: Create .env
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
+          set -euo pipefail
+          missing=0
+          [ -n "$SUPABASE_URL" ] || { echo "::error::SUPABASE_URL secret is missing"; missing=1; }
+          [ -n "$SUPABASE_ANON_KEY" ] || { echo "::error::SUPABASE_ANON_KEY secret is missing"; missing=1; }
+          [ "$missing" = 0 ] || exit 1
+          case "$SUPABASE_URL" in
+            https://*) ;;
+            *) echo "::error::SUPABASE_URL secret must be an https URL"; exit 1 ;;
+          esac
+          umask 077
           printf 'SUPABASE_URL=%s\n' "$SUPABASE_URL" > .env
           printf 'SUPABASE_ANON_KEY=%s\n' "$SUPABASE_ANON_KEY" >> .env
+
+      - name: Flutter pub get
+        run: flutter pub get --enforce-lockfile
+
+      # * `flutter pub get` writes a debug-mode GeneratedPluginRegistrant that also
+      # * registers dev_dependency plugins (integration_test), which release Gradle
+      # * builds leave off the classpath; `flutter build --no-pub` never regenerates
+      # * it, so javac fails. Regenerate it in release mode with the lock unchanged.
+      - name: Generate release plugin registrant
+        run: |
+          set -euo pipefail
+          sha256sum pubspec.lock .dart_tool/package_config.json > "$RUNNER_TEMP/release-pub-state.sha256"
+          flutter build apk --release --config-only
+          sha256sum -c "$RUNNER_TEMP/release-pub-state.sha256"
 
       - name: Setup release signing
         env:
@@ -147,27 +220,27 @@ jobs:
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
         run: |
           set -euo pipefail
-          if [ -z "$KEYSTORE_BASE64" ]; then
-            echo "::error::KEYSTORE_BASE64 secret is missing; refusing to build a debug-signed release"
-            exit 1
-          fi
-          printf '%s' "$KEYSTORE_BASE64" | base64 --decode > android/kawai-release.jks
+          missing=0
+          [ -n "$KEYSTORE_BASE64" ] || { echo "::error::KEYSTORE_BASE64 secret is missing"; missing=1; }
+          [ -n "$KEYSTORE_PASSWORD" ] || { echo "::error::KEYSTORE_PASSWORD secret is missing"; missing=1; }
+          [ -n "$KEY_PASSWORD" ] || { echo "::error::KEY_PASSWORD secret is missing"; missing=1; }
+          [ -n "$KEY_ALIAS" ] || { echo "::error::KEY_ALIAS secret is missing"; missing=1; }
+          [ "$missing" = 0 ] || exit 1
+          umask 077
+          printf '%s' "$KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/kawai-release.jks"
           {
             printf 'storePassword=%s\n' "$KEYSTORE_PASSWORD"
             printf 'keyPassword=%s\n' "$KEY_PASSWORD"
             printf 'keyAlias=%s\n' "$KEY_ALIAS"
-            printf 'storeFile=kawai-release.jks\n'
+            printf 'storeFile=%s\n' "$RUNNER_TEMP/kawai-release.jks"
           } > android/key.properties
-
-      - name: Flutter pub get
-        run: flutter pub get --enforce-lockfile
 
       - name: Build universal APK
         env:
           BUILD_NAME: ${{ steps.version.outputs.build_name }}
           BUILD_NUMBER: ${{ steps.version.outputs.build_number }}
         run: |
-          flutter build apk --release \
+          flutter build apk --release --no-pub \
             --build-name="$BUILD_NAME" \
             --build-number="$BUILD_NUMBER"
 
@@ -176,7 +249,7 @@ jobs:
           BUILD_NAME: ${{ steps.version.outputs.build_name }}
           BUILD_NUMBER: ${{ steps.version.outputs.build_number }}
         run: |
-          flutter build apk --release --split-per-abi \
+          flutter build apk --release --no-pub --split-per-abi \
             --build-name="$BUILD_NAME" \
             --build-number="$BUILD_NUMBER"
 
@@ -184,6 +257,7 @@ jobs:
         env:
           VERSION: ${{ steps.version.outputs.version }}
         run: |
+          set -euo pipefail
           cd build/app/outputs/flutter-apk
           mv app-release.apk             "kawai-notes-${VERSION}-universal.apk"
           mv app-arm64-v8a-release.apk   "kawai-notes-${VERSION}-arm64-v8a.apk"
@@ -192,33 +266,153 @@ jobs:
 
       - name: Remove signing material
         if: always()
-        run: rm -f android/kawai-release.jks android/key.properties .env
+        run: rm -f android/key.properties "$RUNNER_TEMP/kawai-release.jks" .env
+
+      # * every APK: one signer with the historical certificate, exact package,
+      # * version name, per-ABI version code, minSdk and a real https backend config
+      - name: Verify APKs (fail closed)
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          BUILD_NAME: ${{ steps.version.outputs.build_name }}
+          BUILD_NUMBER: ${{ steps.version.outputs.build_number }}
+        run: |
+          set -euo pipefail
+          sdk="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-}}"
+          [ -n "$sdk" ] || { echo "::error::Android SDK not found"; exit 1; }
+          bt="$(ls -1 "$sdk/build-tools" | sort -V | tail -n 1)"
+          apksigner="$sdk/build-tools/$bt/apksigner"
+          aapt2="$sdk/build-tools/$bt/aapt2"
+          [ -x "$apksigner" ] || { echo "::error::apksigner not found in build-tools $bt"; exit 1; }
+          [ -x "$aapt2" ] || { echo "::error::aapt2 not found in build-tools $bt"; exit 1; }
+          echo "apksigner $("$apksigner" version) from build-tools $bt"
+          # * leaf signer only, same grammar as qa.yml
+          leaf='^(Signer #[0-9]+|((V1|V2|V3\.0) )?Signer( #[0-9]+)?:) certificate SHA-256 digest: ([0-9a-f]{64})$'
+          src="build/app/outputs/flutter-apk"
+          out="$RUNNER_TEMP/release-out"
+          rm -rf "$out"
+          mkdir -p "$out"
+          # * <abi>:<Flutter ABI version code multiplier>:<expected native-code line>
+          for spec in "universal:0:native-code: 'arm64-v8a' 'armeabi-v7a' 'x86_64'" \
+                      "armeabi-v7a:1:native-code: 'armeabi-v7a'" \
+                      "arm64-v8a:2:native-code: 'arm64-v8a'" \
+                      "x86_64:4:native-code: 'x86_64'"; do
+            abi="${spec%%:*}"
+            rest="${spec#*:}"
+            mult="${rest%%:*}"
+            native="${rest#*:}"
+            name="kawai-notes-${VERSION}-${abi}.apk"
+            apk="$src/$name"
+            [ -f "$apk" ] || { echo "::error::$name is missing"; exit 1; }
+            certs="$out/apksigner-print-certs-${abi}.txt"
+            rc=0
+            "$apksigner" verify --verbose --print-certs "$apk" > "$certs" || rc=$?
+            # * public certificate data only, printed before any check so a failure is not opaque
+            echo "== $name: apksigner exited $rc"
+            cat "$certs"
+            [ "$rc" -eq 0 ] || { echo "::error::apksigner verify of $name exited $rc"; exit 1; }
+            [ "$(tr -dc '\r' < "$certs" | wc -c)" -eq 0 ] || { echo "::error::apksigner output has CR line endings"; exit 1; }
+            grep -qx 'Number of signers: 1' "$certs" || { echo "::error::$name does not have exactly one signer"; exit 1; }
+            mapfile -t lines < <(grep -F ' certificate SHA-256 digest: ' "$certs" | grep -v '^Source Stamp Signer')
+            mapfile -t digests < <(sed -nE "s/$leaf/\5/p" "$certs")
+            if [ "${#lines[@]}" -ne 1 ]; then
+              echo "::error::$name: expected exactly one signer certificate digest line, got ${#lines[@]}"
+              exit 1
+            fi
+            if [ "${#digests[@]}" -ne 1 ]; then
+              echo "::error::$name: expected exactly one signer certificate, got ${#digests[@]}"
+              exit 1
+            fi
+            if [ "${digests[0]}" != "$RELEASE_EXPECTED_CERT_SHA256" ]; then
+              echo "::error::$name signer certificate ${digests[0]} does not match the released certificate"
+              exit 1
+            fi
+            badging="$out/badging-${abi}.txt"
+            "$aapt2" dump badging "$apk" > "$badging" || { echo "::error::aapt2 failed on $name"; exit 1; }
+            code=$((mult * 1000 + BUILD_NUMBER))
+            want="package: name='$RELEASE_PACKAGE' versionCode='$code' versionName='$BUILD_NAME' "
+            pkg="$(grep '^package: ' "$badging" || true)"
+            echo "$name: $pkg"
+            [ "$(grep -c '^package: ' "$badging" || true)" = 1 ] || { echo "::error::$name: expected one package line"; exit 1; }
+            case "$pkg" in
+              "$want"*) ;;
+              *) echo "::error::$name: expected $want"; exit 1 ;;
+            esac
+            grep -qxF "minSdkVersion:'$RELEASE_MIN_SDK'" "$badging" || { echo "::error::$name: minSdkVersion is not $RELEASE_MIN_SDK"; exit 1; }
+            grep -qxF "$native" "$badging" || { echo "::error::$name: expected $native"; exit 1; }
+            # * the bundled backend config is checked, never printed
+            appenv="$RUNNER_TEMP/apk-env-${abi}"
+            unzip -p "$apk" assets/flutter_assets/.env > "$appenv" || { echo "::error::$name has no bundled .env"; exit 1; }
+            ok=1
+            grep -q '^SUPABASE_URL=https://' "$appenv" || ok=0
+            grep -q '^SUPABASE_ANON_KEY=.' "$appenv" || ok=0
+            ! grep -qE '127\.0\.0\.1|qa-synthetic' "$appenv" || ok=0
+            rm -f "$appenv"
+            [ "$ok" = 1 ] || { echo "::error::$name does not bundle the real https backend config"; exit 1; }
+            cp "$apk" "$out/$name"
+          done
+          ( cd "$out" && sha256sum --binary kawai-notes-*.apk > SHA256SUMS )
+          {
+            printf 'version=%s\n' "$VERSION"
+            printf 'version_name=%s\n' "$BUILD_NAME"
+            printf 'build_number=%s\n' "$BUILD_NUMBER"
+            printf 'package=%s\n' "$RELEASE_PACKAGE"
+            printf 'min_sdk=%s\n' "$RELEASE_MIN_SDK"
+            printf 'repository=%s\n' "$GITHUB_REPOSITORY"
+            printf 'commit=%s\n' "$GITHUB_SHA"
+            printf 'tag_commit=%s\n' "$(git rev-parse HEAD)"
+            printf 'run_id=%s\n' "$GITHUB_RUN_ID"
+            printf 'run_attempt=%s\n' "$GITHUB_RUN_ATTEMPT"
+            printf 'flutter=%s\n' "$FLUTTER_VERSION"
+            printf 'signer_cert_sha256=%s\n' "$RELEASE_EXPECTED_CERT_SHA256"
+            printf 'apksigner_build_tools=%s\n' "$bt"
+          } > "$out/release-manifest.txt"
+          cat "$out/SHA256SUMS" "$out/release-manifest.txt"
 
       - name: Upload APK artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: apks-${{ steps.version.outputs.version }}
-          path: build/app/outputs/flutter-apk/kawai-notes-*.apk
+          path: |
+            ${{ runner.temp }}/release-out/kawai-notes-*.apk
+            ${{ runner.temp }}/release-out/SHA256SUMS
+            ${{ runner.temp }}/release-out/release-manifest.txt
+            ${{ runner.temp }}/release-out/apksigner-print-certs-*.txt
+          if-no-files-found: error
           retention-days: 7
 
   release:
-    name: Create GitHub Release
+    name: Create draft GitHub Release
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: build
     permissions:
       contents: write
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
+          ref: refs/tags/${{ needs.build.outputs.version }}
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Download APK artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: apks-${{ needs.build.outputs.version }}
           path: apks/
+
+      - name: Check artifact hashes
+        env:
+          VERSION: ${{ needs.build.outputs.version }}
+        run: |
+          set -euo pipefail
+          cd apks
+          [ "$(wc -l < SHA256SUMS)" -eq 4 ] || { echo "::error::SHA256SUMS must list exactly 4 APKs"; exit 1; }
+          for abi in universal arm64-v8a armeabi-v7a x86_64; do
+            grep -qE "^[0-9a-f]{64} \*kawai-notes-${VERSION}-${abi}\.apk$" SHA256SUMS || { echo "::error::SHA256SUMS lacks $abi"; exit 1; }
+          done
+          sha256sum -c SHA256SUMS
 
       - name: Generate release notes
         env:
@@ -271,19 +465,25 @@ jobs:
             echo "| \`kawai-notes-${VERSION}-armeabi-v7a.apk\` | armeabi-v7a | Older Android phones |"
             echo "| \`kawai-notes-${VERSION}-x86_64.apk\` | x86_64 | Emulators / x86 devices |"
             echo ""
+            echo "SHA-256 checksums are in \`SHA256SUMS\`. Signer certificate SHA-256: \`${RELEASE_EXPECTED_CERT_SHA256}\`"
+            echo ""
             echo "## 📋 Requirements"
             echo ""
-            echo "- Android 6.0 (API 23) or higher"
+            echo "- Android 7.0 (API ${RELEASE_MIN_SDK}) or higher"
             echo "- ~80 MB storage (universal) or ~30 MB (ABI-specific)"
           } > release-notes.md
 
-      - name: Create GitHub Release
+      # * created as a draft only; it is published separately after the signed
+      # * APKs have been downloaded and checked. An existing release is never replaced.
+      - name: Create draft GitHub Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
           VERSION: ${{ needs.build.outputs.version }}
           PRE_RELEASE: ${{ inputs.pre_release }}
         run: |
-          ARGS="--latest"
+          set -euo pipefail
+          ARGS="--draft --verify-tag"
           if [ "$PRE_RELEASE" = "true" ]; then
             ARGS="$ARGS --prerelease"
           fi
@@ -300,4 +500,5 @@ jobs:
             "apks/kawai-notes-${VERSION}-universal.apk" \
             "apks/kawai-notes-${VERSION}-arm64-v8a.apk" \
             "apks/kawai-notes-${VERSION}-armeabi-v7a.apk" \
-            "apks/kawai-notes-${VERSION}-x86_64.apk"
+            "apks/kawai-notes-${VERSION}-x86_64.apk" \
+            "apks/SHA256SUMS"
